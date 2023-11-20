@@ -36,18 +36,6 @@ class UserFixtures extends Fixture
                 $entity->setRoles(['ROLE_ADMIN']);
             }
 
-            // Add UserNews
-            $news = (new UserNews())
-                ->setUser($entity)
-            ;
-            $entity->setUserNews($news);
-
-            // Add UserTrackList
-            $utl = (new UserTrackList())
-                ->setUser($entity)
-            ;
-            $entity->setUserTrackList($utl);
-
             $manager->persist($entity);
 
             $this->saveReferences($entity, $key);

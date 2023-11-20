@@ -43,15 +43,21 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
                 ->addFantrad($this->getReference('fantrad_'.mt_rand(1, 3)))
             ;
 
-            // Add MangaStatistic
-            $mangaStatistic = (new MangaStatistic())
-                ->setRating(2)
-                ->setNbTrack(mt_rand(1,10))
-                ->setNbView(mt_rand(100,200))
-            ;
-            $entity->setMangaStatistic($mangaStatistic);
-
+//            // Add MangaStatistic
+//            $mangaStatistic = (new MangaStatistic())
+//                ->setRating(2)
+//                ->setNbTrack(mt_rand(1,10))
+//                ->setNbView(mt_rand(100,200))
+//            ;
+//            $entity->setMangaStatistic($mangaStatistic);
             $manager->persist($entity);
+
+            // Edit MangaStatistic after the MangaEntityListener
+            $mgStatistic = $entity->getMangaStatistic();
+            $mgStatistic->setRating(2);
+            $mgStatistic->setNbTrack(mt_rand(1,10));
+            $mgStatistic->setNbView(mt_rand(100,200));
+
             $this->saveReferences($entity, $key);
         }
         $manager->flush();
