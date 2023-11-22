@@ -103,6 +103,9 @@ class Manga
     #[ORM\JoinColumn(nullable: false)]
     private MangaStatistic $mangaStatistic;
 
+    #[ORM\OneToOne(mappedBy: 'manga', cascade: ['persist', 'remove'])]
+    private ?MangaJikanAPI $mangaJikanAPI = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -358,6 +361,23 @@ class Manga
     public function setNbChapters(?float $nbChapters): static
     {
         $this->nbChapters = $nbChapters;
+
+        return $this;
+    }
+
+    public function getMangaJikanAPI(): ?MangaJikanAPI
+    {
+        return $this->mangaJikanAPI;
+    }
+
+    public function setMangaJikanAPI(MangaJikanAPI $mangaJikanAPI): static
+    {
+        // set the owning side of the relation if necessary
+        if ($mangaJikanAPI->getManga() !== $this) {
+            $mangaJikanAPI->setManga($this);
+        }
+
+        $this->mangaJikanAPI = $mangaJikanAPI;
 
         return $this;
     }
