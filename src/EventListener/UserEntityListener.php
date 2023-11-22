@@ -2,7 +2,6 @@
 
 namespace App\EventListener;
 
-
 use App\Entity\User;
 use App\Entity\UserNews;
 use App\Entity\UserTrackList;
@@ -27,5 +26,4 @@ class UserEntityListener
         ;
         $user->setUserTrackList($utl);
     }
-
 }

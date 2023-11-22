@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length([
         'min' => 2,
-        'max' => 50
+        'max' => 50,
     ])]
     private string $username;
 
@@ -31,7 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email()]
     #[Assert\Length([
         'min' => 2,
-        'max' => 180
+        'max' => 180,
     ])]
     private string $email;
 
@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 8
     )]
-    private ?string $plainPassword= '';
+    private ?string $plainPassword = '';
 
     /**
      * @var string The hashed password

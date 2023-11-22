@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Entity\Enum;
+
 /**
- * List of languages
+ * List of languages.
  */
 enum LangEnum: string
 {

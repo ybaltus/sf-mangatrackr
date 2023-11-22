@@ -48,7 +48,8 @@ class Editor
     #[ORM\ManyToMany(targetEntity: Manga::class, mappedBy: 'editor')]
     private Collection $mangas;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->createdAt = new \DateTimeImmutable();
         $this->mangas = new ArrayCollection();
     }

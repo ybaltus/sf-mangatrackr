@@ -17,33 +17,31 @@ class MangaTypeFixtures extends Fixture
         'Shojo',
         'Seinen',
         'Josei ',
-        'Yaoi'
+        'Yaoi',
     ];
 
     public function load(ObjectManager $manager): void
     {
-       foreach (self::LIST_MTYPES as $key => $name)
-       {
-           $entity= (new MangaType())
-           ->setName($name)
-               ;
-           $manager->persist($entity);
-           $this->saveReferences($entity, $key);
-       }
+        foreach (self::LIST_MTYPES as $key => $name) {
+            $entity = (new MangaType())
+            ->setName($name)
+            ;
+            $manager->persist($entity);
+            $this->saveReferences($entity, $key);
+        }
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key):void
+    private function saveReferences(object $entity, int $key): void
     {
-        $targetReference = match($key){
+        $targetReference = match ($key) {
             0 => self::REFOBJ1,
             1 => self::REFOBJ2,
             2 => self::REFOBJ3,
             default => false
         };
 
-        if(!$targetReference)
-        {
+        if (!$targetReference) {
             return;
         }
 

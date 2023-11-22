@@ -19,7 +19,7 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
         'One piece',
         'Naruto',
         'Bleach',
-        'Dragon Ball Z'
+        'Dragon Ball Z',
     ];
 
     public function load(ObjectManager $manager): void
@@ -28,13 +28,13 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
         foreach (self::LIST_MANGAS as $key => $name) {
             $entity = (new Manga())
                 ->setTitle($name)
-                ->setTitleAlternative("アオタ ミノル")
+                ->setTitleAlternative('アオタ ミノル')
                 ->setAuthor($faker->name())
                 ->setDescription($faker->paragraph())
                 ->setDesigner($faker->name())
                 ->setMangaStatus($this->getReference('mStatus_'.mt_rand(1, 3)))
                 ->setPublishedAt(new \DateTimeImmutable())
-                ->setNbChapters(mt_rand(1,300))
+                ->setNbChapters(mt_rand(1, 300))
                 ->addEditor($this->getReference('editor_'.mt_rand(1, 3)))
                 ->addEditor($this->getReference('editor_'.mt_rand(1, 3)))
                 ->addMangaType($this->getReference('mType_'.mt_rand(1, 3)))
@@ -48,8 +48,8 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
             // Edit MangaStatistic after the MangaEntityListener
             $mgStatistic = $entity->getMangaStatistic();
             $mgStatistic->setRating(2);
-            $mgStatistic->setNbTrack(mt_rand(1,10));
-            $mgStatistic->setNbView(mt_rand(100,200));
+            $mgStatistic->setNbTrack(mt_rand(1, 10));
+            $mgStatistic->setNbView(mt_rand(100, 200));
 
             // Edit MangaJikanAPI after the MangaEntityListener
             $mgJikanAPI = $entity->getMangaJikanAPI();
@@ -67,7 +67,7 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
         return [
             EditorFixtures::class,
             MangaStatusFixtures::class,
-            FantradFixtures::class
+            FantradFixtures::class,
         ];
     }
 
@@ -86,6 +86,4 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
 
         $this->addReference($targetReference, $entity);
     }
-
 }
-

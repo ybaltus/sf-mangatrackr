@@ -24,65 +24,58 @@ class SlugEntitiesListener
         MangaStatus::class,
         MangaStatistic::class,
         Fantrad::class,
-        StatusTrack::class
+        StatusTrack::class,
     ];
 
     public function __construct(
         private AsciiSlugger $slugger = new AsciiSlugger()
-    )
-    {
+    ) {
     }
 
-    public function prePersist(PrePersistEventArgs $args):void
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
 
         // Check the entity instance
         $checkEntity = $this->checkInstanceOf($entity);
-        if(!$checkEntity){
+        if (!$checkEntity) {
             return;
         }
         $this->createSlug($entity);
     }
 
     /**
-     * Create a slug with String component
-     * @param object $entity
-     * @return void
+     * Create a slug with String component.
      */
     private function createSlug(object $entity): void
     {
         $hasNameSlug = method_exists($entity, 'setNameSlug');
         $hasTitleSlug = method_exists($entity, 'setTitleSlug');
 
-        if(!$hasNameSlug && !$hasTitleSlug)
-        {
+        if (!$hasNameSlug && !$hasTitleSlug) {
             return;
         }
 
-        if($hasNameSlug)
-        {
+        if ($hasNameSlug) {
             $entity->setNameSlug($this->slugger->slug($entity->getName())->lower());
         }
 
-        if($hasTitleSlug)
-        {
+        if ($hasTitleSlug) {
             $entity->setTitleSlug($this->slugger->slug($entity->getTitle())->lower());
         }
     }
 
     /**
-     * Verify if the entity is in the constant ENTITIES
-     * @param object $entity
-     * @return bool
+     * Verify if the entity is in the constant ENTITIES.
      */
     private function checkInstanceOf(object $entity): bool
     {
-        foreach (self::ENTITIES as $className){
-            if($entity instanceof $className){
+        foreach (self::ENTITIES as $className) {
+            if ($entity instanceof $className) {
                 return true;
             }
         }
+
         return false;
     }
 }

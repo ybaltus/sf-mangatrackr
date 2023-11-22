@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: MangaStatusRepository::class)]
 #[UniqueEntity('titleSlug')]
 #[ORM\HasLifecycleCallbacks]
@@ -42,7 +43,8 @@ class MangaStatus
     #[ORM\OneToMany(mappedBy: 'mangaStatus', targetEntity: Manga::class)]
     private Collection $mangas;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->createdAt = new \DateTimeImmutable();
         $this->mangas = new ArrayCollection();
     }

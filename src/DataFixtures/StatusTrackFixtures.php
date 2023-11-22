@@ -23,9 +23,8 @@ class StatusTrackFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::LIST_STRACKS as $key => $name)
-        {
-            $entity= (new StatusTrack())
+        foreach (self::LIST_STRACKS as $key => $name) {
+            $entity = (new StatusTrack())
                 ->setName($name)
             ;
             $manager->persist($entity);
@@ -34,17 +33,16 @@ class StatusTrackFixtures extends Fixture
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key):void
+    private function saveReferences(object $entity, int $key): void
     {
-        $targetReference = match($key){
+        $targetReference = match ($key) {
             0 => self::REFOBJ1,
             1 => self::REFOBJ2,
             2 => self::REFOBJ3,
             default => false
         };
 
-        if(!$targetReference)
-        {
+        if (!$targetReference) {
             return;
         }
 

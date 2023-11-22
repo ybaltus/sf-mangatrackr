@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Fantrad;
-use App\Entity\MangaType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -22,9 +21,8 @@ class FantradFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::LIST_FANTRADS as $key => $name)
-        {
-            $entity= (new Fantrad())
+        foreach (self::LIST_FANTRADS as $key => $name) {
+            $entity = (new Fantrad())
                 ->setName($name)
                 ->setUrl('https://www.manga-news.com/')
             ;
@@ -34,17 +32,16 @@ class FantradFixtures extends Fixture
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key):void
+    private function saveReferences(object $entity, int $key): void
     {
-        $targetReference = match($key){
+        $targetReference = match ($key) {
             0 => self::REFOBJ1,
             1 => self::REFOBJ2,
             2 => self::REFOBJ3,
             default => false
         };
 
-        if(!$targetReference)
-        {
+        if (!$targetReference) {
             return;
         }
 

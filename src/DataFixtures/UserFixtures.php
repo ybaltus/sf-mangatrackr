@@ -2,10 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Editor;
 use App\Entity\User;
-use App\Entity\UserNews;
-use App\Entity\UserTrackList;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,24 +12,22 @@ class UserFixtures extends Fixture
     public const USERDEFAULT2 = 'user_default2';
     public const USERADMIN = 'user_admin';
 
-
     public const LIST_USERS = [
         'user@default1.com',
         'user@default2.com',
-        'user@admin.com'
+        'user@admin.com',
     ];
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::LIST_USERS as $key => $email)
-        {
-            $entity= (new User())
+        foreach (self::LIST_USERS as $key => $email) {
+            $entity = (new User())
                 ->setEmail($email)
                 ->setUsername("user_$key")
                 ->setPassword('password')
             ;
 
-            if(str_contains($email, 'admin')){
+            if (str_contains($email, 'admin')) {
                 $entity->setRoles(['ROLE_ADMIN']);
             }
 
@@ -43,17 +38,16 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key):void
+    private function saveReferences(object $entity, int $key): void
     {
-        $targetReference = match($key){
+        $targetReference = match ($key) {
             0 => self::USERDEFAULT1,
             1 => self::USERDEFAULT2,
             2 => self::USERADMIN,
             default => false
         };
 
-        if(!$targetReference)
-        {
+        if (!$targetReference) {
             return;
         }
 

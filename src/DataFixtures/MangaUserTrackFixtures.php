@@ -2,14 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Manga;
-use App\Entity\MangaStatistic;
 use App\Entity\MangaUserTrack;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,15 +15,14 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
         $users = [
             $this->getReference(UserFixtures::USERDEFAULT1),
             $this->getReference(UserFixtures::USERDEFAULT2),
-            $this->getReference(UserFixtures::USERADMIN)
+            $this->getReference(UserFixtures::USERADMIN),
         ];
 
         /**
          * @var User $user
          */
         foreach ($users as $key => $user) {
-            for($i=0; $i < 3; $i++)
-            {
+            for ($i = 0; $i < 3; ++$i) {
                 $entity = (new MangaUserTrack())
                     ->setManga($this->getReference('manga_'.mt_rand(1, 3)))
                     ->setUserTrackList($user->getUserTrackList())
@@ -36,7 +32,6 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
 
                 $manager->persist($entity);
             }
-
         }
         $manager->flush();
     }
@@ -45,8 +40,7 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
     {
         return [
             UserFixtures::class,
-            MangaFixtures::class
+            MangaFixtures::class,
         ];
     }
 }
-

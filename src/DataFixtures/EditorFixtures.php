@@ -17,14 +17,13 @@ class EditorFixtures extends Fixture
         'Glénat',
         'Ki-oon',
         'ANKAMA ',
-        'KAZÉ'
+        'KAZÉ',
     ];
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::LIST_EDITORS as $key => $editorName)
-        {
-            $entity= (new Editor())
+        foreach (self::LIST_EDITORS as $key => $editorName) {
+            $entity = (new Editor())
                 ->setName($editorName)
             ;
             $manager->persist($entity);
@@ -33,17 +32,16 @@ class EditorFixtures extends Fixture
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key):void
+    private function saveReferences(object $entity, int $key): void
     {
-        $targetReference = match($key){
+        $targetReference = match ($key) {
             0 => self::REFOBJ1,
             1 => self::REFOBJ2,
             2 => self::REFOBJ3,
             default => false
         };
 
-        if(!$targetReference)
-        {
+        if (!$targetReference) {
             return;
         }
 
