@@ -51,6 +51,12 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
             $mgStatistic->setNbTrack(mt_rand(1,10));
             $mgStatistic->setNbView(mt_rand(100,200));
 
+            // Edit MangaJikanAPI after the MangaEntityListener
+            $mgJikanAPI = $entity->getMangaJikanAPI();
+            $mgJikanAPI->setMalImgJpgLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
+            $mgJikanAPI->setMalImgWebpLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
+            $mgJikanAPI->setMalAuthors(['Echiiro Oda']);
+
             $this->saveReferences($entity, $key);
         }
         $manager->flush();

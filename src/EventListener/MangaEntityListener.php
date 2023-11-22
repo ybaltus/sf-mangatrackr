@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Manga;
+use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatistic;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
@@ -14,7 +15,13 @@ class MangaEntityListener
     public function prePersist(Manga $manga, PrePersistEventArgs $args): void
     {
         // Add MangaStatistic
-        $mangaStatistic = (new MangaStatistic());
+        $mangaStatistic = new MangaStatistic();
         $manga->setMangaStatistic($mangaStatistic);
+
+        // Add MangaJikanApi
+        $mangaJikanAPI = (new MangaJikanAPI())
+        ->setManga($manga)
+        ;
+        $manga->setMangaJikanAPI($mangaJikanAPI);
     }
 }
