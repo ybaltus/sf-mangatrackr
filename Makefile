@@ -48,14 +48,25 @@ qa-php-stan: ## Run PHPStan
 qa-php-insights: ## RUN PHP Insights
 	$(PHPINSIGHTS) --no-interaction
 
+qa-sf-security-checker: ## Run symfony security checker.
+	$(SYMFONY) security:check
+
 qa-all: ## Run PHP-CS-FIXER, PHP-Stan and PHP-Insights
 	$(MAKE) qa-php-cs-fixer
 	$(MAKE) qa-php-stan
+	$(MAKE) qa-sf-security-checker
 	$(MAKE) qa-php-insights
 
 ##----------------- ✅ Execute tests ✅ -------------#
 unit-tests:## Run PHPUnit
 	$(PHPUNIT) --testdox
+
+##----------------- ✅ GRUMPHP QA & Tests ✅ -------------#
+grumphp-checker: ## Commands for Grumphp tool
+	$(MAKE) qa-php-cs-fixer
+	$(MAKE) qa-php-stan
+	$(MAKE) qa-sf-security-checker
+
 
 ##----------------- 📦️ Composer 📦️ -------------#
 composer-install: ## Install composer dependencies.

@@ -17,6 +17,7 @@ Application web pour suivre la lecture des mangas. Suivez facilement votre progr
 * phpstan/extension-installer
 * phpstan/phpstan
 * phpstan/phpstan-doctrine
+* phpro/grumphp
 
 ## Make commands
 ```
