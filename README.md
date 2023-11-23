@@ -11,3 +11,15 @@ Application web pour suivre la lecture des mangas. Suivez facilement votre progr
 * doctrine/doctrine-fixtures-bundle
 * symfony/webpack-encore-bundle
 * fakerphp/faker
+***
+* friendsofphp/php-cs-fixer
+* nunomaduro/phpinsights
+* phpstan/extension-installer
+* phpstan/phpstan
+* phpstan/phpstan-doctrine
+
+## Make commands
+```
+- make help ## Afficher la liste des commands
+- make first-install ## Initialiser le projet
+```

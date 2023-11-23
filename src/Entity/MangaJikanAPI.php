@@ -269,6 +269,7 @@ class MangaJikanAPI
 
     /**
      * @param string[]|null $malDemographics
+     *
      * @return $this
      */
     public function setMalDemographics(?array $malDemographics): static
@@ -288,6 +289,7 @@ class MangaJikanAPI
 
     /**
      * @param string[]|null $malGenres
+     *
      * @return $this
      */
     public function setMalGenres(?array $malGenres): static
@@ -307,6 +309,7 @@ class MangaJikanAPI
 
     /**
      * @param string[]|null $malSerializations
+     *
      * @return $this
      */
     public function setMalSerializations(?array $malSerializations): static
@@ -326,6 +329,7 @@ class MangaJikanAPI
 
     /**
      * @param string[]|null $malAuthors
+     *
      * @return $this
      */
     public function setMalAuthors(?array $malAuthors): static

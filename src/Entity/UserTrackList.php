@@ -26,8 +26,13 @@ class UserTrackList
     /**
      * @var Collection<int, MangaUserTrack>|ArrayCollection
      */
-    #[ORM\OneToMany(mappedBy: 'userTrackList', targetEntity: MangaUserTrack::class, cascade: ['remove'], orphanRemoval: true)]
-    private Collection $mangaUserTracks;
+    #[ORM\OneToMany(
+        mappedBy: 'userTrackList',
+        targetEntity: MangaUserTrack::class,
+        cascade: ['remove'],
+        orphanRemoval: true
+    )]
+    private Collection|ArrayCollection $mangaUserTracks;
 
     public function __construct()
     {

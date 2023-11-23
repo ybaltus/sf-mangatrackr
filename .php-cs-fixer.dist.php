@@ -8,6 +8,9 @@ $finder = (new PhpCsFixer\Finder())
 return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
+        'phpdoc_to_comment' => [
+            'ignored_tags' => ['var'],
+        ],
     ])
     ->setFinder($finder)
 ;
