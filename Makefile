@@ -1,4 +1,7 @@
 #=================Variables======================================#
+#--- MAKE
+MAKE = make
+
 #--- PHP CS FIXER
 PHPCSFIXER = php vendor/bin/php-cs-fixer
 
@@ -30,20 +33,25 @@ NPM_UPDATE = $(NPM) update
 #=================Commands========================================#
 
 ##-----------------🐛 Quality code 🐛-------------#
-qa-cs-fixer-dry-run-verbose: ## Run php-cs-fixer with dry run and verbose
+qa-php-cs-fixer-dry-run-verbose: ## Run php-cs-fixer with dry run and verbose
 	$(PHPCSFIXER) fix src --dry-run --verbose
 
-qa-cs-fixer-dry-run-diff: ## Run php-cs-fixer with dry run and diff
+qa-php-cs-fixer-dry-run-diff: ## Run php-cs-fixer with dry run and diff
 	$(PHPCSFIXER) fix src --dry-run --diff
 
-qa-cs-fixer: ## Run php-cs-fixer
+qa-php-cs-fixer: ## Run php-cs-fixer
 	$(PHPCSFIXER) fix src --verbose
 
 qa-php-stan: ## Run PHPStan
 	$(PHPSTAN) analyse
 
 qa-php-insights: ## RUN PHP Insights
-	$(PHPINSIGHTS)
+	$(PHPINSIGHTS) --no-interaction
+
+qa-all: ## Run PHP-CS-FIXER, PHP-Stan and PHP-Insights
+	$(MAKE) qa-php-cs-fixer
+	$(MAKE) qa-php-stan
+	$(MAKE) qa-php-insights
 
 ##----------------- ✅ Execute tests ✅ -------------#
 unit-tests:## Run PHPUnit
