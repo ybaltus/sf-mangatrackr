@@ -45,8 +45,11 @@ class Editor
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    /**
+     * @var Collection<int, Manga>|ArrayCollection
+     */
     #[ORM\ManyToMany(targetEntity: Manga::class, mappedBy: 'editor')]
-    private Collection $mangas;
+    private Collection|ArrayCollection $mangas;
 
     public function __construct()
     {

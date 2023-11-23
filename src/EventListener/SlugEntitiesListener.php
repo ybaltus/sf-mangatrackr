@@ -57,10 +57,16 @@ class SlugEntitiesListener
         }
 
         if ($hasNameSlug) {
+            /**
+             * @var Editor|MangaType|Fantrad|StatusTrack $entity
+             */
             $entity->setNameSlug($this->slugger->slug($entity->getName())->lower());
         }
 
         if ($hasTitleSlug) {
+            /**
+             * @var Manga|MangaStatus $entity
+             */
             $entity->setTitleSlug($this->slugger->slug($entity->getTitle())->lower());
         }
     }

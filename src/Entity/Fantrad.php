@@ -60,8 +60,11 @@ class Fantrad
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    /**
+     * @var Collection<int, Manga>|ArrayCollection
+     */
     #[ORM\ManyToMany(targetEntity: Manga::class, mappedBy: 'fantrad')]
-    private Collection $mangas;
+    private Collection|ArrayCollection $mangas;
 
     public function __construct()
     {

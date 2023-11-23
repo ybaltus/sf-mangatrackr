@@ -23,7 +23,10 @@ class UserTrackList
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
-    #[ORM\OneToMany(mappedBy: 'userTrackList', targetEntity: MangaUserTrack::class, orphanRemoval: true)]
+    /**
+     * @var Collection<int, MangaUserTrack>|ArrayCollection
+     */
+    #[ORM\OneToMany(mappedBy: 'userTrackList', targetEntity: MangaUserTrack::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $mangaUserTracks;
 
     public function __construct()
@@ -86,12 +89,13 @@ class UserTrackList
 
     public function removeMangaUserTrack(MangaUserTrack $mangaUserTrack): static
     {
-        if ($this->mangaUserTracks->removeElement($mangaUserTrack)) {
-            // set the owning side to null (unless already changed)
-            if ($mangaUserTrack->getUserTrackList() === $this) {
-                $mangaUserTrack->setUserTrackList(null);
-            }
-        }
+        $this->mangaUserTracks->removeElement($mangaUserTrack);
+        //        if ($this->mangaUserTracks->removeElement($mangaUserTrack)) {
+        //            // set the owning side to null (unless already changed)
+        //            if ($mangaUserTrack->getUserTrackList() === $this) {
+        //                $mangaUserTrack->setUserTrackList(null);
+        //            }
+        //        }
 
         return $this;
     }

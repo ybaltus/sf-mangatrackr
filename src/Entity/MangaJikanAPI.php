@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MangaJikanAPIRepository::class)]
-final class MangaJikanAPI
+class MangaJikanAPI
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -74,18 +74,30 @@ final class MangaJikanAPI
     #[Assert\DateTime]
     private ?\DateTimeImmutable $malEndPublishedAt = null;
 
+    /**
+     * @var string[]|null
+     */
     #[ORM\Column(nullable: true)]
     #[Assert\Type('array')]
     private ?array $malDemographics = null;
 
+    /**
+     * @var string[]|null
+     */
     #[ORM\Column(nullable: true)]
     #[Assert\Type('array')]
     private ?array $malGenres = null;
 
+    /**
+     * @var string[]|null
+     */
     #[ORM\Column(nullable: true)]
     #[Assert\Type('array')]
     private ?array $malSerializations = null;
 
+    /**
+     * @var string[]|null
+     */
     #[ORM\Column(nullable: true)]
     #[Assert\Type('array')]
     private ?array $malAuthors = null;
@@ -247,11 +259,18 @@ final class MangaJikanAPI
         return $this;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getMalDemographics(): ?array
     {
         return $this->malDemographics;
     }
 
+    /**
+     * @param string[]|null $malDemographics
+     * @return $this
+     */
     public function setMalDemographics(?array $malDemographics): static
     {
         $this->malDemographics = $malDemographics;
@@ -259,11 +278,18 @@ final class MangaJikanAPI
         return $this;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getMalGenres(): ?array
     {
         return $this->malGenres;
     }
 
+    /**
+     * @param string[]|null $malGenres
+     * @return $this
+     */
     public function setMalGenres(?array $malGenres): static
     {
         $this->malGenres = $malGenres;
@@ -271,11 +297,18 @@ final class MangaJikanAPI
         return $this;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getMalSerializations(): ?array
     {
         return $this->malSerializations;
     }
 
+    /**
+     * @param string[]|null $malSerializations
+     * @return $this
+     */
     public function setMalSerializations(?array $malSerializations): static
     {
         $this->malSerializations = $malSerializations;
@@ -283,11 +316,18 @@ final class MangaJikanAPI
         return $this;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getMalAuthors(): ?array
     {
         return $this->malAuthors;
     }
 
+    /**
+     * @param string[]|null $malAuthors
+     * @return $this
+     */
     public function setMalAuthors(?array $malAuthors): static
     {
         $this->malAuthors = $malAuthors;

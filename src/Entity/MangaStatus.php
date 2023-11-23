@@ -40,8 +40,11 @@ class MangaStatus
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    /**
+     * @var ArrayCollection|Collection<int, Manga>
+     */
     #[ORM\OneToMany(mappedBy: 'mangaStatus', targetEntity: Manga::class)]
-    private Collection $mangas;
+    private Collection|ArrayCollection $mangas;
 
     public function __construct()
     {

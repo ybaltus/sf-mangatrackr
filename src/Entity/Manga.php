@@ -88,14 +88,23 @@ class Manga
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    /**
+     * @var ArrayCollection|Collection<int, Fantrad>
+     */
     #[ORM\ManyToMany(targetEntity: Fantrad::class, inversedBy: 'mangas')]
-    private Collection $fantrad;
+    private Collection|ArrayCollection $fantrad;
 
+    /**
+     * @var ArrayCollection|Collection<int, Editor>
+     */
     #[ORM\ManyToMany(targetEntity: Editor::class, inversedBy: 'mangas')]
-    private Collection $editor;
+    private Collection|ArrayCollection $editor;
 
+    /**
+     * @var ArrayCollection|Collection<int, MangaType>
+     */
     #[ORM\ManyToMany(targetEntity: MangaType::class, inversedBy: 'mangas')]
-    private Collection $mangaType;
+    private Collection|ArrayCollection $mangaType;
 
     #[ORM\ManyToOne(inversedBy: 'mangas')]
     private MangaStatus $mangaStatus;
