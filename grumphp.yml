@@ -1,8 +1,8 @@
 grumphp:
     tasks:
         make:
-            make_file: Makefile,
-            task: grumphp-checker,
+            make_file: Makefile
+            task: grumphp-checker
             triggered_by: [ php, yml, md ]
         git_commit_message:
             allow_empty_message: false
