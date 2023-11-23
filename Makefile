@@ -1,6 +1,9 @@
 #=================Variables======================================#
 #--- PHP CS FIXER
-PHPCSFIXER = php vendor/friendsofphp/php-cs-fixer/php-cs-fixer
+PHPCSFIXER = php vendor/bin/php-cs-fixer
+
+#--- PHPStan
+PHPSTAN = php vendor/bin/phpstan
 
 #--- PHPUnit
 PHPUNIT = php bin/phpunit
@@ -32,6 +35,9 @@ qa-cs-fixer-dry-run-diff: ## Run php-cs-fixer with dry run and diff
 
 qa-cs-fixer: ## Run php-cs-fixer
 	$(PHPCSFIXER) fix src --verbose
+
+qa-phpstan: ## Run PHPStan
+	$(PHPSTAN) analyse
 
 ##----------------- ✅ Execute tests ✅ -------------#
 unit-tests:## Run PHPUnit
