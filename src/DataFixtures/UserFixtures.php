@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
             $entity = (new User())
                 ->setEmail($email)
                 ->setUsername("user_$key")
-                ->setPassword('password')
+                ->setPlainPassword('password')
             ;
 
             if (str_contains($email, 'admin')) {
