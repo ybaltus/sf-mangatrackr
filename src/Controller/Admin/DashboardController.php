@@ -7,7 +7,6 @@ use App\Entity\Fantrad;
 use App\Entity\Manga;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
-use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -33,18 +32,20 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Sf Mangatrackr');
+            ->setTitle('MangaSync');
     }
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::section('Mangas');
         yield MenuItem::LinkToCrud('Editor', 'fa fa-user-pen', Editor::class);
         yield MenuItem::LinkToCrud('Fantrad', 'fa-brands fa-jedi-order', Fantrad::class);
         yield MenuItem::LinkToCrud('Manga', 'fa fa-book', Manga::class);
         yield MenuItem::LinkToCrud('MangaStatus', 'fa fa-info-circle', MangaStatus::class);
         yield MenuItem::LinkToCrud('MangaType', 'fa fa-info-circle', MangaType::class);
         yield MenuItem::LinkToCrud('StatusTrack', 'fa fa-info-circle', StatusTrack::class);
+
+        yield MenuItem::section('Users');
         yield MenuItem::LinkToCrud('User', 'fa fa-user', User::class);
-        yield MenuItem::LinkToCrud('UserTrackList', 'fa-solid fa-list-check', MangaUserTrack::class);
     }
 }

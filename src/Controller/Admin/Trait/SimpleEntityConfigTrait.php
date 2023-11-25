@@ -1,27 +1,15 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Trait;
 
-use App\Controller\Admin\Trait\RemoveDeleteActionTrait;
-use App\Entity\Fantrad;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
-class FantradCrudController extends AbstractCrudController
+trait SimpleEntityConfigTrait
 {
-    use RemoveDeleteActionTrait;
-
-    public static function getEntityFqcn(): string
-    {
-        return Fantrad::class;
-    }
-
     public function configureCrud(Crud $crud): Crud
     {
         $crud
@@ -30,17 +18,24 @@ class FantradCrudController extends AbstractCrudController
             ->renderContentMaximized()
         ;
 
+        if (true === str_contains($this->getEntityFqcn(), 'MangaStatus')) {
+            $crud->setSearchFields(['title']);
+        }
+
         return $crud;
     }
 
     public function configureFields(string $pageName): iterable
     {
+        $nameField = 'name';
+        if (true === str_contains($this->getEntityFqcn(), 'MangaStatus')) {
+            $nameField = 'title';
+        }
+
         return [
             IdField::new('id')->onlyOnIndex(),
-            TextField::new('name'),
-            TextField::new('nameSlug')->onlyOnIndex(),
-            UrlField::new('url'),
-            ChoiceField::new('language'),
+            TextField::new($nameField),
+            TextField::new("{$nameField}_slug")->onlyOnIndex(),
             DateTimeField::new('createdAt')->onlyOnIndex(),
             DateTimeField::new('updatedAt')->onlyOnIndex(),
             BooleanField::new('isActivated'),
