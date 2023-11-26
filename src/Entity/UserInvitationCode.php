@@ -46,7 +46,7 @@ class UserInvitationCode
 
     #[ORM\Column]
     #[Assert\Type('boolean')]
-    private bool $isActivated=true;
+    private bool $isActivated = true;
 
     public function __construct()
     {
