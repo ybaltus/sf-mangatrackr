@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invitation{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+    {% for label, messages in app.flashes(['success', 'warning']) %}
+        {% for message in messages %}
+                <p class="mb-0">{{ message }}</p>
+        {% endfor %}
+    {% endfor %}
+
+    {{ form_errors(invitationForm) }}
+
+    {{ form_start(invitationForm) }}
+        {{ form_row(invitationForm.username) }}
+        {{ form_row(invitationForm.email) }}
+        {{ form_row(invitationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(invitationForm) }}
+{% endblock %}

@@ -36,7 +36,7 @@ class UserInvitationCodeCrudController extends AbstractCrudController
             ->onlyOnIndex(),
             DateTimeField::new('expiredAt'),
             BooleanField::new('isActivated')
-            ->hideWhenCreating(),
+            ->hideWhenCreating()->setDisabled(),
         ];
     }
 }

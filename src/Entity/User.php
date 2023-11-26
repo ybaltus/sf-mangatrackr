@@ -39,15 +39,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var array<int, string>
      */
     #[ORM\Column]
-    #[Assert\NotNull]
     private array $roles = [];
 
     /**
      * @var string|null The plain password
      */
-    #[Assert\Length(
-        min: 8
-    )]
     private ?string $plainPassword = '';
 
     /**
@@ -55,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank]
-    private string $password;
+    private string $password = 'password';
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
