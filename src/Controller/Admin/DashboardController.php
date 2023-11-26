@@ -9,6 +9,7 @@ use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use App\Entity\StatusTrack;
 use App\Entity\User;
+use App\Entity\UserInvitationCode;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -47,5 +48,6 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Users');
         yield MenuItem::LinkToCrud('User', 'fa fa-user', User::class);
+        yield MenuItem::LinkToCrud('Invitation Code', 'fa fa-envelope', UserInvitationCode::class);
     }
 }
