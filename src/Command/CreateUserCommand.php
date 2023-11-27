@@ -89,6 +89,13 @@ class CreateUserCommand extends Command
 
             return Command::FAILURE;
         } else {
+            // Check if user already exists
+            if ($this->em->getRepository(User::class)->findOneByEmail($email)) {
+                $io->error('This email already exists.');
+                return Command::FAILURE;
+            }
+
+            // Create a new user
             $user = (new User())
                 ->setEmail($email)
                 ->setPlainPassword($password)
