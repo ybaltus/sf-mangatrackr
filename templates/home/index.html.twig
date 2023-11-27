@@ -13,8 +13,14 @@
 
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ '/home/yannis/Projets/Perso/MangaTrackr/sf-mangatrackr/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/yannis/Projets/Perso/MangaTrackr/sf-mangatrackr/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
+        {% if app.user %}
+            <li><code><a href="{{ path('security_logout') }}">Logout</a></code></li>
+        {% else %}
+            <li><code><a href="{{ path('security_login') }}">Login</a></code></li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li><code><a href="{{ path('admin_index') }}">Admin dashboard</a></code></li>
+        {% endif %}
     </ul>
 </div>
 {% endblock %}
