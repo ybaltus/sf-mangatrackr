@@ -36,19 +36,26 @@ class ApiJikanCommand extends Command
 
         if ($searchTerm) {
             $io->note(sprintf('You passed an argument: %s', $searchTerm));
+
+            // Test fetch a manga by title
             $datas = $this->apiJikanService->fetchMangaByTitle($searchTerm);
 
             if (empty($datas)) {
                 $io->info('No results');
             }
-            var_dump($datas[0]);
+
+            // Test save datas only for the first entry
+            $this->apiJikanService->saveMangaDatasInDb($datas[0]);
+
+            // Test fetch top mangas
+            $topManga = $this->apiJikanService->fetchTopManga();
         } else {
             $io->error('A search terms is required');
 
             return Command::INVALID;
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('api:jikan command executed with success !');
 
         return Command::SUCCESS;
     }

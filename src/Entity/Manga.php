@@ -97,16 +97,16 @@ class Manga
     /**
      * @var ArrayCollection|Collection<int, Editor>
      */
-    #[ORM\ManyToMany(targetEntity: Editor::class, inversedBy: 'mangas')]
+    #[ORM\ManyToMany(targetEntity: Editor::class, inversedBy: 'mangas', cascade: ['persist'])]
     private Collection|ArrayCollection $editor;
 
     /**
      * @var ArrayCollection|Collection<int, MangaType>
      */
-    #[ORM\ManyToMany(targetEntity: MangaType::class, inversedBy: 'mangas')]
+    #[ORM\ManyToMany(targetEntity: MangaType::class, inversedBy: 'mangas', cascade: ['persist'])]
     private Collection|ArrayCollection $mangaType;
 
-    #[ORM\ManyToOne(inversedBy: 'mangas')]
+    #[ORM\ManyToOne(inversedBy: 'mangas', cascade: ['persist'])]
     private MangaStatus $mangaStatus;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
