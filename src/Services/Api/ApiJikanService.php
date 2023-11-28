@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Api;
 
 use App\Entity\Editor;
 use App\Entity\Manga;
