@@ -56,7 +56,7 @@ class InvitationController extends AbstractController
             }
         }
 
-        return $this->render('auth/invitation/register.html.twig', [
+        return $this->render('pages/auth/invitation/register.html.twig', [
             'invitationForm' => $form->createView(),
         ]);
     }
