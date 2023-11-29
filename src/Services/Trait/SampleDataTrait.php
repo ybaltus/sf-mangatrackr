@@ -120,7 +120,7 @@ trait SampleDataTrait
             ['Webtoons', 'https://www.webtoons.com/fr/', LangEnum::FR],
             ['Manga-Scantrad-io', 'https://manga-scantrad.io/', LangEnum::FR],
             ['Astral-Manga', 'https://astral-manga.fr/', LangEnum::FR],
-            ['Bento Manga', 'https://bentomanga.com/', LangEnum::EN],
+            ['Bento-Manga', 'https://bentomanga.com/', LangEnum::EN],
             ['Scantrad-VF', 'https://scantrad-vf.me/', LangEnum::FR],
             ['Scan-VF', 'https://www.scan-vf.net/', LangEnum::FR],
             ['Manga-Scantrad-fr', 'https://www.mangascantrad.fr/', LangEnum::FR],
