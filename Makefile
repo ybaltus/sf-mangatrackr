@@ -125,7 +125,7 @@ sf-rdb: ## Reset database
 	$(MAKE) sf-dmm
 
 ##----------------- 🎉 First install 🎉 -------------#
-first-install: composer-install npm-install npm-build sf-ddc sf-dmm ## First installation
+first-install: composer-install npm-install npm-build qa-sf-security-checker sf-ddc sf-dmm ## First installation
 
 ##----------------- 🆘  HELP 🆘  -------------#
 help: ## Show this help.
