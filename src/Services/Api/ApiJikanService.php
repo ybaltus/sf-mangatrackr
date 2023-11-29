@@ -94,9 +94,9 @@ final class ApiJikanService extends ApiServiceAbstract
     /**
      * Persist manga datas in database.
      *
-     * @param array<mixed> $mangaDatas
+     * @param array<string> $mangaDatas
      */
-    public function saveMangaDatasInDb(array $mangaDatas): Manga
+    public function saveMangaDatasInDb(array $mangaDatas): void
     {
         $result = $this->extractDatas($mangaDatas);
 
@@ -172,6 +172,7 @@ final class ApiJikanService extends ApiServiceAbstract
 
         // MangaJianAPI entity
         $mangaJikanApi = $manga->getMangaJikanAPI();
+
         if (!$mangaJikanApi) {
             $mangaJikanApi = new MangaJikanAPI();
         }
@@ -201,8 +202,6 @@ final class ApiJikanService extends ApiServiceAbstract
         // Persist manga in db
         $this->em->persist($manga);
         $this->em->flush();
-
-        return $manga;
     }
 
     /**

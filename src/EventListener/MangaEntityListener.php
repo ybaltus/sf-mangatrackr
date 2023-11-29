@@ -17,11 +17,5 @@ class MangaEntityListener
         // Add MangaStatistic
         $mangaStatistic = new MangaStatistic();
         $manga->setMangaStatistic($mangaStatistic);
-
-        // Add MangaJikanApi
-        $mangaJikanAPI = (new MangaJikanAPI())
-        ->setManga($manga)
-        ;
-        $manga->setMangaJikanAPI($mangaJikanAPI);
     }
 }

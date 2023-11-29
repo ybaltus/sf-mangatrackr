@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Manga;
+use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatistic;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -52,6 +53,10 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
             $mgStatistic->setNbView(mt_rand(100, 200));
 
             // Edit MangaJikanAPI after the MangaEntityListener
+            $mangaJikanAPI = (new MangaJikanAPI())
+            ->setManga($entity)
+            ;
+            $entity->setMangaJikanAPI($mangaJikanAPI);
             $mgJikanAPI = $entity->getMangaJikanAPI();
             $mgJikanAPI->setMalImgJpgLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
             $mgJikanAPI->setMalImgWebpLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
