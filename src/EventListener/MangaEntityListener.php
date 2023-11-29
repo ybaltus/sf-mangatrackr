@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Entity\Manga;
-use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatistic;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
