@@ -48,16 +48,42 @@ final class ApiJikanService extends ApiServiceAbstract
     /**
      * Fetch the top of mangas.
      *
-     * @return string[]
+     * @return array<mixed>
      */
     public function fetchTopManga(int $limit = self::LIMIT_SEARCH): array
     {
+        // $limit max = 25 for Jikan
+        $limit = $limit <= 25 ? $limit : 25;
+
         $queryParams = [
             'limit' => $limit,
         ];
 
         $response = $this->getRequest($this->baseUrl.'/top/manga', $queryParams);
+        if (!$this->handleHttpStatusCode($response->getStatusCode())) {
+            return ["Error http response : {$response->getStatusCode()}"];
+        }
 
+        return $response->toArray()['data'];
+    }
+
+    /**
+     * Fetch the latest mangas.
+     *
+     * @return array<mixed>
+     */
+    public function fetchLastestManga(int $limit = self::LIMIT_SEARCH): array
+    {
+        // $limit max = 25 for Jikan
+        $limit = $limit <= 25 ? $limit : 25;
+
+        $queryParams = [
+            'order_by' => 'start_date',
+            'sort' => 'desc',
+            'limit' => $limit,
+        ];
+
+        $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
             return ["Error http response : {$response->getStatusCode()}"];
         }

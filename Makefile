@@ -119,6 +119,11 @@ sf-dfl: ## Execute doctrine fixtures.
 sf-mm: ## Make migrations.
 	$(SYMFONY_CONSOLE) make:migration
 
+sf-rdb: ## Reset database
+	$(MAKE) sf-ddd
+	$(MAKE) sf-ddc
+	$(MAKE) sf-dmm
+
 ##----------------- 🎉 First install 🎉 -------------#
 first-install: composer-install npm-install npm-build sf-ddc sf-dmm ## First installation
 

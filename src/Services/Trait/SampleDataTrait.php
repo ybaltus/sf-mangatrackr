@@ -2,6 +2,8 @@
 
 namespace App\Services\Trait;
 
+use App\Entity\Enum\LangEnum;
+
 trait SampleDataTrait
 {
     /**
@@ -113,17 +115,17 @@ trait SampleDataTrait
     public function getFantrad(): array
     {
         return [
-            ['FMTeam', 'https://www.fmteam.fr/', 'FR'],
-            ['Anime Sama', 'https://anime-sama.fr/', 'FR'],
-            ['Webtoons', 'https://www.webtoons.com/fr/', 'FR'],
-            ['Manga-Scantrad', 'https://manga-scantrad.io/', 'FR'],
-            ['Astral-Manga', 'https://astral-manga.fr/', 'FR'],
-            ['Bento Manga', 'https://bentomanga.com/', 'EN'],
-            ['Scantrad-VF', 'https://scantrad-vf.me/', 'FR'],
-            ['Scan-VF', 'https://www.scan-vf.net/', 'FR'],
-            ['Manga Scantrad', 'https://www.mangascantrad.fr/', 'FR'],
-            ['Legacy-Scans', 'https://legacy-scans.com/', 'FR'],
-            ['Scan-Manga', 'https://www.scan-manga.com/?home', 'FR'],
+            ['FMTeam', 'https://www.fmteam.fr/', LangEnum::FR],
+            ['Anime Sama', 'https://anime-sama.fr/', LangEnum::FR],
+            ['Webtoons', 'https://www.webtoons.com/fr/', LangEnum::FR],
+            ['Manga-Scantrad-io', 'https://manga-scantrad.io/', LangEnum::FR],
+            ['Astral-Manga', 'https://astral-manga.fr/', LangEnum::FR],
+            ['Bento Manga', 'https://bentomanga.com/', LangEnum::EN],
+            ['Scantrad-VF', 'https://scantrad-vf.me/', LangEnum::FR],
+            ['Scan-VF', 'https://www.scan-vf.net/', LangEnum::FR],
+            ['Manga-Scantrad-fr', 'https://www.mangascantrad.fr/', LangEnum::FR],
+            ['Legacy-Scans', 'https://legacy-scans.com/', LangEnum::FR],
+            ['Scan-Manga', 'https://www.scan-manga.com/?home', LangEnum::FR],
         ];
     }
 
