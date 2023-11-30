@@ -21,6 +21,35 @@ class MangaRepository extends ServiceEntityRepository
         parent::__construct($registry, Manga::class);
     }
 
+    /**
+     * @return array<Manga>
+     */
+    public function getTopMangas(int $quantity = 4): array
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.mangaJikanAPI', 'a')
+            ->where('m.isActivated != FALSE')
+            ->orderBy('a.malScored', 'DESC')
+            ->setMaxResults($quantity)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return array<Manga>
+     */
+    public function getLatestMangas(int $quantity = 4): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.isActivated != FALSE')
+            ->orderBy('m.publishedAt', 'DESC')
+            ->setMaxResults($quantity)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Manga[] Returns an array of Manga objects
     //     */

@@ -22,5 +22,8 @@
         {% block body %}
 
         {% endblock %}
+        {{ component('FooterComponent', {
+            appName: appName
+        }) }}
     </body>
 </html>
