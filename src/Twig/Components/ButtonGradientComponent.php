@@ -5,6 +5,7 @@ namespace App\Twig\Components;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent()]
-final class JumbotronComponent
+final class ButtonGradientComponent
 {
+    public string $title;
 }

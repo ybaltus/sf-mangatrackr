@@ -8,7 +8,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class InfoSectionComponent
 {
     public bool $inline = false;
-
     public string $title = '';
     public string $info;
 }
