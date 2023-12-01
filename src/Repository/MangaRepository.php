@@ -50,6 +50,20 @@ class MangaRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return array<Manga>
+     */
+    public function getMangas(int $quantity = 16): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.isActivated != FALSE')
+            ->orderBy('m.titleSlug', 'ASC')
+            ->setMaxResults($quantity)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Manga[] Returns an array of Manga objects
     //     */

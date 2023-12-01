@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue{% endblock %}
+
+{% block body %}
+    <!-- Header -->
+    {{ component('SectionHeaderComponent', {
+        title: 'Catalogue'
+    }) }}
+
+    <!-- Search Bar -->
+    {{ component('SearchComponent', {
+        placeholder: 'Rechercher un manga',
+        toggleText: 'Recherche avancée'
+    }) }}
+
+    <!-- Gallery -->
+    {{ component('GalleryComponent', {
+        mangas: mangas
+    }) }}
+
+{% endblock %}

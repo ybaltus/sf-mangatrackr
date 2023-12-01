@@ -12,13 +12,11 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home_index')]
     public function index(MangaRepository $mangaRepository): Response
     {
-        $appName = $this->getParameter('app_name');
         $topMangas = $mangaRepository->getTopMangas();
         $latestMangas = $mangaRepository->getLatestMangas();
         // TODO Utiliser le cache pour les mangas
 
         return $this->render('pages/home/index.html.twig', [
-            'appName' => $appName,
             'topMangas' => $topMangas,
             'latestMangas' => $latestMangas,
         ]);
