@@ -22,6 +22,16 @@ module.exports = {
                 'app-dark-green2': '#005454',
                 'app-dark-blue1': '#00306F',
                 'app-dark-blue2': '#3FFDF0',
+            },
+            fontFamily: {
+                'sora-bold': 'Sora-Bold',
+                'sora-extraBold': 'Sora-ExtraBold',
+                'sora-extraLight': 'Sora-ExtraLight',
+                'sora-light': 'Sora-Light',
+                'sora-medium': 'Sora-Medium',
+                'sora-regular': 'Sora-Regular',
+                'sora-semiBold': 'Sora-SemiBold',
+                'sora-thin': 'Sora-Thin'
             }
         },
     },

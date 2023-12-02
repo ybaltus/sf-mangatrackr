@@ -11,6 +11,6 @@ import './styles/app.css';
 
 // enable the interactive UI components from Flowbite
 import 'flowbite';
-
+// [Flowbite] Config darkmode
 import './js/init-dark-mode-flowbite.js';
 import './js/btn-dark-mode-flowbite.js';
