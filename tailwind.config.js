@@ -32,6 +32,9 @@ module.exports = {
                 'sora-regular': 'Sora-Regular',
                 'sora-semiBold': 'Sora-SemiBold',
                 'sora-thin': 'Sora-Thin'
+            },
+            fontSize: {
+                'app-logo': '1.375rem',
             }
         },
     },

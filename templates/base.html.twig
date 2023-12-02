@@ -12,12 +12,13 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-app-clear-white dark:bg-app-dark-black">
         <header>
             {{ component('NavBarComponent', {
                 appName: app_name,
                 user: app.user
             }) }}
+
         </header>
 
         {% block body %}
