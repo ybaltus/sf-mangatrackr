@@ -1,21 +1,32 @@
 <div{{ attributes }}>
     <!-- component html -->
     <section class="bg-app-clear-gray dark:bg-app-dark-gray1">
-        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
-            <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
-                <h2 class="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-app-dark-gray1 dark:text-app-clear-gray">{{ title }}</h2>
+        <div class="py-24 px-8 mx-auto max-w-screen-xl lg:py-24 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center mb-20 lg:mb-24">
+                <h2
+                        class="mb-4 text-5xl lg:text-5xl tracking-tight font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
+                >
+                    {{ title }}
+                </h2>
             </div>
-            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
                 {% for key, manga in mangas %}
                 {% if key % 2 == 0 %}
-                <div class="mt-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div
+                        class="xl:mt-6 px-12 lg:px-0 bg-white rounded-lg shadow dark:bg-transparent">
                     {% else %}
-                    <div class="mb-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <div
+                            class="xl:mb-6 px-12 lg:px-0 bg-white rounded-lg shadow dark:bg-transparent">
                         {% endif %}
                         <a href="#">
-                            <img class="p-2 w-max rounded-t-lg" src="{{ manga.mangaJikanAPI.malImgWebp }}" alt="{{ manga.title }}" />
+                            <img
+                                    class="w-full h-96 p-4 rounded-lg transition ease-in-out delay-150 duration-500 hover:-translate-y-1 hover:scale-110 border border-app-clear-black dark:border-app-dark-gray2"
+                                    src="{{ manga.mangaJikanAPI.malImgWebp }}"
+                                    alt="{{ manga.title }}"
+                            />
                             <div class="p-5">
-                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                <h5
+                                        class="mb-2 text-3xl lg:text-2xl uppercase line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
                                     {{ manga.title }}
                                 </h5>
                             </div>

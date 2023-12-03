@@ -4,8 +4,8 @@
 
 {% block body %}
     <!-- Jumbotron -->
-    <section class="bg-app-clear-white dark:bg-app-dark-black h-screen">
-        <div class="mt-[40%] lg:mt-[10%] px-4 mx-auto max-w-screen-xl text-left">
+    <section class="bg-app-clear-white dark:bg-app-dark-black h-screen flex items-center">
+        <div class="mx-auto max-w-screen-xl text-left">
             <svg
                     class="w-32"
                     fill="#C41BF7"
@@ -20,27 +20,29 @@
                 </g>
             </svg>
             <!-- Title -->
-            <h1 class="text-8xl md:text-8xl md:leading-tight font-sora-bold tracking-tight dark:text-white">
+            <h1 class="text-8xl md:text-8xl md:leading-tight font-sora-bold tracking-tight text-app-dark-gray1 dark:text-app-clear-white">
                 Synchronisez votre <br>
                 <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
                 >
                     passion
                 </span>
                 pour les<br>
                 mangas.
             </h1>
+            <!-- Arrow -->
+            <div
+                            class="mt-20 lg:mt-20 flex flex-col sm:flex-row sm:justify-center"
+                    >
+                <svg
+                        class="w-9 h-9 text-app-clear-black dark:text-app-dark-gray2 animate-bounce"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"/>
+                </svg>
+            </div>
         </div>
-        <!-- Arrow -->
-        <div
-                class="mt-20 mt-20 lg:mt-20 flex flex-col sm:flex-row sm:justify-center"
-        >
-            <svg
-                    class="w-9 h-9 text-app-clear-black dark:text-app-dark-gray2 animate-bounce"
-                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 8">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"/>
-            </svg>
-        </div>
+
+
     </section>
 
     <!-- Top mangas -->
@@ -52,7 +54,7 @@
     <!-- Info section -->
     {{ component('InfoSectionComponent', {
         title: 'Une expérience synchronisée',
-        info: 'MangaSync, votre compagnon, transforme chaque scan en une aventure sur mesure. Personnalisez votre propre scanthèque et suivez vos scans préférés où que vous soyez.'
+        info: 'MangaSync, l’application dédiée aux passionnés de mangas, simplifie la gestion de votre progression de lecture. Créez votre scanthèque, suivez vos scans préférés et synchronisez votre avancée en temps réel.'
     }) }}
 
     <!-- Latest mangas -->
