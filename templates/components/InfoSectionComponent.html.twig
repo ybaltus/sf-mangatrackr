@@ -3,15 +3,15 @@
     {% if not inline %}
         <section class="bg-app-clear-gray dark:bg-app-dark-black">
             <div class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12">
-                <h2 class="mb-20 text-5xl lg:text-5xl tracking-tight font-semibold text-app-clear-black dark:text-app-clear-white">
+                <h2 class="mb-20 px-20 text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-clear-black dark:text-app-clear-white">
                     {{ title }}
                 </h2>
-                <p class="mb-20 text-3xl font-sora-regular text-app-clear-black dark:text-app-dark-gray2 px-20 lg:px-20">
+                <p class="mb-20 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 px-20 lg:px-20">
                     {{ info }}
                 </p>
                 <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
                     {{ component('ButtonGradientComponent', {
-                        title: 'Découvrir'
+                        title: titleBtn
                     }) }}
                 </div>
             </div>
@@ -19,12 +19,12 @@
     {% else %}
         <section class="bg-app-clear-gray dark:bg-app-dark-black">
             <div class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-36">
-                <p class="mb-20 text-3xl font-sora-regular text-app-clear-black dark:text-app-dark-gray2 px-20 lg:px-20">
+                <p class="mb-20 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 px-20 lg:px-20">
                     {{ info }}
                 </p>
                 <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
                     {{ component('ButtonGradientComponent', {
-                        title: 'S\'inscrire'
+                        title: titleBtn
                     }) }}
                 </div>
             </div>

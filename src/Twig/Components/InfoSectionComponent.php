@@ -10,4 +10,5 @@ final class InfoSectionComponent
     public bool $inline = false;
     public string $title = '';
     public string $info;
+    public string $titleBtn = '';
 }

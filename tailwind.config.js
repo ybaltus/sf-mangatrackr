@@ -23,6 +23,7 @@ module.exports = {
                 'app-dark-green2': '#005454',
                 'app-dark-blue1': '#00306F',
                 'app-dark-blue2': '#3FFDF0',
+                'app-focus-purple': '#7D31EA'
             },
             fontFamily: {
                 'sora-bold': 'Sora-Bold',
@@ -45,10 +46,12 @@ module.exports = {
                 'title-manga-mob': '2.5rem',
                 'text-desk': '1.25rem',
                 'text-mob': '2.5rem',
-                'cta-desk': '0.875rem',
-                'cta-mob': '1.8rem',
-                'footer-desk': '0.938rem',
-                'footer-mob': '3rem'
+                'cta-desk': '1rem',
+                'cta-mob': '1.5rem',
+                'footer-desk': '1.25rem',
+                'footer-mob': '1.875rem',
+                'title-menu-desk': '1rem',
+                'title-menu-mob': '2.5rem'
             },
             lineHeight: {
                 'h1-desk': '6.5rem',
