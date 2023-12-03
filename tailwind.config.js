@@ -35,7 +35,30 @@ module.exports = {
                 'sora-thin': 'Sora-Thin'
             },
             fontSize: {
-                'app-logo': '1.375rem',
+                'logo-desk': '1.25rem',
+                'logo-mob': '3rem',
+                'h1-desk': '4.6rem',
+                'h1-mob': '6rem',
+                'h2-desk': '2.1rem',
+                'h2-mob': '3.5rem',
+                'title-manga-desk': '1.25rem',
+                'title-manga-mob': '2.5rem',
+                'text-desk': '1.25rem',
+                'text-mob': '2.5rem',
+                'cta-desk': '0.875rem',
+                'cta-mob': '1.8rem',
+                'footer-desk': '0.938rem',
+                'footer-mob': '3rem'
+            },
+            lineHeight: {
+                'h1-desk': '6.5rem',
+                'h1-mob': '1rem',
+                'h2-desk': '1rem',
+                'h2-mob': '1.3rem',
+                'title-manga-desk': '2.25rem',
+                'title-manga-mob': '1rem',
+                'text-desk': '2.25rem',
+                'text-mob': '3.5rem',
             }
         },
     },
