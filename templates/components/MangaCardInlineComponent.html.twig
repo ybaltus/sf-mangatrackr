@@ -1,6 +1,6 @@
 <div{{ attributes }}>
     <!-- component html -->
-    <section class="bg-app-clear-gray dark:bg-app-dark-gray1">
+    <section class="bg-app-clear-white dark:bg-app-dark-gray1">
         <div class="py-24 px-8 mx-auto max-w-screen-xl lg:py-24 lg:px-6">
             <div class="mx-auto max-w-screen-sm text-center mb-20 lg:mb-24">
                 <h2
@@ -13,10 +13,10 @@
                 {% for key, manga in mangas %}
                 {% if key % 2 == 0 %}
                 <div
-                        class="xl:mt-6 px-12 lg:px-0 bg-white rounded-lg shadow dark:bg-transparent">
+                        class="xl:mt-6 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
                     {% else %}
                     <div
-                            class="xl:mb-6 px-12 lg:px-0 bg-white rounded-lg shadow dark:bg-transparent">
+                            class="xl:mb-6 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
                         {% endif %}
                         <a href="#">
                             <img
