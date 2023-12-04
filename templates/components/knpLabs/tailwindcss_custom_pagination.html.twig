@@ -1,0 +1,87 @@
+{# tailwindcss Sliding pagination control implementation #}
+{% if pageCount > 1 %}
+    <nav aria-label="Page navigation example">
+        <ul class="flex items-center -space-x-px h-10 text-base">
+            {% if first is defined and current != first%}
+                <li>
+                    <a
+                            rel="prev"
+                            href="{{ path(route, query|merge({(pageParameterName): first})) }}"
+                            class="flex items-center justify-center px-4 h-10 ms-0 leading-normal text-app-clear-black bg-app-clear-gray dark:bg-app-dark-black dark:border-app-dark-gray2 dark:text-app-dark-gray2 hover:text-app-clear-white hover:bg-app-focus-purple dark:hover:text-app-clear-white dark:hover:bg-app-focus-purple border border-e-0 border-app-clear-gray rounded-s-lg"
+                            title="Première page"
+                    >
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4m6-8L7 5l4 4"/>
+                        </svg>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if previous is defined %}
+                <li>
+                    <a
+                            rel="prev"
+                            href="{{ path(route, query|merge({(pageParameterName): previous})) }}"
+                            class="flex items-center justify-center px-4 h-10 ms-0 leading-normal text-app-clear-black bg-app-clear-gray dark:bg-app-dark-black dark:border-app-dark-gray2 dark:text-app-dark-gray2 hover:text-app-clear-white hover:bg-app-focus-purple dark:hover:text-app-clear-white dark:hover:bg-app-focus-purple border border-e-0 border-app-clear-gray"
+                            title="Précédent"
+                    >
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                        </svg>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li>
+                        <a href="{{ path(route, query|merge({(pageParameterName): page})) }}"
+                           class="flex items-center justify-center px-4 h-10 leading-normal text-app-clear-black bg-app-clear-gray dark:bg-app-dark-black dark:border-app-dark-gray2 dark:text-app-dark-gray2 hover:text-app-clear-white hover:bg-app-focus-purple dark:hover:text-app-clear-white dark:hover:bg-app-focus-purple border border-app-clear-gray"
+                           title="{{ page }}"
+                        >{{ page }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                    <span
+                            aria-current="page"
+                            class="z-10 flex items-center justify-center px-4 h-10 leading-tight border border-app-clear-gray bg-app-focus-purple dark:bg-app-focus-purple dark:border-app-dark-gray2 dark:text-app-dark-gray2"
+                            title="{{ page }}"
+                    >{{ page }}</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if next is defined %}
+                <li>
+                    <a
+                            href="{{ path(route, query|merge({(pageParameterName): next})) }}"
+                            class="flex items-center justify-center px-4 h-10 ms-0 leading-normal text-app-clear-black bg-app-clear-gray dark:bg-app-dark-black dark:border-app-dark-gray2 dark:text-app-dark-gray2 hover:text-app-clear-white hover:bg-app-focus-purple dark:hover:text-app-clear-white dark:hover:bg-app-focus-purple border border-e-0 border-app-clear-gray"
+                            title="Suivant"
+                    >
+                        <span class="sr-only">Next</span>
+                        <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                        </svg>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if last is defined and current != last%}
+                <li>
+                    <a
+                            href="{{ path(route, query|merge({(pageParameterName): last})) }}"
+                            class="flex items-center justify-center px-4 h-10 leading-normal text-app-clear-black bg-app-clear-gray dark:bg-app-dark-black dark:border-app-dark-gray2 dark:text-app-dark-gray2 hover:text-app-clear-white hover:bg-app-focus-purple dark:hover:text-app-clear-white dark:hover:bg-app-focus-purple border border-app-clear-gray rounded-e-lg"
+                            title="Dernière page"
+                    >
+                        <span class="sr-only">Next</span>
+                        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                        </svg>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

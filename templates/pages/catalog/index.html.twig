@@ -16,7 +16,8 @@
 
     <!-- Gallery -->
     {{ component('GalleryComponent', {
-        mangas: mangas
+        mangas: paginationMangas,
+        isPagination: true
     }) }}
 
 {% endblock %}

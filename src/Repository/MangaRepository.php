@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Manga;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -61,6 +62,15 @@ class MangaRepository extends ServiceEntityRepository
             ->setMaxResults($quantity)
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function paginationQuery(): Query
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.isActivated != FALSE')
+            ->orderBy('m.titleSlug', 'ASC')
+            ->getQuery()
         ;
     }
 
