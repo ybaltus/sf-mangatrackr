@@ -121,6 +121,7 @@ final class ApiJikanService extends ApiServiceAbstract
             ->setDescription($result['malDescription'])
             ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
             ->setPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
+            ->setIsAdult($this->checkIfAdult($result['malGenres']))
         ;
 
         // Set MangaType for manga entity

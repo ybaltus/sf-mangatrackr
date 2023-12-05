@@ -14,6 +14,14 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 abstract class ApiServiceAbstract
 {
     /**
+     * @var array<string>|String[]
+     */
+    protected array $adultsGenres = [
+        'Erotica',
+        'Hentai',
+    ];
+
+    /**
      * @var array<string>|string[]
      */
     protected array $headers = [
@@ -110,5 +118,19 @@ abstract class ApiServiceAbstract
         }
 
         return $results;
+    }
+
+    /**
+     * @param array<string> $genres
+     */
+    protected function checkIfAdult(array $genres): bool
+    {
+        foreach ($genres as $genre) {
+            if (in_array($genre, $this->adultsGenres)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
