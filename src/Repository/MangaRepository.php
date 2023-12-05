@@ -74,7 +74,10 @@ class MangaRepository extends ServiceEntityRepository
         ;
     }
 
-    public function searchManga(string $searchTerm, int $maxResults = 16): Manga
+    /**
+     * @return array<Manga>
+     */
+    public function searchManga(string $searchTerm, int $maxResults = 16): array
     {
         return $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
