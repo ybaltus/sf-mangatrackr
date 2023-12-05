@@ -74,6 +74,19 @@ class MangaRepository extends ServiceEntityRepository
         ;
     }
 
+    public function searchManga(string $searchTerm, int $maxResults = 16): Manga
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.isActivated != FALSE')
+            ->andWhere('m.title LIKE :searchTerm')
+            ->orderBy('m.titleSlug', 'ASC')
+            ->setParameter('searchTerm', '%'.$searchTerm.'%')
+            ->getQuery()
+            ->setMaxResults($maxResults)
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Manga[] Returns an array of Manga objects
     //     */

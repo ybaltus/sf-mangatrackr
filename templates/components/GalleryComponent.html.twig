@@ -1,7 +1,11 @@
-<div{{ attributes }}>
+<div {{ attributes }}>
     <!-- component html -->
-    <section class="bg-app-clear-white dark:bg-app-dark-black">
-        <div class="mx-auto max-w-screen-xl">
+    <section
+            id="mangas-gallery" class="bg-app-clear-white dark:bg-app-dark-black"
+    >
+        <div
+                {{ stimulus_controller('search-catalog') }}
+                class="mx-auto max-w-screen-xl">
             {% if isPagination %}
                 <div
                         class="m-10"

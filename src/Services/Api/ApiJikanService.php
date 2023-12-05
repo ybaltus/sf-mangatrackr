@@ -96,7 +96,7 @@ final class ApiJikanService extends ApiServiceAbstract
      *
      * @param array<string> $mangaDatas
      */
-    public function saveMangaDatasInDb(array $mangaDatas): void
+    public function saveMangaDatasInDb(array $mangaDatas): Manga
     {
         $result = $this->extractDatas($mangaDatas);
 
@@ -119,7 +119,7 @@ final class ApiJikanService extends ApiServiceAbstract
             ->setTitleAlternative($result['malTitleAlternative'])
             ->setNbChapters($result['malChapters'] ?? 1)
             ->setDescription($result['malDescription'])
-            ->setAuthor($result['malAuthors'][0])
+            ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
             ->setPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
         ;
 
@@ -202,6 +202,8 @@ final class ApiJikanService extends ApiServiceAbstract
         // Persist manga in db
         $this->em->persist($manga);
         $this->em->flush();
+
+        return $manga;
     }
 
     /**

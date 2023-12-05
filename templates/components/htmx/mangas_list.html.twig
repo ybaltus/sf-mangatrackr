@@ -1,0 +1,23 @@
+<div class="mx-auto max-w-screen-xl">
+    <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+        {% if mangasSearch is defined %}
+            {% for key, manga in mangasSearch %}
+                <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+                    <a href="#">
+                        <img
+                                class="w-full h-96 p-4 rounded-lg transition ease-in-out delay-150 duration-500 hover:-translate-y-1 hover:scale-110 border border-app-clear-black dark:border-app-dark-gray2"
+                                src="{{ manga.mangaJikanAPI.malImgWebp }}"
+                                alt="{{ manga.title }}"
+                        />
+                        <div class="p-5">
+                            <h3
+                                    class="mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.title }}
+                            </h3>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
