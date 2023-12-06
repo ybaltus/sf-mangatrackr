@@ -4,29 +4,32 @@
 
 Application web pour suivre la lecture des mangas. Suivez facilement votre progression pour une meilleure expérience de lecture.
 
-## Stack technique
-* Symfony 6 Webapp
-* PHP 8
+## Packages
+* Symfony 6
 * DoctrineBundle & Mariadb
 * doctrine/doctrine-fixtures-bundle
 * symfony/webpack-encore-bundle
 * fakerphp/faker
+* easycorp/easyadmin-bundle
+* knplabs/knp-paginator-bundle
 * symfony/ux-twig-component
 * symfony/ux-autocomplete
 * HtmlX
 * Flowbite
-* easycorp/easyadmin-bundle
-* knplabs/knp-paginator-bundle
-***
+
+## QA & Tests
 * friendsofphp/php-cs-fixer
 * nunomaduro/phpinsights
 * phpstan/extension-installer
 * phpstan/phpstan
 * phpstan/phpstan-doctrine
 * phpro/grumphp
+* phpunit/phpunit
 
-## Make commands
+## Initialiser le projet
 ```
-- make help ## Afficher la liste des commands
+- make help ## Pour afficher la liste des commandes
 - make first-install ## Initialiser le projet
+- make npm-build ## compiler les assets
+- make sf-start ## Démarrer le serveur symfony
 ```
