@@ -7,8 +7,9 @@
         >
             <label for="searchTerm" class="mb-2 text-sm font-medium text-app-clear-black sr-only dark:text-app-dark-gray2">Search</label>
             <div class="relative w-1/3 mr-5 text-center">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                {#                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none ">#}
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 h-14 pointer-events-none ">
+                    <svg class="w-4 h-4 text-app-clear-black dark:text-app-dark-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
@@ -19,7 +20,7 @@
                         type="search"
                         id="searchTerm"
                         name="searchTerm"
-                        class="mb-5 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="mb-10 block w-full p-4 ps-10 text-sora-semiBold text-app-clear-black border border-app-clear-black rounded-full bg-app-clear-gray focus:ring-app-focus-purple dark:focus:ring-app-focus-purple focus:border-app-focus-purple dark:focus:border-app-focus-purple dark:bg-app-clear-white dark:border-app-dark-gray2 dark:placeholder-app-dark-black dark:text-app-dark-black"
                         placeholder="{{ placeholder|escape }}"
                         pattern="[a-zA-Z0-9-_]+"
                         maxlength="50"
@@ -38,7 +39,7 @@
                         type="search"
                         id="searchTerm"
                         name="searchTerm"
-                        class="hidden block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="hidden mb-10 block w-full p-4 ps-10 text-sora-semiBold text-app-clear-black border border-app-clear-black rounded-full bg-app-clear-gray focus:ring-app-focus-purple dark:focus:ring-app-focus-purple focus:border-app-focus-purple dark:focus:border-app-focus-purple dark:bg-app-clear-white dark:border-app-dark-gray2 dark:placeholder-app-dark-black dark:text-app-dark-black"
                         pattern="[a-zA-Z0-9-_]+"
                         maxlength="50"
                         minlength="3"
@@ -47,47 +48,77 @@
                         hx-trigger="keyup changed delay:1000ms"
                         hx-target="#search-results"
                         hx-indicator="#search-indicator"
+                        hx-include="[name='adult-input']"
                 >
 
-                <!-- Advanced option -->
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input
-                            {{ stimulus_action('search-catalog', 'hiddenSearch', 'click') }}
-                            type="checkbox"
-                            value=""
-                            class="sr-only peer"
+                {% if isToggleAdvanced %}
+                    <!-- Advanced option -->
+                    <label
+                            class="relative inline-flex items-center cursor-pointer"
+                            data-tooltip-target="tooltip-advanced"
+                            data-tooltip-placement="bottom"
                     >
-                    <div
-                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-                    ></div>
-                    <span
-                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                    {{ toggleText }}
-                </span>
-                </label>
+                        <input
+                                {{ stimulus_action('search-catalog', 'hiddenSearch', 'click') }}
+                                type="checkbox"
+                                value=""
+                                class="sr-only peer"
 
-                <!-- Adult option -->
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input
-                            {{ stimulus_action('search-catalog', 'setAdultValue', 'click') }}
-                            type="checkbox"
-                            name="adult-input"
-                            value=""
-                            pattern="^[01]$"
-                            class="sr-only peer"
-                    >
+                        >
+                        <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-app-focus-purple dark:peer-focus:ring-app-focus-purple rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-app-focus-purple"
+                        ></div>
+                        <span
+                                class="ms-3 text-sora-semiBold font-medium text-app-clear-black dark:text-app-dark-gray2"
+                        >
+                            {{ toggleAdvancedTitle }}
+                        </span>
+                    </label>
                     <div
-                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-                    ></div>
-                    <span
-                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            id="tooltip-advanced"
+                            role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
                     >
-                    Adulte
-                </span>
-                </label>
+                        {{ toggleAdvancedText }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                {% endif %}
+
+                {% if isToggleAdult %}
+                    <!-- Adult option -->
+                    <label
+                            class="ml-5 relative inline-flex items-center cursor-pointer"
+                            data-tooltip-target="tooltip-adult"
+                            data-tooltip-placement="bottom"
+                    >
+                        <input
+                                {{ stimulus_action('search-catalog', 'setAdultValue', 'click') }}
+                                type="checkbox"
+                                name="adult-input"
+                                value=""
+                                pattern="^[01]$"
+                                class="sr-only peer"
+
+                        >
+                        <div
+                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-app-focus-purple dark:peer-focus:ring-app-focus-purple rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-app-focus-purple"
+                        ></div>
+                        <span
+                                class="ms-3 text-sora-semiBold font-medium text-app-clear-black dark:text-app-dark-gray2"
+                        >
+                            {{ toggleAdultTitle }}
+                        </span>
+                    </label>
+                    <div
+                            id="tooltip-adult"
+                            role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                    >
+                        {{ toggleAdultText }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                {% endif %}
             </div>
         </div>
-</div>
-</section>
+    </section>
 </div>

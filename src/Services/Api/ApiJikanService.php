@@ -36,8 +36,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'limit' => $limit,
         ];
 
-        if(!$isAdult){
-            $queryParams['sfw'] =  true;
+        if (!$isAdult) {
+            $queryParams['genres_exclude'] = '12,9,49';
         }
 
         $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);

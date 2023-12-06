@@ -19,6 +19,7 @@ abstract class ApiServiceAbstract
     protected array $adultsGenres = [
         'Erotica',
         'Hentai',
+        'Ecchi'
     ];
 
     /**

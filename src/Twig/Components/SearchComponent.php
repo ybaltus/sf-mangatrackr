@@ -8,5 +8,10 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class SearchComponent
 {
     public string $placeholder;
-    public string $toggleText;
+    public bool $isToggleAdvanced = false;
+    public bool $isToggleAdult = false;
+    public string $toggleAdvancedTitle = '';
+    public string $toggleAdvancedText = '';
+    public string $toggleAdultTitle = '';
+    public string $toggleAdultText = '';
 }

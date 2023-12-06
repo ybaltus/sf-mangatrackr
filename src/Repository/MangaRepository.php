@@ -83,7 +83,7 @@ class MangaRepository extends ServiceEntityRepository
             ->where('m.isActivated != FALSE')
             ->andWhere('m.title LIKE :searchTerm')
             ->orderBy('m.titleSlug', 'ASC')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->setParameter('searchTerm', '%'.$searchTerm.'%')
         ;
 
         if (!$isAdult) {
