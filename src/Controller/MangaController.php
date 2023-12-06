@@ -39,6 +39,7 @@ class MangaController extends AbstractController
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
             'hasError' => $hasError,
+            'searchTerm' => $searchTerm
         ]);
     }
 
@@ -71,6 +72,7 @@ class MangaController extends AbstractController
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
             'errorMessage' => $errorMessage,
+            'searchTerm' => $searchTerm
         ]);
     }
 
@@ -82,6 +84,7 @@ class MangaController extends AbstractController
                 'max' => 50,
             ]),
             new Assert\NotBlank(),
+            new Assert\Regex('/^[a-zA-Z0-9-_]*$/'),
         ]);
     }
 }
