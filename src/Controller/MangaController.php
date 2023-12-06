@@ -60,7 +60,6 @@ class MangaController extends AbstractController
             $errorMessage = true;
         } else {
             $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
-
             if ($searchTerm && strlen($searchTerm) >= 3) {
                 $results = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
                 foreach ($results as $manga) {
@@ -84,7 +83,7 @@ class MangaController extends AbstractController
                 'max' => 50,
             ]),
             new Assert\NotBlank(),
-            new Assert\Regex('/^[a-zA-Z0-9-_]*$/'),
+            new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
         ]);
     }
 }
