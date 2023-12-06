@@ -18,59 +18,37 @@ class MangaController extends AbstractController
     public function searchMangas(
         Request $request,
         MangaRepository $mangaRepository,
+        ApiJikanService $apiJikanService,
         ValidatorInterface $validator
     ): Response {
         $mangas = [];
         $hasError = false;
         $searchTerm = $request->request->get('searchTerm');
-        $isAdult = $request->request->get('adult-input') ? true : false;
+        $isAdvancedSearch = null !== $request->request->get('advanced-input');
+        $isAdult = null !== $request->request->get('adult-input');
 
-        $errors = $this->validateSearchTerm($searchTerm, $validator);
+        $errorsTerm = $this->validateSearchTerm($searchTerm, $validator);
 
-        if (count($errors) > 0) {
+        if (count($errorsTerm) > 0) {
             $hasError = true;
         } else {
             $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
+
             if ($searchTerm && strlen($searchTerm) >= 3) {
-                $mangas = $mangaRepository->searchManga($searchTerm, $isAdult);
-            }
-        }
-
-        return $this->render('components/htmx/mangas_list.html.twig', [
-            'mangasSearch' => $mangas,
-            'hasError' => $hasError,
-            'searchTerm' => $searchTerm,
-        ]);
-    }
-
-    #[Route('/search/api_jikan', name: 'manga_search_api_jikan', methods: ['POST'])]
-    public function searchMangasApiJikan(
-        Request $request,
-        ApiJikanService $apiJikanService,
-        ValidatorInterface $validator
-    ): Response {
-        $mangas = [];
-        $errorMessage = false;
-        $searchTerm = $request->request->get('searchTerm');
-        $isAdult = $request->request->get('adult-input') ? true : false;
-
-        $errors = $this->validateSearchTerm($searchTerm, $validator);
-
-        if (count($errors) > 0) {
-            $errorMessage = true;
-        } else {
-            $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
-            if ($searchTerm && strlen($searchTerm) >= 3) {
-                $results = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
-                foreach ($results as $manga) {
-                    $mangas[] = $apiJikanService->saveMangaDatasInDb($manga);
+                if ($isAdvancedSearch) {
+                    $results = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
+                    foreach ($results as $manga) {
+                        $mangas[] = $apiJikanService->saveMangaDatasInDb($manga);
+                    }
+                } else {
+                    $mangas = $mangaRepository->searchManga($searchTerm, $isAdult);
                 }
             }
         }
 
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
-            'errorMessage' => $errorMessage,
+            'hasError' => $hasError,
             'searchTerm' => $searchTerm,
         ]);
     }
