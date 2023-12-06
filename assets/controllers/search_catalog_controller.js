@@ -1,4 +1,4 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
     static targets = ['searchDb', 'searchApi']
@@ -30,5 +30,11 @@ export default class extends Controller {
                 galleryTarget.classList.remove('hidden');
             }
         }
+    }
+
+    setAdultValue(event)
+    {
+        const inputChecked = event.currentTarget.checked;
+        event.currentTarget.value = inputChecked ? 1 : 0;
     }
 }

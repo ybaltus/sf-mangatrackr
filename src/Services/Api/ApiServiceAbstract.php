@@ -14,7 +14,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 abstract class ApiServiceAbstract
 {
     /**
-     * @var array<string>|String[]
+     * @var array<string>|string[]
      */
     protected array $adultsGenres = [
         'Erotica',

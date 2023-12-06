@@ -29,12 +29,16 @@ final class ApiJikanService extends ApiServiceAbstract
      *
      * @return array<mixed>
      */
-    public function fetchMangaByTitle(string $searchTerm, int $limit = self::LIMIT_SEARCH): array
+    public function fetchMangaByTitle(string $searchTerm, bool $isAdult = false, int $limit = self::LIMIT_SEARCH): array
     {
         $queryParams = [
             'q' => $searchTerm,
             'limit' => $limit,
         ];
+
+        if(!$isAdult){
+            $queryParams['sfw'] =  true;
+        }
 
         $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);
 

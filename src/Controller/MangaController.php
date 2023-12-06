@@ -21,22 +21,24 @@ class MangaController extends AbstractController
         ValidatorInterface $validator
     ): Response {
         $mangas = [];
-        $errorMessage = false;
+        $hasError = false;
         $searchTerm = $request->request->get('searchTerm');
-        $errors = $this->validateSearch($searchTerm, $validator);
+        $isAdult = $request->request->get('adult-input') ? true : false;
+
+        $errors = $this->validateSearchTerm($searchTerm, $validator);
 
         if (count($errors) > 0) {
-            $errorMessage = true;
+            $hasError = true;
         } else {
             $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
             if ($searchTerm && strlen($searchTerm) >= 3) {
-                $mangas = $mangaRepository->searchManga($searchTerm);
+                $mangas = $mangaRepository->searchManga($searchTerm, $isAdult);
             }
         }
 
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
-            'errorMessage' => $errorMessage,
+            'hasError' => $hasError,
         ]);
     }
 
@@ -49,14 +51,17 @@ class MangaController extends AbstractController
         $mangas = [];
         $errorMessage = false;
         $searchTerm = $request->request->get('searchTerm');
-        $errors = $this->validateSearch($searchTerm, $validator);
+        $isAdult = $request->request->get('adult-input') ? true : false;
+
+        $errors = $this->validateSearchTerm($searchTerm, $validator);
+
         if (count($errors) > 0) {
             $errorMessage = true;
         } else {
             $searchTerm = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
 
             if ($searchTerm && strlen($searchTerm) >= 3) {
-                $results = $apiJikanService->fetchMangaByTitle($searchTerm);
+                $results = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
                 foreach ($results as $manga) {
                     $mangas[] = $apiJikanService->saveMangaDatasInDb($manga);
                 }
@@ -69,7 +74,7 @@ class MangaController extends AbstractController
         ]);
     }
 
-    private function validateSearch(string $searchTerm, ValidatorInterface $validator): mixed
+    private function validateSearchTerm(string $searchTerm, ValidatorInterface $validator): mixed
     {
         return $validator->validate($searchTerm, [
             new Assert\Length([

@@ -77,17 +77,24 @@ class MangaRepository extends ServiceEntityRepository
     /**
      * @return array<Manga>
      */
-    public function searchManga(string $searchTerm, int $maxResults = 16): array
+    public function searchManga(string $searchTerm, bool $isAdult = false, int $maxResults = 16): array
     {
-        return $this->createQueryBuilder('m')
+        $query = $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
             ->andWhere('m.title LIKE :searchTerm')
             ->orderBy('m.titleSlug', 'ASC')
-            ->setParameter('searchTerm', '%'.$searchTerm.'%')
-            ->getQuery()
-            ->setMaxResults($maxResults)
-            ->getResult()
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
         ;
+
+        if (!$isAdult) {
+            $query
+                ->andWhere('m.isAdult = FALSE')
+            ;
+        }
+
+        return $query->getQuery()
+        ->setMaxResults($maxResults)
+        ->getResult();
     }
 
     //    /**
