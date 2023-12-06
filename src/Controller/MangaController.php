@@ -39,7 +39,7 @@ class MangaController extends AbstractController
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
             'hasError' => $hasError,
-            'searchTerm' => $searchTerm
+            'searchTerm' => $searchTerm,
         ]);
     }
 
@@ -72,7 +72,7 @@ class MangaController extends AbstractController
         return $this->render('components/htmx/mangas_list.html.twig', [
             'mangasSearch' => $mangas,
             'errorMessage' => $errorMessage,
-            'searchTerm' => $searchTerm
+            'searchTerm' => $searchTerm,
         ]);
     }
 

@@ -1,6 +1,11 @@
 <div class="mx-auto max-w-screen-xl">
     <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
         {% if mangasSearch is defined %}
+            {% if mangasSearch|length == 0 and searchTerm != '' %}
+                <p id="p-noresults" class="mb-10 text-gray-500 dark:text-gray-400">
+                    Aucun résultats.
+                </p>
+                {% endif %}
             {% for key, manga in mangasSearch %}
                 <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
                     <a href="#">
