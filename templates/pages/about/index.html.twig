@@ -1,20 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AboutController!{% endblock %}
+{% block title %}À propos{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <!-- About  -->
+    <section class="pt-48 bg-app-clear-gray dark:bg-app-dark-black">
+        <div class="items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
+            <div class="mb-20 lg:mb-0 text-app-dark-black dark:text-app-dark-gray2">
+                <h2
+                        class="text-[4rem] lg:text-[4rem] leading-normal font-sora-semiBold"
+                >
+                    Lisez.<br>
+                    <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
+                    >
+                        Suivez. <br>
+                    </span>
+                    Répétez.
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                </h2>
+            </div>
+            <div
+                    class="lg:max-w-xl font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
+            >
+                <p class="mb-10">
+                    MangaSync est une application dédiée aux passionnés de mangas qui recherchent une solution simple
+                    et efficace pour suivre leur progression de lecture.
+                </p>
+                <p class="mb-10">
+                    Notre mission est claire : simplifier votre expérience de lecture de scans. Chaque lecteur a ses préférences
+                    et son rythme, c’est pourquoi MangaSync propose une solution sans tracas pour suivre vos mangas.
+                </p>
+                <p>
+                    Créez votre compte MangaSync pour maximiser votre plaisir de lecture. Accédez à votre scanthèque de n’importe où
+                    et synchronisez votre progression en temps réel. Par défaut, votre liste de lecture est sauvegardée dans votre
+                    navigateur, mais connectez-vous pour éviter toute perte de données.
+                </p>
+            </div>
+        </div>
+    </section>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/yannis/Projets/Perso/MangaTrackr/sf-mangatrackr/src/Controller/AboutController.php'|file_link(0) }}">src/Controller/AboutController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/yannis/Projets/Perso/MangaTrackr/sf-mangatrackr/templates/about/index.html.twig'|file_link(0) }}">templates/about/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <!-- Team -->
+    <section class="bg-app-clear-white dark:bg-app-dark-gray1">
+        <div class="gap-16 items-center py-24 px-4 lg:py-16 lg:px-6 mx-auto max-w-screen-xl grid grid-cols-1 lg:grid lg:grid-cols-2">
+            <div class="grid grid-cols-2 gap-4 mt-8 order-2 lg:order-1">
+                <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+                    <img class="w-full rounded-lg p-4 border border-app-clear-black dark:border-app-dark-gray2"
+                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+                         alt="Octron"
+                    >
+                    <h3
+                            class="my-4 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                        Octron
+                    </h3>
+                </div>
+                <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+                    <img class="lg:mt-4 w-full rounded-lg p-4 border border-app-clear-black dark:border-app-dark-gray2"
+                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+                         alt="Smata"
+                    >
+                    <h3
+                            class="my-4 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                        Smata
+                    </h3>
+                </div>
+            </div>
+            <div class="px-12 lg:px-0 max-w-full lg:max-w-xs text-app-clear-black dark:text-app-dark-gray2 order-1 lg:order-2">
+                <h2 class="mb-20 text-[60px] lg:text-[40px] font-sora-semiBold ">
+                    L'équipe
+                </h2>
+                <p class="mb-4 font-sora-regular text-text-mob lg:text-text-desk">
+                    Pour toute question ou remarque, n’hésitez pas à nous contacter à : hello@mangasync.fr
+                </p>
+            </div>
+        </div>
+    </section>
 {% endblock %}
