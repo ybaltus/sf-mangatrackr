@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-    <section class="pt-44 bg-app-clear-gray dark:bg-app-dark-gray1">
+    <section class="pt-48 lg:pt-44 bg-app-clear-gray dark:bg-app-dark-gray1">
         {{ component('BreadcumbComponent', {
             'menus' : {
                 'Catalogue' : path('catalog_index'),
@@ -21,18 +21,43 @@
         <div
                 class="grid grid-cols-2 lg:grid lg:grid-cols-3 items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl"
         >
-            <!--Left: Images -->
+            <!--Left -->
             <div class="col-span-1 bg-white rounded-lg dark:bg-transparent">
+                <!-- Image -->
                 <img
-                        class="w-[15rem] p-4 rounded-lg border border-app-clear-black dark:border-app-dark-gray2"
+                        class="h-100 lg:h-96 p-4 rounded-lg border border-app-clear-black dark:border-app-dark-gray2"
                         src="{{ manga.mangaJikanAPI.malImgWebp }}"
                         alt="{{ manga.title }}"
                 />
+                <!-- Icons -->
+                <div class="flex flex-wrap my-8 pl-8">
+                    <!-- Favorite / Add scanthèque -->
+                    <a
+                            class="mr-10"
+                            href="#"
+                            title="Ajouter à ma scanthèque"
+                    >
+                        <svg class="w-20 h-20 text-app-focus-purple dark:text-app-focus-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"/>
+                        </svg>
+                    </a>
+                    <!-- Fantrad -->
+                    <a
+                            class=""
+                            href="#"
+                            title="Consulter la liste de frantrad"
+                    >
+                        <svg class="w-20 h-20 text-app-focus-purple dark:text-app-focus-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <path d="M9 1.334C7.06.594 1.646-.84.293.653a1.158 1.158 0 0 0-.293.77v13.973c0 .193.046.383.134.55.088.167.214.306.366.403a.932.932 0 0 0 .5.147c.176 0 .348-.05.5-.147 1.059-.32 6.265.851 7.5 1.65V1.334ZM19.707.653C18.353-.84 12.94.593 11 1.333V18c1.234-.799 6.436-1.968 7.5-1.65a.931.931 0 0 0 .5.147.931.931 0 0 0 .5-.148c.152-.096.279-.235.366-.403.088-.167.134-.357.134-.55V1.423a1.158 1.158 0 0 0-.293-.77Z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
+            <!-- Right-->
             <div class="col-span-2">
                 <!-- Title -->
                 <h1
-                        class="mb-10 text-[2rem] lg:text-[3rem] font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2"
+                        class="my-10 text-[4rem] lg:text-[3rem] font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2"
                 >
                     <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
@@ -43,18 +68,111 @@
                 <!-- Categories -->
                 <div class="flex flex-wrap max-w-lg">
                     {% for mType in manga.mangaType %}
-                        <span
-                                class="bg-app-clear-pink2 text-app-clear-black font-sora-regular m-2 px-2.5 py-2 rounded-full"
-                        >
-                        {{ mType.name }}
-                    </span>
+                        <span class="bg-app-clear-pink2 text-2xl lg:text-xl text-app-clear-black font-sora-regular m-2 px-2.5 py-2 rounded-full">
+                            {{ mType.name }}
+                        </span>
                     {% endfor %}
                 </div>
                 <!-- Description -->
                 <p class="my-10 lg:max-w-3xl font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
                     {{manga.description}}
                 </p>
-                <!-- Caracteristics -->
+                <!-- Characteristics -->
+                <ul class="mb-16 lg:max-w-xl text-3xl lg:text-xl font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-white">
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Chapitres
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.nbChapters ? : '-' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Date de sortie
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.publishedAt ? manga.publishedAt|date('d/m/Y') : '-' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Statut
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.mangaStatus ? manga.mangaStatus.title : '-' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Public
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.isAdult ? 'Public adulte' : 'Tout public' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Auteur
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                    {{ manga.author ? : '-' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Designer
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {{ manga.designer ? : '-' }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                            <div class="flex-initial w-[60%] min-w-0">
+                                <p>
+                                    Édition
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                {% if manga.editor|length > 0 %}
+                                {% for editor in manga.editor %}
+                                    <p>
+                                        {{ editor.name }}
+                                    </p>
+                                {% endfor %}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
             </div>
             <!-- Return btn -->
             {{ component('ButtonReturnComponent', {
