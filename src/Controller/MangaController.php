@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Manga;
 use App\Repository\MangaRepository;
 use App\Services\Api\ApiJikanService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/manga')]
 class MangaController extends AbstractController
 {
+    #[Route('/{titleSlug}', name: 'manga_index', methods: ['GET'])]
+    public function index(Manga $manga): Response
+    {
+        return $this->render('pages/manga/index.html.twig', [
+            'manga' => $manga,
+        ]);
+    }
+
     #[Route('/search', name: 'manga_search', methods: ['POST'])]
     public function searchMangas(
         Request $request,

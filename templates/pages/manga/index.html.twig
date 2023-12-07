@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ manga.title|capitalize }}{% endblock %}
+
+{% block stylesheetsExtends %}
+    {{ encore_entry_link_tags('htmx') }}
+{% endblock %}
+
+{% block javascriptsExtends %}
+    {{ encore_entry_script_tags('htmx') }}
+{% endblock %}
+
+{% block body %}
+    <section class="pt-48 bg-app-clear-gray dark:bg-app-dark-black">
+        {{ manga.title }}
+    </section>
+{% endblock %}
