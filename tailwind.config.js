@@ -23,7 +23,10 @@ module.exports = {
                 'app-dark-green2': '#005454',
                 'app-dark-blue1': '#00306F',
                 'app-dark-blue2': '#3FFDF0',
-                'app-focus-purple': '#7D31EA'
+                'app-focus-purple': '#7D31EA',
+                'hr-clear-mob': '#9ca3af',
+                'hr-clear-desk': '#d1d5db',
+                'hr-dark': '#4b5563'
             },
             fontFamily: {
                 'sora-bold': 'Sora-Bold',
@@ -36,32 +39,96 @@ module.exports = {
                 'sora-thin': 'Sora-Thin'
             },
             fontSize: {
-                'logo-desk': '1.25rem',
-                'logo-mob': '3rem',
-                'h1-desk': '4.6rem',
+                'logo-desk': '1.5rem',
+                'logo-mob': '3.5rem',
+                'h1-desk': '4rem',
                 'h1-mob': '6rem',
-                'h2-desk': '2.1rem',
+                'h2-desk': '2rem',
                 'h2-mob': '3.5rem',
-                'title-manga-desk': '1.25rem',
+                'title-manga-desk': '1.3rem',
                 'title-manga-mob': '2.5rem',
                 'text-desk': '1.25rem',
                 'text-mob': '2.5rem',
-                'cta-desk': '1rem',
-                'cta-mob': '1.5rem',
+                'cta-desk': '1.3rem',
+                'cta-mob': '2.5rem',
                 'footer-desk': '1.25rem',
-                'footer-mob': '1.875rem',
+                'footer-mob': '2rem',
                 'title-menu-desk': '1rem',
-                'title-menu-mob': '2.5rem'
+                'title-menu-mob': '3rem',
+                'pagination-mob': '2.5rem',
+                'pagination-desk': '2.5rem',
+                'text-search-desk': '1.25rem',
+                'text-search-mob': '2rem',
             },
             lineHeight: {
-                'h1-desk': '6.5rem',
-                'h1-mob': '1rem',
-                'h2-desk': '1rem',
-                'h2-mob': '1.3rem',
-                'title-manga-desk': '2.25rem',
-                'title-manga-mob': '1rem',
-                'text-desk': '2.25rem',
-                'text-mob': '3.5rem',
+                'h1-desk': '1.5',
+                'h1-mob': '1.5',
+                'h2-desk': '1.5',
+                'h2-mob': '1.5',
+                'title-manga-desk': '1.5',
+                'title-manga-mob': '1.5',
+                'text-desk': '1.5',
+                'text-mob': '1.5',
+            },
+            width: {
+                'icon-nav-mode-mob': '3.5rem',
+                'icon-nav-mode-desk': '2rem',
+                'icon-nav-user-mob': '3rem',
+                'icon-nav-user-desk': '1.5rem',
+                'icon-nav-menu-mob': '4.5rem',
+                'icon-hp-arrow-mob': '4rem',
+                'icon-hp-arrow-desk': '4rem',
+                'manga-card-mob': '100%',
+                'manga-card-desk': '80%',
+                'pagination-mob': '2.5rem',
+                'pagination-desk': '2.5rem',
+                'searchbar-mob': '50%',
+                'searchbar-desk': '50%'
+            },
+            height: {
+                'icon-nav-mode-mob': '3.5rem',
+                'icon-nav-mode-desk': '2rem',
+                'icon-nav-user-mob': '3rem',
+                'icon-nav-user-desk': '1.5rem',
+                'icon-nav-menu-mob': '4.5rem',
+                'icon-hp-arrow-mob': '4rem',
+                'icon-hp-arrow-desk': '4rem',
+                'manga-card-mob': '30rem',
+                'manga-card-desk': '20rem',
+                'pagination-mob': '2.5rem',
+                'pagination-desk': '2.5rem'
+            },
+            space: {
+                'icon-navbar-mob': '2rem',
+                'icon-navbar-desk': '1rem',
+                'menu-navbar-x': '2rem',
+                'menu-navbar-y-mob': '5rem',
+                'menu-navbar-y-desk': '0px',
+            },
+            margin: {
+                'menu-mob-top': '6rem',
+                'menu-desk-top': '0px',
+                'arrow-hp-mob-top': '5rem',
+                'arrow-hp-desk-top': '5rem',
+                'section-h2-mob-bottom': '8rem',
+                'section-h2-desk-bottom': '6rem'
+            },
+            padding: {
+                'menu-mob': '',
+                'menu-desk': '0px',
+                'manga-card': '1rem'
+            },
+            textUnderlineOffset: {
+                'menu-mob': '14px',
+                'menu-desk': '10px'
+            },
+            textDecorationThickness: {
+                'menu-mob': '10px',
+                'menu-desk': '4px'
+            },
+            borderWidth: {
+                'manga-card-mob': '3px',
+                'manga-card-desk': '3px'
             }
         },
     },

@@ -8,4 +8,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class ButtonGradientComponent
 {
     public string $title;
+
+    public string $pathLink = '';
 }

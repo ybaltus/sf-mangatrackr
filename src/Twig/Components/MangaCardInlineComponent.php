@@ -14,4 +14,6 @@ final class MangaCardInlineComponent
      * @var array<Manga>
      */
     public array $mangas;
+
+    public bool $isHome = false;
 }

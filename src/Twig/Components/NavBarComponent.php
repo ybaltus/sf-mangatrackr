@@ -18,7 +18,7 @@ final class NavBarComponent
     public array $menus = [
         'home_index' => 'Accueil',
         'catalog_index' => 'Catalogue',
-        'scantheque_index' => 'Ma Scanthèque',
+        'scantheque_index' => 'Scanthèque',
         'about_index' => 'À propos',
     ];
 }
