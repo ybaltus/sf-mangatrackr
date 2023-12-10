@@ -22,6 +22,11 @@
     <div
             {{ stimulus_controller('scantheque') }}
     >
+        <!-- Import only the html template -->
+        {{ component('MangaCardComponent', {
+            isOnlyTemplate: true
+        }) }}
+
         <!-- Current Chapters -->
         {{ component('MangaScanthequeComponent', {
             title: 'Les chapitres en cours',

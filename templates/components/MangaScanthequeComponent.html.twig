@@ -5,11 +5,12 @@
             class="bg-app-clear-white dark:bg-app-dark-gray1"
     >
         <div class="py-24 px-8 mx-auto max-w-screen-xl lg:py-24 lg:px-6">
-            <div class="mx-auto max-w-screen-sm text-left mb-section-h2-mob-bottom lg:mb-section-h2-desk-bottom">
+            <div class="max-w-screen-sm text-left mb-section-h2-mob-bottom lg:mb-section-h2-desk-bottom">
                 <h2
-                        class="px-5 text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
+                        id="title-{{ statusTrack }}"
+                        class="text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
                 >
-                    {{ title }}
+                    {{ title }} (<span></span>)
                 </h2>
             </div>
             <div
@@ -27,8 +28,6 @@
                         }) }}
                     {% endfor %}
                 {% endif %}
-
-                    <p class="text-white">Not connected</p>
 
             </div>
         </div>

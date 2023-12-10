@@ -20,15 +20,27 @@ export default class extends Controller {
     // Trigerred when play target is connected to the DOM
     playTargetConnected(target)
     {
-        console.log('playTarget');
-        console.log(target);
+        // Get all mangas
+        const mangas = Object.values(this._getAllMangas('play'));
+        mangas.map(manga => {
+            this._addMangaCardElement(target, manga);
+        })
+
+        // Add number of manga
+        this._addNbMangaTitle('play', mangas.length);
     }
 
     // Trigerred when play target is connected to the DOM
     pauseTargetConnected(target)
     {
-        console.log('pauseTarget');
-        console.log(target);
+        // Get all mangas
+        const mangas = Object.values(this._getAllMangas('pause'));
+        mangas.map(manga => {
+            this._addMangaCardElement(target, manga);
+        })
+
+        // Add number of manga
+        this._addNbMangaTitle('pause', mangas.length);
     }
 
     // Trigerred when play target is connected to the DOM
@@ -47,6 +59,36 @@ export default class extends Controller {
         if (mangaData && !this._getManga(mangaData.titleSlug) && !this._checkLimitEntry(statusTrack)) {
             this._addManga(mangaData, statusTrack);
         }
+    }
+
+    _addMangaCardElement(target, manga)
+    {
+        // Get the template element
+        const template = document.getElementById('mangaCardTemplate');
+        // Cloner the template
+        const clone = document.importNode(template.content, true);
+
+        // Update the values in the clone according to your target object
+        const aElement = clone.querySelector('a');
+        const imgElement = clone.querySelector('img');
+        const h3Element = clone.querySelector('h3');
+
+        aElement.href = '/manga/' + manga.titleSlug;
+        aElement.title = manga.title;
+        imgElement.src = manga.urlImg;
+        imgElement.alt = manga.title;
+        h3Element.textContent = manga.title;
+
+        // Add clone to target
+        target.appendChild(clone);
+    }
+
+    _addNbMangaTitle(statusTrack, nbManga)
+    {
+        // Get the title element
+        const h2title = document.getElementById('title-' + statusTrack);
+        const spanElement = h2title.querySelector('span');
+        spanElement.textContent = nbManga;
     }
 
     _checkLimitEntry(statusTrack)
@@ -89,9 +131,10 @@ export default class extends Controller {
 
     }
 
-    _getAllMangas()
+    _getAllMangas(statusTrack)
     {
-
+        const entriesString = localStorage.getItem(statusTrack);
+        return entriesString ? JSON.parse(entriesString) : {};
     }
 
     _updateManga()
