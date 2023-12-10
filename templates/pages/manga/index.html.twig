@@ -22,7 +22,10 @@
                 class="grid grid-cols-2 lg:grid lg:grid-cols-3 items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl"
         >
             <!--Left -->
-            <div class="col-span-1 bg-white rounded-lg dark:bg-transparent">
+            <div
+                    {{ stimulus_controller('scantheque') }}
+                    class="col-span-1 bg-white rounded-lg dark:bg-transparent"
+            >
                 <!-- Image -->
                 <img
                         class="h-100 lg:h-96 p-4 rounded-lg border border-app-clear-black dark:border-app-dark-gray2"
@@ -31,11 +34,12 @@
                 />
                 <!-- Icons -->
                 <div class="flex flex-wrap my-8 pl-8">
-                    <!-- Favorite / Add scanthèque -->
+                    <!-- Add scanthèque -->
                     <a
+                            {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             class="mr-10"
-                            href="#"
                             title="Ajouter à ma scanthèque"
+                            href="#"
                     >
                         <svg class="w-20 h-20 text-app-focus-purple dark:text-app-focus-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                             <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"/>

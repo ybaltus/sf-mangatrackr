@@ -116,6 +116,12 @@ class Manga
     #[ORM\OneToOne(mappedBy: 'manga', cascade: ['persist', 'remove'])]
     private ?MangaJikanAPI $mangaJikanAPI = null;
 
+    /**
+     * Used to initiate the datas for the localstorage
+     * return Json datas.
+     */
+    private string $scanthequeData = '';
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -390,5 +396,24 @@ class Manga
         $this->mangaJikanAPI = $mangaJikanAPI;
 
         return $this;
+    }
+
+    public function getScanthequeData(): string
+    {
+        if (0 === strlen($this->scanthequeData)) {
+            $this->scanthequeData = $this->setScanthequeData();
+        }
+
+        return $this->scanthequeData;
+    }
+
+    private function setScanthequeData(): string
+    {
+        return json_encode([
+           'title' => $this->title,
+           'titleSlug' => $this->titleSlug,
+           'urlImg' => $this->getMangaJikanAPI()->getMalImgWebp(),
+           'nbChapters' => $this->nbChapters
+        ]);
     }
 }
