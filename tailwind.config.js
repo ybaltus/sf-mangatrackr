@@ -57,8 +57,8 @@ module.exports = {
                 'title-menu-mob': '3rem',
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
-                'text-search-desk': '1.25rem',
-                'text-search-mob': '2rem',
+                'text-search-desk': '1.2rem',
+                'text-search-mob': '1.5rem',
             },
             lineHeight: {
                 'h1-desk': '1.5',
