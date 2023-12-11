@@ -83,7 +83,13 @@ module.exports = {
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
                 'searchbar-mob': '50%',
-                'searchbar-desk': '50%'
+                'searchbar-desk': '50%',
+                'icon-minus-plus-mob': '3rem',
+                'icon-minus-plus-desk': '1.5rem',
+                'btn-minus-plus-mob': '2em',
+                'btn-minus-plus-desk': '2rem',
+                'manga-scantheque-mob': '100%',
+                'manga-scantheque-desk': '80%',
             },
             height: {
                 'icon-nav-mode-mob': '3.5rem',
@@ -96,7 +102,13 @@ module.exports = {
                 'manga-card-mob': '30rem',
                 'manga-card-desk': '20rem',
                 'pagination-mob': '2.5rem',
-                'pagination-desk': '2.5rem'
+                'pagination-desk': '2.5rem',
+                'icon-minus-plus-mob': '2rem',
+                'icon-minus-plus-desk': '1.5rem',
+                'btn-minus-plus-mob': '4rem',
+                'btn-minus-plus-desk': '3rem',
+                'manga-scantheque-mob': '16rem',
+                'manga-scantheque-desk': '20rem',
             },
             space: {
                 'icon-navbar-mob': '2rem',

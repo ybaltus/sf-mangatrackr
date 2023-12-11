@@ -27,18 +27,77 @@
 </div>
 {% else %}
     <template id="mangaCardTemplate">
-        <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+        <div class="grid grid-cols-2 lg:grid-cols-1 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent items-center">
+            <!-- Image -->
             <div>
                 <a href="" title="">
-                    <img class="w-manga-card-mob lg:w-manga-card-desk h-manga-card-mob lg:h-manga-card-desk p-manga-card rounded-lg border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
+                    <img class="mx-auto w-manga-scantheque-mob lg:w-manga-scantheque-desk h-manga-scantheque-mob lg:h-manga-scantheque-desk p-manga-card rounded-lg border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
                          src=""
                          alt=""
                     />
                 </a>
             </div>
-            <div class="p-5">
-                <h3 class="w-manga-card-mob lg:w-manga-card-desk mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
+            <div>
+                <!-- Title -->
+                <h3 class="mb-2 mx-auto p-5 w-manga-card-mob lg:w-manga-card-desk text-title-manga-mob lg:text-title-manga-desk truncate font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
+
+                <!-- Actions -->
+                <div class="px-5 lg-px-0 my-10 lg:my-0 lg:mt-5 lg:mb-10 inline-flex rounded-md shadow-sm" role="group">
+                    <form class="max-w-md mx-auto ">
+                        <div class="relative flex items-center max-w-1/2">
+                            {# Minus Btn #}
+                            <button
+                                    type="button"
+                                    id="decrement-button"
+                                    title="Décrémenter"
+                                    data-input-counter-decrement="quantity-input"
+                                    class="rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                            >
+                                <svg
+                                        class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 18 2"
+                                >
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                </svg>
+                            </button>
+                            {# input #}
+                            <input
+                                    type="text"
+                                    id="quantity-input"
+                                    data-input-counter
+                                    data-input-counter-min="1"
+                                    data-input-counter-max="9999"
+                                    aria-describedby="helper-text-explanation"
+                                    class="block w-full py-2.5 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk font-sora-regular text-center text-2xl text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                    placeholder="1"
+                                    required
+                            >
+                            {# Plus Btn #}
+                            <button
+                                    type="button"
+                                    id="increment-button"
+                                    title="Incrémenter"
+                                    data-input-counter-increment="quantity-input"
+                                    class="rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                            >
+                                <svg
+                                        class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 18 18
+">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+        <hr class="lg:hidden h-px my-1 bg-app-clear-gray border-0 dark:bg-app-dark-gray2">
     </template>
 {% endif %}

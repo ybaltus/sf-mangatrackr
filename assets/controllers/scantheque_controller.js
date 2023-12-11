@@ -37,7 +37,7 @@ export default class extends Controller {
         const mangas = Object.values(this._getAllMangas('pause'));
         mangas.map(manga => {
             this._addMangaCardElement(target, manga);
-        })
+        });
 
         // Add number of manga
         this._addNbMangaTitle('pause', mangas.length);
@@ -50,7 +50,7 @@ export default class extends Controller {
         console.log(target);
     }
 
-    addToScantheque = (event) =>
+    addToScantheque(event)
     {
         event.preventDefault();
         const mangaData = event.params.mangaData;
