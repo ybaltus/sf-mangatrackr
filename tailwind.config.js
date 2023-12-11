@@ -107,7 +107,7 @@ module.exports = {
                 'icon-minus-plus-desk': '1.5rem',
                 'btn-minus-plus-mob': '4rem',
                 'btn-minus-plus-desk': '3rem',
-                'manga-scantheque-mob': '16rem',
+                'manga-scantheque-mob': '25rem',
                 'manga-scantheque-desk': '20rem',
             },
             space: {
