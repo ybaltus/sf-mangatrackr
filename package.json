@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "flowbite": "^2.2.0",
-        "htmx.org": "^1.9.9"
+        "htmx.org": "^1.9.9",
+        "stimulus-use": "^0.52.1"
     }
 }

@@ -12,8 +12,10 @@ Application web pour suivre la lecture des mangas. Suivez facilement votre progr
 * fakerphp/faker
 * easycorp/easyadmin-bundle
 * knplabs/knp-paginator-bundle
+* symfony/stimulus-bundle
 * symfony/ux-twig-component
 * symfony/ux-autocomplete
+* stimulus-use
 * HtmlX
 * Flowbite
 
