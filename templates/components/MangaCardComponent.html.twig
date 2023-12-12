@@ -47,11 +47,13 @@
                         <div class="relative flex items-center max-w-1/2">
                             {# Minus Btn #}
                             <button
+                                    {{ stimulus_action('scantheque', 'decrementNbChapter', 'click') }}
                                     type="button"
-                                    id="decrement-button"
                                     title="Décrémenter"
+                                    id="minus-btn"
+                                    name="minus-btn"
                                     data-input-counter-decrement="quantity-input"
-                                    class="rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                    class="minus-btn rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                             >
                                 <svg
                                         class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
@@ -65,6 +67,7 @@
                             </button>
                             {# input #}
                             <input
+                                    {{ stimulus_action('scantheque', 'updateNbChapterManually', 'input') }}
                                     type="text"
                                     id="quantity-input"
                                     data-input-counter
@@ -77,11 +80,13 @@
                             >
                             {# Plus Btn #}
                             <button
+                                    {{ stimulus_action('scantheque', 'incrementNbChapter', 'click') }}
                                     type="button"
-                                    id="increment-button"
+                                    id="plus-btn"
                                     title="Incrémenter"
+                                    name="plus-btn"
                                     data-input-counter-increment="quantity-input"
-                                    class="rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                    class="plus-btn rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                             >
                                 <svg
                                         class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"

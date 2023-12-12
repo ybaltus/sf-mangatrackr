@@ -1,7 +1,9 @@
 import {Controller} from '@hotwired/stimulus';
+import {useDebounce} from "stimulus-use";
 import * as mangaService from './../js/manga-service'
 
 export default class extends Controller {
+    static debounces = ['updateNbChapterManually', 'incrementNbChapter', 'decrementNbChapter']
     static targets = ['play', 'pause', 'archived']
     maxEntry = 30;
 
@@ -60,5 +62,28 @@ export default class extends Controller {
         if (mangaData && !mangaService.getMangaFromLocalstorage(mangaData.titleSlug) && !mangaService.checkMaxEntry(statusTrack, this.maxEntry)) {
             mangaService.addMangaToLocalStorage(mangaData, statusTrack);
         }
+    }
+
+    updateNbChapterManually(event)
+    {
+        event.preventDefault();
+        useDebounce(this, {wait: 500})
+        console.log('incrementNbChapter');
+        console.log(event.currentTarget);
+
+    }
+
+    incrementNbChapter(event)
+    {
+        event.preventDefault();
+        console.log('incrementNbChapter');
+        console.log(event.currentTarget);
+    }
+
+    decrementNbChapter(event)
+    {
+        event.preventDefault();
+        console.log('decrementNbChapter');
+        console.log(event.currentTarget);
     }
 }

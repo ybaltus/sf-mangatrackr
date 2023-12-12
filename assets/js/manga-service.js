@@ -5,16 +5,29 @@ export const addMangaCardElement = (target, manga) =>
     // Cloner the template
     const clone = document.importNode(template.content, true);
 
-    // Update the values in the clone according to your target object
+    // Common elements
     const aElement = clone.querySelector('a');
     const imgElement = clone.querySelector('img');
     const h3Element = clone.querySelector('h3');
 
+    // Control elements
+    const formElement = clone.querySelector('form');
+    const inputQuantityElement = formElement.querySelector('#quantity-input');
+    const btnElements = formElement.querySelectorAll('button');
+
+    // Update the values in the clone according to your target object
     aElement.href = '/manga/' + manga.titleSlug;
     aElement.title = manga.title;
     imgElement.src = manga.urlImg;
     imgElement.alt = manga.title;
     h3Element.textContent = manga.title;
+
+    inputQuantityElement.id = 'quantity-input-' + manga.titleSlug;
+    inputQuantityElement.value = manga.nbChaptersTrack;
+    btnElements[0].setAttribute('data-input-counter-decrement', inputQuantityElement.id);
+    btnElements[1].setAttribute('data-input-counter-increment', inputQuantityElement.id);
+    btnElements[0].id = 'minus-btn-' + manga.titleSlug;
+    btnElements[1].id = 'plus-btn-' + manga.titleSlug;
 
     // Add clone to target
     target.appendChild(clone);
@@ -67,6 +80,11 @@ export const getMangaFromLocalstorage = (titleSlug, statusTrack = 'play') =>
     }
 
     return Object.values(entries).find(manga => manga.titleSlug === titleSlug);
+
+}
+
+export const explodeData = () =>
+{
 
 }
 
