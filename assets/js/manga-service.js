@@ -9,6 +9,7 @@ export const addMangaCardElement = (target, manga) =>
     const aElement = clone.querySelector('a');
     const imgElement = clone.querySelector('img');
     const h3Element = clone.querySelector('h3');
+    const statusTrack = target.getAttribute('data-scantheque-target');
 
     // Control elements
     const formElement = clone.querySelector('form');
@@ -24,6 +25,8 @@ export const addMangaCardElement = (target, manga) =>
 
     inputQuantityElement.id = 'quantity-input-' + manga.titleSlug;
     inputQuantityElement.value = manga.nbChaptersTrack;
+    inputQuantityElement.setAttribute('titleSLug', manga.titleSlug);
+    inputQuantityElement.setAttribute('statusTrack', statusTrack);
     btnElements[0].setAttribute('data-input-counter-decrement', inputQuantityElement.id);
     btnElements[1].setAttribute('data-input-counter-increment', inputQuantityElement.id);
     btnElements[0].id = 'minus-btn-' + manga.titleSlug;
@@ -83,20 +86,22 @@ export const getMangaFromLocalstorage = (titleSlug, statusTrack = 'play') =>
 
 }
 
-export const explodeData = () =>
-{
-
-}
-
 export const getAllMangasFromLocalstorage = (statusTrack) =>
 {
     const entriesString = localStorage.getItem(statusTrack);
     return entriesString ? JSON.parse(entriesString) : {};
 }
 
-export const updateMangaInLocalStorage = () =>
+export const updateMangaInLocalStorage = (statusTrack, titleSlug, nbChaptersTrack) =>
 {
+    console.log(statusTrack, titleSlug, nbChaptersTrack);
+    let mangasListStorage = getAllMangasFromLocalstorage(statusTrack);
+    const mangaToUpdate = mangasListStorage[titleSlug];
+    if (mangaToUpdate) {
+        mangaToUpdate.nbChaptersTrack = nbChaptersTrack;
+    }
 
+    localStorage.setItem(statusTrack, JSON.stringify(mangasListStorage));
 }
 
 

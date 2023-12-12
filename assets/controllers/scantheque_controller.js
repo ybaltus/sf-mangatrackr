@@ -3,9 +3,13 @@ import {useDebounce} from "stimulus-use";
 import * as mangaService from './../js/manga-service'
 
 export default class extends Controller {
-    static debounces = ['updateNbChapterManually', 'incrementNbChapter', 'decrementNbChapter']
+    static debounces = ['_debouncedUpdateNbChapter']
     static targets = ['play', 'pause', 'archived']
     maxEntry = 30;
+
+    // In order to save the datas for the debounced events with useDebounce()
+    currentTargetForDebounce = null;
+    formFieldForDebounce = null;
 
     // First instantiated
     initialize()
@@ -18,6 +22,13 @@ export default class extends Controller {
             localStorage.setItem('pause', '');
             localStorage.setItem('archived', '');
         }
+
+    }
+
+    connect()
+    {
+        // Set useDebounce for this controller
+        useDebounce(this, { wait: 500 });
     }
 
     // Triggered when play target is connected to the DOM
@@ -64,26 +75,32 @@ export default class extends Controller {
         }
     }
 
-    updateNbChapterManually(event)
+    updateNbChapter(event)
     {
-        event.preventDefault();
-        useDebounce(this, {wait: 500})
-        console.log('incrementNbChapter');
-        console.log(event.currentTarget);
+        // Save the datas for useDebounce()
+        this.formFieldForDebounce = event.params.formField;
+        this.currentTargetForDebounce = event.currentTarget;
 
+        // Call the dedicated function for the debounce
+        this._debouncedUpdateNbChapter();
     }
 
-    incrementNbChapter(event)
+    _debouncedUpdateNbChapter()
     {
-        event.preventDefault();
-        console.log('incrementNbChapter');
-        console.log(event.currentTarget);
-    }
+        let currentNbChapterInputElement = null;
 
-    decrementNbChapter(event)
-    {
-        event.preventDefault();
-        console.log('decrementNbChapter');
-        console.log(event.currentTarget);
+        if (this.formFieldForDebounce === 'btn-minus') {
+            currentNbChapterInputElement = this.currentTargetForDebounce.nextElementSibling;
+        } else if (this.formFieldForDebounce === 'btn-plus') {
+            currentNbChapterInputElement = this.currentTargetForDebounce.previousElementSibling;
+        } else {
+            currentNbChapterInputElement = this.currentTargetForDebounce;
+        }
+
+        const titleSlug = currentNbChapterInputElement.getAttribute('titleSlug');
+        const statusTrack = currentNbChapterInputElement.getAttribute('statusTrack');
+        const nbChaptersTrack = currentNbChapterInputElement.value;
+
+        mangaService.updateMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
     }
 }

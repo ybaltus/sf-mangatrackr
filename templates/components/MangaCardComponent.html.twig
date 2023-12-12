@@ -47,7 +47,7 @@
                         <div class="relative flex items-center max-w-1/2">
                             {# Minus Btn #}
                             <button
-                                    {{ stimulus_action('scantheque', 'decrementNbChapter', 'click') }}
+                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-minus'}) }}
                                     type="button"
                                     title="Décrémenter"
                                     id="minus-btn"
@@ -67,7 +67,7 @@
                             </button>
                             {# input #}
                             <input
-                                    {{ stimulus_action('scantheque', 'updateNbChapterManually', 'input') }}
+                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'input', {'formField': 'input'}) }}
                                     type="text"
                                     id="quantity-input"
                                     data-input-counter
@@ -80,7 +80,7 @@
                             >
                             {# Plus Btn #}
                             <button
-                                    {{ stimulus_action('scantheque', 'incrementNbChapter', 'click') }}
+                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-plus'}) }}
                                     type="button"
                                     id="plus-btn"
                                     title="Incrémenter"
