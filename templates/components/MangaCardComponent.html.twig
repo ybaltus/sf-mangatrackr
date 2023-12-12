@@ -27,19 +27,54 @@
 </div>
 {% else %}
     <template id="mangaCardTemplate">
-        <div class="grid grid-cols-2 lg:grid-cols-1 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent items-center">
+        <div class="grid grid-cols-2 lg:grid-cols-2 px-1 lg:px-0 bg-white dark:bg-transparent items-center rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-scantheque-mob lg:border-manga-scantheque-desk border-app-focus-purple dark:border-app-focus-purple">
             <!-- Image -->
             <div>
                 <a href="" title="">
-                    <img class="mx-auto w-manga-scantheque-mob lg:w-manga-scantheque-desk h-manga-scantheque-mob lg:h-manga-scantheque-desk p-manga-card rounded-lg border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
+                    <img class="mx-auto w-manga-scantheque-mob lg:w-manga-scantheque-desk h-manga-scantheque-mob lg:h-manga-scantheque-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk"
                          src=""
                          alt=""
                     />
                 </a>
             </div>
-            <div>
+            <div class="h-full">
+                <!-- select status -->
+                <div class="flex justify-end px-4 pt-4">
+                    <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                        <span class="sr-only">Open dropdown</span>
+                        <svg class="w-7 h-7 lg:w-5 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                            <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                        </svg>
+                    </button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        <ul class="py-2" aria-labelledby="dropdownButton">
+                            <li>
+                                <p
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                >
+                                    Mettre en pause
+                                </p>
+                            </li>
+                            <li>
+                                <p
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                >
+                                    Archiver
+                                </p>
+                            </li>
+                            <li>
+                                <p
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                >
+                                    Supprimer
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
                 <!-- Title -->
-                <h3 class="mb-2 mx-auto p-5 w-manga-card-mob lg:w-manga-card-desk text-title-manga-mob lg:text-title-manga-desk truncate font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
+                <h3 class="mb-2 mx-auto p-5 w-manga-card-mob lg:w-manga-card-desk text-title-manga-mob lg:text-title-manga-desk truncate font-sora-semiBold tracking-normal text-app-focus-purple"></h3>
 
                 <!-- Actions -->
                 <div class="px-5 lg-px-0 my-10 lg:my-0 lg:mt-5 lg:mb-10 inline-flex rounded-md shadow-sm" role="group">
@@ -103,6 +138,6 @@
                 </div>
             </div>
         </div>
-        <hr class="lg:hidden h-px my-1 bg-app-clear-gray border-0 dark:bg-app-dark-gray2">
+        <hr class="lg:hidden h-px my-8 bg-app-clear-black border-0 dark:bg-app-dark-gray2">
     </template>
 {% endif %}

@@ -47,6 +47,8 @@ module.exports = {
                 'h2-mob': '3.5rem',
                 'title-manga-desk': '1.3rem',
                 'title-manga-mob': '2.5rem',
+                'title-scantheque-desk': '1.3rem',
+                'title-scantheque-mob': '2.5rem',
                 'text-desk': '1.25rem',
                 'text-mob': '2.5rem',
                 'cta-desk': '1.3rem',
@@ -140,7 +142,13 @@ module.exports = {
             },
             borderWidth: {
                 'manga-card-mob': '3px',
-                'manga-card-desk': '3px'
+                'manga-card-desk': '3px',
+                'manga-scantheque-mob': '5px',
+                'manga-scantheque-desk': '5px'
+            },
+            borderRadius: {
+                'manga-scantheque-mob': '2rem',
+                'manga-scantheque-desk': '2rem'
             }
         },
     },
