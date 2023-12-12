@@ -16,12 +16,18 @@
         title: user ? 'Hello, '+user.username : 'Scanthèque'
     }) }}
 
-    <!-- SearchBar -->
-    {# TODO #}
-
     <div
             {{ stimulus_controller('scantheque') }}
+            class="bg-app-clear-gray dark:bg-app-dark-gray1"
     >
+        <!-- Breadcrumb -->
+        {{ component('BreadcumbComponent', {
+            'menus' : {
+                'Catalogue' : path('catalog_index'),
+                'current' : 'Scanthèque'
+            }
+        }) }}
+
         <!-- Import only the html template -->
         {{ component('MangaCardComponent', {
             isOnlyTemplate: true
