@@ -38,34 +38,43 @@
                 </a>
             </div>
             <div class="h-full">
-                <!-- select status -->
-                <div class="flex justify-end px-4 pt-4">
-                    <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                <!-- Menu status -->
+                <div class="flex justify-end px-4 pt-4 relative">
+                    <button
+                            {{ stimulus_action('scantheque', 'showMenuStatus', 'click') }}
+                            id="dropdown-btn"
+                            class="rounded-lg text-sm p-1.5 inline-block text-app-clear-black dark:text-app-dark-gray2 hover:text-app-focus-purple dark:hover:text-app-focus-purple focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 "
+                            type="button"
+                            title="Configurer le status"
+                    >
                         <span class="sr-only">Open dropdown</span>
-                        <svg class="w-7 h-7 lg:w-5 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                        <svg class="w-14 h-8 lg:w-10 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                         </svg>
                     </button>
                     <!-- Dropdown menu -->
-                    <div id="dropdown" class="z-10 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2" aria-labelledby="dropdownButton">
-                            <li>
+                    <div
+                            id="dropdown-menu"
+                            class="hidden absolute mt-2 w-[98%] top-16 left-0 z-10 font-sora-regular text-text-dropdown-mob lg:text-text-dropdown-desk text-app-clear-black dark:text-app-dark-gray2 list-none bg-white dark:bg-app-dark-gray1 border-2 border-app-clear-black dark:border-app-dark-gray2"
+                    >
+                        <ul class="py-5 lg:py-2 text-center" aria-labelledby="dropdown-btn">
+                            <li title="Mettre en pause">
                                 <p
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
                                     Mettre en pause
                                 </p>
                             </li>
-                            <li>
+                            <li class="border-y-2 border-app-clear-black dark:border-app-dark-gray2" title="Archiver">
                                 <p
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
                                     Archiver
                                 </p>
                             </li>
-                            <li>
+                            <li title="Supprimer">
                                 <p
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
                                     Supprimer
                                 </p>
@@ -73,68 +82,70 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Title -->
-                <h3 class="mb-2 mx-auto p-5 w-manga-card-mob lg:w-manga-card-desk text-title-manga-mob lg:text-title-manga-desk truncate font-sora-semiBold tracking-normal text-app-focus-purple"></h3>
+                <div id="info-manga">
+                    <!-- Title -->
+                    <h3 class="mt-2 mb-2 mx-auto p-5 w-manga-card-mob lg:w-manga-card-desk text-title-manga-mob lg:text-title-manga-desk truncate font-sora-semiBold tracking-normal text-app-focus-purple"></h3>
 
-                <!-- Actions -->
-                <div class="px-5 lg-px-0 my-10 lg:my-0 lg:mt-5 lg:mb-10 inline-flex rounded-md shadow-sm" role="group">
-                    <form class="max-w-md mx-auto ">
-                        <div class="relative flex items-center max-w-1/2">
-                            {# Minus Btn #}
-                            <button
-                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-minus'}) }}
-                                    type="button"
-                                    title="Décrémenter"
-                                    id="minus-btn"
-                                    name="minus-btn"
-                                    data-input-counter-decrement="quantity-input"
-                                    class="minus-btn rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
-                            >
-                                <svg
-                                        class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 18 2"
+                    <!-- Actions -->
+                    <div class="px-5 lg-px-0 my-10 lg:my-0 lg:mt-5 lg:mb-10 inline-flex rounded-md shadow-sm" role="group">
+                        <form class="max-w-md mx-auto ">
+                            <div class="relative flex items-center max-w-1/2">
+                                {# Minus Btn #}
+                                <button
+                                        {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-minus'}) }}
+                                        type="button"
+                                        title="Décrémenter"
+                                        id="minus-btn"
+                                        name="minus-btn"
+                                        data-input-counter-decrement="quantity-input"
+                                        class="minus-btn rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                                 >
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                                </svg>
-                            </button>
-                            {# input #}
-                            <input
-                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'input', {'formField': 'input'}) }}
-                                    type="text"
-                                    id="quantity-input"
-                                    data-input-counter
-                                    data-input-counter-min="1"
-                                    data-input-counter-max="9999"
-                                    aria-describedby="helper-text-explanation"
-                                    class="block w-full py-2.5 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk font-sora-regular text-center text-2xl text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
-                                    placeholder="1"
-                                    required
-                            >
-                            {# Plus Btn #}
-                            <button
-                                    {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-plus'}) }}
-                                    type="button"
-                                    id="plus-btn"
-                                    title="Incrémenter"
-                                    name="plus-btn"
-                                    data-input-counter-increment="quantity-input"
-                                    class="plus-btn rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
-                            >
-                                <svg
-                                        class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 18 18
+                                    <svg
+                                            class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 18 2"
+                                    >
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                                    </svg>
+                                </button>
+                                {# input #}
+                                <input
+                                        {{ stimulus_action('scantheque', 'updateNbChapter', 'input', {'formField': 'input'}) }}
+                                        type="text"
+                                        id="quantity-input"
+                                        data-input-counter
+                                        data-input-counter-min="1"
+                                        data-input-counter-max="9999"
+                                        aria-describedby="helper-text-explanation"
+                                        class="block w-full py-2.5 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk font-sora-regular text-center text-2xl text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                        placeholder="1"
+                                        required
+                                >
+                                {# Plus Btn #}
+                                <button
+                                        {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-plus'}) }}
+                                        type="button"
+                                        id="plus-btn"
+                                        title="Incrémenter"
+                                        name="plus-btn"
+                                        data-input-counter-increment="quantity-input"
+                                        class="plus-btn rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                >
+                                    <svg
+                                            class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 18 18
 ">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

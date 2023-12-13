@@ -12,17 +12,25 @@ export const addMangaCardElement = (target, manga) =>
     const statusTrack = target.getAttribute('data-scantheque-target');
 
     // Control elements
+    const infoMangaElement = clone.querySelector('#info-manga');
     const formElement = clone.querySelector('form');
     const inputQuantityElement = formElement.querySelector('#quantity-input');
     const btnElements = formElement.querySelectorAll('button');
 
-    // Update the values in the clone according to your target object
+    // Dropdown menu
+    const dropdownBtnElement = clone.querySelector('#dropdown-btn');
+    const dropdownMenuElement = clone.querySelector('#dropdown-menu');
+    const ulMenuElement = clone.querySelector('#dropdown-menu ul');
+
+    // Update common values
+    infoMangaElement.id = 'info-manga-' + manga.titleSlug;
     aElement.href = '/manga/' + manga.titleSlug;
     aElement.title = manga.title;
     imgElement.src = manga.urlImg;
     imgElement.alt = manga.title;
     h3Element.textContent = manga.title;
 
+    // Update controls elements
     inputQuantityElement.id = 'quantity-input-' + manga.titleSlug;
     inputQuantityElement.value = manga.nbChaptersTrack;
     inputQuantityElement.setAttribute('titleSLug', manga.titleSlug);
@@ -31,6 +39,13 @@ export const addMangaCardElement = (target, manga) =>
     btnElements[1].setAttribute('data-input-counter-increment', inputQuantityElement.id);
     btnElements[0].id = 'minus-btn-' + manga.titleSlug;
     btnElements[1].id = 'plus-btn-' + manga.titleSlug;
+
+    // Update dropdown menu
+    dropdownBtnElement.setAttribute('info-manga','info-manga-' + manga.titleSlug);
+    dropdownBtnElement.setAttribute('dropdown-menu','dropdown-menu-' + manga.titleSlug);
+    dropdownBtnElement.id = 'dropdown-btn-' + manga.titleSlug;
+    dropdownMenuElement.id = 'dropdown-menu-' + manga.titleSlug;
+
 
     // Add clone to target
     target.appendChild(clone);

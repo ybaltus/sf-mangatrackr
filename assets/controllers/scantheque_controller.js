@@ -85,6 +85,24 @@ export default class extends Controller {
         this._debouncedUpdateNbChapter();
     }
 
+    showMenuStatus(event)
+    {
+        const currentElement = event.currentTarget;
+        const menuElementId = currentElement.getAttribute('dropdown-menu');
+        const infoElementId = currentElement.getAttribute('info-manga');
+        const menuElement = document.querySelector('#' + menuElementId);
+        const infoDivElement = document.querySelector('#' + infoElementId);
+
+        if (menuElement.classList.contains('hidden')) {
+            menuElement.classList.remove('hidden');
+            infoDivElement.classList.add('hidden');
+
+        } else {
+            infoDivElement.classList.remove('hidden');
+            menuElement.classList.add('hidden');
+        }
+    }
+
     _debouncedUpdateNbChapter()
     {
         let currentNbChapterInputElement = null;

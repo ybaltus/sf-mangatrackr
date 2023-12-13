@@ -61,6 +61,8 @@ module.exports = {
                 'pagination-desk': '2.5rem',
                 'text-search-desk': '1.2rem',
                 'text-search-mob': '1.5rem',
+                'text-dropdown-mob': '2.5rem',
+                'text-dropdown-desk': '1.5rem',
             },
             lineHeight: {
                 'h1-desk': '1.5',
