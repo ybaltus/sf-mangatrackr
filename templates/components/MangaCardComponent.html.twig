@@ -58,21 +58,34 @@
                             class="hidden absolute mt-2 w-[98%] top-16 left-0 z-10 font-sora-regular text-text-dropdown-mob lg:text-text-dropdown-desk text-app-clear-black dark:text-app-dark-gray2 list-none bg-white dark:bg-app-dark-gray1 border-2 border-app-clear-black dark:border-app-dark-gray2"
                     >
                         <ul class="py-5 lg:py-2 text-center" aria-labelledby="dropdown-btn">
-                            <li title="Mettre en pause">
+                            <li
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    title="Mettre en pause"
+                                    status-track="pause"
+                            >
                                 <p
                                         class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
                                     Mettre en pause
                                 </p>
                             </li>
-                            <li class="border-y-2 border-app-clear-black dark:border-app-dark-gray2" title="Archiver">
+                            <li
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    class="border-y-2 border-app-clear-black dark:border-app-dark-gray2"
+                                    title="Archiver"
+                                    status-track="archived"
+                            >
                                 <p
                                         class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
                                     Archiver
                                 </p>
                             </li>
-                            <li title="Supprimer">
+                            <li
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    title="Supprimer"
+                                    status-track="delete"
+                            >
                                 <p
                                         class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >

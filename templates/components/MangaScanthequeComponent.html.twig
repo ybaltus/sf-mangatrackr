@@ -18,17 +18,6 @@
                     id="scantheque-list-{{ statusTrack }}"
                     class="grid gap-4 grid-cols-1 lg:grid-cols-2"
             >
-                {% if user %}
-                    <p class="text-white">{{ user.email }}</p>
-                    {% for key, manga in user.userTrackList.mangaUserTracks %}
-                        {{ component('MangaCardComponent', {
-                            isHome: false,
-                            manga: manga,
-                            key: key
-                        }) }}
-                    {% endfor %}
-                {% endif %}
-
             </div>
         </div>
     </section>

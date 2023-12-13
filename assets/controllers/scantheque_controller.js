@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from "stimulus-use";
 import * as mangaService from './../js/manga-service'
+import {updateNbChapterMangaInLocalStorage} from "./../js/manga-service";
 
 export default class extends Controller {
     static debounces = ['_debouncedUpdateNbChapter']
@@ -96,11 +97,21 @@ export default class extends Controller {
         if (menuElement.classList.contains('hidden')) {
             menuElement.classList.remove('hidden');
             infoDivElement.classList.add('hidden');
-
         } else {
             infoDivElement.classList.remove('hidden');
             menuElement.classList.add('hidden');
         }
+    }
+
+    setStatusManga(event)
+    {
+        const currentElement = event.currentTarget;
+        const currentStatusTrack = currentElement.getAttribute('current-status-track');
+        const newStatusTrack = currentElement.getAttribute('status-track');
+        const titleSlug = currentElement.getAttribute('manga-title-slug');
+        const mangaCardId = currentElement.getAttribute('manga-card-id');
+
+        mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId)
     }
 
     _debouncedUpdateNbChapter()
@@ -119,6 +130,6 @@ export default class extends Controller {
         const statusTrack = currentNbChapterInputElement.getAttribute('statusTrack');
         const nbChaptersTrack = currentNbChapterInputElement.value;
 
-        mangaService.updateMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
+        mangaService.updateNbChapterMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
     }
 }
