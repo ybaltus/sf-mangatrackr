@@ -61,8 +61,14 @@ export default class extends Controller {
     // Triggered when archived target is connected to the DOM
     archivedTargetConnected(target)
     {
-        console.log('archivedTarget');
-        console.log(target);
+        // Get all mangas
+        const mangas = Object.values(mangaService.getAllMangasFromLocalstorage('archived'));
+        mangas.map(manga => {
+            mangaService.addMangaCardElement(target, manga);
+        });
+
+        // Add number of manga
+        mangaService.setNbMangaInTitle('archived', mangas.length);
     }
 
     addToScantheque(event)

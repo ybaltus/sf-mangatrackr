@@ -60,8 +60,21 @@
                         <ul class="py-5 lg:py-2 text-center" aria-labelledby="dropdown-btn">
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    title="En cours"
+                                    status-track="play"
+                                    class="hidden"
+                            >
+                                <p
+                                        class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
+                                >
+                                    En cours
+                                </p>
+                            </li>
+                            <li
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
                                     title="Mettre en pause"
                                     status-track="pause"
+                                    class="hidden"
                             >
                                 <p
                                         class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
@@ -71,7 +84,7 @@
                             </li>
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
-                                    class="border-y-2 border-app-clear-black dark:border-app-dark-gray2"
+                                    class="hidden border-y-2 border-app-clear-black dark:border-app-dark-gray2"
                                     title="Archiver"
                                     status-track="archived"
                             >
@@ -151,8 +164,7 @@
                                             aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none"
-                                            viewBox="0 0 18 18
-">
+                                            viewBox="0 0 18 18">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                                     </svg>
                                 </button>

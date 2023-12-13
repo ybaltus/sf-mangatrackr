@@ -50,7 +50,11 @@ export const addMangaCardElement = (target, manga) =>
         liElement.setAttribute('manga-title-slug', manga.titleSlug);
         liElement.setAttribute('current-status-track', statusTrack);
         liElement.setAttribute('manga-card-id', 'manga-card-' + manga.titleSlug);
-    })
+
+        if (liElement.getAttribute('status-track') !== statusTrack) {
+            liElement.classList.remove('hidden');
+        }
+    });
 
     // Add clone to target
     target.appendChild(clone);
@@ -135,48 +139,62 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
         mangaToUpdate.statusTrack = newStatusTrack;
 
         // Add in new localstorage
-        //addMangaToLocalStorage(mangaToUpdate, newStatusTrack, false);
+        addMangaToLocalStorage(mangaToUpdate, newStatusTrack, false);
 
         // Remove in current localstorage list
-        //removeMangaInLocalStorage(currentStatusTrack, titleSlug);
+        removeMangaInLocalStorage(currentStatusTrack, titleSlug);
 
         // Move manga card element in new status section
-        moveMangaCardStatusSection(mangaCardId, currentStatusTrack, newStatusTrack);
+        _moveMangaCardStatusSection(mangaCardId, currentStatusTrack, newStatusTrack);
     }
 }
 
-const moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusTrack) =>
-{
-    // Get elements
-    const currentSectionElement = document.querySelector("#scantheque-list-" + currentStatusTrack);
-    const newSectionElement = document.querySelector("#scantheque-list-" + newStatusTrack);
-    const mangaCardElement = document.querySelector('#' + mangaCardId);
-
-    // Cloner the manga card htmlElement
-    const cloneMangaCard = mangaCardElement.cloneNode(true)
-
-    // Add the manga card in new section
-    if (cloneMangaCard && newSectionElement) {
-        newSectionElement.appendChild(cloneMangaCard);
-    }
-
-    // Remove the manga card in new section
-    if (cloneMangaCard && currentSectionElement) {
-        currentSectionElement.removeChild(mangaCardElement);
-    }
-
-    // Set the new length of mangas
-    setNbMangaInTitle(currentStatusTrack, getNbMangas(currentStatusTrack)-1);
-    setNbMangaInTitle(newStatusTrack, getNbMangas(newStatusTrack)+1);
-}
-
-const getNbMangas = (statusTrack) => {
- return Object.values(JSON.parse(localStorage.getItem(statusTrack))).length;
-}
-
-const removeMangaInLocalStorage = (statusTrack, titleSlug) =>
+export const removeMangaInLocalStorage = (statusTrack, titleSlug) =>
 {
     const mangasListLocalStorage =  getAllMangasFromLocalstorage(statusTrack);
     delete mangasListLocalStorage[titleSlug];
     localStorage.setItem(statusTrack, JSON.stringify(mangasListLocalStorage));
 }
+
+const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusTrack) =>
+{
+    // Get elements
+    const currentSectionElement = document.querySelector("#scantheque-list-" + currentStatusTrack);
+    const newSectionElement = document.querySelector("#scantheque-list-" + newStatusTrack);
+    const mangaCardElement = document.querySelector('#' + mangaCardId);
+    const hrCardElement = mangaCardElement.nextElementSibling;
+
+    // Clone the manga card htmlElement
+    const cloneMangaCard = mangaCardElement.cloneNode(true);
+
+    // Clone the hr card htmlElement
+    const cloneHrCard = hrCardElement.cloneNode(true);
+
+    // Add the manga card in new section
+    if (cloneMangaCard && newSectionElement) {
+        newSectionElement.appendChild(cloneMangaCard);
+        newSectionElement.appendChild(cloneHrCard);
+    }
+
+    // Remove the manga card in new section
+    if (cloneMangaCard && currentSectionElement) {
+        currentSectionElement.removeChild(mangaCardElement);
+        hrCardElement.remove();
+    }
+
+    // Set the new length of mangas
+    const nbMangasCurrentSection = _getNbMangas(currentStatusTrack);
+    const nbMangasNewSection = _getNbMangas(newStatusTrack);
+    if(nbMangasCurrentSection >0){
+        setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection - 1);
+    }else{
+        setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
+    }
+    setNbMangaInTitle(newStatusTrack, _getNbMangas(newStatusTrack) + 1);
+}
+
+const _getNbMangas = (statusTrack) => {
+    const entriesString = localStorage.getItem(statusTrack);
+    return entriesString ? Object.values(JSON.parse(entriesString)).length : 0;
+}
+

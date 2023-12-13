@@ -46,6 +46,13 @@
             user: user,
             statusTrack: 'pause'
         }) }}
+
+        <!-- Archived Chapters -->
+        {{ component('MangaScanthequeComponent', {
+            title: 'Les chapitres archivés',
+            user: user,
+            statusTrack: 'archived'
+        }) }}
     </div>
 
 {% endblock %}
