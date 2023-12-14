@@ -139,6 +139,13 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
 {
     let currentStatusListStorage = getAllMangasFromLocalstorage(currentStatusTrack);
 
+    // CurrentStatusTrack = delete
+    if (newStatusTrack === 'delete') {
+        removeMangaInLocalStorage(currentStatusTrack, titleSlug);
+        _deleteMangaCardElement(mangaCardId);
+        return;
+    }
+
     // Clone and update the manga entry
     const mangaToUpdate = {...currentStatusListStorage[titleSlug]};
     if (mangaToUpdate) {
@@ -208,6 +215,13 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     setNbMangaInTitle(newStatusTrack, nbMangasNewSection + 1);
 }
 
+const _deleteMangaCardElement = (mangaCardId) =>
+{
+    const mangaCardElement = document.querySelector('#' + mangaCardId);
+    const hrCardElement = mangaCardElement.nextElementSibling;
+    mangaCardElement.remove();
+    hrCardElement.remove();
+}
 const _getNbMangas = (statusTrack) => {
     const entriesString = localStorage.getItem(statusTrack);
     return entriesString ? Object.values(JSON.parse(entriesString)).length : 0;
