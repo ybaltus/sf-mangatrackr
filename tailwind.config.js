@@ -96,6 +96,8 @@ module.exports = {
                 'btn-minus-plus-desk': '2rem',
                 'manga-scantheque-mob': '100%',
                 'manga-scantheque-desk': '100%',
+                'manga-detail-mob': '60%',
+                'manga-detail-desk': '70%',
             },
             height: {
                 'icon-nav-mode-mob': '3.5rem',
@@ -115,6 +117,8 @@ module.exports = {
                 'btn-minus-plus-desk': '3rem',
                 'manga-scantheque-mob': '25rem',
                 'manga-scantheque-desk': '20rem',
+                'manga-detail-mob': '30rem',
+                'manga-detail-desk': '20rem',
             },
             space: {
                 'icon-navbar-mob': '2rem',

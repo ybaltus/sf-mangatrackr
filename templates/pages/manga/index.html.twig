@@ -19,7 +19,7 @@
             }
         }) }}
         <div
-                class="grid grid-cols-2 lg:grid lg:grid-cols-3 items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl"
+                class="grid grid-cols-1 lg:grid lg:grid-cols-3 items-center lg:items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl"
         >
             <!--Left -->
             <div
@@ -27,41 +27,32 @@
                     class="col-span-1 bg-white rounded-lg dark:bg-transparent"
             >
                 <!-- Image -->
-                <img
-                        class="h-100 lg:h-96 p-4 rounded-lg border border-app-clear-black dark:border-app-dark-gray2"
-                        src="{{ manga.mangaJikanAPI.malImgWebp }}"
-                        alt="{{ manga.title }}"
-                />
-                <!-- Icons -->
-                <div class="flex flex-wrap my-8 pl-8">
+                <div>
+                    <img
+                            class="mx-auto w-manga-detail-mob lg:w-manga-detail-desk h-manga-detail-mob lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-focus-purple dark:border-app-focus-purple"
+                            src="{{ manga.mangaJikanAPI.malImgWebp }}"
+                            alt="{{ manga.title }}"
+                    />
+                </div>
+
+                <!-- Buttons -->
+                <div class="hidden lg:inline-block my-10 text-center">
                     <!-- Add scanthèque -->
-                    <a
+                    <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
-                            class="mr-10"
+                            type="button"
                             title="Ajouter à ma scanthèque"
-                            href="#"
+                            class="font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white me-2 mb-2 rounded-full bg-app-focus-purple"
                     >
-                        <svg class="w-20 h-20 text-app-focus-purple dark:text-app-focus-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"/>
-                        </svg>
-                    </a>
-                    <!-- Fantrad -->
-                    <a
-                            class=""
-                            href="#"
-                            title="Consulter la liste de frantrad"
-                    >
-                        <svg class="w-20 h-20 text-app-focus-purple dark:text-app-focus-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M9 1.334C7.06.594 1.646-.84.293.653a1.158 1.158 0 0 0-.293.77v13.973c0 .193.046.383.134.55.088.167.214.306.366.403a.932.932 0 0 0 .5.147c.176 0 .348-.05.5-.147 1.059-.32 6.265.851 7.5 1.65V1.334ZM19.707.653C18.353-.84 12.94.593 11 1.333V18c1.234-.799 6.436-1.968 7.5-1.65a.931.931 0 0 0 .5.147.931.931 0 0 0 .5-.148c.152-.096.279-.235.366-.403.088-.167.134-.357.134-.55V1.423a1.158 1.158 0 0 0-.293-.77Z"/>
-                        </svg>
-                    </a>
+                        Ajouter à ma scanthèque
+                    </button>
                 </div>
             </div>
             <!-- Right-->
-            <div class="col-span-2">
+            <div class="col-span-2 ml-20">
                 <!-- Title -->
                 <h1
-                        class="my-10 text-[4rem] lg:text-[3rem] font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2"
+                        class="text-center lg:text-start my-10 text-h1-mob lg:text-h1-desk font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2"
                 >
                     <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
@@ -70,20 +61,20 @@
                     </span>
                 </h1>
                 <!-- Categories -->
-                <div class="flex flex-wrap max-w-lg">
+                <div class="flex flex-wrap justify-center lg:justify-start my-20 lg:my-16 mx-20 lg:mx-0 gap-4">
                     {% for mType in manga.mangaType %}
-                        <span class="bg-app-clear-pink2 text-2xl lg:text-xl text-app-clear-black font-sora-regular m-2 px-2.5 py-2 rounded-full">
+                        <span class="bg-app-clear-pink2 text-text-mob lg:text-text-desk text-app-clear-black font-sora-regular m-2 px-5 py-2 rounded-full">
                             {{ mType.name }}
                         </span>
                     {% endfor %}
                 </div>
                 <!-- Description -->
-                <p class="my-10 lg:max-w-3xl font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
+                <p class="my-16 lg:max-w-3xl font-sora-regular text-justify lg:text-start text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
                     {{manga.description}}
                 </p>
                 <!-- Characteristics -->
-                <ul class="mb-16 lg:max-w-xl text-3xl lg:text-xl font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-white">
-                    <li class="pb-3 sm:pb-4">
+                <ul class="my-28 lg:max-w-xl text-4xl lg:text-xl font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-white">
+                    <li class="pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -95,7 +86,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -107,7 +98,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -119,7 +110,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -131,7 +122,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -143,7 +134,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -155,7 +146,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="pb-3 sm:pb-4">
+                    <li class="pt-4 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -176,6 +167,18 @@
                         </div>
                     </li>
                 </ul>
+                <!-- Buttons -->
+                <div class="lg:hidden my-40 text-center">
+                    <!-- Add scanthèque -->
+                    <button
+                            {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
+                            type="button"
+                            title="Ajouter à la scanthèque"
+                            class="font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white me-2 mb-3 rounded-full bg-app-focus-purple"
+                    >
+                        Ajouter à la scanthèque
+                    </button>
+                </div>
 
             </div>
             <!-- Return btn -->
