@@ -23,7 +23,7 @@
                                 type="button"
                                 class="flex ml-5 font-medium justify-between rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
                                 data-accordion-target="#scantheque-list-{{ statusTrack }}"
-                                aria-expanded="true"
+                                aria-expanded="false"
                                 aria-controls="scantheque-list-{{ statusTrack }}"
                                 title="Afficher les chapitres archivés"
                         >
@@ -52,9 +52,12 @@
             <div
                     {{ stimulus_target('scantheque',  statusTrack) }}
                     id="scantheque-list-{{ statusTrack }}"
-                    class="grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
                     {% if statusTrack == 'archived' %}
                         aria-labelledby="title-{{ statusTrack }}"
+                        class="hidden grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
+                    {% else %}
+                            class="grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
+
                     {% endif %}
             >
             </div>
