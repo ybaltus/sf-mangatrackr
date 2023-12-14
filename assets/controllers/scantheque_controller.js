@@ -1,7 +1,6 @@
 import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from "stimulus-use";
 import * as mangaService from './../js/manga-service'
-import {updateNbChapterMangaInLocalStorage} from "./../js/manga-service";
 
 export default class extends Controller {
     static debounces = ['_debouncedUpdateNbChapter']
