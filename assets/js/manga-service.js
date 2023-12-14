@@ -222,6 +222,7 @@ const _deleteMangaCardElement = (mangaCardId) =>
     mangaCardElement.remove();
     hrCardElement.remove();
 }
+
 const _getNbMangas = (statusTrack) => {
     const entriesString = localStorage.getItem(statusTrack);
     return entriesString ? Object.values(JSON.parse(entriesString)).length : 0;
