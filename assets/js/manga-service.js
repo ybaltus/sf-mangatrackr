@@ -1,3 +1,9 @@
+/*
+================================================================
+Publics functions
+===============================================================
+*/
+
 export const addMangaCardElement = (target, manga) =>
 {
     // Get the template element
@@ -34,8 +40,8 @@ export const addMangaCardElement = (target, manga) =>
     // Update form/controls elements
     inputQuantityElement.id = 'quantity-input-' + manga.titleSlug;
     inputQuantityElement.value = manga.nbChaptersTrack;
-    inputQuantityElement.setAttribute('titleSLug', manga.titleSlug);
-    inputQuantityElement.setAttribute('statusTrack', statusTrack);
+    inputQuantityElement.setAttribute('title-sLug', manga.titleSlug);
+    inputQuantityElement.setAttribute('status-track', statusTrack);
     btnElements[0].setAttribute('data-input-counter-decrement', inputQuantityElement.id);
     btnElements[1].setAttribute('data-input-counter-increment', inputQuantityElement.id);
     btnElements[0].id = 'minus-btn-' + manga.titleSlug;
@@ -156,6 +162,12 @@ export const removeMangaInLocalStorage = (statusTrack, titleSlug) =>
     localStorage.setItem(statusTrack, JSON.stringify(mangasListLocalStorage));
 }
 
+/*
+================================================================
+Privates functions
+===============================================================
+*/
+
 const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusTrack) =>
 {
     // Get elements
@@ -169,6 +181,9 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
 
     // Clone the hr card htmlElement
     const cloneHrCard = hrCardElement.cloneNode(true);
+
+    // Update the attributes for the menu
+    _updateMenuAfterMove(cloneMangaCard, newStatusTrack);
 
     // Add the manga card in new section
     if (cloneMangaCard && newSectionElement) {
@@ -185,16 +200,40 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     // Set the new length of mangas
     const nbMangasCurrentSection = _getNbMangas(currentStatusTrack);
     const nbMangasNewSection = _getNbMangas(newStatusTrack);
-    if(nbMangasCurrentSection >0){
+    if (nbMangasCurrentSection > 0) {
         setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection - 1);
-    }else{
+    } else {
         setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
     }
-    setNbMangaInTitle(newStatusTrack, _getNbMangas(newStatusTrack) + 1);
+    setNbMangaInTitle(newStatusTrack, nbMangasNewSection + 1);
 }
 
 const _getNbMangas = (statusTrack) => {
     const entriesString = localStorage.getItem(statusTrack);
     return entriesString ? Object.values(JSON.parse(entriesString)).length : 0;
+}
+
+const _updateMenuAfterMove = (cloneMangaCard, newStatusTrack) =>
+{
+    const ulElement = cloneMangaCard.querySelector('ul');
+    const liMenuElements = ulElement.querySelectorAll('ul li');
+    const formElement = cloneMangaCard.querySelector('form');
+    const inputQuantityElement = formElement.querySelector('input');
+
+    // Reset the menu elements
+    ulElement.parentNode.classList.add('hidden');
+    ulElement.parentNode.parentNode.nextElementSibling.classList.remove('hidden');
+    inputQuantityElement.setAttribute('status-track', newStatusTrack);
+
+    // Update attributes of li elements
+    [...liMenuElements].map(liElement => {
+        liElement.setAttribute('current-status-track', newStatusTrack);
+
+        if (liElement.getAttribute('status-track') !== newStatusTrack) {
+            liElement.classList.remove('hidden');
+        } else {
+            liElement.classList.add('hidden');
+        }
+    });
 }
 

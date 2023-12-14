@@ -132,8 +132,8 @@ export default class extends Controller {
             currentNbChapterInputElement = this.currentTargetForDebounce;
         }
 
-        const titleSlug = currentNbChapterInputElement.getAttribute('titleSlug');
-        const statusTrack = currentNbChapterInputElement.getAttribute('statusTrack');
+        const titleSlug = currentNbChapterInputElement.getAttribute('title-slug');
+        const statusTrack = currentNbChapterInputElement.getAttribute('status-track');
         const nbChaptersTrack = currentNbChapterInputElement.value;
 
         mangaService.updateNbChapterMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
