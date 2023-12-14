@@ -65,13 +65,20 @@ class MangaRepository extends ServiceEntityRepository
         ;
     }
 
-    public function paginationQuery(): Query
+    public function paginationQuery(bool $isAdult = false): Query
     {
-        return $this->createQueryBuilder('m')
+        $query = $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
             ->orderBy('m.titleSlug', 'ASC')
-            ->getQuery()
         ;
+
+        if (!$isAdult) {
+            $query
+                ->andWhere('m.isAdult = FALSE')
+            ;
+        }
+
+        return $query->getQuery();
     }
 
     /**
