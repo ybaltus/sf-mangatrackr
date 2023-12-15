@@ -12,7 +12,7 @@
     <div class="{{ classDiv }}">
         <a href="{{ path('manga_index', {titleSlug: manga.titleSlug }) }}" title="{{ manga.title }}">
             <img
-                    class="w-manga-card-mob lg:w-manga-card-desk h-manga-card-mob lg:h-manga-card-desk p-manga-card rounded-lg border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
+                    class="w-manga-card-mob lg:w-manga-card-desk h-manga-card-mob lg:h-manga-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
                     src="{{ manga.mangaJikanAPI.malImgWebp }}"
                     alt="{{ manga.title }}"
             />
@@ -111,7 +111,7 @@
                 </div>
                 <div id="info-manga">
                     <!-- Title -->
-                    <h3 class="mt-4 mx-auto p-5 w-manga-scantheque-card-mob lg:w-manga-scantheque-card-desk text-title-scantheque-mob lg:text-title-scantheque-desk truncate font-sora-semiBold tracking-normal text-app-focus-purple"></h3>
+                    <h3 class="mt-4 mx-auto px-5 w-manga-scantheque-card-mob lg:w-manga-scantheque-card-desk text-title-scantheque-mob lg:text-title-scantheque-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
 
                     <!-- Actions -->
                     <div class="px-5 lg-px-0 my-16 inline-flex rounded-md shadow-sm" role="group">

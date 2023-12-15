@@ -199,9 +199,15 @@
 
             </div>
             <!-- Return btn -->
-            {{ component('ButtonReturnComponent', {
+            {{ component('ButtonNavigateComponent', {
                 title: 'Catalogue',
-                pathReturn: path('catalog_index')
+                routeName: path('catalog_index')
+            }) }}
+            <!-- Next btn -->
+            {{ component('ButtonNavigateComponent', {
+                title: 'Scanthèque',
+                routeName: path('scantheque_index'),
+                direction: 'right'
             }) }}
         </div>
 
