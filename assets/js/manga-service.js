@@ -118,10 +118,30 @@ export const getMangaFromLocalstorage = (titleSlug, statusTrack = 'play') =>
 
 }
 
-export const getAllMangasFromLocalstorage = (statusTrack) =>
+export const getAllMangasFromLocalstorage = (statusTrack, sortOrder = 'asc') =>
 {
     const entriesString = localStorage.getItem(statusTrack);
-    return entriesString ? JSON.parse(entriesString) : {};
+    if (!entriesString) {
+        return {};
+    }
+
+    const entries  = JSON.parse(entriesString);
+    if (!entries || typeof entries !== 'object') {
+        return {};
+    }
+
+    const sortedKeys = Object.keys(entries).sort((a, b) => {
+        // Comparison based on sortOrder (asc or desc)
+        return sortOrder === 'asc' ? a.localeCompare(b) : b.localeCompare(a);
+    });
+
+    // Create a new sorted object
+    const sortedEntries = {};
+    sortedKeys.forEach(key => {
+        sortedEntries[key] = entries[key];
+    });
+
+    return sortedEntries;
 }
 
 export const updateNbChapterMangaInLocalStorage = (statusTrack, titleSlug, nbChaptersTrack) =>
