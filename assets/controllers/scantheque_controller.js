@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from "stimulus-use";
-import * as mangaService from './../js/manga-service'
+import * as mangaService from './../js/manga-service';
+import * as toastService from './../js/toast-service';
 
 export default class extends Controller {
     static debounces = ['_debouncedUpdateNbChapter']
@@ -73,11 +74,15 @@ export default class extends Controller {
     addToScantheque(event)
     {
         event.preventDefault();
+
         const mangaData = event.params.mangaData;
         const statusTrack = event.params.statusTrack;
 
         if (mangaData && !mangaService.getMangaFromLocalstorage(mangaData.titleSlug) && !mangaService.checkMaxEntry(statusTrack, this.maxEntry)) {
             mangaService.addMangaToLocalStorage(mangaData, statusTrack);
+            toastService.handleToastMessage('Ajouté à la scanthèque !');
+        } else {
+            toastService.handleToastMessage('Existe déjà dans la scanthèque.');
         }
     }
 
