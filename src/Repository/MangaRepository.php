@@ -25,30 +25,48 @@ class MangaRepository extends ServiceEntityRepository
     /**
      * @return array<Manga>
      */
-    public function getTopMangas(int $quantity = 4): array
+    public function getTopMangas(int $quantity = 4, bool $isAdult = false, string $durationDateInterval = null): array
     {
-        return $this->createQueryBuilder('m')
+        $query = $this->createQueryBuilder('m')
             ->join('m.mangaJikanAPI', 'a')
             ->where('m.isActivated != FALSE')
             ->orderBy('a.malScored', 'DESC')
             ->setMaxResults($quantity)
-            ->getQuery()
-            ->getResult()
         ;
+
+        if (!$isAdult) {
+            $query
+                ->andWhere('m.isAdult = FALSE')
+            ;
+        }
+
+        if ($durationDateInterval) {
+            $dateLimitPast = (new \DateTimeImmutable())->sub(new \DateInterval($durationDateInterval));
+            $query->andWhere('m.publishedAt >= :dateLimit')
+                ->setParameter('dateLimit', $dateLimitPast);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     /**
      * @return array<Manga>
      */
-    public function getLatestMangas(int $quantity = 4): array
+    public function getLatestMangas(int $quantity = 4, bool $isAdult = false): array
     {
-        return $this->createQueryBuilder('m')
+        $query = $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
             ->orderBy('m.publishedAt', 'DESC')
             ->setMaxResults($quantity)
-            ->getQuery()
-            ->getResult()
         ;
+
+        if (!$isAdult) {
+            $query
+                ->andWhere('m.isAdult = FALSE')
+            ;
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     /**
