@@ -33,19 +33,24 @@
             isOnlyTemplate: true
         }) }}
 
-        <!-- Shown only if there is no manga -->
+
+        <!-- Help section with steps -->
         <section
                 {{ stimulus_target('scantheque',  'step') }}
                 id="scantheque-faq-section"
-                class=" hidden bg-app-clear-white dark:bg-app-dark-gray1"
+                class="hidden bg-app-clear-white dark:bg-app-dark-gray1"
         >
-            <div class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12">
+            <!-- Shown the steps only if there is no manga -->
+            <div
+                    class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12"
+            >
                 <p class="mb-20 px-4 lg:px-32 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
                     Bienvenue dans votre scanthèque MangaSync ! Commencez votre aventure en ajoutant vos mangas préférés.
                 </p>
                 <div class="px-4 py-20 lg:px-6 lg:py-10 mx-auto text-center max-w-screen-lg ">
                     <!-- Step info -->
                     {{  component('StepInfosComponent', {
+                        idStep: 'step',
                         titles: [
                             'Étape 1 : Explorez le catalogue',
                             'Étape 2 : Ajoutez à la Scanthèque',

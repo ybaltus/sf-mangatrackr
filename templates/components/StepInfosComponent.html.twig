@@ -7,18 +7,18 @@
             data-inactive-classes="text-app-clear-black dark:text-app-dark-gray2"
     >
         {% for key, title in titles %}
-            <h2 id="accordion-flush-heading-{{ key + 1 }}">
+            <h2 id="accordion-flush-heading-{{ idStep }}-{{ key + 1 }}">
                 <button
                         type="button"
                         class="flex items-center justify-between w-full py-16 lg:py-5 font-sora-semiBold text-app-clear-black dark:text-app-clear-white text-h2-mob lg:text-h2-desk rtl:text-right border-t border-app-clear-black dark:border-app-dark-gray2 gap-3"
-                        data-accordion-target="#accordion-flush-body-{{ key + 1 }}"
+                        data-accordion-target="#accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                         {% if key == 0 %}
                             aria-expanded="false"
                         {% else %}
                             aria-expanded="true"
                             {% endif %}
                         aria-expanded="true"
-                        aria-controls="accordion-flush-body-{{ key + 1 }}"
+                        aria-controls="accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                 >
                     <span>{{ title }}</span>
                     <svg data-accordion-icon class="w-8 h-8 lg:w-8 lg:h-8 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -27,9 +27,9 @@
                 </button>
             </h2>
             <div
-                    id="accordion-flush-body-{{ key + 1 }}"
+                    id="accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                     class="hidden"
-                    aria-labelledby="accordion-flush-heading-{{ key + 1 }}"
+                    aria-labelledby="accordion-flush-heading-{{ idStep }}-{{ key + 1 }}"
             >
                 <div class="py-16 lg:py-10 border-b border-app-clear-black dark:border-app-dark-gray2">
                     <p

@@ -16,4 +16,6 @@ final class StepInfosComponent
      * @var array<string>
      */
     public array $contents;
+
+    public string $idStep;
 }
