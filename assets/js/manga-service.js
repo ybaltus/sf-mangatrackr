@@ -227,12 +227,11 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     // Set the new length of mangas
     const nbMangasCurrentSection = _getNbMangas(currentStatusTrack);
     const nbMangasNewSection = _getNbMangas(newStatusTrack);
-    if (nbMangasCurrentSection > 0) {
-        setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection - 1);
-    } else {
-        setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
-    }
-    setNbMangaInTitle(newStatusTrack, nbMangasNewSection + 1);
+
+    // Update in the title
+    setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
+    setNbMangaInTitle(newStatusTrack, nbMangasNewSection);
+
 }
 
 const _deleteMangaCardElement = (mangaCardId) =>
