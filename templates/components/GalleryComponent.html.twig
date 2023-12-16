@@ -10,13 +10,13 @@
                 <div
                         class="m-10"
                 >
-                    <p class="text-right  text-text-mob text-text-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2">
+                    <p class="text-right text-text-mob text-text-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2">
                         {{ mangas.getTotalItemCount }} mangas
                     </p>
                 </div>
 
             {% endif %}
-            <div class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-4 grid-cols-2 lg:grid-cols-4 lg:ml-6">
                 {% for key, manga in mangas %}
                     {{ component('MangaCardComponent', {
                         manga: manga,

@@ -33,6 +33,35 @@
             isOnlyTemplate: true
         }) }}
 
+        <!-- Shown only if there is no manga -->
+        <section
+                {{ stimulus_target('scantheque',  'step') }}
+                id="scantheque-faq-section"
+                class=" hidden bg-app-clear-white dark:bg-app-dark-gray1"
+        >
+            <div class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12">
+                <p class="mb-20 px-4 lg:px-32 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                    Bienvenue dans votre scanthèque MangaSync ! Commencez votre aventure en ajoutant vos mangas préférés.
+                </p>
+                <div class="px-4 py-20 lg:px-6 lg:py-10 mx-auto text-center max-w-screen-lg ">
+                    <!-- Step info -->
+                    {{  component('StepInfosComponent', {
+                        titles: [
+                            'Étape 1 : Explorez le catalogue',
+                            'Étape 2 : Ajoutez à la Scanthèque',
+                            'Étape 3 : Personnalisez et profitez',
+                        ],
+                        contents: [
+                            '',
+                            'Depuis la page du manga, cliquez sur le bouton “Ajouter à la scanthèque”.',
+                            'Retournez à votre scanthèque où vous verrez maintenant le manga ajouté.
+                            Marquez vos chapitres lus et laissez votre scanthèque évoluer avec vos lectures.'
+                        ]
+                    }) }}
+                </div>
+            </div>
+        </section>
+
         <!-- Current Chapters -->
         {{ component('MangaScanthequeComponent', {
             title: 'Les chapitres en cours',

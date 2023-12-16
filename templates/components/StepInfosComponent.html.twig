@@ -1,0 +1,44 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <div
+            id="accordion-flush"
+            data-accordion="open"
+            data-active-classes="bg-app-clear-gray dark:bg-app-dark-gray1 text-app-clear-black dark:text-app-clear-white"
+            data-inactive-classes="text-app-clear-black dark:text-app-dark-gray2"
+    >
+        {% for key, title in titles %}
+            <h2 id="accordion-flush-heading-{{ key + 1 }}">
+                <button
+                        type="button"
+                        class="flex items-center justify-between w-full py-16 lg:py-5 font-sora-semiBold text-app-clear-black dark:text-app-clear-white text-h2-mob lg:text-h2-desk rtl:text-right border-t border-app-clear-black dark:border-app-dark-gray2 gap-3"
+                        data-accordion-target="#accordion-flush-body-{{ key + 1 }}"
+                        {% if key == 0 %}
+                            aria-expanded="false"
+                        {% else %}
+                            aria-expanded="true"
+                            {% endif %}
+                        aria-expanded="true"
+                        aria-controls="accordion-flush-body-{{ key + 1 }}"
+                >
+                    <span>{{ title }}</span>
+                    <svg data-accordion-icon class="w-8 h-8 lg:w-8 lg:h-8 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                </button>
+            </h2>
+            <div
+                    id="accordion-flush-body-{{ key + 1 }}"
+                    class="hidden"
+                    aria-labelledby="accordion-flush-heading-{{ key + 1 }}"
+            >
+                <div class="py-16 lg:py-10 border-b border-app-clear-black dark:border-app-dark-gray2">
+                    <p
+                            class="mb-2 font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
+                    >
+                        {{ contents[key]|raw }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
