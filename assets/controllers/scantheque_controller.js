@@ -5,7 +5,7 @@ import * as toastService from './../js/toast-service';
 
 export default class extends Controller {
     static debounces = ['_debouncedUpdateNbChapter']
-    static targets = ['play', 'pause', 'archived']
+    static targets = ['play', 'pause', 'archived', 'step']
     maxEntry = 30;
 
     // In order to save the datas for the debounced events with useDebounce()
@@ -43,6 +43,9 @@ export default class extends Controller {
 
         // Add number of manga
         mangaService.setNbMangaInTitle('play', mangas.length);
+
+        // Show if no mangas
+        this._showStepSection(mangas.length);
     }
 
     // Triggered when pause target is connected to the DOM
@@ -56,6 +59,9 @@ export default class extends Controller {
 
         // Add number of manga
         mangaService.setNbMangaInTitle('pause', mangas.length);
+
+        // Show if no mangas
+        this._showStepSection(mangas.length);
     }
 
     // Triggered when archived target is connected to the DOM
@@ -69,6 +75,9 @@ export default class extends Controller {
 
         // Add number of manga
         mangaService.setNbMangaInTitle('archived', mangas.length);
+
+        // Show if no mangas
+        this._showStepSection(mangas.length);
     }
 
     addToScantheque(event)
@@ -121,8 +130,14 @@ export default class extends Controller {
         const titleSlug = currentElement.getAttribute('manga-title-slug');
         const mangaCardId = currentElement.getAttribute('manga-card-id');
 
-        mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId)
+        mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId);
     }
+
+    /*
+================================================================
+Privates functions
+===============================================================
+*/
 
     _debouncedUpdateNbChapter()
     {
@@ -141,5 +156,14 @@ export default class extends Controller {
         const nbChaptersTrack = currentNbChapterInputElement.value;
 
         mangaService.updateNbChapterMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
+    }
+
+    _showStepSection(length)
+    {
+        if (length <= 0 && this.stepTarget.classList.contains('hidden')) {
+            this.stepTarget.classList.remove('hidden')
+        } else {
+            this.stepTarget.classList.add('hidden');
+        }
     }
 }

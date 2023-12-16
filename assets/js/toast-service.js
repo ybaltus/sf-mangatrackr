@@ -1,7 +1,6 @@
-export const handleToastMessage = (message = '', duration= 2000) =>
+export const handleToastMessage = (message = '', duration = 2000) =>
 {
     const toastMessageElement = document.querySelector('.toast-message');
-    console.log('toastMessageElement', toastMessageElement)
     if (message !== '') {
         toastMessageElement.querySelector('div.toast-message-content').textContent = message;
     }

@@ -163,6 +163,7 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
     if (newStatusTrack === 'delete') {
         removeMangaInLocalStorage(currentStatusTrack, titleSlug);
         _deleteMangaCardElement(mangaCardId);
+        setNbMangaInTitle(currentStatusTrack, _getNbMangas(currentStatusTrack));
         return;
     }
 
@@ -228,7 +229,7 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     const nbMangasCurrentSection = _getNbMangas(currentStatusTrack);
     const nbMangasNewSection = _getNbMangas(newStatusTrack);
 
-    // Update in the title
+    // Update nb manga in the title
     setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
     setNbMangaInTitle(newStatusTrack, nbMangasNewSection);
 
