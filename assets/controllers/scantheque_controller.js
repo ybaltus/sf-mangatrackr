@@ -130,6 +130,12 @@ export default class extends Controller {
         const titleSlug = currentElement.getAttribute('manga-title-slug');
         const mangaCardId = currentElement.getAttribute('manga-card-id');
 
+        // Request confirmation before deleting
+        if (newStatusTrack === 'delete' && !confirm("Voulez-vous vraiment supprimer ce manga ?")) {
+            // Cancel
+            return;
+        }
+
         mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId);
     }
 
