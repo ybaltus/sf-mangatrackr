@@ -63,6 +63,8 @@ module.exports = {
                 'text-search-mob': '1.5rem',
                 'text-dropdown-mob': '2.5rem',
                 'text-dropdown-desk': '1.5rem',
+                'text-login-mob': '2.5rem',
+                'text-login-desk': '1.25rem'
             },
             lineHeight: {
                 'h1-desk': '1.5',
