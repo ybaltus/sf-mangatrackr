@@ -166,10 +166,26 @@ Privates functions
 
     _showStepSection(length)
     {
+        const scanthequeMangaSections = document.querySelectorAll('.scantheque-manga-section');
+        // console.log(scanthequeMangaSections)
+
         if (length <= 0 && this.stepTarget.classList.contains('hidden')) {
-            this.stepTarget.classList.remove('hidden')
+            this.stepTarget.classList.remove('hidden');
+
+            [...scanthequeMangaSections].map(sectionElement => {
+                if(!sectionElement.classList.contains('hidden'))
+                {
+                    sectionElement.classList.add('hidden');
+                }
+            });
         } else {
             this.stepTarget.classList.add('hidden');
+            [...scanthequeMangaSections].map(sectionElement => {
+                if(sectionElement.classList.contains('hidden'))
+                {
+                    sectionElement.classList.remove('hidden');
+                }
+            });
         }
     }
 }

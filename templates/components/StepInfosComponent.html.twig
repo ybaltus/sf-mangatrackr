@@ -12,11 +12,6 @@
                         type="button"
                         class="flex items-center justify-between w-full py-16 lg:py-5 font-sora-semiBold text-app-clear-black dark:text-app-clear-white text-h2-mob lg:text-h2-desk rtl:text-right border-t border-app-clear-black dark:border-app-dark-gray2 gap-3"
                         data-accordion-target="#accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
-                        {% if key == 0 %}
-                            aria-expanded="false"
-                        {% else %}
-                            aria-expanded="true"
-                            {% endif %}
                         aria-expanded="true"
                         aria-controls="accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                 >

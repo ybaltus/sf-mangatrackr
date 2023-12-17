@@ -55,8 +55,11 @@
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
                             title="Ajouter à ma scanthèque"
-                            class="font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white me-2 mb-2 rounded-full bg-app-focus-purple"
+                            class="font-sora-semiBold inline-flex text-cta-mob lg:text-cta-desk px-6 py-3.5 text-center text-app-clear-white me-2 mb-2 rounded-full bg-app-focus-purple"
                     >
+                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
+                        </svg>
                         Ajouter à ma scanthèque
                     </button>
 
@@ -191,9 +194,13 @@
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
                             title="Ajouter à la scanthèque"
-                            class="font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white me-2 mb-3 rounded-full bg-app-focus-purple"
+                            class="font-sora-semiBold text-cta-mob inline-flex lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white me-2 mb-3 rounded-full bg-app-focus-purple"
                     >
-                        Ajouter à la scanthèque
+
+                        <svg class="me-2 my-auto w-8 h-8 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
+                        </svg>
+                            Ajouter à la scanthèque
                     </button>
                 </div>
             </div>

@@ -13,7 +13,7 @@
 {% block body %}
     <!-- Header -->
     {{ component('SectionHeaderComponent', {
-        title: user ? 'Hello, '+user.username : 'Scanthèque'
+        title: user ? 'Hello, ' ~user.username : 'Scanthèque'
     }) }}
 
     <div
@@ -57,7 +57,7 @@
                             'Étape 3 : Personnalisez et profitez',
                         ],
                         contents: [
-                            '',
+                            'Utilisez la barre de recherche pour trouver vos mangas préférés ou explorez de nouveaux scans. <a href="/catalog" class="text-app-focus-purple" title="Voir le catalogue">Voir le catalogue.</a>',
                             'Depuis la page du manga, cliquez sur le bouton “Ajouter à la scanthèque”.',
                             'Retournez à votre scanthèque où vous verrez maintenant le manga ajouté.
                             Marquez vos chapitres lus et laissez votre scanthèque évoluer avec vos lectures.'
