@@ -12,7 +12,7 @@
 
 {% block body %}
     <section class="pt-48 lg:pt-44 bg-app-clear-gray dark:bg-app-dark-gray1">
-        <!-- Breadcrumb -->
+        {# Breadcrumb #}
         {{ component('BreadcumbComponent', {
             'menus' : {
                 'Catalogue' : path('catalog_index'),
@@ -20,7 +20,7 @@
             }
         }) }}
 
-        <!-- Toast message -->
+        {# Toast message #}
         {{ component('ToastComponent', {
             message: 'Ajouté à la scanthèque !',
             typeMessage: 'success',
@@ -34,12 +34,12 @@
                 class="grid grid-cols-1 lg:grid lg:grid-cols-3 items-center lg:items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl"
         >
 
-            <!--Left -->
+            {#Left #}
             <div
                     {{ stimulus_controller('scantheque') }}
                     class="col-span-1 bg-white rounded-lg dark:bg-transparent"
             >
-                <!-- Image -->
+                {# Image #}
                 <div>
                     <img
                             class="mx-auto w-manga-detail-mob lg:w-manga-detail-desk h-manga-detail-mob lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-focus-purple dark:border-app-focus-purple"
@@ -48,9 +48,9 @@
                     />
                 </div>
 
-                <!-- Buttons -->
+                {# Buttons #}
                 <div class="hidden lg:inline-block my-10 text-center">
-                    <!-- Add scanthèque -->
+                    {# Add scanthèque #}
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
@@ -65,12 +65,12 @@
 
                 </div>
             </div>
-            <!-- Right-->
+            {# Right#}
             <div
                     {{ stimulus_controller('scantheque') }}
                     class="col-span-2 mx-3 lg:ml-20"
             >
-                <!-- Title -->
+                {# Title #}
                 <h1
                         class="text-center lg:text-start my-10 text-h1-mob lg:text-h1-desk font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2"
                 >
@@ -80,7 +80,7 @@
                         {{ manga.title }}
                     </span>
                 </h1>
-                <!-- Categories -->
+                {# Categories #}
                 <div class="flex flex-wrap justify-center lg:justify-start my-20 lg:my-16 mx-20 lg:mx-0 gap-4">
                     {% for mType in manga.mangaType %}
                         <span class="bg-app-clear-pink2 text-text-mob lg:text-text-desk text-app-clear-black font-sora-regular m-2 px-5 py-2 rounded-full">
@@ -88,11 +88,11 @@
                         </span>
                     {% endfor %}
                 </div>
-                <!-- Description -->
+                {# Description #}
                 <p class="my-16 lg:max-w-3xl font-sora-regular text-justify lg:text-start text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
                     {{manga.description}}
                 </p>
-                <!-- Characteristics -->
+                {# Characteristics #}
                 <ul class="my-28 lg:max-w-xl text-4xl lg:text-xl font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-white">
                     <li class="pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
@@ -187,9 +187,9 @@
                         </div>
                     </li>
                 </ul>
-                <!-- Buttons -->
+                {# Buttons #}
                 <div class="lg:hidden my-40 text-center">
-                    <!-- Add scanthèque -->
+                    {# Add scanthèque #}
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
@@ -206,12 +206,12 @@
             </div>
         </div>
         <div class="flex justify-between w-full pb-20 px-8 lg:px-4 mx-auto max-w-screen-xl">
-            <!-- Return btn -->
+            {# Return btn #}
             {{ component('ButtonNavigateComponent', {
                 title: 'Catalogue',
                 routeName: path('catalog_index')
             }) }}
-            <!-- Next btn -->
+            {# Next btn #}
             {{ component('ButtonNavigateComponent', {
                 title: 'Scanthèque',
                 routeName: path('scantheque_index'),

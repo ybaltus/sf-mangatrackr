@@ -28,7 +28,7 @@
 {% else %}
     <template id="mangaCardTemplate">
         <div class="grid grid-cols-2 lg:grid-cols-2 px-1 lg:px-0 bg-white dark:bg-transparent items-center rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-scantheque-mob lg:border-manga-scantheque-desk border-app-focus-purple dark:border-app-focus-purple">
-            <!-- Image -->
+            {# Image #}
             <div>
                 <a href="" title="">
                     <img class="mx-auto w-manga-scantheque-mob lg:w-manga-scantheque-desk h-manga-scantheque-mob lg:h-manga-scantheque-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk"
@@ -38,7 +38,7 @@
                 </a>
             </div>
             <div class="h-full">
-                <!-- Menu status -->
+                {# Menu status #}
                 <div class="flex justify-end px-4 pt-4 relative">
                     <button
                             {{ stimulus_action('scantheque', 'showMenuStatus', 'click') }}
@@ -52,7 +52,7 @@
                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                         </svg>
                     </button>
-                    <!-- Dropdown menu -->
+                    {# Dropdown menu #}
                     <div
                             id="dropdown-menu"
                             class="hidden absolute mt-2 w-[98%] top-16 left-0 z-10 font-sora-regular text-text-dropdown-mob lg:text-text-dropdown-desk text-app-clear-black dark:text-app-dark-gray2 list-none bg-white dark:bg-app-dark-gray1 border-2 border-app-clear-black dark:border-app-dark-gray2"
@@ -110,10 +110,10 @@
                     </div>
                 </div>
                 <div id="info-manga">
-                    <!-- Title -->
+                    {# Title #}
                     <h3 class="mt-4 mx-auto px-5 w-manga-scantheque-card-mob lg:w-manga-scantheque-card-desk text-title-scantheque-mob lg:text-title-scantheque-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
 
-                    <!-- Actions -->
+                    {# Actions #}
                     <div class="px-5 lg-px-0 my-16 inline-flex rounded-md shadow-sm" role="group">
                         <form class="max-w-md mx-auto ">
                             <div class="relative flex items-center max-w-1/2">

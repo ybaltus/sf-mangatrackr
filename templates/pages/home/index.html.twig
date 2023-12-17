@@ -3,10 +3,10 @@
 {% block title %}{{ app_name }}{% endblock %}
 
 {% block body %}
-    <!-- Jumbotron -->
+    {# Jumbotron #}
     <section class="bg-app-clear-gray dark:bg-app-dark-black h-screen flex items-center">
         <div class="mx-auto max-w-screen-xl text-left">
-            <!-- Poulpe -->
+            {# Poulpe #}
             {#            <svg#}
             {#                    class="w-32"#}
             {#                    fill="#C41BF7"#}
@@ -21,7 +21,7 @@
             {#                </g>#}
             {#            </svg>#}
 
-            <!-- Title -->
+            {# Title #}
             <h1
                     class="text-h1-mob lg:text-h1-desk md:leading-tight font-sora-bold tracking-tight text-app-dark-gray1 dark:text-app-clear-white">
                 Synchronisez votre <br>
@@ -33,7 +33,7 @@
                 pour les<br>
                 mangas.
             </h1>
-            <!-- Arrow -->
+            {# Arrow #}
             <div
                     class="mt-arrow-hp-mob-top lg:mt-arrow-hp-desk-top flex flex-col sm:flex-row sm:justify-center"
             >
@@ -46,28 +46,28 @@
         </div>
     </section>
 
-    <!-- Top mangas -->
+    {# Top mangas #}
     {{ component('MangaCardInlineComponent', {
         title: 'Les dernières tendances',
         mangas: topMangas,
         isHome: true
     }) }}
 
-    <!-- Info section -->
+    {# Info section #}
     {{ component('InfoSectionComponent', {
         title: 'Une expérience synchronisée',
         info: 'MangaSync, l’application dédiée aux passionnés de mangas, simplifie la gestion de votre progression de lecture. Créez votre scanthèque, suivez vos scans préférés et synchronisez votre avancée en temps réel.',
         titleBtn: 'Découvrir'
     }) }}
 
-    <!-- Latest mangas -->
+    {# Latest mangas #}
     {{ component('MangaCardInlineComponent', {
         title: 'Les dernières sorties',
         mangas: latestMangas,
         isHome: true
     }) }}
 
-    <!-- Info section -->
+    {# Info section #}
     {#    {{ component('InfoSectionComponent', {#}
     {#        title: 'Simplifiez votre suivi de lecture',#}
     {#        info: 'Libérez-vous du suivi manuel en enregistrant vos chapitres lus dans votre scanthèque.',#}

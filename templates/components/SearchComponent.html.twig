@@ -14,7 +14,7 @@
 
             <label for="searchTerm" class="mb-2 text-sm font-medium text-app-clear-black sr-only dark:text-app-dark-gray2">Search</label>
             <div class="relative w-2/3 lg:w-1/2  text-center">
-                <!-- Search term-->
+                {# Search term#}
                 <input
                         {{ stimulus_action('search-catalog', 'hiddenGallery', 'keyup') }}
                         type="search"
@@ -40,7 +40,7 @@
             </div>
             <div class="mt-10 relative w-2/3 lg:w-1/2 text-center">
                 {% if isToggleAdvanced %}
-                    <!-- Advanced option -->
+                    {# Advanced option #}
                     <label
                             class="relative inline-flex items-center cursor-pointer"
                             data-tooltip-target="tooltip-advanced"
@@ -73,7 +73,7 @@
                 {% endif %}
 
                 {% if isToggleAdult %}
-                    <!-- Adult option -->
+                    {# Adult option #}
                     <label
                             class="ml-5 relative inline-flex items-center cursor-pointer"
                             data-tooltip-target="tooltip-adult"

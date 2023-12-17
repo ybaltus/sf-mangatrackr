@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Header -->
+    {# Header #}
     {{ component('SectionHeaderComponent', {
         title: 'Catalogue'
     }) }}
 
-    <!-- Search Bar -->
+    {# Search Bar #}
     {{ component('SearchComponent', {
         placeholder: 'Rechercher un manga',
         isToggleAdvanced: true,
@@ -27,12 +27,12 @@
         toggleAdultText: 'Activer le contenu pour adulte (érotique, ecchi et hentai).',
     }) }}
 
-    <!-- HTMX Search results -->
+    {# HTMX Search results #}
     <section id="search-results"  class="bg-app-clear-white dark:bg-app-dark-black">
         {{ include ('components/htmx/mangas_list.html.twig') }}
     </section>
 
-    <!-- Gallery -->
+    {# Gallery #}
     {{ component('GalleryComponent', {
         mangas: paginationMangas,
         isPagination: true
