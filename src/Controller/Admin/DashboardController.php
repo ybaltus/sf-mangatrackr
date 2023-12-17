@@ -38,6 +38,8 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        yield MenuItem::linkToRoute('Revenir au site', 'fa-solid fa-house-user', 'home_index');
+
         yield MenuItem::section('Mangas');
         yield MenuItem::LinkToCrud('Editor', 'fa fa-user-pen', Editor::class);
         yield MenuItem::LinkToCrud('Fantrad', 'fa-brands fa-jedi-order', Fantrad::class);
