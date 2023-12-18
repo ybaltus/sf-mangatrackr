@@ -1,17 +1,17 @@
 <div{{ attributes }}>
     <!-- component html -->
     <nav
-            class="flex mx-auto max-w-screen-xl px-8 lg:px-0"
+            class="flex mx-auto max-w-screen-xl px-2 lg:px-4"
             aria-label="Breadcrumb"
     >
-        <ol class="inline-flex items-center ml-3 text-3xl lg:text-md space-x-1 md:space-x-2 rtl:space-x-reverse">
+        <ol class="inline-flex items-center ml-1 text-sm lg:text-xl space-x-1 md:space-x-1 rtl:space-x-reverse">
             <li class="inline-flex items-center">
                 <a
                         href="{{ path('home_index') }}"
-                        class="inline-flex items-center  font-sora-semiBold text-app-clear-black hover:text-app-focus-purple dark:text-app-dark-gray2 dark:hover:text-app-focus-purple"
+                        class="inline-flex items-center font-sora-semiBold text-app-clear-black hover:text-app-focus-purple dark:text-app-dark-gray2 dark:hover:text-app-focus-purple"
                         title="Accueil"
                 >
-                    <svg class="w-6 h-6 lg:w-5 lg:h-5 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-3 h-3 lg:w-5 lg:h-5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
                     </svg>
                 </a>
@@ -20,7 +20,7 @@
                 {% if key == 'current' %}
                     <li aria-current="page">
                         <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3 text-app-clear-black dark:text-app-dark-gray2 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <svg class="rtl:rotate-180 w-3 h-3 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                             </svg>
                             <span
@@ -32,7 +32,7 @@
                 {% else %}
                     <li>
                         <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3 text-app-clear-black dark:text-app-dark-gray2 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <svg class="rtl:rotate-180 w-3 h-3 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                             </svg>
                             <a

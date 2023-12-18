@@ -39,7 +39,7 @@
             </div>
             <div class="h-full">
                 {# Menu status #}
-                <div class="flex justify-end px-4 pt-4 relative">
+                <div class="flex justify-end px-2 pt-1 relative">
                     <button
                             {{ stimulus_action('scantheque', 'showMenuStatus', 'click') }}
                             id="dropdown-btn"
@@ -48,16 +48,16 @@
                             title="Configurer le status"
                     >
                         <span class="sr-only">Open dropdown</span>
-                        <svg class="w-14 h-8 lg:w-10 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                        <svg class="w-6 h-5 lg:w-10 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                             <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
                         </svg>
                     </button>
                     {# Dropdown menu #}
                     <div
                             id="dropdown-menu"
-                            class="hidden absolute mt-2 w-[98%] top-16 left-0 z-10 font-sora-regular text-text-dropdown-mob lg:text-text-dropdown-desk text-app-clear-black dark:text-app-dark-gray2 list-none bg-white dark:bg-app-dark-gray1 border-2 border-app-clear-black dark:border-app-dark-gray2"
+                            class="hidden absolute w-[98%] top-10 left-0 z-10 font-sora-regular text-text-dropdown-mob lg:text-text-dropdown-desk text-app-clear-black dark:text-app-dark-gray2 list-none bg-white dark:bg-app-dark-gray1 border-2 border-app-clear-black dark:border-app-dark-gray2"
                     >
-                        <ul class="py-5 lg:py-2 text-center" aria-labelledby="dropdown-btn">
+                        <ul class="py-2 lg:py-2 text-center" aria-labelledby="dropdown-btn">
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
                                     title="En cours"
@@ -111,10 +111,10 @@
                 </div>
                 <div id="info-manga">
                     {# Title #}
-                    <h3 class="mt-4 mx-auto px-5 w-manga-scantheque-card-mob lg:w-manga-scantheque-card-desk text-title-scantheque-mob lg:text-title-scantheque-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
+                    <h3 class="mt-4 mx-auto px-3 w-manga-scantheque-card-mob lg:w-manga-scantheque-card-desk text-title-scantheque-mob lg:text-title-scantheque-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"></h3>
 
                     {# Actions #}
-                    <div class="px-5 lg-px-0 my-16 inline-flex rounded-md shadow-sm" role="group">
+                    <div class="px-4 lg-px-0 my-8 lg:my-16 inline-flex rounded-md shadow-sm" role="group">
                         <form class="max-w-md mx-auto ">
                             <div class="relative flex items-center max-w-1/2">
                                 {# Minus Btn #}
@@ -125,7 +125,7 @@
                                         id="minus-btn"
                                         name="minus-btn"
                                         data-input-counter-decrement="quantity-input"
-                                        class="minus-btn rounded-s-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                        class="minus-btn rounded-s-lg p-2 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                                 >
                                     <svg
                                             class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
@@ -146,7 +146,7 @@
                                         data-input-counter-min="1"
                                         data-input-counter-max="9999"
                                         aria-describedby="helper-text-explanation"
-                                        class="block w-full py-2.5 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk font-sora-regular text-center text-2xl text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                        class="block w-full py-2.5 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk font-sora-regular text-center text-sm lg:text-2xl text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                                         placeholder="1"
                                         required
                                 >
@@ -158,7 +158,7 @@
                                         title="Incrémenter"
                                         name="plus-btn"
                                         data-input-counter-increment="quantity-input"
-                                        class="plus-btn rounded-e-lg p-3 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
+                                        class="plus-btn rounded-e-lg p-2 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-gray dark:bg-app-dark-black hover:bg-app-focus-purple dark:hover:bg-app-focus-purple  border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"
                                 >
                                     <svg
                                             class="w-icon-minus-plus-mob h-icon-minus-plus-mob lg:w-icon-minus-plus-desk lg:h-icon-minus-plus-desk text-app-clear-black dark:text-app-dark-gray2"
@@ -175,6 +175,6 @@
                 </div>
             </div>
         </div>
-        <hr class="lg:hidden h-px my-8 bg-app-clear-black border-0 dark:bg-app-dark-gray2">
+        <hr class="lg:hidden h-px my-1 bg-app-clear-black border-0 dark:bg-app-dark-gray2">
     </template>
 {% endif %}

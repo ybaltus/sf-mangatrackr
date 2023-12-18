@@ -22,7 +22,7 @@
 
     <div
             {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
-            class="pt-10 bg-app-clear-gray dark:bg-app-dark-gray1"
+            class="pt-4 bg-app-clear-gray dark:bg-app-dark-gray1"
     >
         {# Breadcrumb #}
         {{ component('BreadcumbComponent', {
@@ -46,12 +46,12 @@
         >
             {# Shown the steps only if there is no manga #}
             <div
-                    class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12"
+                    class="py-12 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12"
             >
-                <p class="mb-20 px-4 lg:px-32 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                <p class="mb-8 px-4 lg:px-32 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
                     Bienvenue dans votre scanthèque MangaSync ! Commencez votre aventure en ajoutant vos mangas préférés.
                 </p>
-                <div class="px-4 py-20 lg:px-6 lg:py-10 mx-auto text-center max-w-screen-lg ">
+                <div class="px-4 py-4 lg:px-6 lg:py-10 mx-auto text-center max-w-screen-lg ">
                     {# Step info #}
                     {{  component('StepInfosComponent', {
                         idStep: 'step',

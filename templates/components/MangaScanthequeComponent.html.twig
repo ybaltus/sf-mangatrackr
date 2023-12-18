@@ -5,7 +5,7 @@
             class="scantheque-manga-section bg-app-clear-white dark:bg-app-dark-gray1"
     >
         <div
-                class="py-24 px-8 mx-auto max-w-screen-xl lg:py-24 lg:px-6"
+                class="py-10 px-4 mx-auto max-w-screen-xl lg:py-24 lg:px-6"
                 {% if statusTrack == 'archived' %}
                     id="accordion-collapse"
                     data-accordion="collapse"
@@ -21,7 +21,7 @@
                         {{ title }} (<span></span>)
                         <button
                                 type="button"
-                                class="flex ml-5 font-medium justify-between rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
+                                class="flex ml-2 font-medium justify-between rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
                                 data-accordion-target="#scantheque-list-{{ statusTrack }}"
                                 aria-expanded="false"
                                 aria-controls="scantheque-list-{{ statusTrack }}"
@@ -29,7 +29,7 @@
                         >
                             <svg
                                     data-accordion-icon
-                                    class="my-auto w-9 h-9 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-focus-purple "
+                                    class="my-auto w-5 h-5 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-focus-purple "
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"

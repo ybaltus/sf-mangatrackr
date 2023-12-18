@@ -48,7 +48,7 @@ module.exports = {
                 'title-manga-desk': '1.3rem',
                 'title-manga-mob': '1.25rem',
                 'title-scantheque-desk': '1.5rem',
-                'title-scantheque-mob': '2.5rem',
+                'title-scantheque-mob': '1rem',
                 'text-desk': '1.25rem',
                 'text-mob': '1rem',
                 'cta-desk': '1.3rem',
@@ -61,7 +61,7 @@ module.exports = {
                 'pagination-desk': '2.5rem',
                 'text-search-desk': '1.2rem',
                 'text-search-mob': '0.8rem',
-                'text-dropdown-mob': '2.5rem',
+                'text-dropdown-mob': '1rem',
                 'text-dropdown-desk': '1.5rem',
                 'text-login-mob': '2.5rem',
                 'text-login-desk': '1.25rem'
@@ -92,9 +92,9 @@ module.exports = {
                 'pagination-desk': '2.5rem',
                 'searchbar-mob': '50%',
                 'searchbar-desk': '50%',
-                'icon-minus-plus-mob': '3rem',
+                'icon-minus-plus-mob': '1rem',
                 'icon-minus-plus-desk': '1.5rem',
-                'btn-minus-plus-mob': '2em',
+                'btn-minus-plus-mob': '1.5em',
                 'btn-minus-plus-desk': '2rem',
                 'manga-scantheque-mob': '100%',
                 'manga-scantheque-desk': '100%',
@@ -109,15 +109,15 @@ module.exports = {
                 'icon-nav-menu-mob': '1.875rem',
                 'icon-hp-arrow-mob': '1.875rem',
                 'icon-hp-arrow-desk': '4rem',
-                'manga-card-mob': '16rem',
+                'manga-card-mob': '14rem',
                 'manga-card-desk': '20rem',
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
-                'icon-minus-plus-mob': '2rem',
+                'icon-minus-plus-mob': '1rem',
                 'icon-minus-plus-desk': '1.5rem',
-                'btn-minus-plus-mob': '4rem',
+                'btn-minus-plus-mob': '2rem',
                 'btn-minus-plus-desk': '3rem',
-                'manga-scantheque-mob': '25rem',
+                'manga-scantheque-mob': '13rem',
                 'manga-scantheque-desk': '20rem',
                 'manga-detail-mob': '30rem',
                 'manga-detail-desk': '20rem',
@@ -140,7 +140,7 @@ module.exports = {
             padding: {
                 'menu-mob': '',
                 'menu-desk': '0px',
-                'manga-card': '0.5rem'
+                'manga-card': '0.3rem'
             },
             textUnderlineOffset: {
                 'menu-mob': '7px',
@@ -153,12 +153,12 @@ module.exports = {
             borderWidth: {
                 'manga-card-mob': '2px',
                 'manga-card-desk': '3px',
-                'manga-scantheque-mob': '5px',
-                'manga-scantheque-desk': '5px'
+                'manga-scantheque-mob': '2px',
+                'manga-scantheque-desk': '3px'
             },
             borderRadius: {
-                'manga-scantheque-mob': '2rem',
-                'manga-scantheque-desk': '2rem'
+                'manga-scantheque-mob': '1.5rem',
+                'manga-scantheque-desk': '1.5rem'
             }
         },
     },
