@@ -60,7 +60,7 @@ module.exports = {
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
                 'text-search-desk': '1.2rem',
-                'text-search-mob': '1.5rem',
+                'text-search-mob': '0.8rem',
                 'text-dropdown-mob': '2.5rem',
                 'text-dropdown-desk': '1.5rem',
                 'text-login-mob': '2.5rem',

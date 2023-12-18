@@ -1,14 +1,14 @@
 <div {{ attributes }}>
     <!-- component html -->
     <section
-            id="mangas-gallery" class="bg-app-clear-white dark:bg-app-dark-black"
+            id="mangas-gallery" class="bg-app-clear-white dark:bg-app-dark-black px-4"
     >
         <div
                 {{ stimulus_controller('search-catalog') }}
                 class="mx-auto max-w-screen-xl">
             {% if isPagination %}
                 <div
-                        class="m-10"
+                        class="m-6"
                 >
                     <p class="text-right text-text-mob text-text-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2">
                         {{ mangas.getTotalItemCount }} mangas
@@ -16,7 +16,7 @@
                 </div>
 
             {% endif %}
-            <div class="grid gap-4 grid-cols-2 lg:grid-cols-4 lg:ml-6">
+            <div class="grid gap-6 lg:gap-4 grid-cols-2 lg:grid-cols-4 lg:ml-6">
                 {% for key, manga in mangas %}
                     {{ component('MangaCardComponent', {
                         manga: manga,
