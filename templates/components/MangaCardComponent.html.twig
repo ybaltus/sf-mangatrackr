@@ -1,12 +1,12 @@
 <div{{ attributes }}>
     <!-- component html -->
     {% if isOnlyTemplate == false %}
-    {% set classDiv="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
+    {% set classDiv="px-0 bg-white rounded-lg dark:bg-transparent" %}
     {% if isHome %}
         {% if key % 2 == 0 %}
-            {% set classDiv="xl:mt-6 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
+            {% set classDiv="px-0 xl:mt-6 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
         {% else %}
-            {% set classDiv="xl:mb-6 px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
+            {% set classDiv="px-0 xl:mb-6 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
         {% endif %}
     {% endif %}
     <div class="{{ classDiv }}">
@@ -16,7 +16,7 @@
                     src="{{ manga.mangaJikanAPI.malImgWebp }}"
                     alt="{{ manga.title }}"
             />
-            <div class="p-5">
+            <div class="p-2">
                 <h3
                         class="w-manga-card-mob lg:w-manga-card-desk mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
                     {{ manga.title }}

@@ -1,11 +1,20 @@
 <div{{ attributes }}>
     <!-- component html -->
+{#    <nav#}
+{#            class="z-50 py-8 px-6 lg:px-0 lg:py-4 bg-app-clear-gray dark:bg-app-dark-black fixed w-full border-b border-hr-clear-mob lg:border-hr-clear-desk dark:border-hr-dark"#}
+{#    >#}
     <nav
-            class="z-50 py-8 px-6 lg:px-0 lg:py-4 bg-app-clear-gray dark:bg-app-dark-black fixed w-full border-b border-hr-clear-mob lg:border-hr-clear-desk dark:border-hr-dark"
+            class="z-50 w-full mx-auto py-2 px-2 lg:px-0 lg:py-4 bg-app-clear-gray dark:bg-app-dark-black  border-b border-hr-clear-mob lg:border-hr-clear-desk dark:border-hr-dark"
     >
         <div class="flex flex-wrap items-center justify-between mx-auto max-w-screen-xl p-4">
-            <a href="{{ path('home_index') }}" class="flex items-center space-x-3 rtl:space-x-reverse" title="{{ app_name }}">
-                <span class="self-center text-logo-mob lg:text-logo-desk font-sora-semiBold text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple">{{ appName }}</span>
+            <a
+                    href="{{ path('home_index') }}"
+                    class="flex items-center space-x-3 rtl:space-x-reverse"
+                    title="{{ app_name }}"
+            >
+                <span
+                        class="self-center text-logo-mob lg:text-logo-desk font-sora-semiBold text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
+                >{{ appName }}</span>
             </a>
             {# Menu Right #}
             <div class="flex items-center lg:order-2 space-x-icon-navbar-mob lg:space-x-icon-navbar-desk">
@@ -37,7 +46,7 @@
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
                                 <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                             </svg>
-                            <span class="bottom-0 left-7 lg:left-3 absolute w-5 h-5 lg:w-4 lg:h-4 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+                            <span class="bottom-0 left-4 lg:left-3 absolute w-4 h-4 lg:w-4 lg:h-4 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
                         </div>
                     {% else %}
                         <svg
