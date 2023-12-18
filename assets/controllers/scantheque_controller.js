@@ -4,8 +4,9 @@ import * as mangaService from './../js/manga-service';
 import * as toastService from './../js/toast-service';
 
 export default class extends Controller {
-    static debounces = ['_debouncedUpdateNbChapter']
-    static targets = ['play', 'pause', 'archived', 'step']
+    static debounces = ['_debouncedUpdateNbChapter'];
+    static targets = ['play', 'pause', 'archived', 'step'];
+    static values = {'userConnected': Boolean, 'userConfig': String}
     maxEntry = 30;
 
     // In order to save the datas for the debounced events with useDebounce()
@@ -24,22 +25,58 @@ export default class extends Controller {
             localStorage.setItem('archived', '');
         }
 
+        // Initialize user data
+        localStorage.setItem('user-connected', this.userConnectedValue);
+
     }
 
     connect()
     {
         // Set useDebounce for this controller
         useDebounce(this, { wait: 500 });
+
+    }
+
+    _initStatusTrackDatas(statusTrack)
+    {
+        // User stimulus values
+        const userConnected = this.userConnectedValue;
+        const userConfig = this.userConfigValue;
+
+        // Get all mangas
+        const mangas = Object.values(mangaService.getAllMangasFromLocalstorage(statusTrack));
+
+        console.log('userConnected ', userConnected);
+        console.log('userConfig ',userConfig);
+
+        if (userConnected && !userConfig && mangas.length > 0) {
+            console.log('User connecté mais pas de données- On enregistre en bdd');
+        }
+
+        if(!userConnected){
+            mangas.map(manga => {
+                mangaService.addMangaCardElement(target, manga);
+            });
+        }
+
+        // Add number of manga
+        mangaService.setNbMangaInTitle(statusTrack, mangas.length);
+
+        // Show if no mangas
+        this._showStepSection(mangas.length);
     }
 
     // Triggered when play target is connected to the DOM
     playTargetConnected(target)
     {
+        // Vérifier si l'utilsiateur est connecté
+        // this._initStatusTrackDatas('play');
+
         // Get all mangas
         const mangas = Object.values(mangaService.getAllMangasFromLocalstorage('play'));
         mangas.map(manga => {
             mangaService.addMangaCardElement(target, manga);
-        })
+        });
 
         // Add number of manga
         mangaService.setNbMangaInTitle('play', mangas.length);
@@ -173,16 +210,14 @@ Privates functions
             this.stepTarget.classList.remove('hidden');
 
             [...scanthequeMangaSections].map(sectionElement => {
-                if(!sectionElement.classList.contains('hidden'))
-                {
+                if (!sectionElement.classList.contains('hidden')) {
                     sectionElement.classList.add('hidden');
                 }
             });
         } else {
             this.stepTarget.classList.add('hidden');
             [...scanthequeMangaSections].map(sectionElement => {
-                if(sectionElement.classList.contains('hidden'))
-                {
+                if (sectionElement.classList.contains('hidden')) {
                     sectionElement.classList.remove('hidden');
                 }
             });

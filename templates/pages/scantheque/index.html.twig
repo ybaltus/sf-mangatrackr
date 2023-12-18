@@ -11,16 +11,20 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Header -->
+    {#  Header #}
     {{ component('SectionHeaderComponent', {
         title: user ? 'Hello, ' ~user.username : 'Scanthèque'
     }) }}
 
+    {# Set user datas for localstorage #}
+    {% set userConnected = user ? true : false %}
+    {% set userConfig = user ? user.scanthequeData : '' %}
+
     <div
-            {{ stimulus_controller('scantheque') }}
+            {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
             class="pt-10 bg-app-clear-gray dark:bg-app-dark-gray1"
     >
-        <!-- Breadcrumb -->
+        {# Breadcrumb #}
         {{ component('BreadcumbComponent', {
             'menus' : {
                 'Catalogue' : path('catalog_index'),
@@ -28,19 +32,19 @@
             }
         }) }}
 
-        <!-- Import only the html template -->
+        {# Import only the html template #}
         {{ component('MangaCardComponent', {
             isOnlyTemplate: true
         }) }}
 
 
-        <!-- Help section with steps -->
+        {# Help section with steps #}
         <section
                 {{ stimulus_target('scantheque',  'step') }}
                 id="scantheque-faq-section"
                 class="hidden bg-app-clear-white dark:bg-app-dark-gray1"
         >
-            <!-- Shown the steps only if there is no manga -->
+            {# Shown the steps only if there is no manga #}
             <div
                     class="py-24 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12"
             >
@@ -48,7 +52,7 @@
                     Bienvenue dans votre scanthèque MangaSync ! Commencez votre aventure en ajoutant vos mangas préférés.
                 </p>
                 <div class="px-4 py-20 lg:px-6 lg:py-10 mx-auto text-center max-w-screen-lg ">
-                    <!-- Step info -->
+                    {# Step info #}
                     {{  component('StepInfosComponent', {
                         idStep: 'step',
                         titles: [
@@ -67,21 +71,21 @@
             </div>
         </section>
 
-        <!-- Current Chapters -->
+        {# Current Chapters #}
         {{ component('MangaScanthequeComponent', {
             title: 'Les chapitres en cours',
             user: user,
             statusTrack: 'play'
         }) }}
 
-        <!-- Paused Chapters -->
+        {# Paused Chapters #}
         {{ component('MangaScanthequeComponent', {
             title: 'Les chapitres en pause',
             user: user,
             statusTrack: 'pause'
         }) }}
 
-        <!-- Archived Chapters -->
+        {# Archived Chapters #}
         {{ component('MangaScanthequeComponent', {
             title: 'Les chapitres archivés',
             user: user,

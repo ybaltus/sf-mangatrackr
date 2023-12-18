@@ -69,6 +69,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private UserTrackList $userTrackList;
 
+    /**
+     * Used to initiate the datas for the localstorage
+     * return Json datas.
+     */
+    private string $scanthequeData = '';
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -247,5 +253,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         return $this;
+    }
+
+    public function getScanthequeData(): string
+    {
+        $listMangasTrack = $this->getUserTrackList()->getMangaUserTracks();
+
+        if (0 === count($listMangasTrack)) {
+            return $this->scanthequeData;
+        }
+
+        $results = [];
+
+        /**
+         * @var MangaUserTrack $mangaTrack
+         */
+        foreach ($listMangasTrack as $mangaTrack) {
+            if (true === $mangaTrack->isIsActivated()) {
+                $manga = $mangaTrack->getManga();
+                $results[$manga->getTitleSlug()] = [
+                    'nbChapters' => $manga->getNbChapters(),
+                    'nbChaptersTrack' => $mangaTrack->getNbChapters(),
+                    'statusTrack' => $mangaTrack->getStatusTrack()->getNameSlug(),
+                    'title' => $manga->getTitle(),
+                    'titleSlug' => $manga->getTitleSlug(),
+                    'urlImg' => $manga->getMangaJikanAPI()->getMalImgWebp(),
+                ];
+            }
+        }
+
+        return json_encode($results);
     }
 }
