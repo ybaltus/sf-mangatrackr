@@ -1,8 +1,5 @@
 <div{{ attributes }}>
     <!-- component html -->
-{#    <nav#}
-{#            class="z-50 py-8 px-6 lg:px-0 lg:py-4 bg-app-clear-gray dark:bg-app-dark-black fixed w-full border-b border-hr-clear-mob lg:border-hr-clear-desk dark:border-hr-dark"#}
-{#    >#}
     <nav
             class="z-50 w-full mx-auto py-2 px-2 lg:px-0 lg:py-4 bg-app-clear-gray dark:bg-app-dark-black  border-b border-hr-clear-mob lg:border-hr-clear-desk dark:border-hr-dark"
     >
@@ -35,8 +32,8 @@
                         aria-expanded="false"
                         data-dropdown-toggle="user-dropdown"
                         data-dropdown-placement="bottom"
-                        data-dropdown-offset-distance="35"
-                        data-dropdown-offset-skidding="-70"
+                        data-dropdown-offset-distance="15"
+                        data-dropdown-offset-skidding="-30"
                 >
                     <span class="sr-only">Open user menu</span>
                     {% if app.user %}

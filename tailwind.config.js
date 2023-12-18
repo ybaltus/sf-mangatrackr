@@ -56,7 +56,7 @@ module.exports = {
                 'footer-desk': '1.25rem',
                 'footer-mob': '0.9rem',
                 'title-menu-desk': '1rem',
-                'title-menu-mob': '3rem',
+                'title-menu-mob': '1.2rem',
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
                 'text-search-desk': '1.2rem',
@@ -126,11 +126,11 @@ module.exports = {
                 'icon-navbar-mob': '0.5rem',
                 'icon-navbar-desk': '1rem',
                 'menu-navbar-x': '2rem',
-                'menu-navbar-y-mob': '5rem',
+                'menu-navbar-y-mob': '2rem',
                 'menu-navbar-y-desk': '0px',
             },
             margin: {
-                'menu-mob-top': '6rem',
+                'menu-mob-top': '3rem',
                 'menu-desk-top': '0px',
                 'arrow-hp-mob-top': '5rem',
                 'arrow-hp-desk-top': '5rem',
@@ -143,11 +143,11 @@ module.exports = {
                 'manga-card': '0.5rem'
             },
             textUnderlineOffset: {
-                'menu-mob': '14px',
+                'menu-mob': '7px',
                 'menu-desk': '10px'
             },
             textDecorationThickness: {
-                'menu-mob': '10px',
+                'menu-mob': '5px',
                 'menu-desk': '4px'
             },
             borderWidth: {
