@@ -68,7 +68,11 @@ module.exports = {
                 'h2-about-mob': '2rem',
                 'h2-about-desk': '4rem',
                 'h2-about-team-mob': '2rem',
-                'h2-about-team-desk': '2.5rem'
+                'h2-about-team-desk': '2.5rem',
+                'p-characteristics-mob': '1rem',
+                'p-characteristics-desk': '1.5rem',
+                'cta-nav-mob': '1rem',
+                'cta-nav-desk': '1.5rem',
             },
             lineHeight: {
                 'h1-desk': '1.5',
@@ -123,7 +127,7 @@ module.exports = {
                 'btn-minus-plus-desk': '3rem',
                 'manga-scantheque-mob': '13rem',
                 'manga-scantheque-desk': '20rem',
-                'manga-detail-mob': '30rem',
+                'manga-detail-mob': '14rem',
                 'manga-detail-desk': '20rem',
             },
             space: {
