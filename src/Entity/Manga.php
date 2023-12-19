@@ -414,6 +414,7 @@ class Manga
            'titleSlug' => $this->titleSlug,
            'urlImg' => $this->getMangaJikanAPI()->getMalImgWebp(),
            'nbChapters' => $this->nbChapters,
+            'mut' => null,
         ]);
     }
 }

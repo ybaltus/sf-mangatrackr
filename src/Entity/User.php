@@ -278,6 +278,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'title' => $manga->getTitle(),
                     'titleSlug' => $manga->getTitleSlug(),
                     'urlImg' => $manga->getMangaJikanAPI()->getMalImgWebp(),
+                    'mut' => $mangaTrack->getId(),
                 ];
             }
         }
