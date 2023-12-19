@@ -4,11 +4,11 @@
 
 {% block body %}
     {# About  #}
-    <section class="pt-48 bg-app-clear-gray dark:bg-app-dark-black">
-        <div class="items-start px-8 lg:px-4 py-16 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
-            <div class="mb-20 lg:mb-0 text-app-dark-black dark:text-app-dark-gray2">
+    <section class="pt-0 bg-app-clear-gray dark:bg-app-dark-black">
+        <div class="items-start px-4 lg:px-4 py-8 lg:py-32 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
+            <div class="mb-12 lg:mb-0 text-app-dark-black dark:text-app-dark-gray2">
                 <h2
-                        class="text-[4rem] lg:text-[4rem] leading-normal font-sora-semiBold"
+                        class="text-h2-about-mob lg:text-h2-about-desk leading-normal font-sora-semiBold"
                 >
                     Lisez.<br>
                     <span
@@ -23,11 +23,11 @@
             <div
                     class="lg:max-w-xl font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
             >
-                <p class="mb-10">
+                <p class="mb-4 lg:mb-10">
                     MangaSync est une application dédiée aux passionnés de mangas qui recherchent une solution simple
                     et efficace pour suivre leur progression de lecture.
                 </p>
-                <p class="mb-10">
+                <p class="mb-4 lg:mb-10">
                     Notre mission est claire : simplifier votre expérience de lecture de scans. Chaque lecteur a ses préférences
                     et son rythme, c’est pourquoi MangaSync propose une solution sans tracas pour suivre vos mangas.
                 </p>
@@ -42,10 +42,10 @@
 
     {# Team #}
     <section class="bg-app-clear-white dark:bg-app-dark-gray1">
-        <div class="gap-16 items-center py-24 px-4 lg:py-16 lg:px-6 mx-auto max-w-screen-xl grid grid-cols-1 lg:grid lg:grid-cols-2">
-            <div class="grid grid-cols-2 gap-4 mt-8 order-2 lg:order-1">
-                <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
-                    <img class="w-full rounded-lg p-4 border border-app-clear-black dark:border-app-dark-gray2"
+        <div class="gap-4 lg:gap-16 items-center py-8 px-4 lg:py-16 lg:px-6 mx-auto max-w-screen-xl grid grid-cols-1 lg:grid lg:grid-cols-2">
+            <div class="grid grid-cols-2 gap-4 mt-4 lg:mt-8 order-2 lg:order-1">
+                <div class="px-2 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+                    <img class="w-full rounded-lg p-2 lg:p-4 border border-app-clear-black dark:border-app-dark-gray2"
                          src="{{ asset('build/images/octron.jpg') }}"
                          alt="Octron"
                     >
@@ -54,8 +54,8 @@
                         Octron
                     </h3>
                 </div>
-                <div class="px-12 lg:px-0 bg-white rounded-lg dark:bg-transparent">
-                    <img class="lg:mt-4 w-full rounded-lg p-4 border border-app-clear-black dark:border-app-dark-gray2"
+                <div class="px-2 lg:px-0 bg-white rounded-lg dark:bg-transparent">
+                    <img class="lg:mt-4 w-full rounded-lg p-2 lg:p-4 border border-app-clear-black dark:border-app-dark-gray2"
                          src="{{ asset('build/images/smata.jpg') }}"
                          alt="Smata"
                     >
@@ -65,8 +65,8 @@
                     </h3>
                 </div>
             </div>
-            <div class="px-12 lg:px-0 max-w-full lg:max-w-sm text-app-clear-black dark:text-app-dark-gray2 order-1 lg:order-2">
-                <h2 class="mb-20 text-[60px] lg:text-[40px] font-sora-semiBold ">
+            <div class="px-4 lg:px-0 max-w-full lg:max-w-sm text-app-clear-black dark:text-app-dark-gray2 order-1 lg:order-2">
+                <h2 class="mb-10 lg:mb-20 text-h2-about-team-mob lg:text-h2-about-team-desk font-sora-semiBold ">
                     L'équipe
                 </h2>
                 <p class="mb-4 font-sora-regular text-text-mob lg:text-text-desk">

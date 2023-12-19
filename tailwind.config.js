@@ -64,7 +64,11 @@ module.exports = {
                 'text-dropdown-mob': '1rem',
                 'text-dropdown-desk': '1.5rem',
                 'text-login-mob': '2.5rem',
-                'text-login-desk': '1.25rem'
+                'text-login-desk': '1.25rem',
+                'h2-about-mob': '2rem',
+                'h2-about-desk': '4rem',
+                'h2-about-team-mob': '2rem',
+                'h2-about-team-desk': '2.5rem'
             },
             lineHeight: {
                 'h1-desk': '1.5',
