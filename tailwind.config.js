@@ -73,6 +73,10 @@ module.exports = {
                 'p-characteristics-desk': '1.5rem',
                 'cta-nav-mob': '1rem',
                 'cta-nav-desk': '1.5rem',
+                'label-form-mob': '1.2rem',
+                'label-form-desk': '1.5rem',
+                'text-form-mob': '1rem',
+                'text-form-desk': '1.5rem',
             },
             lineHeight: {
                 'h1-desk': '1.5',
