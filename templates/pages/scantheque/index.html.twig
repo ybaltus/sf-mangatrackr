@@ -18,7 +18,7 @@
 
     {# Set user datas for localstorage #}
     {% set userConnected = user ? true : false %}
-    {% set userConfig = user ? user.scanthequeData : '' %}
+    {% set userConfig = user ? user.scanthequeData : [] %}
 
     <div
             {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}

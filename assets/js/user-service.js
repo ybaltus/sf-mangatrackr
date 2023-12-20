@@ -19,7 +19,7 @@ export const persistScanthequeDatas = async(statusTrack, mangas) => {
     }
 }
 
-export const addUserConfigToLocalStorage = (mangaData, statusTrack) =>
+export const addUserConfigToLocalStorage = (mangaDatas, statusTrack) =>
 {
     switch (statusTrack) {
         case 'play':
@@ -32,8 +32,11 @@ export const addUserConfigToLocalStorage = (mangaData, statusTrack) =>
             return;
     }
 
-    // TODO Parcourir les données et les ajouter dans chaque statusTrack du localStorage
-    localStorage.setItem(statusTrack, mangaData);
+    if (!mangaDatas || typeof mangaDatas !== 'object') {
+        return {};
+    }
+
+    localStorage.setItem(statusTrack, JSON.stringify(mangaDatas));
 }
 
 

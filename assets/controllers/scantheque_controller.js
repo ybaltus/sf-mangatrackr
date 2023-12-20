@@ -3,7 +3,6 @@ import {useDebounce} from "stimulus-use";
 import * as mangaService from './../js/manga-service';
 import * as toastService from './../js/toast-service';
 import * as userService from './../js/user-service';
-import {persistAllScanthequeDatas, persistScanthequeDatas} from "./../js/user-service";
 
 export default class extends Controller {
     static debounces = ['_debouncedUpdateNbChapter'];
@@ -204,33 +203,25 @@ Privates functions
     {
         // User stimulus values
         const userConnected = this.userConnectedValue;
-        const userConfig = this.userConfigValue;
+        const userConfigByStatusTrack = this.userConfigValue ? JSON.parse(this.userConfigValue) : [];
 
         // Get all mangas
         let mangas = Object.values(mangaService.getAllMangasFromLocalstorage(statusTrack));
 
-        console.log('userConnected ', userConnected);
-        // console.log('userConfig ',userConfig);
 
         if (userConnected ) {
-            if (!userConfig && mangas.length > 0) {
-                console.log('User connecté mais pas de données- On enregistre en bdd');
-                console.log(mangas);
+            // User connected but no data - Persist data in DB'
+            if (!userConfigByStatusTrack[statusTrack] && mangas.length > 0) {
                 // Persist mangas in DB
                 userService.persistScanthequeDatas(statusTrack, mangas);
             }
 
-            // TODO Connecté, données en ligne, on écrase/sauvegarde dans le localstorage (même si données il y a)
-            if (userConfig) {
-                console.log('User connecté avec des données- On maj le localstorage');
-                // Update manga in localstorage
-                console.log('userConfig ',userConfig);
-                userService.addUserConfigToLocalStorage(userConfig, statusTrack);
+            // User connected with data - Update local storage
+            if (userConfigByStatusTrack[statusTrack]) {
+                userService.addUserConfigToLocalStorage(userConfigByStatusTrack[statusTrack], statusTrack);
                 mangas = Object.values(mangaService.getAllMangasFromLocalstorage(statusTrack));
-
             }
         }
-        console.log('ok');
 
         // Create MangaCard elements
         mangas.map(manga => {

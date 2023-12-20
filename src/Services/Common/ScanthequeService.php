@@ -5,9 +5,7 @@ namespace App\Services\Common;
 use App\Entity\Manga;
 use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class ScanthequeService
 {
@@ -21,7 +19,7 @@ class ScanthequeService
      */
     public function persistMangasDatas(
         StatusTrack $statusTrack,
-        User|UserInterface $user,
+        mixed $user,
         array $mangaDatas
     ): bool {
         foreach ($mangaDatas as $mData) {

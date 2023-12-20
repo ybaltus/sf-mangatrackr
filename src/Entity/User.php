@@ -263,7 +263,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             return $this->scanthequeData;
         }
 
-        $results = [];
+        $results = [
+            'play' => [],
+            'pause' => [],
+            'archived' => [],
+            'not-started' => [],
+        ];
 
         /**
          * @var MangaUserTrack $mangaTrack
@@ -271,7 +276,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         foreach ($listMangasTrack as $mangaTrack) {
             if (true === $mangaTrack->isIsActivated()) {
                 $manga = $mangaTrack->getManga();
-                $results[$manga->getTitleSlug()] = [
+                $results[$mangaTrack->getStatusTrack()->getNameSlug()][$manga->getTitleSlug()] = [
                     'nbChapters' => $manga->getNbChapters(),
                     'nbChaptersTrack' => $mangaTrack->getNbChapters(),
                     'statusTrack' => $mangaTrack->getStatusTrack()->getNameSlug(),
