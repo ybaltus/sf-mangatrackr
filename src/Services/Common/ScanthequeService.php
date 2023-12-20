@@ -22,28 +22,51 @@ class ScanthequeService
         mixed $user,
         array $mangaDatas
     ): bool {
-        foreach ($mangaDatas as $mData) {
-            // Get Manga Entity
-            $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($mData['titleSlug']);
+        try {
+            foreach ($mangaDatas as $mData) {
+                // Get Manga Entity
+                $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($mData['titleSlug']);
 
-            // Get MangaStatusTrack if exist or create a new instance
-            $mangaStatusTrack = $this->checkMutEntryInData($mData) ?
-                $this->em->getRepository(MangaUserTrack::class)->findOneById($mData['mut']) :
-                (new MangaUserTrack())
-            ->setUserTrackList($user->getUserTrackList())
-                ->setManga($manga);
+                // Get MangaStatusTrack if exist or create a new instance
+                $mangaStatusTrack = $this->checkMutEntryInData($mData) ?
+                    $this->em->getRepository(MangaUserTrack::class)->findOneById($mData['mut']) :
+                    (new MangaUserTrack())
+                        ->setUserTrackList($user->getUserTrackList())
+                        ->setManga($manga);
 
-            // Update status and nbChapter
-            $mangaStatusTrack->setStatusTrack($statusTrack);
-            $mangaStatusTrack->setNbChapters($mData['nbChaptersTrack']);
+                // Update status and nbChapter
+                $mangaStatusTrack->setStatusTrack($statusTrack);
+                $mangaStatusTrack->setNbChapters($mData['nbChaptersTrack']);
 
-            $this->em->persist($mangaStatusTrack);
-            dump($mangaStatusTrack);
+                $this->em->persist($mangaStatusTrack);
+                dump($mangaStatusTrack);
+            }
+            $this->em->flush();
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
+    }
 
-        $this->em->flush();
+    public function updateMangasData(
+        MangaUserTrack $mangaUserTrack,
+        array $mangaData,
+    ): bool {
+        try {
+            if (true === $mangaData['isUpdateStatusTrack']) {
+                $statusTrack = $this->em->getRepository(StatusTrack::class)
+                    ->findOneByNameSlug($mangaData['statusTrack']);
+                $mangaUserTrack->setStatusTrack($statusTrack);
+            } else {
+                $mangaUserTrack->setNbChapters($mangaData['nbChaptersTrack']);
+            }
+            $this->em->flush();
 
-        return true;
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     private function checkMutEntryInData(mixed $mData): bool

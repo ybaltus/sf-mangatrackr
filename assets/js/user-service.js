@@ -10,12 +10,27 @@ export const persistScanthequeDatas = async(statusTrack, mangas) => {
             method: "POST",
             headers: _headers,
             body: JSON.stringify({'mangas': mangas}),
-            // body: JSON.stringify({'mangas': mangas}),
         });
         const resultat = await reponse.json();
-        console.log("Réussite :", resultat);
+        // console.log("Réussite :", resultat);
     } catch (erreur) {
-        console.error("Erreur :", erreur);
+        console.error("Persist datas error :", erreur);
+    }
+}
+
+export const updateMangaDatas = async(mangaToUpdate, isUpdateStatusTrack = false) => {
+    try {
+        console.log('updateMangaDatas');
+
+        const reponse = await fetch('/scantheque/umut_datas/' + mangaToUpdate['mut'], {
+            method: "PUT",
+            headers: _headers,
+            body: JSON.stringify({...mangaToUpdate, 'isUpdateStatusTrack': isUpdateStatusTrack}),
+        });
+        const resultat = await reponse.json();
+        // console.log("Réussite :", resultat);
+    } catch (erreur) {
+        console.error("Persist datas error :", erreur);
     }
 }
 

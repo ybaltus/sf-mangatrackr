@@ -153,6 +153,8 @@ export const updateNbChapterMangaInLocalStorage = (statusTrack, titleSlug, nbCha
     }
 
     localStorage.setItem(statusTrack, JSON.stringify(mangasListStorage));
+
+    return mangaToUpdate;
 }
 
 export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTrack, titleSlug, mangaCardId) =>
@@ -168,7 +170,7 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
     }
 
     // Clone and update the manga entry
-    const mangaToUpdate = {...currentStatusListStorage[titleSlug]};
+    let mangaToUpdate = {...currentStatusListStorage[titleSlug]};
     if (mangaToUpdate) {
         mangaToUpdate.statusTrack = newStatusTrack;
 
@@ -181,6 +183,8 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
         // Move manga card element in new status section
         _moveMangaCardStatusSection(mangaCardId, currentStatusTrack, newStatusTrack);
     }
+
+    return mangaToUpdate;
 }
 
 export const removeMangaInLocalStorage = (statusTrack, titleSlug) =>
@@ -188,6 +192,26 @@ export const removeMangaInLocalStorage = (statusTrack, titleSlug) =>
     const mangasListLocalStorage =  getAllMangasFromLocalstorage(statusTrack);
     delete mangasListLocalStorage[titleSlug];
     localStorage.setItem(statusTrack, JSON.stringify(mangasListLocalStorage));
+}
+
+export const searchMangaFromLocalstorage = (titleSlug) =>
+{
+    const listStatusTrack = ['play', 'pause', 'archived', 'not-started'];
+    let result = false;
+    for (let i = 0; i < listStatusTrack.length; i++) {
+        const statusTrack = listStatusTrack[i];
+        const entriesString = localStorage.getItem(statusTrack);
+        const entries = entriesString ? JSON.parse(entriesString) : null;
+
+        if (entries) {
+            const manga = Object.values(entries).find(manga => manga.titleSlug === titleSlug);
+            if (manga) {
+                result = manga;
+                break;
+            }
+        }
+    };
+    return result;
 }
 
 /*

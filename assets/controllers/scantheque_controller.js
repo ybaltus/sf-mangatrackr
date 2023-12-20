@@ -9,6 +9,7 @@ export default class extends Controller {
     static targets = ['play', 'pause', 'archived', 'step'];
     static values = {'userConnected': Boolean, 'userConfig': String}
     maxEntry = 30;
+    hasManga = false;
 
     // In order to save the datas for the debounced events with useDebounce()
     currentTargetForDebounce = null;
@@ -24,6 +25,7 @@ export default class extends Controller {
             localStorage.setItem('play', '');
             localStorage.setItem('pause', '');
             localStorage.setItem('archived', '');
+            localStorage.setItem('not-started', '');
         }
 
         // Initialize user data
@@ -35,61 +37,24 @@ export default class extends Controller {
     {
         // Set useDebounce for this controller
         useDebounce(this, { wait: 500 });
-
     }
 
     // Triggered when play target is connected to the DOM
     playTargetConnected(targetElement)
     {
         this._initDatasByStatusTrack(targetElement, 'play');
-
-        // // Get all mangas
-        // const mangas = Object.values(mangaService.getAllMangasFromLocalstorage('play'));
-        // mangas.map(manga => {
-        //     mangaService.addMangaCardElement(targetElement, manga);
-        // });
-        //
-        // // Add number of manga
-        // mangaService.setNbMangaInTitle('play', mangas.length);
-        //
-        // // Show if no mangas
-        // this._showStepSection(mangas.length);
     }
 
     // Triggered when pause target is connected to the DOM
     pauseTargetConnected(targetElement)
     {
         this._initDatasByStatusTrack(targetElement, 'pause');
-
-        // Get all mangas
-        // const mangas = Object.values(mangaService.getAllMangasFromLocalstorage('pause'));
-        // mangas.map(manga => {
-        //     mangaService.addMangaCardElement(target, manga);
-        // });
-        //
-        // // Add number of manga
-        // mangaService.setNbMangaInTitle('pause', mangas.length);
-        //
-        // // Show if no mangas
-        // this._showStepSection(mangas.length);
     }
 
     // Triggered when archived target is connected to the DOM
     archivedTargetConnected(targetElement)
     {
         this._initDatasByStatusTrack(targetElement, 'archived');
-
-        // Get all mangas
-        // const mangas = Object.values(mangaService.getAllMangasFromLocalstorage('archived'));
-        // mangas.map(manga => {
-        //     mangaService.addMangaCardElement(target, manga);
-        // });
-        //
-        // // Add number of manga
-        // mangaService.setNbMangaInTitle('archived', mangas.length);
-        //
-        // // Show if no mangas
-        // this._showStepSection(mangas.length);
     }
 
     addToScantheque(event)
@@ -98,9 +63,15 @@ export default class extends Controller {
 
         const mangaData = event.params.mangaData;
         const statusTrack = event.params.statusTrack;
+        const userConnected = this.userConnectedValue;
 
-        if (mangaData && !mangaService.getMangaFromLocalstorage(mangaData.titleSlug) && !mangaService.checkMaxEntry(statusTrack, this.maxEntry)) {
+        if (mangaData && !mangaService.searchMangaFromLocalstorage(mangaData.titleSlug) && !mangaService.checkMaxEntry(statusTrack, this.maxEntry)) {
             mangaService.addMangaToLocalStorage(mangaData, statusTrack);
+
+            if (userConnected) {
+                userService.persistScanthequeDatas(statusTrack, [mangaData.titleSlug = {...mangaData, 'statusTrack': statusTrack, 'nbChaptersTrack': 1}]);
+            }
+
             toastService.handleToastMessage('Ajouté à la scanthèque !');
         } else {
             toastService.handleToastMessage('Existe déjà dans la scanthèque.');
@@ -148,7 +119,11 @@ export default class extends Controller {
             return;
         }
 
-        mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId);
+        const mangaToUpdate = mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId);
+
+        if (this.userConnectedValue) {
+            userService.updateMangaDatas(mangaToUpdate, true);
+        }
     }
 
     /*
@@ -173,15 +148,18 @@ Privates functions
         const statusTrack = currentNbChapterInputElement.getAttribute('status-track');
         const nbChaptersTrack = currentNbChapterInputElement.value;
 
-        mangaService.updateNbChapterMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
+        const mangaToUpdate = mangaService.updateNbChapterMangaInLocalStorage(statusTrack, titleSlug, nbChaptersTrack);
+
+        if (this.userConnectedValue) {
+            userService.updateMangaDatas(mangaToUpdate);
+        }
     }
 
-    _showStepSection(length)
+    _showStepSection()
     {
         const scanthequeMangaSections = document.querySelectorAll('.scantheque-manga-section');
-        // console.log(scanthequeMangaSections)
 
-        if (length <= 0 && this.stepTarget.classList.contains('hidden')) {
+        if (this.hasManga <= 0 && this.stepTarget.classList.contains('hidden')) {
             this.stepTarget.classList.remove('hidden');
 
             [...scanthequeMangaSections].map(sectionElement => {
@@ -208,7 +186,6 @@ Privates functions
         // Get all mangas
         let mangas = Object.values(mangaService.getAllMangasFromLocalstorage(statusTrack));
 
-
         if (userConnected ) {
             // User connected but no data - Persist data in DB'
             if (!userConfigByStatusTrack[statusTrack] && mangas.length > 0) {
@@ -231,7 +208,10 @@ Privates functions
         // Add number of manga
         mangaService.setNbMangaInTitle(statusTrack, mangas.length);
 
-        // Show if no mangas
-        this._showStepSection(mangas.length);
+        // Show step section if no mangas
+        if (!this.hasManga && mangas.length > 0) {
+            this.hasManga = true;
+        }
+        this._showStepSection();
     }
 }

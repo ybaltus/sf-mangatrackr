@@ -33,10 +33,13 @@
         <div
                 class="grid grid-cols-1 lg:grid lg:grid-cols-3 items-center lg:items-start px-2 lg:px-4 py-6 lg:py-16 mx-auto max-w-screen-xl"
         >
+            {# Set user datas for localstorage #}
+            {% set userConnected = app.user ? true : false %}
+            {% set userConfig = app.user ? app.user.scanthequeData : [] %}
 
             {#Left #}
             <div
-                    {{ stimulus_controller('scantheque') }}
+                    {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
                     class="col-span-1 bg-white rounded-lg dark:bg-transparent"
             >
                 {# Image #}
