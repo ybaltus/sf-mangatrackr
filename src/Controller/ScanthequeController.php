@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/scantheque')]
 class ScanthequeController extends AbstractController
@@ -48,15 +49,12 @@ class ScanthequeController extends AbstractController
     }
 
     #[Route('/umut_datas/{id}', name: 'scantheque_umutd', methods: ['POST', 'PUT'])]
+    #[IsGranted('mut_edit', 'mangaUserTrack')]
     public function updateMangaUserTrackDatas(
         Request $request,
         ScanthequeService $scanthequeService,
         MangaUserTrack $mangaUserTrack
     ): JsonResponse {
-        $user = $this->getUser();
-
-        // TODO Add voter
-
         $status = 200;
         $mangaData = $request->toArray();
         $results = null;
@@ -71,15 +69,13 @@ class ScanthequeController extends AbstractController
     }
 
     #[Route('/dmut_datas/{id}', name: 'scantheque_dmutd', methods: ['DELETE'])]
+    #[IsGranted('mut_delete', 'mangaUserTrack')]
     public function deleteMangaUserTrackDatas(
-        Request $request,
         EntityManagerInterface $em,
         MangaUserTrack $mangaUserTrack
     ): JsonResponse {
-        $user = $this->getUser();
         $status = 200;
         $message = 'Delete with success';
-        // TODO Add voter
 
         try {
             $em->remove($mangaUserTrack);
