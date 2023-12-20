@@ -161,16 +161,18 @@ export const updateStatusMangaInLocalStorage = (currentStatusTrack, newStatusTra
 {
     let currentStatusListStorage = getAllMangasFromLocalstorage(currentStatusTrack);
 
+    // Clone the manga entry
+    let mangaToUpdate = {...currentStatusListStorage[titleSlug]};
+
     // CurrentStatusTrack = delete
     if (newStatusTrack === 'delete') {
         removeMangaInLocalStorage(currentStatusTrack, titleSlug);
         _deleteMangaCardElement(mangaCardId);
         setNbMangaInTitle(currentStatusTrack, _getNbMangas(currentStatusTrack));
-        return;
+        return mangaToUpdate;
     }
 
-    // Clone and update the manga entry
-    let mangaToUpdate = {...currentStatusListStorage[titleSlug]};
+    // Update the manga entry
     if (mangaToUpdate) {
         mangaToUpdate.statusTrack = newStatusTrack;
 

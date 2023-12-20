@@ -49,6 +49,9 @@ class ScanthequeService
         }
     }
 
+    /**
+     * @param array<mixed> $mangaData
+     */
     public function updateMangasData(
         MangaUserTrack $mangaUserTrack,
         array $mangaData,

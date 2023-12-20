@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use App\Services\Common\ScanthequeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ class ScanthequeController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+
         return $this->render('pages/scantheque/index.html.twig', [
             'controller_name' => 'ScanthequeController',
             'user' => $user,
@@ -53,7 +55,7 @@ class ScanthequeController extends AbstractController
     ): JsonResponse {
         $user = $this->getUser();
 
-        //TODO Add voter
+        // TODO Add voter
 
         $status = 200;
         $mangaData = $request->toArray();
@@ -66,5 +68,27 @@ class ScanthequeController extends AbstractController
         }
 
         return $this->json($results, $status);
+    }
+
+    #[Route('/dmut_datas/{id}', name: 'scantheque_dmutd', methods: ['DELETE'])]
+    public function deleteMangaUserTrackDatas(
+        Request $request,
+        EntityManagerInterface $em,
+        MangaUserTrack $mangaUserTrack
+    ): JsonResponse {
+        $user = $this->getUser();
+        $status = 200;
+        $message = 'Delete with success';
+        // TODO Add voter
+
+        try {
+            $em->remove($mangaUserTrack);
+            $em->flush();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $status = 400;
+        }
+
+        return $this->json($message, $status);
     }
 }
