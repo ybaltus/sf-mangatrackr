@@ -121,8 +121,6 @@ export default class extends Controller {
 
         const mangaToUpdate = mangaService.updateStatusMangaInLocalStorage(currentStatusTrack, newStatusTrack, titleSlug, mangaCardId);
 
-        console.log('this.userConnectedValue', this.userConnectedValue);
-        console.log('newStatusTrack', newStatusTrack);
         if (this.userConnectedValue) {
             if (newStatusTrack === 'delete') {
                 userService.deleteMangaDatas(mangaToUpdate);

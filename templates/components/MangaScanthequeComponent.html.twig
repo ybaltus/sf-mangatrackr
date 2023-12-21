@@ -6,57 +6,49 @@
     >
         <div
                 class="py-10 px-4 mx-auto max-w-screen-xl lg:py-24 lg:px-6"
-                {% if statusTrack == 'archived' %}
-                    id="accordion-collapse"
+                    id="accordion-collapse-{{ statusTrack }}"
                     data-accordion="collapse"
                     data-active-classes="bg-app-clear-white dark:bg-app-dark-gray1"
-                {% endif %}
         >
             <div class="text-center lg:text-left mb-section-h2-mob-bottom lg:mb-section-h2-desk-bottom">
-                {% if statusTrack == 'archived' %}
-                    <h2
-                            id="title-{{ statusTrack }}"
-                            class="justify-center lg:justify-start flex text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
+                <h2
+                        id="title-{{ statusTrack }}"
+                        class="lg:inline-flex lg:items-center lg:justify-center text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
+                >
+                    {{ title }} (<span></span>)
+                    <button
+                            type="button"
+                            class="font-medium rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
+                            data-accordion-target="#scantheque-list-{{ statusTrack }}"
+                            {% if statusTrack == 'archived' %}
+                            aria-expanded="false"
+                            {% else %}
+                                aria-expanded="true"
+                            {% endif %}
+                            aria-controls="scantheque-list-{{ statusTrack }}"
+                            title="Afficher les chapitres archivés"
                     >
-                        {{ title }} (<span></span>)
-                        <button
-                                type="button"
-                                class="flex ml-2 font-medium justify-between rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
-                                data-accordion-target="#scantheque-list-{{ statusTrack }}"
-                                aria-expanded="false"
-                                aria-controls="scantheque-list-{{ statusTrack }}"
-                                title="Afficher les chapitres archivés"
+                        <svg
+                                data-accordion-icon
+                                class="ml-2 w-5 h-5 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-focus-purple "
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 10 6"
                         >
-                            <svg
-                                    data-accordion-icon
-                                    class="my-auto w-5 h-5 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-focus-purple "
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 10 6"
-                            >
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-                            </svg>
-                        </button>
-                    </h2>
-                {% else %}
-                    <h2
-                            id="title-{{ statusTrack }}"
-                            class="text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
-                    >
-                        {{ title }} (<span></span>)
-
-                    </h2>
-                {% endif %}
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
             </div>
             <div
                     {{ stimulus_target('scantheque',  statusTrack) }}
                     id="scantheque-list-{{ statusTrack }}"
+                    aria-labelledby="title-{{ statusTrack }}"
                     {% if statusTrack == 'archived' %}
-                        aria-labelledby="title-{{ statusTrack }}"
                         class="hidden grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
                     {% else %}
-                            class="grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
+                        class="grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
 
                     {% endif %}
             >
