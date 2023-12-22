@@ -1,24 +1,139 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Invitation{% endblock %}
+{% block title %}Invitation - {{ app_name }}{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
-    {% for label, messages in app.flashes(['success', 'warning']) %}
-        {% for message in messages %}
-                <p class="mb-0">{{ message }}</p>
-        {% endfor %}
-    {% endfor %}
 
-    {{ form_errors(invitationForm) }}
+    <section class="bg-gray-50 dark:bg-gray-900">
+        <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto md:h-screen lg:py-0">
+            <a
+                    href="#"
+                    class="flex items-center mb-6 text-logo-mob lg:text-logo-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                    title="{{ app_name }}"
+            >
+                Inscription à {{ app_name }}
+            </a>
 
-    {{ form_start(invitationForm) }}
-        {{ form_row(invitationForm.username) }}
-        {{ form_row(invitationForm.email) }}
-        {{ form_row(invitationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+            <div
+                    class="w-full rounded-lg shadow md:mt-0 sm:max-w-3xl xl:p-0 border border-app-clear-black bg-app-clear-white dark:bg-gray-800 dark:border dark:border-gray-700"
+            >
+                <div
+                        class="p-4 lg:p-8 space-y-4 md:space-y-6 "
+                >
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(invitationForm) }}
+                    {{ form_start(invitationForm,
+                        {'attr': {'class': 'space-y-6 lg:space-y-8'}}
+                    ) }}
+
+                    {# Username #}
+                    <div class="mb-10">
+                        {{ form_label(
+                            invitationForm.username,
+                            "Nom d'utilisateur",
+                            {'label_attr':
+                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                            })
+                        }}
+                        <div
+                                class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert"
+                        >
+                            {{ form_errors(invitationForm.username) }}
+                        </div>
+                        {{ form_widget(
+                            invitationForm.username,
+                            {'attr': {
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'placeholder': "Mon pseudo"
+                            }}
+,                        ) }}
+                        <p class="mt-1 text-sm text-app-clear-black dark:text-app-dark-gray2">
+                            Maximum 20 caractères.
+                        </p>
+                    </div>
+                    {# Email #}
+                    <div class="mb-10">
+                        {{ form_label(
+                            invitationForm.email,
+                            "Email",
+                            {'label_attr':
+                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                            })
+                        }}
+                        <div
+                                class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert"
+                        >
+                            {{ form_errors(invitationForm.email) }}
+                        </div>
+                        {{ form_widget(
+                            invitationForm.email,
+                            {'attr': {
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'placeholder': "my@email.com"
+                            }}
+                        ) }}
+                    </div>
+                    {# Password #}
+                    <div class="mb-10">
+                        {{ form_label(
+                            invitationForm.plainPassword.first,
+                            "Mot de passe",
+                            {'label_attr':
+                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                            })
+                        }}
+                        <div
+                                class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert"
+                        >
+                            {{ form_errors(invitationForm.plainPassword.first) }}
+                        </div>
+                        {{ form_widget(
+                            invitationForm.plainPassword.first,
+                            {'attr': {
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'placeholder': "*********",
+                            }}
+                        ) }}
+                        <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
+                            Minimum 8 caractères.
+                        </p>
+                        {{ form_label(
+                            invitationForm.plainPassword.second,
+                            "Confirmez le mot de passe",
+                            {'label_attr':
+                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                            })
+                        }}
+                        <div
+                                class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert"
+                        >
+                            {{ form_errors(invitationForm.plainPassword.second) }}
+                        </div>
+                        {{ form_widget(
+                            invitationForm.plainPassword.second,
+                            {'attr': {
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'placeholder': "*********",
+                            }}
+                        ) }}
+                        <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
+                            Minimum 8 caractères.
+                        </p>
+                    </div>
+                    <button
+                            type="submit"
+                            class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-dark-gray1 hover:text-app-clear-white hover:bg-app-clear-purple ring-4 ring-app-clear-purple focus:ring-4 focus:outline-8 focus:ring-app-clear-purple dark:border-app-clear-purple dark:text-app-dark-gray2 dark:hover:text-app-dark-gray2 dark:hover:bg-app-clear-purple dark:focus:ring-app-clear-purple"
+                            title="S'enregistrer"
+                    >
+                        S'enregistrer
+                    </button>
+                    {{ form_end(invitationForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}

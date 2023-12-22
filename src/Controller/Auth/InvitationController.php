@@ -5,11 +5,12 @@ namespace App\Controller\Auth;
 use App\Entity\User;
 use App\Entity\UserInvitationCode;
 use App\Form\Auth\InvitationFormType;
+use App\Security\Auth\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InvitationController extends AbstractController
@@ -23,7 +24,7 @@ class InvitationController extends AbstractController
     public function register(
         UserInvitationCode $userInvitationCode,
         Request $request,
-        UserPasswordHasherInterface $userPasswordHasher,
+        Security $security,
     ): Response {
         // Verify the invitation code
         if (!$this->isInvitationCodeValid($userInvitationCode)) {
@@ -31,7 +32,9 @@ class InvitationController extends AbstractController
         }
 
         $user = new User();
-        $form = $this->createForm(InvitationFormType::class, $user);
+        $form = $this->createForm(InvitationFormType::class, $user, [
+            'emailInvitation' => $userInvitationCode->getEmail(),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,12 +55,16 @@ class InvitationController extends AbstractController
                 $this->em->persist($user);
                 $this->em->flush();
 
-                return $this->redirectToRoute('home_index');
+                // Login the user
+                $security->login($user, AppAuthenticator::class);
+
+                return $this->redirectToRoute('scantheque_index');
             }
         }
 
         return $this->render('pages/auth/invitation/register.html.twig', [
             'invitationForm' => $form->createView(),
+            'userEmail' => $userInvitationCode->getEmail(),
         ]);
     }
 

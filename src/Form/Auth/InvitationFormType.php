@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,34 +21,46 @@ class InvitationFormType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'constraints' => [
-                    new Length(['min' => 2, 'max' => 50]),
+                    new Length([
+                        'min' => 2,
+                        'max' => 20,
+                        'maxMessage' => 'Cette valeur est trop longue.
+                         Elle ne doit pas dépasser {{ limit }} caractères.',
+                        'minMessage' => 'Cette valeur est trop petite.
+                         Elle doit contenir au moins {{ limit }} caractères.',
+                    ]),
                 ],
                 'required' => true,
             ])
             ->add('email', EmailType::class, [
+                'data' => $options['emailInvitation'],
                 'constraints' => [
                     new Email(),
                     new Length(['min' => 2, 'max' => 180]),
                 ],
                 'required' => true,
             ])
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les champs du mot de passe doivent correspondre.',
+                'required' => true,
+                'first_options' => [
+                    'label' => 'Mot de passe',
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez le mot de passe',
+                ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez saisir un mot de passe',
                     ]),
                     new Length([
                         'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
-                'required' => true,
             ])
         ;
     }
@@ -56,6 +69,7 @@ class InvitationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'emailInvitation' => null,
         ]);
     }
 }
