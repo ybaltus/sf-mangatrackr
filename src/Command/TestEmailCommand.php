@@ -56,13 +56,15 @@ class TestEmailCommand extends Command
         }
 
         if ($emailFrom && $emailTo) {
-            $this->mailService->sendEmail(
+            $result = $this->mailService->sendEmail(
                 new Address($emailFrom, 'MangaTracker'),
                 $emailTo,
                 'MangaTracker - Test email command',
                 'emails/test.html.twig',
                 ['contact' => 'Hello from MangaTracker']
             );
+
+            $io->info($result);
 
             $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
         }

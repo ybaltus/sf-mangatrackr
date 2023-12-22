@@ -23,7 +23,7 @@ class MailService
         string $subject,
         string $htmlTemplate,
         array $context,
-    ): void {
+    ): string {
         $email = (new TemplatedEmail())
             ->from($from)
             ->to($to)
@@ -35,11 +35,12 @@ class MailService
 
         try {
             $this->mailer->send($email);
+
+            return 'Email sent successfully.';
         } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            var_dump($e->getMessage());
-            throw new \Exception($e->getMessage());
+            // var_dump($e->getMessage());
+            // throw new \Exception($e->getMessage());
+            return sprintf('Email not sent : %s', $e->getMessage());
         }
     }
 }

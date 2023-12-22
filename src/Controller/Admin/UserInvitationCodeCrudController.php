@@ -26,6 +26,8 @@ class UserInvitationCodeCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             EmailField::new('email'),
+            TextField::new('sendingEmailStatus')
+                ->hideWhenCreating(),
             TextField::new('codeInvitation')
             ->hideWhenCreating(),
             AssociationField::new('user')
