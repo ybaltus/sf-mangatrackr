@@ -61,7 +61,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             'emailTo' => $emailTo,
             'invitationUrl' => $this->router->generate('invitation_register', [
                 'codeInvitation' => $codeInvitation,
-            ]),
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
             'expiredAt' => $expiredAt,
         ];
 
