@@ -48,10 +48,14 @@ class UserInvitationCode
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    #[ORM\Column(length: 255)]
+    private string $sendingEmailStatus;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->expiredAt = $this->createdAt->add(new \DateInterval('P1D'));
+        $this->sendingEmailStatus = 'Default message';
     }
 
     public function getId(): ?int
@@ -147,5 +151,17 @@ class UserInvitationCode
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getSendingEmailStatus(): string
+    {
+        return $this->sendingEmailStatus;
+    }
+
+    public function setSendingEmailStatus(string $sendingEmailStatus): static
+    {
+        $this->sendingEmailStatus = $sendingEmailStatus;
+
+        return $this;
     }
 }
