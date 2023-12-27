@@ -10,12 +10,12 @@ final class FlashesMessagesComponent
     /**
      * @var array<string>
      */
-    public array $flashesMessageTarget;
+    public array $flashesMessageTarget = [];
 
-    public string $flashMessageType = 'simple';
+    public string $flashMessageType = 'default';
 
     /**
      * @var array<string>
      */
-    public array $listTypeFlashMessage = ['info', 'warning', 'danger', 'success', 'simple'];
+    public array $listTypeFlashMessage = ['info', 'warning', 'danger', 'success', 'default'];
 }
