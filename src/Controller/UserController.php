@@ -53,7 +53,9 @@ class UserController extends AbstractController
                 $security->login($user, AppAuthenticator::class);
             }
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_index', [
+                'tabSelected' => 2,
+            ]);
         }
 
         // Handle formUserPassword
@@ -81,7 +83,9 @@ class UserController extends AbstractController
                 );
             }
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_index', [
+                'tabSelected' => 3,
+            ]);
         }
 
         return $this->render('pages/user/index.html.twig', [

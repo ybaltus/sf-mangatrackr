@@ -10,24 +10,31 @@
 
     {# Flashes messages #}
     <div class="mx-4">
-    {{ component('FlashesMessagesComponent') }}
+        {{ component('FlashesMessagesComponent') }}
     </div>
+
 
     {# User Tab #}
     <div class="mx-4 md:flex">
+        {# Get tabSelected param #}
+        {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
                 class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
                 id="account-tabs"
                 data-tabs-toggle="#account-tab-content"
                 role="tablist"
         >
-           {# Btn tab 1 #}
+            {# Btn tab 1 #}
             <li>
                 <a
                         href="#"
                         class="inline-flex items-center px-4 py-3 text-white bg-blue-700 rounded-lg active w-full dark:bg-blue-600"
                         aria-current="page"
-                        aria-selected="true"
+                        {% if tabSelected is not defined %}
+                            aria-selected="true"
+                        {% else  %}
+                            aria-selected="false"
+                        {% endif %}
                         data-tabs-target="#tab-content-1"
                         aria-controls="tab-content-1"
                         role="tab"
@@ -45,7 +52,11 @@
                         href="#"
                         class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
                         data-tabs-target="#tab-content-2"
-                        aria-selected="false"
+                        {% if tabSelected == 2%}
+                            aria-selected="true"
+                        {% else  %}
+                            aria-selected="false"
+                        {% endif %}
                         aria-controls="tab-content-2"
                         role="tab"
                         title="Éditer mes informations"
@@ -63,7 +74,11 @@
                         href="#"
                         class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
                         data-tabs-target="#tab-content-3"
-                        aria-selected="false"
+                        {% if tabSelected == 3%}
+                            aria-selected="true"
+                        {% else  %}
+                            aria-selected="false"
+                        {% endif %}
                         aria-controls="tab-content-3"
                         role="tab"
                         title="Changer mon mot de passe"
