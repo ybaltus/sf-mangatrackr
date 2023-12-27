@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    {#  Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'Mon compte'
+    }) }}
+
+    {# Success message #}
+    <div class="mx-4">
+    {{ component('FlashesMessagesComponent', {
+        flashesMessageTarget: ['successUserEditInformations'],
+        flashMessageType: 'success'
+    }) }}
+    </div>
+
+    {# User Tab #}
+    <div class="mx-4 md:flex">
+        <ul
+                class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                id="account-tabs"
+                data-tabs-toggle="#account-tab-content"
+                role="tablist"
+        >
+           {# Btn tab 1 #}
+            <li>
+                <a
+                        href="#"
+                        class="inline-flex items-center px-4 py-3 text-white bg-blue-700 rounded-lg active w-full dark:bg-blue-600"
+                        aria-current="page"
+                        aria-selected="true"
+                        data-tabs-target="#tab-content-1"
+                        aria-controls="tab-content-1"
+                        role="tab"
+                        title="Infos"
+                >
+                    <svg class="w-4 h-4 me-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                    </svg>
+                    Infos
+                </a>
+            </li>
+            {# Btn tab 2 #}
+            <li>
+                <a
+                        href="#"
+                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        data-tabs-target="#tab-content-2"
+                        aria-selected="false"
+                        aria-controls="tab-content-2"
+                        role="tab"
+                        title="Éditer mes informations"
+                >
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                        <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-1.391 7.361.707-3.535a3 3 0 0 1 .82-1.533L7.929 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h4.259a2.975 2.975 0 0 1-.15-1.639ZM8.05 17.95a1 1 0 0 1-.981-1.2l.708-3.536a1 1 0 0 1 .274-.511l6.363-6.364a3.007 3.007 0 0 1 4.243 0 3.007 3.007 0 0 1 0 4.243l-6.365 6.363a1 1 0 0 1-.511.274l-3.536.708a1.07 1.07 0 0 1-.195.023Z"/>
+                    </svg>
+
+                    Éditer mes informations
+                </a>
+            </li>
+            {# Btn tab 3 #}
+            <li>
+                <a
+                        href="#"
+                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        data-tabs-target="#tab-content-3"
+                        aria-selected="false"
+                        aria-controls="tab-content-3"
+                        role="tab"
+                        title="Changer mon mot de passe"
+                >
+                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+                    </svg>
+                    Changer mon mot de passe
+                </a>
+            </li>
+            {# Btn tab 4 #}
+            <li>
+                <a
+                        href="#"
+                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        data-tabs-target="#tab-content-4"
+                        aria-selected="false"
+                        aria-controls="tab-content-4"
+                        role="tab"
+                        title="Supprimer mon compte"
+                >
+                    <svg class="w-4 h-4 me-2 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                        <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z"/>
+                    </svg>
+                    Supprimer mon compte
+                </a>
+            </li>
+        </ul>
+        {# Tab content 1 #}
+        <div
+                id="tab-content-1"
+                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                role="tabpanel"
+        >
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Tab 1</h3>
+            <p>The tab JavaScript swaps classes to control the content visibility and styling.</p>
+        </div>
+        {# Tab content 2 #}
+        <div
+                id="tab-content-2"
+                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                role="tabpanel"
+        >
+            <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-0">
+                <h3
+                        class="flex items-center mb-6 text-logo-mob lg:text-logo-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                >
+                    Éditer mes informations
+                </h3>
+
+                <div
+                        class="w-full rounded-lg shadow md:mt-0 sm:max-w-3xl xl:p-0 border border-app-clear-black bg-app-clear-white dark:bg-gray-800 dark:border dark:border-gray-700"
+                >
+                    <div
+                            class="p-4 lg:p-8 space-y-4 md:space-y-6 "
+                    >
+
+                        {{ form_start(userForm,
+                            {'attr': {'class': 'space-y-6 lg:space-y-8'}}
+                        ) }}
+
+                        {# Username #}
+                        <div class="mb-10">
+                            {{ form_label(
+                                userForm.username,
+                                "Nom d'utilisateur",
+                                {'label_attr':
+                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                })
+                            }}
+                            <div
+                                    class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert"
+                            >
+                                {{ form_errors(userForm.username) }}
+                            </div>
+                            {{ form_widget(
+                                userForm.username,
+                                {'attr': {
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'placeholder': "Mon pseudo"
+                                }}
+                                ,                        ) }}
+                            <p class="mt-1 text-sm text-app-clear-black dark:text-app-dark-gray2">
+                                Maximum 20 caractères.
+                            </p>
+                        </div>
+                        {# Email #}
+                        <div class="mb-10">
+                            {{ form_label(
+                                userForm.email,
+                                "Email",
+                                {'label_attr':
+                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                })
+                            }}
+                            <div
+                                    class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert"
+                            >
+                                {{ form_errors(userForm.email) }}
+                            </div>
+                            {{ form_widget(
+                                userForm.email,
+                                {'attr': {
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                }}
+                            ) }}
+                        </div>
+
+                        <button
+                                type="submit"
+                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-dark-gray1 hover:text-app-clear-white hover:bg-app-clear-purple ring-4 ring-app-clear-purple focus:ring-4 focus:outline-8 focus:ring-app-clear-purple dark:border-app-clear-purple dark:text-app-dark-gray2 dark:hover:text-app-dark-gray2 dark:hover:bg-app-clear-purple dark:focus:ring-app-clear-purple"
+                                title="Enregistrer les modifications"
+                        >
+                            Valider
+                        </button>
+                        {{ form_end(userForm) }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {# Tab content 3 #}
+        <div
+                id="tab-content-3"
+                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                role="tabpanel"
+        >
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Tab 3</h3>
+            <p>The tab JavaScript swaps classes to control the content visibility and styling.</p>
+        </div>
+        {# Tab content 4 #}
+        <div
+                id="tab-content-4"
+                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                role="tabpanel"
+        >
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Tab 4</h3>
+            <p>The tab JavaScript swaps classes to control the content visibility and styling.</p>
+        </div>
+    </div>
+{% endblock %}
