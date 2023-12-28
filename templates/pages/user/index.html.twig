@@ -22,7 +22,7 @@
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
-                class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                class="flex-column space-y space-y-4 text-sm font-sora-regular text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
                 id="account-tabs"
                 data-tabs-toggle="#account-tab-content"
                 role="tablist"
@@ -31,7 +31,7 @@
             <li>
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 text-white bg-blue-700 rounded-lg active w-full dark:bg-blue-600"
+                        class="inline-flex items-center px-4 py-3 text-white dark:text-white bg-blue-700 rounded-lg active w-full dark:bg-blue-600"
                         aria-current="page"
                         {% if tabSelected is not defined %}
                             aria-selected="true"
@@ -116,8 +116,10 @@
                 class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
                 role="tabpanel"
         >
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Tab 1</h3>
-            <p>The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                <h3 class="text-lg font-sora-bold text-app-clear-black dark:text-app-dark-gray2 mb-2">Hello {{ user.username }}</h3>
+                <p>En construction...</p>
+            </div>
         </div>
         {# Tab content 2 #}
         <div
