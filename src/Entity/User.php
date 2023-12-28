@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -75,9 +77,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private string $scanthequeData = '';
 
+    /**
+     * @var ArrayCollection|Collection<int, UserResetPassword>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserResetPassword::class, orphanRemoval: true)]
+    private Collection $userResetPasswords;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->userResetPasswords = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -289,5 +298,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return json_encode($results);
+    }
+
+    /**
+     * @return Collection<int, UserResetPassword>
+     */
+    public function getUserResetPasswords(): Collection
+    {
+        return $this->userResetPasswords;
+    }
+
+    public function addUserResetPassword(UserResetPassword $userResetPassword): static
+    {
+        if (!$this->userResetPasswords->contains($userResetPassword)) {
+            $this->userResetPasswords->add($userResetPassword);
+            $userResetPassword->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserResetPassword(UserResetPassword $userResetPassword): static
+    {
+        $this->userResetPasswords->removeElement($userResetPassword);
+
+        return $this;
     }
 }
