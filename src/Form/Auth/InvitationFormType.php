@@ -20,6 +20,10 @@ class InvitationFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
+                'attr' => [
+                    'minlength' => 2,
+                    'maxlength' => 20,
+                ],
                 'constraints' => [
                     new Length([
                         'min' => 2,
@@ -34,6 +38,10 @@ class InvitationFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'data' => $options['emailInvitation'],
+                'attr' => [
+                    'minlength' => 2,
+                    'maxlength' => 180,
+                ],
                 'constraints' => [
                     new Email(),
                     new Length(['min' => 2, 'max' => 180]),
@@ -46,9 +54,17 @@ class InvitationFormType extends AbstractType
                 'required' => true,
                 'first_options' => [
                     'label' => 'Mot de passe',
+                    'attr' => [
+                        'minlength' => 8,
+                        'maxlength' => 4096,
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmez le mot de passe',
+                    'attr' => [
+                        'minlength' => 8,
+                        'maxlength' => 4096,
+                    ],
                 ],
                 'constraints' => [
                     new NotBlank([
