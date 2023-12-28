@@ -9,8 +9,8 @@ export const persistScanthequeDatas = async(statusTrack, mangas) => {
             headers: _headers,
             body: JSON.stringify({'mangas': mangas}),
         });
-        const resultat = await reponse.json();
-        // console.log("Réussite :", resultat);
+        const result = await reponse.json();
+        // console.log("Réussite :", result);
     } catch (erreur) {
         console.error("Persist datas error :", erreur);
     }
@@ -22,8 +22,8 @@ export const deleteMangaDatas = async(mangaToUpdate) => {
             method: "DELETE",
             headers: _headers,
         });
-        const resultat = await reponse.json();
-        // console.log("Réussite :", resultat);
+        const result = await reponse.json();
+        // console.log("Réussite :", result);
     } catch (erreur) {
         console.error("Persist datas error :", erreur);
     }
@@ -36,10 +36,10 @@ export const updateMangaDatas = async(mangaToUpdate, isUpdateStatusTrack = false
             headers: _headers,
             body: JSON.stringify({...mangaToUpdate, 'isUpdateStatusTrack': isUpdateStatusTrack}),
         });
-        const resultat = await reponse.json();
-        // console.log("Réussite :", resultat);
-    } catch (erreur) {
-        console.error("Persist datas error :", erreur);
+        const result = await reponse.json();
+        // console.log("Réussite :", result);
+    } catch (error) {
+        console.error("Persist datas error :", error);
     }
 }
 
@@ -61,6 +61,27 @@ export const addUserConfigToLocalStorage = (mangaDatas, statusTrack) =>
     }
 
     localStorage.setItem(statusTrack, JSON.stringify(mangaDatas));
+}
+
+export const deleteUserAccount = async() => {
+    try {
+        const reponse = await fetch('/user/delete-account',{
+            method: "DELETE",
+            headers: _headers,
+        });
+        const result = await reponse.json();
+
+        if (result[0] === 'success') {
+            console.log('Success: ', result[0]);
+            // Redirect to home page
+            window.location.href = result[1];
+        } else {
+            alert('Une erreur s\'est produit. Votre compte n\'a pas pu être supprimé.')
+            console.error("Delete account error :", result[0]);
+        }
+    } catch (error) {
+        console.error("Delete account error :", error);
+    }
 }
 
 

@@ -15,7 +15,10 @@
 
 
     {# User Tab #}
-    <div class="mx-4 md:flex">
+    <div
+            {{ stimulus_controller('account') }}
+            class="mx-4 mb-10 md:flex"
+    >
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
@@ -314,11 +317,60 @@
         {# Tab content 4 #}
         <div
                 id="tab-content-4"
-                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                class="p-6 bg-gray-50 font-sora-regular text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
                 role="tabpanel"
         >
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Tab 4</h3>
-            <p>The tab JavaScript swaps classes to control the content visibility and styling.</p>
+            <div class="w-full p-4 text-center bg-white border border-red-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-red-700">
+                <h5 class="mb-3 text-3xl font-sora-bold text-gray-900 dark:text-white">
+                    Suppression du compte
+                </h5>
+                <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
+
+                    La suppression du compte est irréversible et toutes vos données seront supprimées.
+                </p>
+                <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
+
+                    Êtes-vous sûre de vouloir supprimer votre compte ?
+                </p>
+                <p
+                        {{ stimulus_target('account', 'counterDelete') }}
+                        id="counter-delete"
+                        class="hidden mb-5 font-sora-bold text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2"
+                >
+                </p>
+                <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
+                    <a
+                            {{ stimulus_action('account', 'deleteUserAccount') }}
+                            {{ stimulus_target('account', 'btnDelete') }}
+                            href="#"
+                            class="w-full sm:w-auto bg-red-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                            title="Supprimer mon compte"
+                    >
+                        <svg class="me-3 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                            <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+                        </svg>
+                        <div class="text-left rtl:text-right">
+                            <div class="mb-1 text-xs">CLiquez ici pour</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">Supprimer mon compte</div>
+                        </div>
+                    </a>
+                    <a
+                            {{ stimulus_action('account', 'cancelDeleteUserAccount') }}
+                            {{ stimulus_target('account', 'btnCancelDelete') }}
+                            href="#"
+                            class="hidden w-full sm:w-auto bg-green-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                            title="Annuler la suppression"
+                    >
+                        <svg class="me-3 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 16">
+                            <path d="M10.819.4a1.974 1.974 0 0 0-2.147.33l-6.5 5.773A2.014 2.014 0 0 0 2 6.7V1a1 1 0 0 0-2 0v14a1 1 0 1 0 2 0V9.3c.055.068.114.133.177.194l6.5 5.773a1.982 1.982 0 0 0 2.147.33A1.977 1.977 0 0 0 12 13.773V2.227A1.977 1.977 0 0 0 10.819.4Z"/>
+                        </svg>
+                        <div class="text-left rtl:text-right">
+                            <div class="mb-1 text-xs">CLiquez ici pour</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">Annuler la suppression</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

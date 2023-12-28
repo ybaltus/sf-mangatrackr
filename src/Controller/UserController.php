@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserInvitationCode;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
 use App\Security\Auth\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -93,5 +96,39 @@ class UserController extends AbstractController
             'userForm' => $formUser,
             'passwordForm' => $formUserPassword,
         ]);
+    }
+
+    #[Route('/delete-account', name: 'user_delete_account', methods: ['DELETE'])]
+    public function deleteAccount(Security $security): JsonResponse
+    {
+        $user = $this->getUser();
+        $statusCode = 200;
+        $message = [
+            'success',
+            $this->generateUrl('home_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ];
+
+        try {
+            // Remove UserInvitationCode
+            $invitations = $this->em->getRepository(UserInvitationCode::class)->findByUser($user);
+            if (count($invitations) > 0) {
+                foreach ($invitations as $invit) {
+                    $this->em->remove($invit);
+                }
+            }
+
+            // Remove User (cascade with UserNews, UserTrackList and MangaUserTrack)
+            $this->em->remove($user);
+
+            // logout the user before the delete
+            $response = $security->logout(false);
+
+            $this->em->flush();
+        } catch (\Exception $e) {
+            $message[0] = $e->getMessage();
+            $statusCode = 400;
+        }
+
+        return $this->json($message, $statusCode);
     }
 }
