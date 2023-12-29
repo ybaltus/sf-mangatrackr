@@ -4,7 +4,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent]
+#[AsTwigComponent(template: 'components/button/ButtonNavigateComponent.html.twig')]
 final class ButtonNavigateComponent
 {
     public string $title;

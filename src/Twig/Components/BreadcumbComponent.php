@@ -4,7 +4,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent]
+#[AsTwigComponent(template: 'components/layout/BreadcumbComponent.html.twig')]
 final class BreadcumbComponent
 {
     /**

@@ -5,7 +5,7 @@ namespace App\Twig\Components;
 use App\Entity\User;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent()]
+#[AsTwigComponent(template: 'components/layout/NavBarComponent.html.twig')]
 final class NavBarComponent
 {
     public string $appName;

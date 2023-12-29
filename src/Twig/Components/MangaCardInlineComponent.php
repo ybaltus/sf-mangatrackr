@@ -5,7 +5,7 @@ namespace App\Twig\Components;
 use App\Entity\Manga;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent()]
+#[AsTwigComponent(template: 'components/section/MangaCardInlineComponent.html.twig')]
 final class MangaCardInlineComponent
 {
     public string $title;

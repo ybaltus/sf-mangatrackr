@@ -4,7 +4,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent()]
+#[AsTwigComponent(template: 'components/section/InfoSectionComponent.html.twig')]
 final class InfoSectionComponent
 {
     public bool $inline = false;

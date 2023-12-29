@@ -4,7 +4,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent]
+#[AsTwigComponent(template: 'components/card/MangaCardComponent.html.twig')]
 final class MangaCardComponent
 {
     public bool $isHome = false;

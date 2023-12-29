@@ -4,7 +4,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent]
+#[AsTwigComponent(template: 'components/message/FlashesMessagesComponent.html.twig')]
 final class FlashesMessagesComponent
 {
     /**
