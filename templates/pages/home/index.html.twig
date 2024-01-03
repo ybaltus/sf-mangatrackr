@@ -4,27 +4,25 @@
 
 {% block body %}
     {# Jumbotron #}
-    <section class="bg-app-clear-gray dark:bg-app-dark-black h-screen flex items-center">
-        <div class="mx-auto max-w-screen-xl text-left">
+    <section class="bg-gradient-to-r from-app-clear-purple4 to-app-clear-purple5 h-screen text-center md:text-left">
+        <div class="py-24 md:py-32 md:flex md:items-center md:justify-between mx-auto max-w-screen-xl">
             {# Image Roboto #}
-{#            <img#}
-{#                    class="h-auto max-w-lg mx-auto"#}
-{#                    src="{{ asset('build/images/Roboto.svg') }}"#}
-{#                    alt="{{ app_name }}"#}
-{#            >#}
+            <img
+                    class="h-img-jumbotron-mob md:h-img-jumbotron-tab lg:h-img-jumbotron-desk mx-auto"
+{#                    class="w-img-jumbotron-mob md:w-img-jumbotron-tab lg:w-img-jumbotron-desk h-auto mx-auto"#}
+                    src="{{ asset('build/images/Roboto.svg') }}"
+                    alt="{{ app_name }}"
+            >
 
 
             {#  Title #}
             <h1
-                    class="text-h1-mob lg:text-h1-desk md:leading-tight font-sora-bold tracking-tight text-app-dark-gray1 dark:text-app-clear-white">
+                    class="text-h1-mob md:text-h1-tab lg:text-h1-desk leading-line-height-auto font-bangers-regular tracking-titles-jumbotron text-app-dark-black mx-auto">
                 Synchronisez votre <br>
-                <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
-                >
-                    passion
+                passion pour les<br>
+                <span class="">
+                    mangas !
                 </span>
-                pour les<br>
-                mangas.
             </h1>
         </div>
     </section>

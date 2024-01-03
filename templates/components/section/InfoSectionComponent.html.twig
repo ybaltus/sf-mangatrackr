@@ -1,12 +1,12 @@
 <div{{ attributes }}>
     <!-- component html -->
     {% if not inline %}
-        <section class="bg-app-clear-gray dark:bg-app-dark-black">
-            <div class="py-12 px-4 mx-auto max-w-screen-xl text-center lg:py-24 lg:px-12">
-                <h2 class="mb-10 px-8 text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-clear-black dark:text-app-clear-white">
+        <section class="bg-app-clear-white dark:bg-app-dark-gray">
+            <div class="py-12 px-4 rounded-info-section mx-4 md:mx-8 max-w-screen-xl text-center lg:py-24 lg:px-12 bg-app-clear-gray2 dark:bg-app-dark-black">
+                <h2 class="mb-10 px-8 text-h2-mob md:text-h2-tab lg:text-h2-desk tracking-titles-spacing font-bangers-regular text-app-dark-black dark:text-app-clear-gray2">
                     {{ title }}
                 </h2>
-                <p class="mb-12 text-text-mob lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 px-4 lg:px-20">
+                <p class="mb-24 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular text-app-dark-black dark:text-app-clear-gray2 px-4 lg:px-20">
                     {{ info }}
                 </p>
                 <div class="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">

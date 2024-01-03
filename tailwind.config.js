@@ -107,6 +107,7 @@ module.exports = {
             },
             letterSpacing: {
                 'titles-spacing': '0.12rem',
+                'titles-jumbotron': '0.07875rem',
                 'textes-spacing': '0em',
                 'nav-spacing': '0.109rem',
                 'footer-spacing': '0.12rem',
@@ -132,6 +133,7 @@ module.exports = {
                 'icon-hp-arrow-mob': '1.875rem',
                 'icon-hp-arrow-desk': '4rem',
                 'manga-card-mob': '100%',
+                'manga-card-tab': '90%',
                 'manga-card-desk': '80%',
                 'manga-scantheque-card-mob': '100%',
                 'manga-scantheque-card-desk': '100%',
@@ -147,6 +149,9 @@ module.exports = {
                 'manga-scantheque-desk': '100%',
                 'manga-detail-mob': '60%',
                 'manga-detail-desk': '70%',
+                'img-jumbotron-mob': '16rem',
+                'img-jumbotron-tab': '27rem',
+                'img-jumbotron-desk': '27rem',
             },
             height: {
                 'icon-nav-mode-mob': '1.875rem',
@@ -157,6 +162,7 @@ module.exports = {
                 'icon-hp-arrow-mob': '1.875rem',
                 'icon-hp-arrow-desk': '4rem',
                 'manga-card-mob': '14rem',
+                'manga-card-tab': '16rem',
                 'manga-card-desk': '20rem',
                 'pagination-mob': '2.5rem',
                 'pagination-desk': '2.5rem',
@@ -168,6 +174,9 @@ module.exports = {
                 'manga-scantheque-desk': '20rem',
                 'manga-detail-mob': '14rem',
                 'manga-detail-desk': '20rem',
+                'img-jumbotron-mob': '26rem',
+                'img-jumbotron-tab': '33rem',
+                'img-jumbotron-desk': '33rem',
             },
             space: {
                 'icon-navbar-mob': '0.5rem',
@@ -205,7 +214,8 @@ module.exports = {
             },
             borderRadius: {
                 'manga-scantheque-mob': '1.5rem',
-                'manga-scantheque-desk': '1.5rem'
+                'manga-scantheque-desk': '1.5rem',
+                'info-section': '1.875rem',
             }
         },
     },

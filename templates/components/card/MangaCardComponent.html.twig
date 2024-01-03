@@ -1,18 +1,18 @@
 <div{{ attributes }}>
     <!-- component html -->
     {% if isOnlyTemplate == false %}
-    {% set classDiv="px-0 bg-white rounded-lg dark:bg-transparent" %}
+    {% set classDiv="px-0 bg-app-clear-white rounded-lg dark:bg-transparent" %}
     {% if isHome %}
         {% if key % 2 == 0 %}
-            {% set classDiv="px-0 xl:mt-6 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
+            {% set classDiv="px-0 xl:mt-6 lg:px-0 bg-app-clear-white rounded-lg dark:bg-transparent" %}
         {% else %}
-            {% set classDiv="px-0 xl:mb-6 lg:px-0 bg-white rounded-lg dark:bg-transparent" %}
+            {% set classDiv="px-0 xl:mb-6 lg:px-0 bg-app-clear-white rounded-lg dark:bg-transparent" %}
         {% endif %}
     {% endif %}
     <div class="{{ classDiv }}">
         <a href="{{ path('manga_index', {titleSlug: manga.titleSlug }) }}" title="{{ manga.title }}">
             <img
-                    class="w-manga-card-mob lg:w-manga-card-desk h-manga-card-mob lg:h-manga-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-black dark:border-app-dark-gray2"
+                    class="w-manga-card-mob md:w-manga-card-tab lg:w-manga-card-desk h-manga-card-mob md:h-manga-card-tab lg:h-manga-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                     src="{{ manga.mangaJikanAPI.malImgWebp }}"
                     alt="{{ manga.title }}"
             />
