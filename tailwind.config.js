@@ -36,7 +36,8 @@ module.exports = {
                 'sora-medium': 'Sora-Medium',
                 'sora-regular': 'Sora-Regular',
                 'sora-semiBold': 'Sora-SemiBold',
-                'sora-thin': 'Sora-Thin'
+                'sora-thin': 'Sora-Thin',
+                'bangers-regular': 'Bangers-Regular',
             },
             fontSize: {
                 'logo-desk': '1.5rem',
