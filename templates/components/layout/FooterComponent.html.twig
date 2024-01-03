@@ -1,39 +1,43 @@
 <div{{ attributes }}>
     <!-- component html -->
-    <footer class="bg-app-clear-black shadow dark:bg-app-dark-black border-t border-app-clear-black dark:border-gray-400">
+    <footer class="bg-app-clear-black dark:bg-app-dark-black border-t border-app-clear-black dark:border-gray-400">
         <div class="w-full max-w-screen-xl mx-auto py-4 px-4 lg:py-8 lg:px-10">
-            <div class="sm:flex sm:items-center sm:justify-between">
+            <div class="md:flex md:items-center md:justify-between">
+{#            <div class="sm:flex sm:items-center sm:justify-between">#}
+                {# App Name #}
                 <a
                         href="{{ path('home_index') }}"
                         class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
                         title="{{ app_name }}"
                 >
-                    <span
-                            class="self-center text-footer-mob lg:text-footer-desk font-sora-semiBold text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
-                    >{{ app_name }}
+                    <span class="self-center tracking-footer-spacing text-footer-mob md:text-footer-tab lg:text-footer-desk font-bangers-regular text-app-clear-purple3 dark:text-app-dark-purple">
+                        {{ app_name }}
                     </span>
                 </a>
+                {# Links #}
                 <ul
-                        class="flex flex-wrap items-center mb-6 text-footer-mob lg:text-footer-desk font-sora-semiBold text-app-clear-white sm:mb-0 dark:text-app-dark-gray2"
+                        class="md:order-last md:flex md:flex-wrap md:items-center mb-6 text-text-footer-mob md:text-text-footer-tab lg:text-text-footer-desk font-sora-semiBold text-app-clear-white sm:mb-0 dark:text-app-dark-gray2"
                 >
                     <li>
                         <a href="{{ path('about_index') }}" class="hover:underline me-2 md:me-6">À propos</a>
                     </li>
-                    <li>
+                    <li class="my-6 md:my-0">
                         <a href="#" class="hover:underline me-2 md:me-6">Mentions légales</a>
                     </li>
                     <li>
                         <a href="#" class="hover:underline">Contact</a>
                     </li>
                 </ul>
-            </div>
-            <hr class="my-6 border-gray-300 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <span
-                    class="block text-footer-mob lg:text-footer-desk font-sora-semiBold text-app-clear-white  text-center dark:text-app-dark-gray2">
+                {# Copyright #}
+                <span
+                        class="block my-10 md:my-0 text-text-footer-mob md:text-text-footer-tab lg:text-text-footer-desk font-sora-semiBold text-app-clear-white md:text-center dark:text-app-dark-gray2"
+                >
                 © 2023 <a href="{{ path('home_index') }}"
                           class="hover:underline"
                           title="{{ app_name }}"
-                >{{ app_name }}</a>. Tous droits réservés.</span>
+                    >{{ app_name }}</a>.
+            </span>
+            </div>
         </div>
     </footer>
 </div>
