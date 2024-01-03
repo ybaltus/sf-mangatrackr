@@ -4,15 +4,15 @@
 
 {% block body %}
     {# About  #}
-    <section class="pt-0 bg-app-clear-gray dark:bg-app-dark-black">
-        <div class="items-start px-4 lg:px-4 py-8 lg:py-32 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
-            <div class="mb-12 lg:mb-0 text-app-dark-black dark:text-app-dark-gray2">
+    <section class="pt-0 bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="items-start px-4 md:px-4 lg:px-4 py-24 md:py-32 lg:py-32 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2">
+            <div class="mb-12 lg:mb-0 text-app-clear-black dark:text-app-dark-gray2">
                 <h2
-                        class="text-h2-about-mob lg:text-h2-about-desk leading-normal font-sora-semiBold"
+                        class="text-h2-mob md:text-h2-tab lg:text-h2-desk tracking-titles-spacing font-bangers-regular"
                 >
                     Lisez.<br>
                     <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
+                            class="text-app-clear-purple3 dark:text-app-dark-purple"
                     >
                         Suivez. <br>
                     </span>
@@ -21,7 +21,7 @@
                 </h2>
             </div>
             <div
-                    class="lg:max-w-xl font-sora-regular text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
+                    class="lg:max-w-xl font-sora-regular text-text-mob md:text-text-tab  lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
             >
                 <p class="mb-4 lg:mb-10">
                     {{ app_name }} est une application dédiée aux passionnés de mangas qui recherchent une solution simple
@@ -41,35 +41,35 @@
     </section>
 
     {# Team #}
-    <section class="bg-app-clear-white dark:bg-app-dark-gray1">
-        <div class="gap-4 lg:gap-16 items-center py-8 px-4 lg:py-16 lg:px-6 mx-auto max-w-screen-xl grid grid-cols-1 lg:grid lg:grid-cols-2">
+    <section class="bg-app-clear-gray2 dark:bg-app-dark-black">
+        <div class="gap-4 md:gap-16 lg:gap-16 items-center py-8 px-4 md:py-16 md:px-6 lg:py-16 lg:px-6 mx-auto max-w-screen-xl grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2">
             <div class="grid grid-cols-2 gap-4 mt-4 lg:mt-8 order-2 lg:order-1">
                 <div class="px-2 lg:px-0 bg-white rounded-lg dark:bg-transparent">
-                    <img class="w-full rounded-lg p-2 lg:p-4 border border-app-clear-black dark:border-app-dark-gray2"
+                    <img class="w-full p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                          src="{{ asset('build/images/user1.jpg') }}"
                          alt="{{ app_team_name_1 }}"
                     >
                     <h3
-                            class="my-4 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                            class="my-4 text-title-manga-mob md:text-title-manga-tab lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-titles-spacing text-app-clear-black dark:text-app-dark-gray2">
                         {{ app_team_name_1 }}
                     </h3>
                 </div>
                 <div class="px-2 lg:px-0 bg-white rounded-lg dark:bg-transparent">
-                    <img class="lg:mt-4 w-full rounded-lg p-2 lg:p-4 border border-app-clear-black dark:border-app-dark-gray2"
+                    <img class="lg:mt-4 w-full p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                          src="{{ asset('build/images/user2.jpg') }}"
                          alt="{{ app_team_name_2 }}"
                     >
                     <h3
-                            class="my-4 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                            class="my-4 text-title-manga-mob md:text-title-manga-tab lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
                         {{ app_team_name_2 }}
                     </h3>
                 </div>
             </div>
             <div class="px-4 lg:px-0 max-w-full lg:max-w-sm text-app-clear-black dark:text-app-dark-gray2 order-1 lg:order-2">
-                <h2 class="mb-10 lg:mb-20 text-h2-about-team-mob lg:text-h2-about-team-desk font-sora-semiBold ">
+                <h2 class="mb-10 md:mb-20 lg:mb-20 text-h2-mob md:text-h2-tab lg:text-h2-desk font-bangers-regular tracking-titles-spacing">
                     L'équipe
                 </h2>
-                <p class="mb-4 font-sora-regular text-text-mob lg:text-text-desk">
+                <p class="mb-4 font-sora-regular text-text-mob md:text-text-tab lg:text-text-desk">
                     Pour toute question ou remarque, n’hésitez pas à nous contacter à : {{ mailer_contact}}
                 </p>
             </div>
