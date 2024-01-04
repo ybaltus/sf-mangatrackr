@@ -11,4 +11,6 @@ final class BreadcumbComponent
      * @var array<string>
      */
     public array $menus;
+
+    public bool $isCenter = true;
 }

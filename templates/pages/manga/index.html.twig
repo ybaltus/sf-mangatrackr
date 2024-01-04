@@ -11,14 +11,18 @@
 {% endblock %}
 
 {% block body %}
-    <section class="pt-2 lg:pt-4 bg-app-clear-gray dark:bg-app-dark-gray1">
-        {# Breadcrumb #}
-        {{ component('BreadcumbComponent', {
-            'menus' : {
-                'Catalogue' : path('catalog_index'),
-                'current' : manga.title
-            }
-        }) }}
+    <section class="pt-2 lg:pt-4 bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="pt-4">
+            {# Breadcrumb #}
+            {{ component('BreadcumbComponent', {
+                'isCenter': false,
+                'menus' : {
+                    'Catalogue' : path('catalog_index'),
+                    'current' : manga.title
+                }
+            }) }}
+        </div>
+
 
         {# Toast message #}
         {{ component('ToastComponent', {
@@ -31,7 +35,7 @@
         }) }}
 
         <div
-                class="grid grid-cols-1 lg:grid lg:grid-cols-3 items-center lg:items-start px-2 lg:px-4 py-6 lg:py-16 mx-auto max-w-screen-xl"
+                class="grid grid-cols-1 md:grid md:grid-cols-3 lg:grid lg:grid-cols-3 items-center md:items-start lg:items-start px-2 md:px-4 lg:px-4 py-6 md:py-16 lg:py-16 mx-auto max-w-screen-xl"
         >
             {# Set user datas for localstorage #}
             {% set userConnected = app.user ? true : false %}
@@ -40,60 +44,56 @@
             {#Left #}
             <div
                     {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
-                    class="col-span-1 bg-white rounded-lg dark:bg-transparent"
+                    class="col-span-1 bg-app-clear-white rounded-lg dark:bg-transparent"
             >
                 {# Image #}
                 <div>
                     <img
-                            class="mx-auto w-manga-detail-mob lg:w-manga-detail-desk h-manga-detail-mob lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-focus-purple dark:border-app-focus-purple"
+                            class="mx-auto w-manga-detail-mob md:w-manga-detail-desk lg:w-manga-detail-desk h-manga-detail-mob md:h-manga-detail-desk lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob md:rounded-manga-scantheque-tab lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3"
                             src="{{ manga.mangaJikanAPI.malImgWebp }}"
                             alt="{{ manga.title }}"
                     />
                 </div>
 
                 {# Buttons #}
-                <div class="hidden lg:inline-block my-10 text-center">
+                <div class="hidden md:inline-block lg:inline-block my-10 text-center">
                     {# Add scanthèque #}
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
                             title="Ajouter à ma scanthèque"
-                            class="font-sora-semiBold inline-flex text-cta-mob lg:text-cta-desk px-6 py-3.5 text-center text-app-clear-white me-2 mb-2 rounded-full bg-app-focus-purple"
+                            class="font-sora-semiBold inline-flex text-cta-mob md:text-cta-tab lg:text-cta-desk px-6 py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-2 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
-                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
-                        </svg>
-                        Ajouter à ma scanthèque
+{#                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
+{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
+{#                        </svg>#}
+                        Ajouter à la scanthèque
                     </button>
                 </div>
             </div>
             {# Right#}
             <div
                     {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
-                    class="col-span-2 mx-3 lg:ml-20"
+                    class="col-span-2 mx-3 md:ml-20 lg:ml-20"
             >
                 {# Title #}
-                <h1 class="text-center lg:text-start my-5 lg:my-10 text-h1-mob lg:text-h1-desk font-sora-bold tracking-normal leading-none text-app-clear-black dark:text-app-dark-gray2">
-                    <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-app-clear-purple2 to-app-clear-purple"
-                    >
-                        {{ manga.title }}
-                    </span>
+                <h1 class="text-center md:text-start lg:text-start my-5 md:my-10 lg:my-10 text-h1-mob md:text-h1-desk lg:text-h1-desk font-bangers-regular tracking-titles-spacing leading-none text-app-clear-black dark:text-app-dark-gray2">
+                    {{ manga.title }}
                 </h1>
                 {# Categories #}
-                <div class="flex flex-wrap justify-center lg:justify-start my-8 lg:my-16 mx-4 lg:mx-0 gap-4">
+                <div class="flex flex-wrap justify-center md:justify-start lg:justify-start my-8 md:my-16 lg:my-16 mx-4 md:mx-0 lg:mx-0 gap-4">
                     {% for mType in manga.mangaType %}
-                        <span class="bg-app-clear-pink2 text-text-mob lg:text-text-desk text-app-clear-black font-sora-regular lg:m-2 px-2 py-2 lg:px-5 lg:py-2 rounded-full">
+                        <span class="bg-app-clear-pink2 text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black font-sora-semiBold md:m-2 lg:m-2 px-2 py-2 md:px-5 md:py-2 lg:px-5 lg:py-2 rounded-full border-manga-category border-app-dark-black dark:border-none">
                             {{ mType.name }}
                         </span>
                     {% endfor %}
                 </div>
                 {# Description #}
-                <p class="my-12 lg:max-w-3xl font-sora-regular text-justify lg:text-start text-text-mob lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
+                <p class="my-12 lg:max-w-3xl font-sora-regular text-justify md:text-start lg:text-start text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
                     {{manga.description}}
                 </p>
                 {# Characteristics #}
-                <ul class="my-14 lg:my-28 lg:max-w-xl text-p-characteristics-mob lg:text-p-characteristics-desk font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-white">
+                <ul class="my-14 lg:my-28 lg:max-w-xl text-p-characteristics-mob md:text-p-characteristics-tab lg:text-p-characteristics-desk font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-gray2">
                     <li class="pb-1 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
@@ -188,17 +188,17 @@
                     </li>
                 </ul>
                 {# Buttons #}
-                <div class="lg:hidden my-16 lg:my-40 text-center">
+                <div class="md:hidden lg:hidden my-16 md:my-40 lg:my-40 text-center">
                     {# Add scanthèque #}
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
                             title="Ajouter à la scanthèque"
-                            class="font-sora-semiBold text-cta-mob inline-flex lg:text-cta-desk px-8 lg:px-16 py-2 lg:py-3.5 text-center text-app-clear-white me-2 mb-3 rounded-full bg-app-focus-purple"
+                            class="font-sora-semiBold text-cta-mob inline-flex md:text-cta-tab lg:text-cta-desk px-8 lg:px-16 py-2 lg:py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-3 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
-                        <svg class="me-2 my-auto w-5 h-5 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
-                        </svg>
+{#                        <svg class="me-2 my-auto w-5 h-5 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
+{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
+{#                        </svg>#}
                             Ajouter à la scanthèque
                     </button>
                 </div>
