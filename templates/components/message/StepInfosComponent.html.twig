@@ -3,20 +3,20 @@
     <div
             id="accordion-flush"
             data-accordion="open"
-            data-active-classes="bg-app-clear-gray dark:bg-app-dark-gray1 text-app-clear-black dark:text-app-clear-white"
+            data-active-classes="bg-app-clear-white dark:bg-app-dark-gray text-app-clear-black dark:text-app-clear-white"
             data-inactive-classes="text-app-clear-black dark:text-app-dark-gray2"
     >
         {% for key, title in titles %}
             <h2 id="accordion-flush-heading-{{ idStep }}-{{ key + 1 }}">
                 <button
                         type="button"
-                        class="flex items-center justify-between w-full py-3 lg:py-5 font-sora-semiBold text-app-clear-black dark:text-app-clear-white text-h2-mob lg:text-h2-desk rtl:text-right border-t border-app-clear-black dark:border-app-dark-gray2 gap-3"
+                        class="flex items-center justify-between w-full py-3 md:py-5 lg:py-5 font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2 text-h2-mob md:text-h2-tab lg:text-h2-desk rtl:text-right border-t border-app-clear-black dark:border-app-dark-gray2 gap-3"
                         data-accordion-target="#accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                         aria-expanded="true"
                         aria-controls="accordion-flush-body-{{ idStep }}-{{ key + 1 }}"
                 >
                     <span>{{ title }}</span>
-                    <svg data-accordion-icon class="w-4 h-4 lg:w-8 lg:h-8 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <svg data-accordion-icon class="text-app-clear-purple3 dark:text-app-dark-purple w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                     </svg>
                 </button>

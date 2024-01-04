@@ -2,23 +2,23 @@
     <!-- component html -->
     <section
             id="scantheque-section-{{ statusTrack }}"
-            class="scantheque-manga-section bg-app-clear-white dark:bg-app-dark-gray1"
+            class="scantheque-manga-section bg-app-clear-white dark:bg-app-dark-gray"
     >
         <div
-                class="py-10 px-4 mx-auto max-w-screen-xl lg:py-24 lg:px-6"
+                class="px-8 md:px-16 lg:px-16 py-14 md:py-24 md:px-6 lg:py-24 mx-auto max-w-screen-xl"
                     id="accordion-collapse-{{ statusTrack }}"
                     data-accordion="collapse"
-                    data-active-classes="bg-app-clear-white dark:bg-app-dark-gray1"
+                    data-active-classes="bg-app-clear-white dark:bg-app-dark-gray"
         >
-            <div class="text-center lg:text-left mb-section-h2-mob-bottom lg:mb-section-h2-desk-bottom">
+            <div class="text-center md:text-left lg:text-left mb-section-h2-mob-bottom md:mb-section-h2-desk-bottom lg:mb-section-h2-desk-bottom">
                 <h2
                         id="title-{{ statusTrack }}"
-                        class="lg:inline-flex lg:items-center lg:justify-center text-h2-mob lg:text-h2-desk tracking-normal font-sora-semiBold text-app-dark-gray1 dark:text-app-clear-white"
+                        class="md:inline-flex md:items-center md:justify-center lg:inline-flex lg:items-center lg:justify-center text-h2-mob md:text-h2-tab lg:text-h2-desk tracking-titles-spacing font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
                     {{ title }} (<span></span>)
                     <button
                             type="button"
-                            class="font-medium rtl:text-right bg-app-clear-white dark:bg-app-dark-gray1"
+                            class="font-medium rtl:text-right bg-app-clear-white dark:bg-app-dark-gray"
                             data-accordion-target="#scantheque-list-{{ statusTrack }}"
                             {% if statusTrack == 'archived' %}
                             aria-expanded="false"
@@ -30,7 +30,7 @@
                     >
                         <svg
                                 data-accordion-icon
-                                class="ml-2 w-5 h-5 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-focus-purple "
+                                class="ml-2 md:ml-4 lg:ml-4 w-5 h-5 md:w-8 md:h-8 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-clear-purple3 dark:text-app-dark-purple"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -46,9 +46,9 @@
                     id="scantheque-list-{{ statusTrack }}"
                     aria-labelledby="title-{{ statusTrack }}"
                     {% if statusTrack == 'archived' %}
-                        class="hidden grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
+                        class="hidden grid gap-12 md:gap-y-16 md:gap-x-24 lg:gap-y-16 lg:gap-x-32 grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
                     {% else %}
-                        class="grid gap-4 lg:gap-y-16 lg:gap-x-32 grid-cols-1 lg:grid-cols-2"
+                        class="grid gap-12 md:gap-y-16 md:gap-x-24 lg:gap-y-16 lg:gap-x-32 grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
 
                     {% endif %}
             >
