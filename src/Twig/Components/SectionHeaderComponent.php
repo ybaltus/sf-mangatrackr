@@ -8,4 +8,9 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class SectionHeaderComponent
 {
     public string $title;
+
+    /**
+     * @var array<string>
+     */
+    public array $menuBreadcrumb = [];
 }

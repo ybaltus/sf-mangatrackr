@@ -107,6 +107,9 @@ module.exports = {
                 'label-form-desk': '1.5rem',
                 'text-form-mob': '1rem',
                 'text-form-desk': '1.5rem',
+                'breadcrumb-mob': '1.125rem',
+                'breadcrumb-tab': '1.125rem',
+                'breadcrumb-desk': '1.125rem',
             },
             letterSpacing: {
                 'titles-spacing': '0.12rem',

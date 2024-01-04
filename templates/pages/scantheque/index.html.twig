@@ -13,7 +13,11 @@
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: user ? 'Hello, ' ~user.username : 'Scanthèque'
+        title: user ? 'Hello, ' ~user.username : 'Scanthèque',
+        menuBreadcrumb: {
+            'Catalogue' : path('catalog_index'),
+            'current' : 'Scanthèque'
+        }
     }) }}
 
     {# Set user datas for localstorage #}
@@ -24,14 +28,6 @@
             {{ stimulus_controller('scantheque', {'userConnected': userConnected,'userConfig': userConfig}) }}
             class="bg-app-clear-white dark:bg-app-dark-gray"
     >
-        {# Breadcrumb #}
-{#        {{ component('BreadcumbComponent', {#}
-{#            'menus' : {#}
-{#                'Catalogue' : path('catalog_index'),#}
-{#                'current' : 'Scanthèque'#}
-{#            }#}
-{#        }) }}#}
-
         {# Import only the html template #}
         {{ component('MangaCardComponent', {
             isOnlyTemplate: true
