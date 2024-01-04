@@ -13,7 +13,10 @@
 {% block body %}
     {# Header #}
     {{ component('SectionHeaderComponent', {
-        title: 'Catalogue'
+        title: 'Catalogue',
+        menuBreadcrumb: {
+            'current' : 'Catalogue'
+        }
     }) }}
 
     {# Search Bar #}
@@ -28,7 +31,7 @@
     }) }}
 
     {# HTMX Search results #}
-    <section id="search-results"  class="bg-app-clear-white dark:bg-app-dark-black">
+    <section id="search-results"  class="bg-app-clear-white dark:bg-app-dark-gray">
         {{ include ('components/htmx/mangas_list.html.twig') }}
     </section>
 

@@ -1,6 +1,6 @@
 <div{{ attributes }}>
     <!-- component html -->
-    <section class="bg-app-clear-white dark:bg-app-dark-black">
+    <section class="pt-16 pb-6 bg-app-clear-white dark:bg-app-dark-gray">
         <form
                 id="form-search"
                 {{ stimulus_controller('search-catalog') }}
@@ -15,14 +15,14 @@
             <label for="searchTerm"
                    class="mb-2 text-sm font-medium text-app-clear-black sr-only dark:text-app-dark-gray2"
             >Search</label>
-            <div class="relative w-[90%] lg:w-1/2 text-center">
+            <div class="relative w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center">
                 {# Search term#}
                 <input
                         {{ stimulus_action('search-catalog', 'hiddenGallery', 'keyup') }}
                         type="search"
                         id="searchTerm"
                         name="searchTerm"
-                        class="block w-full p-2 lg:p-4 ps-6 text-text-search-mob lg:text-text-search-desk text-sora-semiBold text-app-clear-black border border-app-clear-black rounded-full bg-app-clear-gray focus:ring-app-focus-purple dark:focus:ring-app-focus-purple focus:border-app-focus-purple dark:focus:border-app-focus-purple dark:bg-app-clear-white dark:border-app-dark-gray2 dark:placeholder-app-dark-black dark:text-app-dark-black"
+                        class="block shadow-searchbar-mob shadow-app-clear-black dark:shadow-app-dark-gray2 w-full p-2 md:p-4 lg:p-4 ps-6 text-text-search-mob md:text-text-search-tab lg:text-text-search-desk text-sora-semiBold text-app-clear-black placeholder-app-clear-black border-searchbar border-app-clear-black rounded-full bg-app-clear-white focus:ring-app-clear-purple3 dark:focus:ring-app-dark-purple focus:border-app-clear-purple3 dark:focus:border-app-dark-purple dark:bg-app-dark-gray dark:border-app-dark-gray2 dark:placeholder-app-dark-gray2 dark:text-app-dark-gray2"
                         placeholder="{{ placeholder|escape }}"
                         pattern="[a-zA-Z0-9-_\s]*"
                         maxlength="50"
@@ -31,16 +31,16 @@
                 >
                 <button
                         type="submit"
-                        class="absolute top-0 end-0 p-2.5 text-sm font-sora-regular h-full text-white bg-app-focus-purple rounded-e-lg border border-app-focus-purple hover:bg-app-focus-purple dark:bg-app-focus-purple"
+                        class="absolute top-0 end-3 md:end-6 lg:end-6 p-2.5 text-sm font-sora-regular h-full text-app-clear-black dark:text-app-dark-gray2 bg-transparent rounded-full hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"
                         title="Rechercher"
                 >
-                    <svg class="w-4 h-4 lg:w-4 lg:h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 lg:w-5 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                     <span class="sr-only">Search</span>
                 </button>
             </div>
-            <div class="mt-8 relative w-[90%] lg:w-1/2 text-center">
+            <div class="mt-8 relative w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center">
                 {% if isToggleAdvanced %}
                     {# Advanced option #}
                     <label
