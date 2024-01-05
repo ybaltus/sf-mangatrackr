@@ -27,8 +27,7 @@ class InvitationController extends AbstractController
         Security $security,
     ): Response {
         // logout the user in on the current firewall and disabled the csrf logout
-        if($this->getUser())
-        {
+        if ($this->getUser()) {
             $security->logout(false);
         }
 
