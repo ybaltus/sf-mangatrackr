@@ -26,6 +26,12 @@ class InvitationController extends AbstractController
         Request $request,
         Security $security,
     ): Response {
+        // logout the user in on the current firewall and disabled the csrf logout
+        if($this->getUser())
+        {
+            $security->logout(false);
+        }
+
         // Verify the invitation code
         if (!$this->isInvitationCodeValid($userInvitationCode)) {
             throw new \Exception('This invitation code is no longer valid.');
