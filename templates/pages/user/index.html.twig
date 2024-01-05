@@ -5,7 +5,10 @@
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: 'Mon compte'
+        title: 'Mon compte',
+        menuBreadcrumb: {
+            'current' : 'Mon compte'
+        }
     }) }}
 
     {# Flashes messages #}
@@ -17,12 +20,12 @@
     {# User Tab #}
     <div
             {{ stimulus_controller('account') }}
-            class="mx-4 mb-10 md:flex"
+            class="px-6 py-16 md:px-16 md:py-20 lg:px-6 lg:py-20 mx-4 md:flex"
     >
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
-                class="flex-column space-y space-y-4 text-sm font-sora-regular text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0"
+                class="flex-column space-y space-y-4 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular md:me-4 mb-4 md:mb-0 text-gray-500 dark:text-gray-400"
                 id="account-tabs"
                 data-tabs-toggle="#account-tab-content"
                 role="tablist"
@@ -31,7 +34,7 @@
             <li>
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 text-white dark:text-white bg-blue-700 rounded-lg active w-full dark:bg-blue-600"
+                        class="inline-flex items-center px-4 py-3 text-white dark:text-white bg-app-clear-blue dark:bg-app-dark-blue1 rounded-lg active w-full"
                         aria-current="page"
                         {% if tabSelected is not defined %}
                             aria-selected="true"
@@ -86,7 +89,7 @@
                         role="tab"
                         title="Changer mon mot de passe"
                 >
-                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-5 h-5 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
                     </svg>
                     Changer mon mot de passe
@@ -113,32 +116,52 @@
         {# Tab content 1 #}
         <div
                 id="tab-content-1"
-                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
-            <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-                <h3 class="text-lg font-sora-bold text-app-clear-black dark:text-app-dark-gray2 mb-2">Hello {{ user.username }}</h3>
-                <p>En construction...</p>
+            <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                <h3 class="text-center text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                    Hello {{ user.username }} !
+                </h3>
+
+                <p class="text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                    Petit rappel :
+                </p>
+                <ul class="w-full space-y-1 list-disc list-inside font-sora-regular text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
+                    <li class="pb-5">
+                        MangaSync se distingue par son engagement envers la protection de la vie privée de ses utilisateurs.
+                    </li>
+                    <li class="pb-5">
+                        En tant qu'application, {{ app_name }} s'engage formellement à ne pas enregistrer les données personnelles de ses utilisateurs.
+                        Seuls l'e-mail associé au compte et la scanthèque, qui contient le suivi des mangas, seront sauvegardés dans le strict respect
+                        de la confidentialité. Ainsi, les utilisateurs peuvent profiter pleinement de l'expérience MangaSync sans craindre une intrusion
+                        dans leur vie privée.
+                    </li>
+                    <li>
+                        De plus, il est important de noter que {{ app_name }} offre une expérience sans publicité, soulignant davantage son engagement
+                        envers une utilisation sans interruption et axée sur le contenu pour ses utilisateurs.
+                    </li>
+                </ul>
             </div>
         </div>
         {# Tab content 2 #}
         <div
                 id="tab-content-2"
-                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
-                        class="flex items-center mb-6 text-logo-mob lg:text-logo-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                        class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                 >
                     Éditer mes informations
                 </h3>
 
                 <div
-                        class="w-full rounded-lg shadow md:mt-0 sm:max-w-3xl xl:p-0 border border-app-clear-black bg-app-clear-white dark:bg-gray-800 dark:border dark:border-gray-700"
+                        class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
                 >
                     <div
-                            class="p-4 lg:p-8 space-y-4 md:space-y-6 "
+                            class="p-10 space-y-4 md:space-y-6"
                     >
 
                         {{ form_start(userForm,
@@ -151,7 +174,7 @@
                                 userForm.username,
                                 "Nom d'utilisateur",
                                 {'label_attr':
-                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                    {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
                             }}
                             <div
@@ -163,7 +186,7 @@
                             {{ form_widget(
                                 userForm.username,
                                 {'attr': {
-                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                     'placeholder': "Mon pseudo"
                                 }}
                                 ,                        ) }}
@@ -172,12 +195,12 @@
                             </p>
                         </div>
                         {# Email #}
-                        <div class="mb-10">
+                        <div class="pb-6">
                             {{ form_label(
                                 userForm.email,
                                 "Email",
                                 {'label_attr':
-                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                    {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
                             }}
                             <div
@@ -189,14 +212,14 @@
                             {{ form_widget(
                                 userForm.email,
                                 {'attr': {
-                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 }}
                             ) }}
                         </div>
 
                         <button
                                 type="submit"
-                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-dark-gray1 hover:text-app-clear-white hover:bg-app-clear-purple ring-4 ring-app-clear-purple focus:ring-4 focus:outline-8 focus:ring-app-clear-purple dark:border-app-clear-purple dark:text-app-dark-gray2 dark:hover:text-app-dark-gray2 dark:hover:bg-app-clear-purple dark:focus:ring-app-clear-purple"
+                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
                                 title="Enregistrer les modifications"
                         >
                             Valider
@@ -210,21 +233,21 @@
         {# Tab content 3 #}
         <div
                 id="tab-content-3"
-                class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
-                        class="flex items-center mb-6 text-logo-mob lg:text-logo-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                        class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                 >
                     Modifier mon mot de passe
                 </h3>
 
                 <div
-                        class="w-full rounded-lg shadow md:mt-0 sm:max-w-3xl xl:p-0 border border-app-clear-black bg-app-clear-white dark:bg-gray-800 dark:border dark:border-gray-700"
+                        class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
                 >
                     <div
-                            class="p-4 lg:p-8 space-y-4 md:space-y-6 "
+                            class="p-10 space-y-4 md:space-y-6"
                     >
 
                         {{ form_start(passwordForm,
@@ -237,7 +260,7 @@
                                 passwordForm.plainPassword,
                                 "Mot de passe",
                                 {'label_attr':
-                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                    {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
                             }}
                             <div
@@ -249,7 +272,7 @@
                             {{ form_widget(
                                 passwordForm.plainPassword,
                                 {'attr': {
-                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
@@ -263,7 +286,7 @@
                                 passwordForm.newPassword.first,
                                 "Nouveau mot de passe",
                                 {'label_attr':
-                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                    {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
                             }}
                             <div
@@ -275,7 +298,7 @@
                             {{ form_widget(
                                 passwordForm.newPassword.first,
                                 {'attr': {
-                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
@@ -285,7 +308,7 @@
                                 passwordForm.newPassword.second,
                                 "Confirmez le nouveau mot de passe",
                                 {'label_attr':
-                                    {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                    {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
                             }}
                             <div
@@ -297,7 +320,7 @@
                             {{ form_widget(
                                 passwordForm.newPassword.second,
                                 {'attr': {
-                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                    'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
@@ -306,7 +329,7 @@
                         </div>
                         <button
                                 type="submit"
-                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-dark-gray1 hover:text-app-clear-white hover:bg-app-clear-purple ring-4 ring-app-clear-purple focus:ring-4 focus:outline-8 focus:ring-app-clear-purple dark:border-app-clear-purple dark:text-app-dark-gray2 dark:hover:text-app-dark-gray2 dark:hover:bg-app-clear-purple dark:focus:ring-app-clear-purple"
+                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
                                 title="S'enregistrer"
                         >
                             S'enregistrer
@@ -319,10 +342,10 @@
         {# Tab content 4 #}
         <div
                 id="tab-content-4"
-                class="p-6 bg-gray-50 font-sora-regular text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full"
+                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
-            <div class="w-full p-4 text-center bg-white border border-red-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-red-700">
+            <div class="w-full p-4 text-center bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
                 <h5 class="mb-3 text-3xl font-sora-bold text-gray-900 dark:text-white">
                     Suppression du compte
                 </h5>
@@ -348,7 +371,7 @@
                             class="w-full sm:w-auto bg-red-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
                             title="Supprimer mon compte"
                     >
-                        <svg class="me-3 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <svg class="me-3 w-7 h-7 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
                         </svg>
                         <div class="text-left rtl:text-right">
