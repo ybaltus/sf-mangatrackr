@@ -192,7 +192,7 @@ module.exports = {
                 'manga-detail-mob': '14rem',
                 'manga-detail-tab': '18rem',
                 'manga-detail-desk': '20rem',
-                'img-jumbotron-mob': '26rem',
+                'img-jumbotron-mob': '22rem',
                 'img-jumbotron-tab': '33rem',
                 'img-jumbotron-desk': '33rem',
                 'searchbar-mob': '2.75rem',

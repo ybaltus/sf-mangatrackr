@@ -20,7 +20,7 @@
     {# User Tab #}
     <div
             {{ stimulus_controller('account') }}
-            class="px-6 py-16 md:px-16 md:py-20 lg:px-6 lg:py-20 mx-4 md:flex"
+            class="px-4 py-16 md:px-16 md:py-20 lg:px-6 lg:py-20 mx-4 md:flex"
     >
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
@@ -116,7 +116,7 @@
         {# Tab content 1 #}
         <div
                 id="tab-content-1"
-                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-4 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" role="tabpanel" aria-labelledby="stats-tab">
@@ -147,10 +147,10 @@
         {# Tab content 2 #}
         <div
                 id="tab-content-2"
-                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
-            <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-0">
+            <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                 >
@@ -161,7 +161,7 @@
                         class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
                 >
                     <div
-                            class="p-10 space-y-4 md:space-y-6"
+                            class="p-6 space-y-4 md:space-y-6"
                     >
 
                         {{ form_start(userForm,
@@ -233,10 +233,10 @@
         {# Tab content 3 #}
         <div
                 id="tab-content-3"
-                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
-            <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-0">
+            <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                 >
@@ -247,7 +247,7 @@
                         class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
                 >
                     <div
-                            class="p-10 space-y-4 md:space-y-6"
+                            class="p-6 space-y-4 md:space-y-6"
                     >
 
                         {{ form_start(passwordForm,
@@ -342,7 +342,7 @@
         {# Tab content 4 #}
         <div
                 id="tab-content-4"
-                class="p-6 bg-app-clear-gray3 dark:bg-app-dark-gray3 font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="w-full p-4 text-center bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
