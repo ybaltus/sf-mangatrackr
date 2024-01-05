@@ -40,7 +40,7 @@
                     <span class="sr-only">Search</span>
                 </button>
             </div>
-            <div class="mt-8 relative w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center">
+            <div class="mt-10 flex flex-col md:flex-row gap-8 w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center md:justify-center">
                 {% if isToggleAdvanced %}
                     {# Advanced option #}
                     <label
@@ -56,7 +56,7 @@
                                 pattern="^[01]$"
                         >
                         <div
-                                class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-app-focus-purple dark:peer-focus:ring-app-focus-purple rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-app-focus-purple"
+                                class="w-10 h-5 bg-app-clear-white dark:bg-app-dark-gray ring-2 ring-app-clear-purple3 dark:ring-app-dark-purple rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2.5px] md:after:top-[5.5px] after:start-[4px] after:bg-app-clear-purple3 dark:after:bg-app-dark-purple after:border-none after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-app-clear-purple3 dark:peer-checked:bg-app-dark-purple peer-checked:after:bg-app-clear-white dark:peer-checked:after:bg-app-clear-white"
                         ></div>
                         <span
                                 class="ms-3 font-sora-regular text-text-search-mob lg:text-text-search-desk text-app-clear-black dark:text-app-dark-gray2"
@@ -77,7 +77,7 @@
                 {% if isToggleAdult %}
                     {# Adult option #}
                     <label
-                            class="ml-5 relative inline-flex items-center cursor-pointer"
+                            class="md:ml-5 relative inline-flex items-center cursor-pointer"
                             data-tooltip-target="tooltip-adult"
                             data-tooltip-placement="bottom"
                     >
@@ -89,7 +89,7 @@
                                 class="sr-only peer"
                         >
                         <div
-                                class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-app-focus-purple dark:peer-focus:ring-app-focus-purple rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-app-focus-purple"
+                                class="w-10 h-5 bg-app-clear-white dark:bg-app-dark-gray ring-2 ring-app-clear-purple3 dark:ring-app-dark-purple rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2.5px] md:after:top-[5.5px] after:start-[4px] after:bg-app-clear-purple3 dark:after:bg-app-dark-purple after:border-none after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-app-clear-purple3 dark:peer-checked:bg-app-dark-purple peer-checked:after:bg-app-clear-white dark:peer-checked:after:bg-app-clear-white"
                         ></div>
                         <span
                                 class="ms-3 font-sora-regular text-text-search-mob lg:text-text-search-desk text-app-clear-black dark:text-app-dark-gray2"
