@@ -3,22 +3,19 @@
 {% block title %}Invitation - {{ app_name }}{% endblock %}
 
 {% block body %}
+    {#  Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'S\'inscrire à ' ~ app_name
+    }) }}
 
-    <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto md:h-screen lg:py-0">
-            <a
-                    href="#"
-                    class="flex items-center mb-6 text-logo-mob lg:text-logo-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
-                    title="{{ app_name }}"
-            >
-                Inscription à {{ app_name }}
-            </a>
-
+    {# Form #}
+    <section class="bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="flex flex-col items-center justify-center px-6 py-16 md:px-32 md:py-4 lg:px-6 lg:py-4 mx-auto md:h-screen ">
             <div
-                    class="w-full rounded-lg shadow md:mt-0 sm:max-w-3xl xl:p-0 border border-app-clear-black bg-app-clear-white dark:bg-gray-800 dark:border dark:border-gray-700"
+                    class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
             >
                 <div
-                        class="p-4 lg:p-8 space-y-4 md:space-y-6 "
+                        class="p-10 space-y-4 md:space-y-6"
                 >
 
                     {{ form_start(invitationForm,
@@ -26,12 +23,12 @@
                     ) }}
 
                     {# Username #}
-                    <div class="mb-10">
+                    <div class="mb-6">
                         {{ form_label(
                             invitationForm.username,
                             "Nom d'utilisateur",
                             {'label_attr':
-                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                             })
                         }}
                         <div
@@ -43,7 +40,7 @@
                         {{ form_widget(
                             invitationForm.username,
                             {'attr': {
-                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 'placeholder': "Mon pseudo"
                             }}
 ,                        ) }}
@@ -52,12 +49,12 @@
                         </p>
                     </div>
                     {# Email #}
-                    <div class="mb-10">
+                    <div class="pb-6">
                         {{ form_label(
                             invitationForm.email,
                             "Email",
                             {'label_attr':
-                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                             })
                         }}
                         <div
@@ -69,18 +66,18 @@
                         {{ form_widget(
                             invitationForm.email,
                             {'attr': {
-                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 'placeholder': "my@email.com"
                             }}
                         ) }}
                     </div>
                     {# Password #}
-                    <div class="mb-10">
+                    <div class="pb-6">
                         {{ form_label(
                             invitationForm.plainPassword.first,
                             "Mot de passe",
                             {'label_attr':
-                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                             })
                         }}
                         <div
@@ -92,18 +89,18 @@
                         {{ form_widget(
                             invitationForm.plainPassword.first,
                             {'attr': {
-                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 'placeholder': "*********",
                             }}
                         ) }}
-                        <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
+                        <p class="mt-1 mb-6 text-sm text-app-clear-black dark:text-app-dark-gray2">
                             Minimum 8 caractères.
                         </p>
                         {{ form_label(
                             invitationForm.plainPassword.second,
                             "Confirmez le mot de passe",
                             {'label_attr':
-                                {'class': "block mb-3 text-label-form-mob lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                                {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                             })
                         }}
                         <div
@@ -115,7 +112,7 @@
                         {{ form_widget(
                             invitationForm.plainPassword.second,
                             {'attr': {
-                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-focus-purple focus:border-app-focus-purple block p-2.5 bg-gray-50 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-app-focus-purple dark:focus:border-app-focus-purple",
+                                'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
                                 'placeholder': "*********",
                             }}
                         ) }}
@@ -125,7 +122,7 @@
                     </div>
                     <button
                             type="submit"
-                            class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob lg:text-cta-desk px-16 py-3.5 text-center text-app-dark-gray1 hover:text-app-clear-white hover:bg-app-clear-purple ring-4 ring-app-clear-purple focus:ring-4 focus:outline-8 focus:ring-app-clear-purple dark:border-app-clear-purple dark:text-app-dark-gray2 dark:hover:text-app-dark-gray2 dark:hover:bg-app-clear-purple dark:focus:ring-app-clear-purple"
+                            class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
                             title="S'enregistrer"
                     >
                         S'enregistrer

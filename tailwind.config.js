@@ -106,8 +106,9 @@ module.exports = {
                 'cta-nav-mob': '1.125rem',
                 'cta-nav-tab': '1.25rem',
                 'cta-nav-desk': '1.25rem',
-                'label-form-mob': '1.2rem',
-                'label-form-desk': '1.5rem',
+                'label-form-mob': '1rem',
+                'label-form-tab': '1.125rem',
+                'label-form-desk': '1.125rem',
                 'text-form-mob': '1rem',
                 'text-form-desk': '1.5rem',
                 'breadcrumb-mob': '1.125rem',
@@ -235,6 +236,7 @@ module.exports = {
                 'manga-scantheque-desk': '3px',
                 'manga-category': '2px',
                 'searchbar': '2px',
+                'forms': '3px',
             },
             borderRadius: {
                 'manga-scantheque-mob': '1.5rem',
@@ -242,6 +244,7 @@ module.exports = {
                 'manga-scantheque-desk': '1.5rem',
                 'info-section': '1.875rem',
                 'status-manga': '0.625rem',
+                'forms': '1.875rem',
             },
             boxShadow: {
                 'searchbar-mob': '0px 2px 0px 0px',
