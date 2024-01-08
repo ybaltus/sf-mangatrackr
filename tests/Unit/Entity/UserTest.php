@@ -41,8 +41,7 @@ class UserTest extends KernelTestCase implements EntityTestInterface
     public function testEntityIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('user@email.fr');
-        $entity->setPlainPassword('p');
+        $entity = $this->getEntity('useremail.fr');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(1, $assertResults[0], $assertResults[1]);
     }
