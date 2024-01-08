@@ -11,8 +11,6 @@
 
 Application web pour suivre la lecture des mangas. Suivez facilement sa progression pour une meilleure expérience de lecture.
 
-En ligne sur [mangasync.labytech.fr](https://mangasync.labytech.fr/).
-
 ## Pour commencer
 
 Le projet n'utilise actuellement pas docker, de ce fait, il est nécessaire d'avoir les pré-requis d'installer sur son environnement.
