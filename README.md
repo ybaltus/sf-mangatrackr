@@ -9,11 +9,11 @@
 ![PhpStorm](https://img.shields.io/badge/phpstorm-143?style=for-the-badge&logo=phpstorm&logoColor=black&color=black&labelColor=darkorchid)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
-Application web pour suivre la lecture des mangas. Suivez facilement sa progression pour une meilleure expérience de lecture.
+Application web pour suivre la lecture des mangas. Suivre facilement sa progression pour une meilleure expérience de lecture.
 
 ## Pour commencer
 
-Le projet n'utilise actuellement pas docker, de ce fait, il est nécessaire d'avoir les pré-requis d'installer sur son environnement.
+Le projet n'utilise pas docker, de ce fait, il est nécessaire d'avoir les pré-requis d'installés sur son environnement.
 
 ### Pré-requis
 
@@ -58,27 +58,28 @@ Pour lancer le projet vous aurez besoin de la configuration suivante :
 
 ## Stack technique
 
-* Symfony 6.4
+* [Symfony 6.4](https://symfony.com/) - Framework PHP
 * Doctrine ORM
 * Twig
 * MariaDB
-* doctrine/doctrine-fixtures-bundle
-* symfony/webpack-encore-bundle
-* fakerphp/faker
-* easycorp/easyadmin-bundle
-* knplabs/knp-paginator-bundle
-* symfony/stimulus-bundle
-* symfony/ux-twig-component
-* stimulus-use
-* HtmlX
-* Flowbite + Tailwindcss
+* [doctrine/doctrine-fixtures-bundle](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html)
+* [symfony/webpack-encore-bundle](https://symfony.com/doc/6.4/frontend/encore/index.html) - Module Bundler
+* [fakerphp/faker](https://github.com/FakerPHP/Faker) - Librairie PHP
+* [easycorp/easyadmin-bundle](https://symfony.com/bundles/EasyAdminBundle/current/index.html) - Générateur d'administrateur pour Symfony
+* [knplabs/knp-paginator-bundle](https://github.com/KnpLabs/KnpPaginatorBundle) - Bundle de pagination
+* [symfony/stimulus-bundle](https://symfony.com/bundles/StimulusBundle/current/index.html) - Framework Javascript
+* [stimulus-use](https://stimulus-use.github.io/stimulus-use/#/) - Collection de composants Stimulus
+* [symfony/ux-twig-component](https://symfony.com/bundles/ux-twig-component/current/index.html)
+* [HtmX](https://htmx.org/) - Framework Front-end
+* [Flowbite](https://flowbite.com/) - Librairie de composants UI 
+* [Tailwindcss](https://tailwindcss.com/) - Framework CSS
 
 ## Outils QA & Tests utilisés
-* friendsofphp/php-cs-fixer
-* phpstan/phpstan
-* nunomaduro/phpinsights
-* phpro/grumphp
-* phpunit/phpunit
+* [friendsofphp/php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) - PHP Coding Standards Fixer
+* [phpstan/phpstan](https://github.com/phpstan/phpstan) - PHP Static Analysis Tool
+* [nunomaduro/phpinsights](https://github.com/nunomaduro/phpinsights) - Static Analysis Tool
+* [phpro/grumphp](https://github.com/phpro/grumphp) - 
+* [symfony/test-pack](https://symfony.com/doc/6.4/testing.html#application-tests) - PHP Unit
 
 ## Commandes consoles
 * Pour générer un utilisateur :
