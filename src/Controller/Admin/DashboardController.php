@@ -8,6 +8,7 @@ use App\Entity\Manga;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use App\Entity\StatusTrack;
+use App\Entity\TextContentPage;
 use App\Entity\User;
 use App\Entity\UserInvitationCode;
 use App\Entity\UserResetPassword;
@@ -53,5 +54,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::LinkToCrud('User', 'fa fa-user', User::class);
         yield MenuItem::LinkToCrud('Invitation Code', 'fa fa-envelope', UserInvitationCode::class);
         yield MenuItem::LinkToCrud('Reset password Code', 'fa fa-envelope', UserResetPassword::class);
+
+        yield MenuItem::section('Site');
+        yield MenuItem::LinkToCrud('TextContentPage', 'fa fa-file-lines', TextContentPage::class);
     }
 }
