@@ -12,13 +12,14 @@
 Application web pour suivre la lecture des mangas. Suivre facilement sa progression pour une meilleure expérience de lecture.
 
 ## Fonctionnalités
+- [x] Espace d'administration
+- [x] Inscription sur invitation
+- [x] Authentification avec login/mdp
+- [x] Gérer son compte utilisateur
 - [x] Rechercher un manga dans la base de données
 - [x] Rechercher un manga avec l'API
 - [x] Consulter le détail d'un manga
 - [x] Gérer son suivi depuis une scanthèque
-- [x] Inscription sur invitation
-- [x] Authentification avec login/mdp
-- [x] Gérer son compte utilisateur
 - [ ] Calendrier de sortie de mangas
 - [ ] Exporter sa scanthèque
 - [ ] Activer des notifications hebdomaires sur les prochaines sorties
