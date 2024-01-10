@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Traits;
+namespace App\Tests\Traits;
 
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

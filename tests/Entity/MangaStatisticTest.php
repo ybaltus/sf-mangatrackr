@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
-use App\Entity\Fantrad;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Entity\MangaStatistic;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FantradTest extends KernelTestCase
+class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
 {
     use MyUnitTestTrait;
 
@@ -22,10 +22,9 @@ class FantradTest extends KernelTestCase
 
     public function getEntity(string $title): object
     {
-        return (new Fantrad())
-            ->setName($title)
-            ->setNameSlug($title.'_slug')
-            ->setUrl('https://fantrad.com')
+        return (new MangaStatistic())
+            ->setNbTrack(50)
+            ->setNbView(1000)
             ;
     }
 
@@ -40,18 +39,12 @@ class FantradTest extends KernelTestCase
     public function testEntityIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('');
+        $entity = $this->getEntity('EntityInvalidValid');
+        $entity->setNbView(-1);
+        $entity->setRating(-1);
+        $entity->setNbTrack(-1);
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
-        $this->assertCount(2, $assertResults[0], $assertResults[1]);
-    }
-
-    public function testUrlIsInvalid():void
-    {
-        $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('FantradValid');
-        $entity->setUrl('f');
-        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
-        $this->assertCount(2, $assertResults[0], $assertResults[1]);
+        $this->assertCount(3, $assertResults[0], $assertResults[1]);
 
     }
 }

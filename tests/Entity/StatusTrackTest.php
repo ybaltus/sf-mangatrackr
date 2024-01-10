@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
-use App\Entity\Editor;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Entity\StatusTrack;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EditorTest extends KernelTestCase implements EntityTestInterface
+class StatusTrackTest extends KernelTestCase implements EntityTestInterface
 {
     use MyUnitTestTrait;
 
@@ -23,7 +22,7 @@ class EditorTest extends KernelTestCase implements EntityTestInterface
 
     public function getEntity(string $title): object
     {
-        return (new Editor())
+        return (new StatusTrack())
             ->setName($title)
             ->setNameSlug($title.'_slug')
             ;
@@ -32,16 +31,16 @@ class EditorTest extends KernelTestCase implements EntityTestInterface
     public function testEntityIsValid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $editor = $this->getEntity('EditorValid');
-        $assertResults = $this->assertViolationsWithValidator($validatorService, $editor);
+        $entity = $this->getEntity('EntityValid');
+        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
     }
 
     public function testEntityIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $editor = $this->getEntity('');
-        $assertResults = $this->assertViolationsWithValidator($validatorService, $editor);
+        $entity = $this->getEntity('');
+        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(2, $assertResults[0], $assertResults[1]);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
-use App\Entity\StatusTrack;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Entity\Fantrad;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class StatusTrackTest extends KernelTestCase implements EntityTestInterface
+class FantradTest extends KernelTestCase implements EntityTestInterface
 {
     use MyUnitTestTrait;
 
@@ -22,9 +22,10 @@ class StatusTrackTest extends KernelTestCase implements EntityTestInterface
 
     public function getEntity(string $title): object
     {
-        return (new StatusTrack())
+        return (new Fantrad())
             ->setName($title)
             ->setNameSlug($title.'_slug')
+            ->setUrl('https://fantrad.com')
             ;
     }
 
@@ -42,5 +43,15 @@ class StatusTrackTest extends KernelTestCase implements EntityTestInterface
         $entity = $this->getEntity('');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(2, $assertResults[0], $assertResults[1]);
+    }
+
+    public function testUrlIsInvalid():void
+    {
+        $validatorService = $this->initBootKernelContainer()->get('validator');
+        $entity = $this->getEntity('FantradValid');
+        $entity->setUrl('f');
+        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
+        $this->assertCount(2, $assertResults[0], $assertResults[1]);
+
     }
 }

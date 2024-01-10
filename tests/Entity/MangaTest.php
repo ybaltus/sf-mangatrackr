@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\Manga;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

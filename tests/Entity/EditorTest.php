@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
-use App\Entity\User;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Entity\Editor;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class UserTest extends KernelTestCase implements EntityTestInterface
+class EditorTest extends KernelTestCase implements EntityTestInterface
 {
     use MyUnitTestTrait;
 
@@ -22,27 +22,25 @@ class UserTest extends KernelTestCase implements EntityTestInterface
 
     public function getEntity(string $title): object
     {
-        return (new User())
-            ->setEmail($title)
-            ->setUsername($title.'_username')
-            ->setPlainPassword('password')
-            ->setPassword('password')
+        return (new Editor())
+            ->setName($title)
+            ->setNameSlug($title.'_slug')
             ;
     }
 
     public function testEntityIsValid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('user@email.fr');
-        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
+        $editor = $this->getEntity('EditorValid');
+        $assertResults = $this->assertViolationsWithValidator($validatorService, $editor);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
     }
 
     public function testEntityIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('useremail.fr');
-        $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
-        $this->assertCount(1, $assertResults[0], $assertResults[1]);
+        $editor = $this->getEntity('');
+        $assertResults = $this->assertViolationsWithValidator($validatorService, $editor);
+        $this->assertCount(2, $assertResults[0], $assertResults[1]);
     }
 }

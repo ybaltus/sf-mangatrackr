@@ -36,6 +36,7 @@ class TextContentPage
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Length(
+        min: 2,
         max: 1000
     )]
     private string $content;

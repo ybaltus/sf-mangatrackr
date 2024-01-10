@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
-use App\Entity\MangaStatistic;
-use App\Tests\Unit\Traits\MyUnitTestTrait;
+use App\Entity\User;
+use App\Tests\Traits\MyUnitTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
+class UserTest extends KernelTestCase implements EntityTestInterface
 {
     use MyUnitTestTrait;
 
@@ -22,16 +22,18 @@ class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
 
     public function getEntity(string $title): object
     {
-        return (new MangaStatistic())
-            ->setNbTrack(50)
-            ->setNbView(1000)
+        return (new User())
+            ->setEmail($title)
+            ->setUsername($title.'_username')
+            ->setPlainPassword('password')
+            ->setPassword('password')
             ;
     }
 
     public function testEntityIsValid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('EntityValid');
+        $entity = $this->getEntity('user@email.fr');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
     }
@@ -39,12 +41,8 @@ class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
     public function testEntityIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
-        $entity = $this->getEntity('EntityInvalidValid');
-        $entity->setNbView(-1);
-        $entity->setRating(-1);
-        $entity->setNbTrack(-1);
+        $entity = $this->getEntity('useremail.fr');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
-        $this->assertCount(3, $assertResults[0], $assertResults[1]);
-
+        $this->assertCount(1, $assertResults[0], $assertResults[1]);
     }
 }
