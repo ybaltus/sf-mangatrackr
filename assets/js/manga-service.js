@@ -228,13 +228,9 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     const currentSectionElement = document.querySelector("#scantheque-list-" + currentStatusTrack);
     const newSectionElement = document.querySelector("#scantheque-list-" + newStatusTrack);
     const mangaCardElement = document.querySelector('#' + mangaCardId);
-    const hrCardElement = mangaCardElement.nextElementSibling;
 
     // Clone the manga card htmlElement
     const cloneMangaCard = mangaCardElement.cloneNode(true);
-
-    // Clone the hr card htmlElement
-    const cloneHrCard = hrCardElement.cloneNode(true);
 
     // Update the attributes for the menu
     _updateMenuAfterMove(cloneMangaCard, newStatusTrack);
@@ -242,13 +238,11 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     // Add the manga card in new section
     if (cloneMangaCard && newSectionElement) {
         newSectionElement.appendChild(cloneMangaCard);
-        newSectionElement.appendChild(cloneHrCard);
     }
 
     // Remove the manga card in new section
     if (cloneMangaCard && currentSectionElement) {
         currentSectionElement.removeChild(mangaCardElement);
-        hrCardElement.remove();
     }
 
     // Set the new length of mangas
@@ -258,7 +252,6 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
     // Update nb manga in the title
     setNbMangaInTitle(currentStatusTrack, nbMangasCurrentSection);
     setNbMangaInTitle(newStatusTrack, nbMangasNewSection);
-
 }
 
 const _deleteMangaCardElement = (mangaCardId) =>
