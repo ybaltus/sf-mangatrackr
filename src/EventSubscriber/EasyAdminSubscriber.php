@@ -52,8 +52,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
 
         // Params
-        $appName = $this->params->get('app_name');
-        $emailFrom = $this->params->get('mailer_no_reply');
+        $appName = $this->params->get('app_name') ?: 'MangaTracker';
+        $emailFrom = $this->params->get('mailer_no_reply') ?: 'no-reply@mangatracker.fr';
         $codeInvitation = $entity->getCodeInvitation();
         $emailTo = $entity->getEmail();
         $expiredAt = $entity->getExpiredAt();
