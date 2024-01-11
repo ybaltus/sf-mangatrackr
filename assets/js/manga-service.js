@@ -257,9 +257,7 @@ const _moveMangaCardStatusSection = (mangaCardId, currentStatusTrack, newStatusT
 const _deleteMangaCardElement = (mangaCardId) =>
 {
     const mangaCardElement = document.querySelector('#' + mangaCardId);
-    const hrCardElement = mangaCardElement.nextElementSibling;
     mangaCardElement.remove();
-    hrCardElement.remove();
 }
 
 const _getNbMangas = (statusTrack) => {
