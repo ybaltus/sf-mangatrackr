@@ -4,3 +4,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-stroke-black-custom {
+    color: transparent;
+    -webkit-text-stroke-width: 0.15rem;
+    -webkit-text-stroke-color: #141218
+}
