@@ -7,6 +7,18 @@
 
 .text-stroke-black-custom {
     color: transparent;
-    -webkit-text-stroke-width: 0.15rem;
+    -webkit-text-stroke-width: 0.1rem;
     -webkit-text-stroke-color: #141218
+}
+
+@media (min-width: 768px) {
+    .text-stroke-black-custom {
+        -webkit-text-stroke-width: 0.1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-stroke-black-custom {
+        -webkit-text-stroke-width: 0.15rem;
+    }
 }

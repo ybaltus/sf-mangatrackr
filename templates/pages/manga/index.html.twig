@@ -56,7 +56,7 @@
                 </div>
 
                 {# Buttons #}
-                <div class="hidden md:inline-block lg:inline-block my-10 text-center">
+                <div class="hidden w-full md:inline-block lg:inline-block my-10 text-center">
                     {# Add scanthèque #}
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
@@ -81,7 +81,7 @@
                     {{ manga.title }}
                 </h1>
                 {# Categories #}
-                <div class="flex flex-wrap justify-center md:justify-start lg:justify-start my-8 md:my-16 lg:my-16 mx-4 md:mx-0 lg:mx-0 gap-4">
+                <div class="flex flex-wrap justify-center md:justify-start lg:justify-start my-8 md:my-16 lg:my-16 mx-4 md:mx-0 lg:mx-0 gap-2">
                     {% for mType in manga.mangaType %}
                         <span class="bg-app-clear-pink2 text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black font-sora-semiBold md:m-2 lg:m-2 px-2 py-2 md:px-5 md:py-2 lg:px-5 lg:py-2 rounded-full border-manga-category border-app-dark-black dark:border-none">
                             {{ mType.name }}
@@ -89,7 +89,7 @@
                     {% endfor %}
                 </div>
                 {# Description #}
-                <p class="my-12 lg:max-w-3xl font-sora-regular text-justify md:text-start lg:text-start text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
+                <p class="my-12 lg:max-w-3xl font-sora-regular text-left md:text-start lg:text-start text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
                     {{manga.description}}
                 </p>
                 {# Characteristics #}
