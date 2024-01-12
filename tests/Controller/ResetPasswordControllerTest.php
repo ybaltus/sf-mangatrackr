@@ -101,8 +101,8 @@ class ResetPasswordControllerTest extends WebTestCase implements ControllerTestI
 
         // Test Form Submit for edit password
         $crawler = $client->submitForm('Modifier', [
-            'reset_password[plainPassword][first]' => '12345678',
-            'reset_password[plainPassword][second]' => '12345678',
+            'reset_password[plainPassword][first]' => 'password',
+            'reset_password[plainPassword][second]' => 'password',
         ]);
         $this->assertResponseRedirects('/login', 302);
 
