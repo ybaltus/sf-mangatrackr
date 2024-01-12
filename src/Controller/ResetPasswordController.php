@@ -30,6 +30,11 @@ class ResetPasswordController extends AbstractController
     #[Route('', name: 'reset_password_index')]
     public function index(Request $request): Response
     {
+        // Redirect user already connected
+        if ($this->getUser()) {
+            return $this->redirectToRoute('user_index');
+        }
+
         $resetPasswordForm = $this->createForm(ResetPasswordEmailType::class);
         $resetPasswordForm->handleRequest($request);
 
