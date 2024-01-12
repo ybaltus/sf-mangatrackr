@@ -62,6 +62,7 @@ unit-tests-only:## Run only the PHPUnit
 	$(PHPUNIT) --testdox
 
 unit-tests:## Execute the fixtures and run the PHPUnit
+	$(MAKE) sf-rdb-test
 	$(SYMFONY_CONSOLE) doctrine:fixtures:load --no-interaction --env=test
 	$(PHPUNIT) --testdox
 
@@ -127,6 +128,11 @@ sf-rdb: ## Reset database
 	$(MAKE) sf-ddd
 	$(MAKE) sf-ddc
 	$(MAKE) sf-dmm
+
+sf-rdb-test: ## Reset database for tests
+	$(SYMFONY_CONSOLE) doctrine:database:drop --if-exists --force --env=test
+	$(SYMFONY_CONSOLE) doctrine:database:create --if-not-exists --env=test
+	$(SYMFONY_CONSOLE) doctrine:migrations:migrate --no-interaction --env=test
 
 ##----------------- 🎉 First install 🎉 -------------#
 first-install: composer-install npm-install npm-build qa-sf-security-checker sf-ddc sf-dmm ## First installation
