@@ -61,7 +61,7 @@ class ScanthequeControllerTest extends WebTestCase implements ControllerTestInte
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/scantheque');
-        $this->assertSelectorTextContains('h1', 'Hello, user_0');
+        $this->assertSelectorTextContains('h1', "Hello, {$testUser->getUsername()}");
     }
 
     public function testNbSectionHtmlElements(): void
