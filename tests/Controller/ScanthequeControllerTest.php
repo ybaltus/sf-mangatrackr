@@ -14,7 +14,7 @@ class ScanthequeControllerTest extends WebTestCase implements ControllerTestInte
         $userRepository = static::getContainer()->get(UserRepository::class);
 
         // retrieve the test user
-        return $userRepository->findOneByEmail('user@default1.com');
+        return $userRepository->findOneByEmail(self::TEST_USER_EMAIL);
     }
 
     private function assertSectionStatus(string $sectionName): void
@@ -28,7 +28,6 @@ class ScanthequeControllerTest extends WebTestCase implements ControllerTestInte
         // Test div list
         $this->assertSelectorExists("div#scantheque-list-$sectionName");
         $this->assertSelectorExists("div[data-scantheque-target=$sectionName]");
-
     }
 
     public function testHTTPResponseSuccess(): void
