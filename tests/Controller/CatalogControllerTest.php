@@ -22,6 +22,23 @@ class CatalogControllerTest extends WebTestCase implements ControllerTestInterfa
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
+    public function testMangaSearchFormSubmitHtmx(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/catalog');
+
+        // Form Submit
+        $crawler = $client->submitForm('Search', [
+            'searchTerm' => 'one',
+        ]);
+
+        // Test status of the response
+        $this->assertResponseIsSuccessful();
+
+        // Test if there are results for hx-target
+        $this->assertSelectorExists('div#manga-list-htmx');
+    }
+
     public function testH1(): void
     {
         $client = static::createClient();
