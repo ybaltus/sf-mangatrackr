@@ -1,0 +1,5 @@
+when@dev:
+    framework:
+        mailer:
+            dsn: 'null://null'
+    #        dsn: '%env(MAILER_DSN)%'
