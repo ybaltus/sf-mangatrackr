@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Manga;
 use App\Entity\MangaJikanAPI;
-use App\Entity\MangaStatistic;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;

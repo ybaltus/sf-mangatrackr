@@ -1,4 +1,0 @@
-framework:
-        transports:
-            async_priority_normal: 'in-memory://'
-            sync: 'in-memory://'

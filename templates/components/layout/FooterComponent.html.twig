@@ -19,10 +19,10 @@
                         class="md:order-last md:flex md:flex-wrap md:items-center mb-6 text-text-footer-mob md:text-text-footer-tab lg:text-text-footer-desk font-sora-semiBold text-app-clear-white sm:mb-0 dark:text-app-dark-gray2"
                 >
                     <li>
-                        <a href="{{ path('about_index') }}" class="hover:underline me-2 md:me-6">À propos</a>
+                        <a href="{{ path('about_index') }}" class="hover:underline me-2 md:me-6" title="À propos">À propos</a>
                     </li>
                     <li class="my-6 md:my-0">
-                        <a href="#" class="hover:underline me-2 md:me-6">Mentions légales</a>
+                        <a href="{{ path('terms_of_use_index') }}" class="hover:underline me-2 md:me-6" title="Mentions légales">Mentions légales</a>
                     </li>
                     <li>
 {#                        <a href="#" class="hover:underline">Contact</a>#}
@@ -33,7 +33,7 @@
                 <span
                         class="block my-10 md:my-0 text-text-footer-mob md:text-text-footer-tab lg:text-text-footer-desk font-sora-semiBold text-app-clear-white md:text-center dark:text-app-dark-gray2"
                 >
-                © 2023 <a href="{{ path('home_index') }}"
+                © 2024 <a href="{{ path('home_index') }}"
                           class="hover:underline"
                           title="{{ app_name }}"
                     >{{ app_name }}</a>.
