@@ -37,7 +37,7 @@ class TextContentPage
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 2,
-        max: 1000
+        max: 4000
     )]
     private string $content;
 
@@ -45,7 +45,6 @@ class TextContentPage
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\Blank]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]

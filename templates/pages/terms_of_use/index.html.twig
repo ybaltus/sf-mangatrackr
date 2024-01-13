@@ -12,10 +12,11 @@
             class="bg-app-clear-white dark:bg-app-dark-gray"
             id="terms-of-use-section"
     >
-        <div class="px-4 md:px-20 lg:px-20 py-16 md:py-16 lg:py-32 mx-auto max-w-screen-xl h-screen font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+        <div class="px-4 md:px-20 lg:px-20 py-16 md:py-16 lg:py-32 mx-auto max-w-screen-xl font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
 
-        {% if terms %}
-                {{ terms }}
+            {% if terms is not null %}
+                {# Text generate with Trix Editor #}
+                {{ terms.content|raw }}
             {% else %}
                 <p>
 
