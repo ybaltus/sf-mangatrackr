@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'api:jikan',
-    description: 'Add a short description for your command',
+    description: 'Command to test Jikan\'s REST API',
 )]
 class ApiJikanCommand extends Command
 {
@@ -41,16 +41,18 @@ class ApiJikanCommand extends Command
             $datas = $this->apiJikanService->fetchMangaByTitle($searchTerm);
 
             if (empty($datas)) {
-                $io->info('No results');
+                $io->info('No results found');
+
+                return Command::SUCCESS;
             }
 
             // Test save datas only for the first entry
             $this->apiJikanService->saveMangaDatasInDb($datas[0]);
 
-            // Test fetch top mangas
-            $topManga = $this->apiJikanService->fetchTopManga();
+        // Test fetch top mangas
+        // $topManga = $this->apiJikanService->fetchTopManga();
         } else {
-            $io->error('A search terms is required');
+            $io->error('Error: A search terms is required');
 
             return Command::INVALID;
         }

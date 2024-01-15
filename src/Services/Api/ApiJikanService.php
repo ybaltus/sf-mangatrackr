@@ -231,8 +231,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'malImgWebpLarge' => $result['images']['webp']['large_image_url'] ?? null,
             'malChapters' => $result['chapters'],
             'malVolumes' => $result['volumes'],
-            'malStartPublishedAt' => $result['published']['from'] ?? null,
-            'malEndPublishedAt' => $result['published']['to'] ?? null,
+            'malStartPublishedAt' => $result['published']['from'] ?? 'now',
+            'malEndPublishedAt' => $result['published']['to'] ?? 'now',
             'malDemographics' => $this->extractDatasFromArray($result['demographics'], 'name'), // array
             'malGenres' => $this->extractDatasFromArray($result['genres'], 'name'), // array
             'malSerializations' => $this->extractDatasFromArray($result['serializations'], 'name'), // array
