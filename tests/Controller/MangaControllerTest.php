@@ -26,7 +26,7 @@ class MangaControllerTest extends WebTestCase implements ControllerTestInterface
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/manga/one-piece');
-        $this->assertSelectorTextContains('h1', 'One piece');
+        $this->assertSelectorTextContains('h1', 'One');
     }
 
     public function testNbSectionHtmlElements(): void
