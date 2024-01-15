@@ -33,7 +33,7 @@ class SecurityControllerTest extends WebTestCase implements ControllerTestInterf
         $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 
-    public function testUserConnected(): void
+    public function testUserSuccessfulLogin(): void
     {
         $client = static::createClient();
 
@@ -51,7 +51,7 @@ class SecurityControllerTest extends WebTestCase implements ControllerTestInterf
         $this->assertSelectorTextContains('h1', 'Synchronisez votre passion pour les mangas !');
     }
 
-    public function testInvitationFormSubmitAndRedirect(): void
+    public function testInvitationFormSubmittedAndRedirect(): void
     {
         $client = static::createClient();
 
@@ -70,10 +70,10 @@ class SecurityControllerTest extends WebTestCase implements ControllerTestInterf
 
         // Follow redirect
         $client->followRedirect();
-        $this->assertSelectorTextContains('h1', sprintf("Hello, %s", $user->getUsername()));
+        $this->assertSelectorTextContains('h1', sprintf('Hello, %s', $user->getUsername()));
     }
 
-    public function testLogoutAndRedirect(): void
+    public function testSucessfulLogoutAndRedirect(): void
     {
         $client = static::createClient();
 
