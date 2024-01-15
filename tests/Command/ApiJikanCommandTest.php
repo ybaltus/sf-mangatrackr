@@ -8,7 +8,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class ApiJikanCommandTest extends KernelTestCase implements CommandTestInterface
 {
-    public function testSucessfulExecution(): void
+    public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);

@@ -8,7 +8,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class CreateUserCommandTest extends KernelTestCase implements CommandTestInterface
 {
-    public function testSucessfulExecution(): void
+    public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
@@ -42,9 +42,10 @@ final class CreateUserCommandTest extends KernelTestCase implements CommandTestI
 
         // Not set email input
         $commandTester->setInputs([
+            'email' => '',
             'password' => 'password',
             'username' => 'Tester',
-            'isAdmin' => false,
+            'isAdmin' => 'no',
         ]);
         $commandTester->execute([]);
 
@@ -59,10 +60,10 @@ final class CreateUserCommandTest extends KernelTestCase implements CommandTestI
         $command = $application->find('app:create-user');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'email' =>  self::USER_DEFAULT,
+            'email' => self::USER_DEFAULT,
             'password' => 'password',
             'username' => 'Tester',
-            'isAdmin' => 0,
+            'isAdmin' => 'no',
         ]);
 
         $this->assertNotEquals(0, $commandTester->getStatusCode());
