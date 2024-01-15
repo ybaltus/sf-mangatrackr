@@ -7,10 +7,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class StatusTrackFixtures extends DataFixturesAbstract
 {
-    //    public const REFOBJ1 = 'sTrack_1';
-    //    public const REFOBJ2 = 'sTrack_2';
-    //    public const REFOBJ3 = 'sTrack_3';
-
     public const LIST_STRACKS = [
         'En lecture',
         'En pause',
@@ -31,20 +27,4 @@ class StatusTrackFixtures extends DataFixturesAbstract
         }
         $manager->flush();
     }
-
-    //    private function saveReferences(object $entity, int $key): void
-    //    {
-    //        $targetReference = match ($key) {
-    //            0 => self::REFOBJ1,
-    //            1 => self::REFOBJ2,
-    //            2 => self::REFOBJ3,
-    //            default => false
-    //        };
-    //
-    //        if (!$targetReference) {
-    //            return;
-    //        }
-    //
-    //        $this->addReference($targetReference, $entity);
-    //    }
 }

@@ -10,10 +10,6 @@ use Faker\Factory;
 
 class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInterface
 {
-    //    public const REFOBJ1 = 'manga_1';
-    //    public const REFOBJ2 = 'manga_2';
-    //    public const REFOBJ3 = 'manga_3';
-
     public const LIST_MANGAS = [
         'One piece',
         'Naruto',
@@ -73,20 +69,4 @@ class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInte
             FantradFixtures::class,
         ];
     }
-
-    //    private function saveReferences(object $entity, int $key): void
-    //    {
-    //        $targetReference = match ($key) {
-    //            0 => self::REFOBJ1,
-    //            1 => self::REFOBJ2,
-    //            2 => self::REFOBJ3,
-    //            default => false
-    //        };
-    //
-    //        if (!$targetReference) {
-    //            return;
-    //        }
-    //
-    //        $this->addReference($targetReference, $entity);
-    //    }
 }
