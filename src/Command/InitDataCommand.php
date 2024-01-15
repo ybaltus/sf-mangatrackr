@@ -27,22 +27,28 @@ class InitDataCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        // Initialize some MangaTypes, MangaStatus, Fantrad and StatusTrack
-        $this->initDataService->initAllDatas();
+        try {
+            // Initialize some MangaTypes, MangaStatus, Fantrad and StatusTrack
+            $this->initDataService->initAllDatas();
 
-        // Initialize some mangas for the homepage
-        $topManga = $this->apiJikanService->fetchTopManga(25);
-        foreach ($topManga as $manga) {
-            $this->apiJikanService->saveMangaDatasInDb($manga);
+            // Initialize some mangas for the homepage
+            $topManga = $this->apiJikanService->fetchTopManga(25);
+            foreach ($topManga as $manga) {
+                $this->apiJikanService->saveMangaDatasInDb($manga);
+            }
+
+            $latestManga = $this->apiJikanService->fetchLastestManga(25);
+            foreach ($latestManga as $manga) {
+                $this->apiJikanService->saveMangaDatasInDb($manga);
+            }
+
+            $io->success('app:init-datas executed with success !');
+
+            return Command::SUCCESS;
+        } catch (\Exception $e) {
+            $io->error(sprintf('Error initDataCommand: %s', $e->getMessage()));
+
+            return Command::FAILURE;
         }
-
-        $latestManga = $this->apiJikanService->fetchLastestManga(25);
-        foreach ($latestManga as $manga) {
-            $this->apiJikanService->saveMangaDatasInDb($manga);
-        }
-
-        $io->success('app:init-datas executed with success');
-
-        return Command::SUCCESS;
     }
 }

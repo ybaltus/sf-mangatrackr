@@ -3,6 +3,7 @@
 namespace App\Services\Api;
 
 use App\Repository\EditorRepository;
+use App\Repository\MangaRepository;
 use App\Repository\MangaStatusRepository;
 use App\Repository\MangaTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -88,7 +89,7 @@ abstract class ApiServiceAbstract
         $slugger = new AsciiSlugger();
         $valSlug = $slugger->slug($value)->lower();
         /**
-         * @var MangaTypeRepository|EditorRepository|MangaTypeRepository|MangaStatusRepository $repository
+         * @var MangaRepository|MangaTypeRepository|EditorRepository|MangaStatusRepository $repository
          */
         $repository = $this->em->getRepository($className); /** @phpstan-ignore-line */
         $entity = $isTitle ?
