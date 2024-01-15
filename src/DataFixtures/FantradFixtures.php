@@ -3,14 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Fantrad;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class FantradFixtures extends Fixture
+class FantradFixtures extends DataFixturesAbstract
 {
-    public const REFOBJ1 = 'fantrad_1';
-    public const REFOBJ2 = 'fantrad_2';
-    public const REFOBJ3 = 'fantrad_3';
+    //    public const REFOBJ1 = 'fantrad_1';
+    //    public const REFOBJ2 = 'fantrad_2';
+    //    public const REFOBJ3 = 'fantrad_3';
 
     public const LIST_FANTRADS = [
         'Fantrad',
@@ -27,24 +26,24 @@ class FantradFixtures extends Fixture
                 ->setUrl('https://www.manga-news.com/')
             ;
             $manager->persist($entity);
-            $this->saveReferences($entity, $key);
+            $this->saveReferences($entity, $key, 'fantrad');
         }
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key): void
-    {
-        $targetReference = match ($key) {
-            0 => self::REFOBJ1,
-            1 => self::REFOBJ2,
-            2 => self::REFOBJ3,
-            default => false
-        };
-
-        if (!$targetReference) {
-            return;
-        }
-
-        $this->addReference($targetReference, $entity);
-    }
+    //    private function saveReferences(object $entity, int $key): void
+    //    {
+    //        $targetReference = match ($key) {
+    //            0 => self::REFOBJ1,
+    //            1 => self::REFOBJ2,
+    //            2 => self::REFOBJ3,
+    //            default => false
+    //        };
+    //
+    //        if (!$targetReference) {
+    //            return;
+    //        }
+    //
+    //        $this->addReference($targetReference, $entity);
+    //    }
 }

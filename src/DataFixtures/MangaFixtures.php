@@ -4,16 +4,15 @@ namespace App\DataFixtures;
 
 use App\Entity\Manga;
 use App\Entity\MangaJikanAPI;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class MangaFixtures extends Fixture implements DependentFixtureInterface
+class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInterface
 {
-    public const REFOBJ1 = 'manga_1';
-    public const REFOBJ2 = 'manga_2';
-    public const REFOBJ3 = 'manga_3';
+    //    public const REFOBJ1 = 'manga_1';
+    //    public const REFOBJ2 = 'manga_2';
+    //    public const REFOBJ3 = 'manga_3';
 
     public const LIST_MANGAS = [
         'One piece',
@@ -32,15 +31,15 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
                 ->setAuthor($faker->name())
                 ->setDescription($faker->paragraph())
                 ->setDesigner($faker->name())
-                ->setMangaStatus($this->getReference('mStatus_'.mt_rand(1, 3)))
+                ->setMangaStatus($this->getReference('mStatus_ref_'.mt_rand(1, 3)))
                 ->setPublishedAt(new \DateTimeImmutable())
                 ->setNbChapters(mt_rand(1, 300))
-                ->addEditor($this->getReference('editor_'.mt_rand(1, 3)))
-                ->addEditor($this->getReference('editor_'.mt_rand(1, 3)))
-                ->addMangaType($this->getReference('mType_'.mt_rand(1, 3)))
-                ->addMangaType($this->getReference('mType_'.mt_rand(1, 3)))
-                ->addFantrad($this->getReference('fantrad_'.mt_rand(1, 3)))
-                ->addFantrad($this->getReference('fantrad_'.mt_rand(1, 3)))
+                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3)))
+                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3)))
+                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3)))
+                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3)))
+                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3)))
+                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3)))
             ;
 
             $manager->persist($entity);
@@ -61,7 +60,7 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
             $mgJikanAPI->setMalImgWebpLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
             $mgJikanAPI->setMalAuthors(['Echiiro Oda']);
 
-            $this->saveReferences($entity, $key);
+            $this->saveReferences($entity, $key, 'manga');
         }
         $manager->flush();
     }
@@ -75,19 +74,19 @@ class MangaFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
-    private function saveReferences(object $entity, int $key): void
-    {
-        $targetReference = match ($key) {
-            0 => self::REFOBJ1,
-            1 => self::REFOBJ2,
-            2 => self::REFOBJ3,
-            default => false
-        };
-
-        if (!$targetReference) {
-            return;
-        }
-
-        $this->addReference($targetReference, $entity);
-    }
+    //    private function saveReferences(object $entity, int $key): void
+    //    {
+    //        $targetReference = match ($key) {
+    //            0 => self::REFOBJ1,
+    //            1 => self::REFOBJ2,
+    //            2 => self::REFOBJ3,
+    //            default => false
+    //        };
+    //
+    //        if (!$targetReference) {
+    //            return;
+    //        }
+    //
+    //        $this->addReference($targetReference, $entity);
+    //    }
 }

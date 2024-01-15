@@ -13,9 +13,9 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
     public function load(ObjectManager $manager): void
     {
         $users = [
-            $this->getReference(UserFixtures::USERDEFAULT1),
-            $this->getReference(UserFixtures::USERDEFAULT2),
-            $this->getReference(UserFixtures::USERADMIN),
+            $this->getReference('user_ref_1'),
+            $this->getReference('user_ref_2'),
+            $this->getReference('user_ref_3'),
         ];
 
         /**
@@ -24,9 +24,9 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
         foreach ($users as $key => $user) {
             for ($i = 0; $i < 3; ++$i) {
                 $entity = (new MangaUserTrack())
-                    ->setManga($this->getReference('manga_'.mt_rand(1, 3)))
+                    ->setManga($this->getReference('manga_ref_'.mt_rand(1, 3)))
                     ->setUserTrackList($user->getUserTrackList())
-                    ->setStatusTrack($this->getReference('sTrack_'.mt_rand(1, 3)))
+                    ->setStatusTrack($this->getReference('sTrack_ref_'.mt_rand(1, 3)))
                     ->setNbChapters(mt_rand(1, 150))
                 ;
 

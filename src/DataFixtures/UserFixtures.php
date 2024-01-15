@@ -3,14 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+class UserFixtures extends DataFixturesAbstract
 {
-    public const USERDEFAULT1 = 'user_default1';
-    public const USERDEFAULT2 = 'user_default2';
-    public const USERADMIN = 'user_admin';
+    //    public const USERDEFAULT1 = 'user_default1';
+    //    public const USERDEFAULT2 = 'user_default2';
+    //    public const USERADMIN = 'user_admin';
 
     public const LIST_USERS = [
         'user@default1.com',
@@ -33,24 +32,24 @@ class UserFixtures extends Fixture
 
             $manager->persist($entity);
 
-            $this->saveReferences($entity, $key);
+            $this->saveReferences($entity, $key, 'user');
         }
         $manager->flush();
     }
 
-    private function saveReferences(object $entity, int $key): void
-    {
-        $targetReference = match ($key) {
-            0 => self::USERDEFAULT1,
-            1 => self::USERDEFAULT2,
-            2 => self::USERADMIN,
-            default => false
-        };
-
-        if (!$targetReference) {
-            return;
-        }
-
-        $this->addReference($targetReference, $entity);
-    }
+    //    private function saveReferences(object $entity, int $key): void
+    //    {
+    //        $targetReference = match ($key) {
+    //            0 => self::USERDEFAULT1,
+    //            1 => self::USERDEFAULT2,
+    //            2 => self::USERADMIN,
+    //            default => false
+    //        };
+    //
+    //        if (!$targetReference) {
+    //            return;
+    //        }
+    //
+    //        $this->addReference($targetReference, $entity);
+    //    }
 }
