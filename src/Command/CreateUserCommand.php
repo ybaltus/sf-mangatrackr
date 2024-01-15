@@ -111,7 +111,7 @@ class CreateUserCommand extends Command
             $this->em->flush();
         }
 
-        $io->success("L'utilisateur {$email} à bien été créé !");
+        $io->success("User {$email} has been created with success !");
 
         return Command::SUCCESS;
     }
