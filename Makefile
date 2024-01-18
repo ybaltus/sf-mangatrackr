@@ -58,10 +58,10 @@ qa-all: ## Run PHP-CS-FIXER, PHP-Stan and PHP-Insights
 	$(MAKE) qa-php-insights
 
 ##----------------- ✅ Execute tests ✅ -------------#
-unit-tests-only:## Run only the PHPUnit
+test-only:## Run only the PHPUnit
 	$(PHPUNIT) --testdox
 
-unit-tests:## Execute the fixtures and run the PHPUnit
+test:## Execute the fixtures and run the PHPUnit
 	$(MAKE) sf-rdb-test
 	$(SYMFONY_CONSOLE) doctrine:fixtures:load --no-interaction --env=test
 	$(PHPUNIT) --testdox
