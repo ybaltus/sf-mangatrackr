@@ -39,7 +39,7 @@ class ScanthequeService
                 $mangaStatusTrack->setNbChapters($mData['nbChaptersTrack']);
 
                 $this->em->persist($mangaStatusTrack);
-                dump($mangaStatusTrack);
+                //                dump($mangaStatusTrack);
             }
             $this->em->flush();
 
