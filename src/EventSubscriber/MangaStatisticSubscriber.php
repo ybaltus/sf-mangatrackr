@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Controller\MangaController;
+use App\Controller\ScanthequeController;
 use App\Entity\Manga;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +21,10 @@ class MangaStatisticSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::CONTROLLER_ARGUMENTS => ['onMangaController'],
+            KernelEvents::CONTROLLER_ARGUMENTS => [
+                ['onMangaController'],
+                ['onScanthequeController'],
+            ],
         ];
     }
 
@@ -46,10 +50,50 @@ class MangaStatisticSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function onScanthequeController(ControllerArgumentsEvent $event): void
+    {
+        $controller = $event->getController();
+
+        // Check if Error Controller
+        if ($controller instanceof ErrorController) {
+            return;
+        }
+
+        // Check ScanthequeController->saveMangaUserTrackDatas() is called
+        if (
+            $controller[0] instanceof ScanthequeController
+            && 0 === strcmp($controller[1], 'saveMangaUserTrackDatas')
+        ) {
+            /*
+             * Schema $requestParams (POST params) :
+             * [
+             *   "mangas" => [
+             *      0 => ["title", "titleSlug", "urlImg", "nbChapters", "mut", "statusTrack", "nbChaptersTrack"]
+             *   ]
+             * ]
+            */
+            $requestParams = $event->getRequest()->toArray();
+            if (array_key_exists('mangas', $requestParams)) {
+                $this->incrementNbTrack($requestParams['mangas'][0]['titleSlug']);
+            }
+        }
+    }
+
     private function incrementNbView(Manga $manga): void
     {
         $oldNbView = $manga->getMangaStatistic()->getNbView();
         $manga->getMangaStatistic()->setNbView($oldNbView + 1);
+        $this->em->flush();
+    }
+
+    private function incrementNbTrack(string $titleSlug): void
+    {
+        /**
+         * @var Manga $manga
+         */
+        $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);
+        $oldNbTrack = $manga->getMangaStatistic()->getNbTrack();
+        $manga->getMangaStatistic()->setNbTrack($oldNbTrack + 1);
         $this->em->flush();
     }
 }

@@ -35,8 +35,16 @@ class ScanthequeController extends AbstractController
     ): JsonResponse {
         $user = $this->getUser();
         $status = 200;
-        $mangaDatas = $request->toArray();
         $results = null;
+        /*
+         * Schema $mangaDatas :
+         * [
+         *   "mangas" => [
+         *      0 => ["title", "titleSlug", "urlImg", "nbChapters", "mut", "statusTrack", "nbChaptersTrack"]
+         *   ]
+         * ]
+         */
+        $mangaDatas = $request->toArray();
 
         if (!array_key_exists('mangas', $mangaDatas)) {
             $status = 400;
