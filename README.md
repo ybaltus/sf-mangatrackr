@@ -43,6 +43,13 @@ Pour lancer le projet vous aurez besoin de la configuration suivante :
 
 Éxécutez les commandes ci-dessous pour installer le projet.
 
+* Avec Docker :
+```
+- make docker-compose-up
+- App disponible sur localhost:8080 
+- Utilisateur de démo :  demo@demo.fr / password
+```
+
 * Avec **Symfony CLI** +  **Commande make** :
 ```
 - make first-install ## Pour installer les dépendences

@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+
+  database:
+    image: mariadb:${MARIADB_VERSION:-lts}
+    container_name: mangatrackr_db
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: ${DB_NAME:-sf_mangatrackr_app}
+      MYSQL_USER: ${DB_USER:-mangatrackr}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ChangeMe}
+    networks:
+      - mangatrackr_network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: mangatrackr_app
+    restart: on-failure
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    networks:
+      - mangatrackr_network
+    environment:
+      DB_HOST: database
+
+networks:
+  mangatrackr_network:
+
+volumes:
+  db-data:
