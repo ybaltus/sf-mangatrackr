@@ -1,21 +1,21 @@
 {% if ea.crud.currentAction == 'detail' %}
     {% set statistic = field.value %}
-    <div class="mb-3">
+    <div class="my-5">
         <button type="button" class="btn btn-info position-relative">
             Rating
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {{ statistic.rating }}
+                    <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+            {{ statistic.rating ? : '-' }}
           </span>
         </button>
-        <button type="button" class="btn btn-info position-relative  mx-4">
+        <button type="button" class="btn btn-info position-relative mx-4">
             Track
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
             {{ statistic.nbTrack }}
           </span>
         </button>
         <button type="button" class="btn btn-info position-relative">
             View
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
             {{ statistic.nbView }}
           </span>
         </button>

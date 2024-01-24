@@ -29,7 +29,6 @@ class Manga
     private string $title;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank]
     #[Assert\Length(
         min: 2,
         max: 180
@@ -37,7 +36,6 @@ class Manga
     private string $titleSlug;
 
     #[ORM\Column(length: 180, nullable: true)]
-    #[Assert\Blank]
     #[Assert\Length(
         min: 2,
         max: 180
@@ -45,9 +43,8 @@ class Manga
     private ?string $titleAlternative = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Blank]
     #[Assert\Length(
-        max: 500
+        max: 1000
     )]
     private ?string $description = null;
 
@@ -75,7 +72,6 @@ class Manga
     private bool $isAdult = false;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\Blank]
     private ?\DateTimeImmutable $publishedAt = null;
 
     #[ORM\Column]
@@ -121,6 +117,13 @@ class Manga
      * return Json datas.
      */
     private string $scanthequeData = '';
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Type('string')]
+    #[Assert\Url(
+        protocols: ['http', 'https']
+    )]
+    private ?string $urlImg = null;
 
     public function __construct()
     {
@@ -412,9 +415,21 @@ class Manga
         return json_encode([
            'title' => $this->title,
            'titleSlug' => $this->titleSlug,
-           'urlImg' => $this->getMangaJikanAPI()->getMalImgWebp(),
+           'urlImg' => $this->getMangaJikanAPI() ? $this->getMangaJikanAPI()->getMalImgWebp() : $this->getUrlImg(),
            'nbChapters' => $this->nbChapters,
             'mut' => null,
         ]);
+    }
+
+    public function getUrlImg(): ?string
+    {
+        return $this->urlImg;
+    }
+
+    public function setUrlImg(?string $urlImg): static
+    {
+        $this->urlImg = $urlImg;
+
+        return $this;
     }
 }

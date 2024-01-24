@@ -50,7 +50,7 @@
                 <div>
                     <img
                             class="mx-auto w-manga-detail-mob md:w-manga-detail-desk lg:w-manga-detail-desk h-manga-detail-mob md:h-manga-detail-desk lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob md:rounded-manga-scantheque-tab lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3"
-                            src="{{ manga.mangaJikanAPI.malImgWebp }}"
+                            src="{{ manga.mangaJikanAPI ? manga.mangaJikanAPI.malImgWebp : manga.urlImg }}"
                             alt="{{ manga.title }}"
                     />
                 </div>
