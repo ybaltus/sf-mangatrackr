@@ -5,7 +5,7 @@ namespace App\Tests\Traits;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-trait MyUnitTestTrait
+trait AppTestTrait
 {
     /**
      * Check the violations with the Validator Component.

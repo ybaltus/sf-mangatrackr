@@ -3,13 +3,13 @@
 namespace App\Tests\Entity;
 
 use App\Entity\MangaStatus;
-use App\Tests\Traits\MyUnitTestTrait;
+use App\Tests\Traits\AppTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MangaStatusTest extends KernelTestCase implements EntityTestInterface
 {
-    use MyUnitTestTrait;
+    use AppTestTrait;
 
     public function initBootKernelContainer(): ContainerInterface
     {
