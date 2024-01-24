@@ -29,7 +29,6 @@ class Fantrad
     private string $name;
 
     #[ORM\Column(length: 150, unique: true)]
-    #[Assert\NotBlank]
     #[Assert\Length(
         min: 2,
         max: 150
