@@ -28,11 +28,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 
 ## Pour commencer
 
-Le projet n'utilise pas docker, de ce fait, il est nécessaire d'avoir les pré-requis d'installés sur son environnement.
-
 ### Pré-requis
-
-Pour lancer le projet vous aurez besoin de la configuration suivante :
 
 - PHP >= 8.1
 - Composer v2
