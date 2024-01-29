@@ -61,7 +61,6 @@ class Manga
     private string $author;
 
     #[ORM\Column(length: 150, nullable: true)]
-    #[Assert\Blank]
     #[Assert\Length(
         max: 150
     )]
