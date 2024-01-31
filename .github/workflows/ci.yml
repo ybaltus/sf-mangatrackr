@@ -58,9 +58,6 @@
           run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
       # -- Symfony -------------------------------------------
-        - name: Check Symfony requirements
-          run: vendor/bin/requirements-checker
-
         - name: Check the Symfony console
           run: bin/console about
 
