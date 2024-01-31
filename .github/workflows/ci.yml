@@ -87,7 +87,7 @@
           run: cp .env.test .env.test.local
 
         - name: Check MariaDB health
-          run: mariadb --user=mangatrackr --password="${{ secrets.DB_PASSWORD }}" -e "SELECT 1"
+          run: mysql --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
 
         - name: Load Doctrine fixtures
           run: |
