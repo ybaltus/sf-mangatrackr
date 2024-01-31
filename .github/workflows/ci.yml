@@ -69,7 +69,7 @@
         - run: npm ci
 
         - name: Run NPM build
-          run: npm build
+          run: npm run build
 
       # -- PHP Cs-fixer -----------------------------------
         - name: Coding standards checks (php cs-fixer)
