@@ -86,9 +86,13 @@
         - name: Copy .env.test.local
           run: cp .env.test .env.test.local
 
-        - name: Load Doctrine fixtures
+        - name: Run Doctrine migrations
           run: |
             php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
+        - name: Load Doctrine fixtures
+          run: |
+            php bin/console doctrine:fixtures:load --no-interaction --env=test
+
         - name: Run the phpunit tests
-          run: echo test
+          run: php bin/phpunit --testdox
