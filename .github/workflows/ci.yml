@@ -73,11 +73,11 @@
 
       # -- PHP Cs-fixer -----------------------------------
         - name: Coding standards checks (php cs-fixer)
-          run: php vendor/bin/php-cs-fixer qa-php-cs-fixer
+          run: php vendor/bin/php-cs-fixer fix src
 
       # -- PHP Stan --------------------------------------
         - name: Static analysis of php code (php stan)
-          run: php vendor/bin/phpstan qa-php-stan
+          run: php vendor/bin/phpstan analyse
 
       # -- PHP Unit --------------------------------------
         - name: Load Doctrine fixtures
