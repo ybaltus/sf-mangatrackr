@@ -7,8 +7,6 @@
     pull_request:
       branches:
         - main
-  env:
-    DB_USER_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
   jobs:
     qa-and-tests:
@@ -22,7 +20,7 @@
           env:
             MARIADB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
             MYSQL_DATABASE: sf_mangatrackr_app_test
-            MYSQL_USER: mangatrackr
+            MYSQL_USER: ${{ env.DB_USER }}
             MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
           options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       strategy:
@@ -87,6 +85,9 @@
       # -- PHP Unit --------------------------------------
         - name: Copy .env.test.local
           run: cp .env.test .env.test.local
+
+        - name: Show environment variables
+          run: printenv | grep DB
 
         - name: Check MariaDB health
           run: mysql --host=localhost --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
