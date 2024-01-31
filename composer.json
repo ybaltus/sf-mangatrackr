@@ -1,4 +1,6 @@
 {
+    "name": "mangatrackr/mangatrackr",
+    "description": "MangaTracker WebApp",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
