@@ -44,7 +44,10 @@
         - name: Check PHP Version
           run: php -v
 
-      # -- Composer --------------------------------------
+        - name: Copy .env.test.local
+          run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+
+        # -- Composer --------------------------------------
         - name: Validate composer.json and composer.lock
           run: composer validate
 
@@ -83,11 +86,9 @@
           run: php vendor/bin/phpstan analyse
 
       # -- PHP Unit --------------------------------------
-        - name: Copy .env.test.local
-          run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
-
         - name: Show env variables
           run: php bin/console debug:dotenv
+
         - name: Load Doctrine fixtures
           run: |
             php bin/console doctrine:database:create --if-not-exists --env=test
