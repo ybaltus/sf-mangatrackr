@@ -44,10 +44,7 @@
         - name: Check PHP Version
           run: php -v
 
-        - name: Copy .env.test.local
-          run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
-
-        # -- Composer --------------------------------------
+      # -- Composer --------------------------------------
         - name: Validate composer.json and composer.lock
           run: composer validate
 
@@ -86,6 +83,9 @@
           run: php vendor/bin/phpstan analyse
 
       # -- PHP Unit --------------------------------------
+        - name: Copy .env.test.local
+          run: cp .env.test .env.test.local
+
         - name: Show env variables
           run: php bin/console debug:dotenv
 
