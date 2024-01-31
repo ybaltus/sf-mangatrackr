@@ -83,6 +83,8 @@
           run: php vendor/bin/phpstan analyse
 
       # -- PHP Unit --------------------------------------
+        - name: Show env variables
+          run: php bin/console debug:dotenv
         - name: Load Doctrine fixtures
           run: |
             php bin/console doctrine:database:create --if-not-exists --env=test
