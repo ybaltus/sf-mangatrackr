@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app_name }}{% endblock %}
+
+{% block body %}
+    {# Jumbotron #}
+    <section class="bg-gradient-to-r from-app-clear-purple4 to-app-clear-purple5 h-screen text-center md:text-left">
+        <div class="py-16 md:py-32 md:flex md:items-center md:justify-between mx-auto max-w-screen-xl">
+            {# Image Roboto #}
+            <img
+                    class="md:w-img-jumbotron-tab h-img-jumbotron-mob md:h-img-jumbotron-tab lg:h-img-jumbotron-desk lg:w-img-jumbotron-desk mx-auto"
+                    src="{{ asset('build/images/Roboto.svg') }}"
+                    alt="{{ app_name }}"
+            >
+
+
+            {#  Title #}
+            <h1
+                    class="text-h1-mob md:text-h1-tab lg:text-h1-desk leading-normal font-bangers-regular tracking-titles-jumbotron text-app-dark-black mx-auto">
+                Synchronisez votre <br>
+                passion pour les<br>
+                <span class="text-stroke-black-custom">
+                    mangas !
+                </span>
+            </h1>
+        </div>
+    </section>
+
+    {# Top mangas #}
+    {{ component('MangaCardInlineComponent', {
+        title: 'Les dernières tendances',
+        mangas: topMangas,
+        isHome: true
+    }) }}
+
+     {# Info section  #}
+    {{ component('InfoSectionComponent', {
+        title: 'Une expérience synchronisée',
+        info: app_name~', l’application dédiée aux passionnés de mangas, simplifie la gestion de votre progression de lecture. Créez votre scanthèque, suivez vos scans préférés et synchronisez votre avancée en temps réel.',
+        titleBtn: 'Découvrir'
+    }) }}
+
+    {# Latest mangas #}
+    {{ component('MangaCardInlineComponent', {
+        title: 'Les dernières sorties',
+        mangas: latestMangas,
+        isHome: true
+    }) }}
+{% endblock %}

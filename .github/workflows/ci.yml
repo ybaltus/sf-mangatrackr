@@ -1,0 +1,98 @@
+  name: MangaTrackr CI
+
+  on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
+
+  jobs:
+    qa-and-tests:
+      name: Execute QA and tests scripts - PHP ${{ matrix.php-versions }}
+      runs-on: ubuntu-latest
+      services:
+        mariadb:
+          image: mariadb:latest
+          ports:
+            - 3306:3306
+          env:
+            MARIADB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
+            MARIADB_DATABASE: sf_mangatrackr_app_test
+            MARIADB_USER: mangatrackr
+            MARIADB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
+      strategy:
+        fail-fast: true
+        matrix:
+          php-versions: ['8.1', '8.2']
+      steps:
+      # -- Setup Github Action --------------------------
+        - name: Checkout v4
+          uses: actions/checkout@v4
+
+        # https://github.com/shivammathur/setup-php (community)
+        - name: Setup PHP, extensions and composer with shivammathur/setup-php
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php-versions }}
+            extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring
+          env:
+            update: true
+
+        - name: Check PHP Version
+          run: php -v
+
+      # -- Composer --------------------------------------
+        - name: Validate composer.json and composer.lock
+          run: composer validate
+
+        - name: Cache Composer packages
+          id: composer-cache
+          uses: actions/cache@v4
+          with:
+            path: vendor
+            key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+            restore-keys: |
+              ${{ runner.os }}-php-
+
+        - name: Install Dependencies
+          run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+
+      # -- Symfony -------------------------------------------
+        - name: Check the Symfony console
+          run: bin/console about
+
+      # -- NodeJs --------------------------------------------
+        - name: Nodejs install dependencies
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20.x'
+        - run: npm ci
+
+        - name: Run NPM build
+          run: npm run build
+
+      # -- PHP Cs-fixer -----------------------------------
+        - name: Coding standards checks (php cs-fixer)
+          run: php vendor/bin/php-cs-fixer fix src
+
+      # -- PHP Stan --------------------------------------
+        - name: Static analysis of php code (php stan)
+          run: php vendor/bin/phpstan analyse
+
+      # -- PHP Unit --------------------------------------
+        - name: Copy .env.test.local
+          run: cp .env.test .env.test.local
+
+        - name: Run Doctrine migrations
+          run: |
+            php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+        - name: Load Doctrine fixtures
+          run: |
+            php bin/console doctrine:fixtures:load --no-interaction --env=test
+
+        - name: Run the phpunit tests
+          run: php bin/phpunit --testdox

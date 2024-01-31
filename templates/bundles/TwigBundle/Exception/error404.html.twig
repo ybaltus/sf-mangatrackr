@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app_name }} - Error 404{% endblock %}
+
+{% block body %}
+    <section class="bg-gradient-to-r from-app-clear-purple4 to-app-clear-purple5 text-center">
+        <div class="py-16 md:py-32 lg:pb-32 lg:pt-20 grid grid-cols-1 mx-auto max-w-screen-xl">
+            {# Image Roboto #}
+            <img
+                    class="md:w-img-404-tab lg:w-img-404-desk h-img-404-mob md:h-img-404-tab lg:h-img-404-desk mx-auto"
+                    src="{{ asset('build/images/skull-and-bone.svg') }}"
+                    alt="{{ app_name }}"
+            >
+
+            {#  404 #}
+            <h1
+                    class="text-h1-404-mob md:text-h1-404-tab lg:text-h1-404-desk leading-none font-bangers-regular tracking-titles-jumbotron text-app-dark-black">
+               404
+            </h1>
+
+            {# Txt #}
+            <p class="mt-10 md:mt-16 mb-24 px-4 md:px-20 lg:px-44 text-text-404-mob md:text-text-404-tab lg:text-text-404-desk font-sora-regular text-app-clear-black">
+                Oh ! Cette page est plus perdue qu’un personnage de
+                shōnen sans son pouvoir spécial. Reprenez votre chemin vers votre manga préféré !
+            </p>
+
+            {# Button #}
+            <div class="px-4 lg:px-36 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg ">
+                {{ component('ButtonErrorComponent', {
+                    title: "Retour à l'accueil",
+                    pathLink: path('home_index')
+                }) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

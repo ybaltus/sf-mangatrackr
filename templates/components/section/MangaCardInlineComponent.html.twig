@@ -1,0 +1,23 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <section class="bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="py-12 px-4 mx-auto max-w-screen-xl lg:py-24 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center mb-section-h2-mob-bottom lg:mb-section-h2-desk-bottom">
+                <h2
+                        class="px-8 text-h2-mob md:text-h2-tab lg:text-h2-desk tracking-titles-spacing font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
+                >
+                    {{ title }}
+                </h2>
+            </div>
+            <div class="grid gap-6 md:gap-8 lg:gap-12 grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
+                {% for key, manga in mangas %}
+                    {{ component('MangaCardComponent', {
+                        isHome: isHome,
+                        manga: manga,
+                        key: key
+                    }) }}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>

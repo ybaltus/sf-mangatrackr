@@ -1,0 +1,9 @@
+parameters:
+    level: 6
+    paths:
+        - src/
+        - tests/
+    ignoreErrors:
+        -
+            message: '#PHPDoc tag @implements contains generic type Symfony\\Component\\Security\\Core\\User\\PasswordUpgraderInterface<App\\Entity\\User>*#'
+            path: src/Repository/UserRepository.php

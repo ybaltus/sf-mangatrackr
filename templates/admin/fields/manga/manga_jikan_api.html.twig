@@ -1,0 +1,44 @@
+{% if ea.crud.currentAction == 'detail' and field is not null %}
+    {% set apiData = field.value %}
+    <div class="card" style="max-width: 70%">
+        <div class="row g-0">
+            {% if not apiData %}
+            No datas
+            {% else %}
+            <div class="col-md-4">
+                <img src="{{ apiData.malImgJpgLarge }}" class="img-fluid rounded-start" alt="imageManga">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>mal_id</strong> : {{ apiData.malId ?? '-' }}</li>
+                        <li class="list-group-item"><strong>mal_description</strong> : {{ apiData.malDescription ?? '-' }}</li>
+                        <li class="list-group-item"><strong>mal_url</strong> : {{ apiData.malUrl ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_img_jpg</strong> : {{ apiData.malImgJpg ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_img_jpg_large</strong> : {{ apiData.malImgJpgLarge ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_img_webp</strong> : {{ apiData.malImgWebp ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_img_webp_large</strong> : {{ apiData.malImgWebpLarge ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_chapters</strong> : {{ apiData.malChapters ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_volume</strong> : {{ apiData.malVolume ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_start_published_at</strong>  : {{ apiData.malStartPublishedAt ? apiData.malStartPublishedAt|date() : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_end_published_at</strong> : {{ apiData.malEndPublishedAt ? apiData.malEndPublishedAt|date() : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_demographics</strong> : {{ apiData.malDemographics ? apiData.malDemographics|join(', ') : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_genres</strong> : {{ apiData.malGenres ? apiData.malGenres|join(', ') : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_serializations</strong> : {{ apiData.malSerializations ? apiData.malSerializations|join(', ') : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_authors </strong> : {{ apiData.malAuthors  ? apiData.malAuthors |join(', ') : '-'}}</li>
+                        <li class="list-group-item"><strong>mal_scored </strong> : {{ apiData.malScored ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_scroredBy  </strong> : {{ apiData.malScroredBy  ?? '-'}}</li>
+                        <li class="list-group-item"><strong>mal_rank  </strong> : {{ apiData.malRank  ?? '-'}}</li>
+                        <li class="list-group-item"><strong>updatedAt </strong>  : {{ apiData.updatedAt  ? apiData.updatedAt |date() : '-'}}</li>
+                    </ul>-
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% else %}
+    {{ field.formattedValue }}
+{% endif %}

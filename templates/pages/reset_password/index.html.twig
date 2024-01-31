@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mot de passe oublié {% endblock %}
+
+{% block body %}
+    {#  Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'Mot de passe oublié',
+        menuBreadcrumb: {
+            'Se connecter' : path('security_login'),
+            'current' : 'Mot de passe oublié'
+        }
+    }) }}
+
+    <div class="flex flex-col items-center justify-center px-4 py-8 lg:px-6 mx-auto lg:py-10">
+
+        {# Flashes messages #}
+        <div class="mx-4">
+            {{ component('FlashesMessagesComponent') }}
+        </div>
+        <div
+                class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
+        >
+            <div
+                    class="p-6 space-y-4 md:space-y-6"
+            >
+                {{ form_start(resetPasswordForm,
+                    {'attr': {'class': 'space-y-6 lg:space-y-8'}}
+                ) }}
+
+                {# Email #}
+                <div class="mb-10">
+                    {{ form_label(
+                        resetPasswordForm.email,
+                        "Saisissez votre email",
+                        {'label_attr':
+                            {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
+                        })
+                    }}
+                    <div
+                            class="text-sm font-sora-semiBold bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert"
+                    >
+                        {{ form_errors(resetPasswordForm.email) }}
+                    </div>
+                    {{ form_widget(
+                        resetPasswordForm.email,
+                        {'attr': {
+                            'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
+                        }}
+                    ) }}
+                </div>
+                <blockquote class="text-text-form-mob md:text-text-form-tab lg:text-text-form-desk italic font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                    <p>"Un email sera envoyé avec le lien pour la modification du mot de passe."</p>
+                </blockquote>
+                <button
+                        type="submit"
+                        class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
+                        title="Envoyer l'email de modification de mot de passe"
+                >
+                    Envoyer
+                </button>
+                {{ form_end(resetPasswordForm) }}
+            </div>
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+        </div>
+    </div>
+{% endblock %}

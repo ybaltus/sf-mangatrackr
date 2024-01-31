@@ -1,0 +1,35 @@
+<div {{ attributes }}>
+    <!-- component html -->
+    <section
+            id="mangas-gallery" class="bg-app-clear-white dark:bg-app-dark-gray px-4"
+    >
+        <div
+                {{ stimulus_controller('search-catalog') }}
+                class="mx-auto max-w-screen-xl">
+            {% if isPagination %}
+                <div
+                        class="mx-6 mb-6"
+                >
+                    <p class="text-right text-text-mob md:text-text-tab lg:text-text-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2">
+                        {{ mangas.getTotalItemCount }} mangas
+                    </p>
+                </div>
+
+            {% endif %}
+            <div class="grid gap-6 md:gap-4 lg:gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-4 md:ml-6 lg:ml-6">
+                {% for key, manga in mangas %}
+                    {{ component('MangaCardComponent', {
+                        manga: manga,
+                        key: key
+                    }) }}
+                {% endfor %}
+            </div>
+            {% if isPagination %}
+                {# display navigation #}
+                <div class="flex justify-center py-20 navigation">
+                    {{ knp_pagination_render(mangas) }}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>

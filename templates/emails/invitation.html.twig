@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<body>
+<h1>{{ app_name }} - Invitation inscription</h1>
+
+<p>
+    Une invitiation à été générée pour vous avec l'adresse mail <code>{{ emailTo }}</code>.
+</p>
+
+<p>
+    <a href="{{ invitationUrl }}">Cliquez ici pour créer votre compte sur {{ app_name }}</a>
+    <strong>(Ce lien est valide jusqu'au {{ expiredAt|date('d/m/Y H:m') }})</strong>
+</p>
+</body>
+</html>

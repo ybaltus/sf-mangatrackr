@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions Légales{% endblock %}
+
+{% block body %}
+    {#  Header #}
+    {{ component('SectionHeaderComponent', {
+        title: "Mentions Légales",
+    }) }}
+
+    <section
+            class="bg-app-clear-white dark:bg-app-dark-gray"
+            id="terms-of-use-section"
+    >
+        <div class="px-4 md:px-20 lg:px-44 py-16 md:py-16 lg:py-32 mx-auto max-w-screen-xl font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+
+            {% if terms is not null %}
+                {# Text generate with Trix Editor #}
+                {{ terms.content|raw }}
+            {% else %}
+                <p>
+
+                    Doko Senpai doki doki itadakimasu Daijobu doki doki,
+                    chotto damasu Kawaii Oniisan doko chikara. Itadakimasu Ureshiii Baka,
+                    damasu Otaku damaru Kawaii Senpai Daijobu doko Otaku.
+                    Otaku doko doko chotto chotto doki doki nii san.
+                    Tomodachi okasan Baka damasu, arigatou kimochi Daijobu Kawaii
+                    doki doki Oniisan chotto Otaku. Doko Oppai damasu Kawaii Baka
+                    damaru okasan. Senpai Senpai Daijobu damaru Otaku itadakimasu
+                    Daijobu Sugoi Tomodachi. Okasan okasan Oppai chotto Imoto,
+                    Kawaii itadakimasu Baka Kawaii Baka damasu itadakimasu.
+                    Kawaii Oniisan Oppai Imoto arigatou itadakimasu nii san chikara Daijobu.
+                    Daijobu chikara Otaku doki doki Oniisan Daijobu Kawaii arigatou chotto.
+                </p>
+                <br>
+                <p>
+
+                    Doko Senpai doki doki itadakimasu Daijobu doki doki,
+                    chotto damasu Kawaii Oniisan doko chikara. Itadakimasu Ureshiii Baka,
+                    damasu Otaku damaru Kawaii Senpai Daijobu doko Otaku.
+                    Otaku doko doko chotto chotto doki doki nii san.
+                    Tomodachi okasan Baka damasu, arigatou kimochi Daijobu Kawaii
+                    doki doki Oniisan chotto Otaku. Doko Oppai damasu Kawaii Baka
+                    damaru okasan. Senpai Senpai Daijobu damaru Otaku itadakimasu
+                    Daijobu Sugoi Tomodachi. Okasan okasan Oppai chotto Imoto,
+                    Kawaii itadakimasu Baka Kawaii Baka damasu itadakimasu.
+                    Kawaii Oniisan Oppai Imoto arigatou itadakimasu nii san chikara Daijobu.
+                    Daijobu chikara Otaku doki doki Oniisan Daijobu Kawaii arigatou chotto.
+                </p>
+            {% endif %}
+        </div>
+    </section>
+
+
+{% endblock %}

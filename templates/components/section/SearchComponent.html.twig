@@ -1,0 +1,122 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <section class="pt-16 pb-6 bg-app-clear-white dark:bg-app-dark-gray">
+        <form
+                id="form-search"
+                {{ stimulus_controller('search-catalog') }}
+                {{ stimulus_action('search-catalog', 'submitSearch', 'submit') }}
+                class="flex items-center pb-5 flex-col"
+                hx-post="/manga/search"
+                hx-trigger="submit delay:500ms"
+                hx-target="#search-results"
+                hx-indicator="#search-indicator"
+        >
+
+            <label for="searchTerm"
+                   class="mb-2 text-sm font-medium text-app-clear-black sr-only dark:text-app-dark-gray2"
+            >Search</label>
+            <div class="relative w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center">
+                {# Search term#}
+                <input
+                        {{ stimulus_action('search-catalog', 'hiddenGallery', 'keyup') }}
+                        type="search"
+                        id="searchTerm"
+                        name="searchTerm"
+                        class="block shadow-searchbar-mob shadow-app-clear-black dark:shadow-app-dark-gray2 w-full p-2 md:p-4 lg:p-4 ps-6 text-text-search-mob md:text-text-search-tab lg:text-text-search-desk text-sora-semiBold text-app-clear-black placeholder-app-clear-black border-searchbar border-app-clear-black rounded-full bg-app-clear-white focus:ring-app-clear-purple3 dark:focus:ring-app-dark-purple focus:border-app-clear-purple3 dark:focus:border-app-dark-purple dark:bg-app-dark-gray dark:border-app-dark-gray2 dark:placeholder-app-dark-gray2 dark:text-app-dark-gray2"
+                        placeholder="{{ placeholder|escape }}"
+                        pattern="[a-zA-Z0-9-_\s]*"
+                        maxlength="50"
+                        minlength="3"
+                        required
+                >
+                <button
+                        type="submit"
+{#                        class="absolute top-0 end-3 md:end-6 lg:end-6 p-2.5 text-sm font-sora-regular h-full text-app-clear-black dark:text-app-dark-gray2 bg-transparent rounded-full hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"#}
+                        class="absolute top-0 end-3 md:end-6 lg:end-6 p-2.5 text-sm font-sora-regular h-full text-app-clear-black dark:text-app-dark-gray2 bg-transparent rounded-full"
+                        title="Rechercher"
+                >
+                    <svg class="w-4 h-4 md:w-5 md:h-5 lg:w-5 lg:h-5 hover:text-app-clear-purple3 dark:hover:text-app-dark-purple" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+            </div>
+            <div class="mt-10 flex flex-col md:flex-row gap-8 w-searchbar-mob md:w-searchbar-tab lg:w-searchbar-desk text-center md:justify-center">
+                {% if isToggleAdvanced %}
+                    {# Advanced option #}
+                    <label
+                            class="relative inline-flex items-center cursor-pointer"
+                            data-tooltip-target="tooltip-advanced"
+                            data-tooltip-placement="bottom"
+                    >
+                        <input
+                                type="checkbox"
+                                value=""
+                                class="sr-only peer"
+                                name="advanced-input"
+                                pattern="^[01]$"
+                        >
+                        <div
+                                class="w-10 h-5 bg-app-clear-white dark:bg-app-dark-gray ring-2 ring-app-clear-purple3 dark:ring-app-dark-purple rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2.5px] md:after:top-[5.5px] after:start-[4px] after:bg-app-clear-purple3 dark:after:bg-app-dark-purple after:border-none after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-app-clear-purple3 dark:peer-checked:bg-app-dark-purple peer-checked:after:bg-app-clear-white dark:peer-checked:after:bg-app-clear-white"
+                        ></div>
+                        <span
+                                class="ms-3 font-sora-regular text-text-search-mob lg:text-text-search-desk text-app-clear-black dark:text-app-dark-gray2"
+                        >
+                            {{ toggleAdvancedTitle }}
+                        </span>
+                    </label>
+                    <div
+                            id="tooltip-advanced"
+                            role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                    >
+                        {{ toggleAdvancedText }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                {% endif %}
+
+                {% if isToggleAdult %}
+                    {# Adult option #}
+                    <label
+                            class="md:ml-5 relative inline-flex items-center cursor-pointer"
+                            data-tooltip-target="tooltip-adult"
+                            data-tooltip-placement="bottom"
+                    >
+                        <input
+                                type="checkbox"
+                                name="adult-input"
+                                value=""
+                                pattern="^[01]$"
+                                class="sr-only peer"
+                        >
+                        <div
+                                class="w-10 h-5 bg-app-clear-white dark:bg-app-dark-gray ring-2 ring-app-clear-purple3 dark:ring-app-dark-purple rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2.5px] md:after:top-[5.5px] after:start-[4px] after:bg-app-clear-purple3 dark:after:bg-app-dark-purple after:border-none after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-app-clear-purple3 dark:peer-checked:bg-app-dark-purple peer-checked:after:bg-app-clear-white dark:peer-checked:after:bg-app-clear-white"
+                        ></div>
+                        <span
+                                class="ms-3 font-sora-regular text-text-search-mob lg:text-text-search-desk text-app-clear-black dark:text-app-dark-gray2"
+                        >
+                            {{ toggleAdultTitle }}
+                        </span>
+                    </label>
+                    <div
+                            id="tooltip-adult"
+                            role="tooltip"
+                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                    >
+                        {{ toggleAdultText }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                {% endif %}
+            </div>
+        </form>
+        <div id="search-indicator" class="htmx-indicator text-center">
+            <div role="status">
+                <svg aria-hidden="true" class="inline w-10 h-10 text-app-clear-black animate-spin dark:text-app-dark-gray2 fill-app-focus-purple" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                </svg>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </section>
+</div>

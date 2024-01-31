@@ -1,0 +1,17 @@
+<div id="manga-list-htmx" class="mx-auto max-w-screen-xl">
+    <div class="grid gap-6 md:gap-4 lg:gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-4 mx-4 mb-10 bg-app-clear-white dark:bg-app-dark-gray">
+        {% if mangasSearch is defined %}
+            {% if mangasSearch|length == 0 and searchTerm != '' %}
+                <p id="p-noresults" class="mb-10 text-gray-500 dark:text-gray-400">
+                    Aucun résultats.
+                </p>
+            {% endif %}
+            {% for key, manga in mangasSearch %}
+                {{ component('MangaCardComponent', {
+                    manga: manga,
+                    key: key
+                }) }}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>

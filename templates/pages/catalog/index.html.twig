@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue{% endblock %}
+
+{% block stylesheetsExtends %}
+    {{ encore_entry_link_tags('htmx') }}
+{% endblock %}
+
+{% block javascriptsExtends %}
+    {{ encore_entry_script_tags('htmx') }}
+{% endblock %}
+
+{% block body %}
+    {# Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'Catalogue',
+        menuBreadcrumb: {
+            'current' : 'Catalogue'
+        }
+    }) }}
+
+    {# Search Bar #}
+    {{ component('SearchComponent', {
+        placeholder: 'Rechercher un manga',
+        isToggleAdvanced: true,
+        toggleAdvancedTitle: 'Recherche étendue',
+        toggleAdvancedText: 'Activer la recherche étendue à travers le web.',
+        isToggleAdult: true,
+        toggleAdultTitle: 'Adulte',
+        toggleAdultText: 'Activer le contenu pour adulte (érotique, ecchi et hentai).',
+    }) }}
+
+    {# HTMX Search results #}
+    <section id="search-results"  class="bg-app-clear-white dark:bg-app-dark-gray">
+        {{ include ('components/htmx/mangas_list.html.twig') }}
+    </section>
+
+    {# Gallery #}
+    {{ component('GalleryComponent', {
+        mangas: paginationMangas,
+        isPagination: true
+    }) }}
+
+{% endblock %}

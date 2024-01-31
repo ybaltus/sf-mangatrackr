@@ -1,0 +1,14 @@
+{% if ea.crud.currentAction == 'detail'%}
+    {% set trackList = field.value %}
+    <div class="col-md-8">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                {% for manga in trackList.mangaUserTracks %}
+                    <li class="list-group-item"><strong>Manga :</strong> {{ manga.manga.title }} | <strong>Status : </strong>{{ manga.statusTrack.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% else %}
+    {{ field.formattedValue }}
+{% endif %}

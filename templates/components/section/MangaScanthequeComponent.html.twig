@@ -1,0 +1,58 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <section
+            id="scantheque-section-{{ statusTrack }}"
+            class="scantheque-manga-section bg-app-clear-white dark:bg-app-dark-gray"
+    >
+        <div
+                class="px-4 md:px-10 lg:px-16 py-14 md:py-24 lg:py-24 mx-auto max-w-screen-xl"
+                    id="accordion-collapse-{{ statusTrack }}"
+                    data-accordion="collapse"
+                    data-active-classes="bg-app-clear-white dark:bg-app-dark-gray"
+        >
+            <div class="text-center md:text-left lg:text-left mb-section-h2-mob-bottom md:mb-section-h2-desk-bottom lg:mb-section-h2-desk-bottom">
+                <h2
+                        id="title-{{ statusTrack }}"
+                        class="md:inline-flex md:items-center md:justify-center lg:inline-flex lg:items-center lg:justify-center text-h2-mob md:text-h2-tab lg:text-h2-desk tracking-titles-spacing font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
+                >
+                    {{ title }} (<span></span>)
+                    <button
+                            type="button"
+                            class="font-medium rtl:text-right bg-app-clear-white dark:bg-app-dark-gray"
+                            data-accordion-target="#scantheque-list-{{ statusTrack }}"
+                            {% if statusTrack == 'archived' %}
+                            aria-expanded="false"
+                            {% else %}
+                                aria-expanded="true"
+                            {% endif %}
+                            aria-controls="scantheque-list-{{ statusTrack }}"
+                            title="Afficher les chapitres archivés"
+                    >
+                        <svg
+                                data-accordion-icon
+                                class="ml-2 md:ml-4 lg:ml-4 w-5 h-5 md:w-8 md:h-8 lg:w-9 lg:h-9 rotate-180 shrink-0 text-app-clear-purple3 dark:text-app-dark-purple"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 10 6"
+                        >
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                        </svg>
+                    </button>
+                </h2>
+            </div>
+            <div
+                    {{ stimulus_target('scantheque',  statusTrack) }}
+                    id="scantheque-list-{{ statusTrack }}"
+                    aria-labelledby="title-{{ statusTrack }}"
+                    {% if statusTrack == 'archived' %}
+                        class="hidden grid gap-12 md:gap-y-16 md:gap-x-12 lg:gap-y-16 lg:gap-x-32 grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+                    {% else %}
+                        class="grid gap-12 md:gap-y-16 md:gap-x-12 lg:gap-y-16 lg:gap-x-32 grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+
+                    {% endif %}
+            >
+            </div>
+        </div>
+    </section>
+</div>

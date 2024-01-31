@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+    {#  Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'Se connecter à ' ~ app_name
+    }) }}
+
+    {# Form #}
+    <section class="bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="flex flex-col items-center justify-center px-4 py-16 md:px-32 md:py-4 lg:px-6 lg:py-4 mx-auto md:h-screen ">
+            {# Flashes messages #}
+            <div class="mx-4">
+                {{ component('FlashesMessagesComponent') }}
+            </div>
+            {% if error %}
+                <div
+                        class="p-4 mb-4 text-text-mob lg:text-text-desk text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert"
+                >
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+            <div
+                    class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
+            >
+                <div
+                        class="p-6 space-y-4 md:space-y-6"
+                >
+                    <form method="post"
+                          class="space-y-6 lg:space-y-8"
+                    >
+                        <div>
+                            <label
+                                    for="inputEmail"
+                                    class="block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                            >
+                                Votre email
+                            </label>
+                            <input
+                                    type="email"
+                                    name="email"
+                                    id="inputEmail"
+                                    class="w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3"
+                                    placeholder="my@email.com"
+                                    value="{{ last_username }}"
+                                    autocomplete="email"
+                                    required
+                                    autofocus
+                            >
+                        </div>
+                        <div>
+                            <label
+                                    for="inputPassword"
+                                    class="block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                            >
+                                Mot de passe
+                            </label>
+                            <input
+                                    type="password"
+                                    name="password"
+                                    id="inputPassword"
+                                    placeholder="••••••••"
+                                    class="w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3"
+                                    required
+                                    autocomplete="current-password"
+                            >
+                            <input
+                                    type="hidden"
+                                    name="_csrf_token"
+                                    value="{{ csrf_token('authenticate') }}"
+                            >
+                        </div>
+                        <div class="flex items-center justify-between mb-10">
+{#                            <div class="flex items-start">#}
+{#                                <div class="flex items-center h-5">#}
+{#                                    <input#}
+{#                                            id="remember"#}
+{#                                            aria-describedby="remember"#}
+{#                                            type="checkbox"#}
+{#                                            class="w-5 h-5 lg:w-6 lg:h-6 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"#}
+{#                                    >#}
+{#                                </div>#}
+{#                                <div class="ml-3 text-text-form-mob lg:text-text-form-desk">#}
+{#                                    <label for="remember" class="text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular">Remember me</label>#}
+{#                                </div>#}
+{#                            </div>#}
+                            <a
+                                    href="{{ path('reset_password_index') }}"
+                                    class="w-full text-end text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular hover:underline "
+                                    title="Mot de passe oublié ?"
+                            >
+                                Mot de passe oublié ?
+                            </a>
+                        </div>
+                        <button
+                                type="submit"
+                                class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2"
+                                title="Se connecter"
+                        >
+                            Se connecter
+                        </button>
+                        <p class="text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular">
+                            Vous n'avez pas encore de compte ?
+                            <a
+                                    href="#"
+                                    class="text-app-clear-purple3 hover:underline dark:text-app-dark-purple underline"
+                                    title="S'inscrire"
+                            >S'inscrire</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

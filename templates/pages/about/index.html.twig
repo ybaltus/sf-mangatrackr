@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block body %}
+    {# About  #}
+    <section class="pt-0 bg-app-clear-white dark:bg-app-dark-gray">
+        <div class="items-start px-4 md:px-20 lg:px-20 py-16 md:py-16 lg:py-32 mx-auto max-w-screen-xl md:grid md:grid-cols-2 lg:grid lg:grid-cols-2">
+            <div class="mb-12 md:mb-4 lg:mb-0 text-app-clear-black dark:text-app-dark-gray2">
+                <h1
+                        class="text-h1-mob md:text-h1-tab lg:text-h1-desk tracking-titles-spacing font-bangers-regular"
+                >
+                    Lisez.<br>
+                    <span
+                            class="text-app-clear-purple3 dark:text-app-dark-purple"
+                    >
+                        Suivez. <br>
+                    </span>
+                    Répétez.
+
+                </h1>
+            </div>
+            <div
+                    class="lg:max-w-xl font-sora-regular text-text-mob md:text-text-tab  lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
+            >
+                <p class="mb-4 md:mb-10 lg:mb-10">
+                    {{ app_name }} est une application dédiée aux passionnés de mangas qui recherchent une solution simple
+                    et efficace pour suivre leur progression de lecture.
+                </p>
+                <p class="mb-4 lg:mb-10">
+                    Notre mission est claire : simplifier votre expérience de lecture de scans. Chaque lecteur a ses préférences
+                    et son rythme, c’est pourquoi {{ app_name }} propose une solution sans tracas pour suivre vos mangas.
+                </p>
+                <p>
+                    Créez votre compte {{ app_name }} pour maximiser votre plaisir de lecture. Accédez à votre scanthèque de n’importe où
+                    et synchronisez votre progression en temps réel. Par défaut, votre liste de lecture est sauvegardée dans votre
+                    navigateur, mais connectez-vous pour éviter toute perte de données.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {# Team #}
+    <section class="bg-app-clear-gray2 dark:bg-app-dark-black">
+        <div class="gap-4 md:gap-16 lg:gap-16 items-center py-8 px-4 md:py-16 md:px-8 lg:py-16 lg:px-20 mx-auto max-w-screen-xl grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2">
+            <div class="grid grid-cols-2 gap-4 mt-4 md:mt-8 lg:mt-8 order-2 md:lg:order-1 lg:order-1">
+                <div class="px-2 lg:px-0 bg-transparent rounded-lg">
+                    <img class="w-full p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
+                         src="{{ asset('build/images/user1.jpg') }}"
+                         alt="{{ app_team_name_1 }}"
+                    >
+                    <h3
+                            class="my-4 text-title-manga-mob md:text-title-manga-tab lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                        {{ app_team_name_1 }}
+                    </h3>
+                </div>
+                <div class="px-2 lg:px-0 bg-transparent rounded-lg">
+                    <img class="lg:mt-4 w-full p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
+                         src="{{ asset('build/images/user2.jpg') }}"
+                         alt="{{ app_team_name_2 }}"
+                    >
+                    <h3
+                            class="my-4 text-title-manga-mob md:text-title-manga-tab lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                        {{ app_team_name_2 }}
+                    </h3>
+                </div>
+            </div>
+            <div class="px-4 lg:px-0 max-w-full lg:max-w-sm text-app-clear-black dark:text-app-dark-gray2 order-1 md:order-2 lg:order-2">
+                <h2 class="mb-10 md:mb-20 lg:mb-20 text-h2-mob md:text-h2-tab lg:text-h2-desk font-bangers-regular tracking-titles-spacing">
+                    L'équipe
+                </h2>
+                <p class="mb-4 font-sora-regular text-text-mob md:text-text-tab lg:text-text-desk">
+                    Pour toute question ou remarque, n’hésitez pas à nous contacter à : {{ mailer_contact}}
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

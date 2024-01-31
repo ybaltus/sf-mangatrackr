@@ -1,0 +1,19 @@
+<div{{ attributes }}>
+    <!-- component html -->
+    <section class="bg-app-clear-gray2 dark:bg-app-dark-black">
+        <div class="py-20 px-4 md:pb-16 md:pt-20 lg:pb-16 lg:pt-20 mx-auto max-w-screen-xl text-center ">
+            {# Title #}
+            <h1
+                    class="mb-6 text-h1-mob md:text-h1-tab lg:text-h1-desk font-bangers-regular tracking-titles-spacing text-app-clear-black dark:text-app-dark-gray2"
+            >
+                {{ title }}
+            </h1>
+            {# Breadcrumb #}
+            {% if menuBreadcrumb|length > 0 %}
+                {{ component('BreadcumbComponent', {
+                    menus: menuBreadcrumb
+                }) }}
+            {% endif %}
+        </div>
+    </section>
+</div>
