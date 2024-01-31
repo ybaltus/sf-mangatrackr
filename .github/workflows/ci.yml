@@ -8,7 +8,6 @@
       branches:
         - main
   env:
-    DB_USER: ${{ secrets.DB_USER }}
     DB_USER_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
   jobs:
@@ -23,7 +22,7 @@
           env:
             MARIADB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
             MYSQL_DATABASE: sf_mangatrackr_app_test
-            MYSQL_USER: ${{ secrets.DB_USER }}
+            MYSQL_USER: mangatrackr
             MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
           options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       strategy:
