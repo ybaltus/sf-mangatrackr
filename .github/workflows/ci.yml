@@ -7,6 +7,9 @@
     pull_request:
       branches:
         - main
+  env:
+    DB_USER: ${{ secrets.DB_USER }}
+    DB_USER_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
   jobs:
     qa-and-tests:
