@@ -89,8 +89,11 @@
         - name: Copy .env.test.local
           run: cp .env.test .env.test.local
 
+        - name: Show MariaDB logs
+          run: docker logs mariadb
+
         - name: Check MariaDB health
-          run: mysql --host=localhost --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
+          run: mysql --host=127.0.0.1 --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
 
         - name: Load Doctrine fixtures
           run: |
