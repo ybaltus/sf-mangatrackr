@@ -14,7 +14,7 @@
       runs-on: ubuntu-latest
       services:
         mariadb:
-          image: mariadb:lts
+          image: mariadb:latest
           ports:
             - 3306:3306
           env:
@@ -22,7 +22,7 @@
             MARIADB_DATABASE: sf_mangatrackr_app_test
             MARIADB_USER: mangatrackr
             MARIADB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+          options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
       strategy:
         fail-fast: true
         matrix:
@@ -85,9 +85,6 @@
       # -- PHP Unit --------------------------------------
         - name: Copy .env.test.local
           run: cp .env.test .env.test.local
-
-        - name: Check MariaDB health
-          run: mysql --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
 
         - name: Load Doctrine fixtures
           run: |
