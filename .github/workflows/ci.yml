@@ -7,9 +7,6 @@
     pull_request:
       branches:
         - main
-  env:
-    DB_USER: ${{ secrets.DB_USER }}
-    DB_USER_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
   jobs:
     qa-and-tests:
@@ -89,8 +86,8 @@
         - name: Copy .env.test.local
           run: cp .env.test .env.test.local
 
-        - name: Show env variables
-          run: php bin/console debug:dotenv
+        - name: Check MariaDB health
+          run: mysql --host=localhost --user=root --password="${{ secrets.DB_ROOT_PASSWORD }}" -e "SELECT 1"
 
         - name: Load Doctrine fixtures
           run: |
