@@ -62,6 +62,8 @@ class ApiJikanCommand extends Command
             $io->success('Latest mangas');
         }
 
+        $io->success('Command executed with success !');
+
         return Command::SUCCESS;
     }
 }
