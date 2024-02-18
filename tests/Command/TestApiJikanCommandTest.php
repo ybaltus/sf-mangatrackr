@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class ApiJikanCommandTest extends KernelTestCase implements CommandTestInterface
+final class TestApiJikanCommandTest extends KernelTestCase implements CommandTestInterface
 {
     public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
-        $command = $application->find('api:jikan');
+        $command = $application->find('api:test-jikan');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'searchTerm' => 'One piece',

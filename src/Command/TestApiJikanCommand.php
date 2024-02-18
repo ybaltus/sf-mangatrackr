@@ -11,10 +11,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'api:jikan',
+    name: 'api:test-jikan',
     description: 'Command to test Jikan\'s REST API',
 )]
-class ApiJikanCommand extends Command
+class TestApiJikanCommand extends Command
 {
     public function __construct(
         private ApiJikanService $apiJikanService
