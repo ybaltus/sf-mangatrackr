@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home_index')]
     public function index(MangaRepository $mangaRepository): Response
     {
-        $topMangas = $mangaRepository->getTopMangas(4, false, 'P1M');
+        $topMangas = $mangaRepository->getTopMangas(4, false, 'P6M');
         $latestMangas = $mangaRepository->getLatestMangas();
 
         return $this->render('pages/home/index.html.twig', [

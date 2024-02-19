@@ -58,35 +58,43 @@
                             >
                                 Mot de passe
                             </label>
-                            <input
-                                    type="password"
-                                    name="password"
-                                    id="inputPassword"
-                                    placeholder="••••••••"
-                                    class="w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3"
-                                    required
-                                    autocomplete="current-password"
-                            >
-                            <input
-                                    type="hidden"
-                                    name="_csrf_token"
-                                    value="{{ csrf_token('authenticate') }}"
-                            >
+                            <div class="toggle-password-container">
+                                <input
+                                        type="password"
+                                        name="password"
+                                        id="inputPassword"
+                                        placeholder="••••••••"
+                                        class=" w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3"
+                                        required
+                                        autocomplete="current-password"
+                                        {{ stimulus_controller('symfony/ux-toggle-password/toggle-password', {
+                                            visibleLabel: 'Afficher',
+                                            hiddenLabel: 'Masquer',
+                                            buttonClasses: ['toggle-password-button', 'text-app-clear-black', 'dark:text-app-dark-gray2'],
+                                        }) }}
+                                >
+                                <input
+                                        type="hidden"
+                                        name="_csrf_token"
+                                        value="{{ csrf_token('authenticate') }}"
+                                >
+                            </div>
+
                         </div>
                         <div class="flex items-center justify-between mb-10">
-{#                            <div class="flex items-start">#}
-{#                                <div class="flex items-center h-5">#}
-{#                                    <input#}
-{#                                            id="remember"#}
-{#                                            aria-describedby="remember"#}
-{#                                            type="checkbox"#}
-{#                                            class="w-5 h-5 lg:w-6 lg:h-6 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"#}
-{#                                    >#}
-{#                                </div>#}
-{#                                <div class="ml-3 text-text-form-mob lg:text-text-form-desk">#}
-{#                                    <label for="remember" class="text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular">Remember me</label>#}
-{#                                </div>#}
-{#                            </div>#}
+                            {#                            <div class="flex items-start">#}
+                            {#                                <div class="flex items-center h-5">#}
+                            {#                                    <input#}
+                            {#                                            id="remember"#}
+                            {#                                            aria-describedby="remember"#}
+                            {#                                            type="checkbox"#}
+                            {#                                            class="w-5 h-5 lg:w-6 lg:h-6 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"#}
+                            {#                                    >#}
+                            {#                                </div>#}
+                            {#                                <div class="ml-3 text-text-form-mob lg:text-text-form-desk">#}
+                            {#                                    <label for="remember" class="text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular">Remember me</label>#}
+                            {#                                </div>#}
+                            {#                            </div>#}
                             <a
                                     href="{{ path('reset_password_index') }}"
                                     class="w-full text-end text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular hover:underline "

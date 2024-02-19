@@ -58,6 +58,10 @@ class InvitationFormType extends AbstractType
                         'minlength' => 8,
                         'maxlength' => 4096,
                     ],
+                    'toggle' => true,
+                    'hidden_label' => 'Masquer',
+                    'visible_label' => 'Afficher',
+                    'button_classes' => ['toggle-password-button', 'text-app-clear-black', 'dark:text-app-dark-gray2'],
                 ],
                 'second_options' => [
                     'label' => 'Confirmez le mot de passe',
@@ -65,6 +69,10 @@ class InvitationFormType extends AbstractType
                         'minlength' => 8,
                         'maxlength' => 4096,
                     ],
+                    'toggle' => true,
+                    'hidden_label' => 'Masquer',
+                    'visible_label' => 'Afficher',
+                    'button_classes' => ['toggle-password-button', 'text-app-clear-black', 'dark:text-app-dark-gray2'],
                 ],
                 'constraints' => [
                     new NotBlank([
