@@ -10,6 +10,7 @@ parameters:
     app_team_name_1: '%env(APP_TEAM_NAME_1)%'
     app_team_name_2: '%env(APP_TEAM_NAME_2)%'
     api_jikan_url: '%env(API_JIKAN_URL)%'
+    api_manga_updates_url: '%env(API_MANGA_UPDATES_URL)%'
 
 services:
     # default configuration for services in *this* file

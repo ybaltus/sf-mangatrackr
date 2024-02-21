@@ -109,7 +109,9 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
   * **php bin/console doctrine:fixtures:load**
 
 ## Ressources externes utilisées
-* **API REST** : [Jikan API 4.0.0](https://docs.api.jikan.moe/)
+* **API REST** :
+  * [Jikan API 4.0.0](https://docs.api.jikan.moe/)
+  * [MangaUpdates API 1.0.0](https://api.mangaupdates.com/)
 * **Illustrations** : [Transhumans](https://www.transhumans.xyz/)
 * **Avatars** : [UI Faces](https://www.uifaces.co/)
 * **Google Fonts** : 
