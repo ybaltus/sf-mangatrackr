@@ -57,7 +57,7 @@ abstract class ApiServiceAbstract
     protected function getRequest(
         string $url,
         array $queryParams,
-        array $headers = null,
+        ?array $headers = null,
     ): ResponseInterface {
         return $this->httpClient->request(
             'GET',

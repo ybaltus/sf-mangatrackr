@@ -25,7 +25,7 @@ class MangaRepository extends ServiceEntityRepository
     /**
      * @return array<Manga>
      */
-    public function getTopMangas(int $quantity = 4, bool $isAdult = false, string $durationDateInterval = null): array
+    public function getTopMangas(int $quantity = 4, bool $isAdult = false, ?string $durationDateInterval = null): array
     {
         $query = $this->createQueryBuilder('m')
             ->join('m.mangaJikanAPI', 'a')
