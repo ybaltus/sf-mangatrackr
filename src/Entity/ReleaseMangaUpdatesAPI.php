@@ -19,10 +19,6 @@ class ReleaseMangaUpdatesAPI
     private Manga $manga;
 
     #[ORM\Column]
-    #[Assert\PositiveOrZero]
-    private float $chapterNb;
-
-    #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
@@ -30,6 +26,20 @@ class ReleaseMangaUpdatesAPI
 
     #[ORM\Column]
     private \DateTimeImmutable $releasedAt;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(
+        max: 50
+    )]
+    private ?string $volumeVal = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 1,
+        max: 50
+    )]
+    private string $chapterVal;
 
     public function __construct()
     {
@@ -49,18 +59,6 @@ class ReleaseMangaUpdatesAPI
     public function setManga(Manga $manga): static
     {
         $this->manga = $manga;
-
-        return $this;
-    }
-
-    public function getChapterNb(): float
-    {
-        return $this->chapterNb;
-    }
-
-    public function setChapterNb(float $chapterNb): static
-    {
-        $this->chapterNb = $chapterNb;
 
         return $this;
     }
@@ -97,6 +95,30 @@ class ReleaseMangaUpdatesAPI
     public function setReleasedAt(\DateTimeImmutable $releasedAt): static
     {
         $this->releasedAt = $releasedAt;
+
+        return $this;
+    }
+
+    public function getVolumeVal(): ?string
+    {
+        return $this->volumeVal;
+    }
+
+    public function setVolumeVal(?string $volumeVal): static
+    {
+        $this->volumeVal = $volumeVal;
+
+        return $this;
+    }
+
+    public function getChapterVal(): string
+    {
+        return $this->chapterVal;
+    }
+
+    public function setChapterVal(string $chapterVal): static
+    {
+        $this->chapterVal = $chapterVal;
 
         return $this;
     }

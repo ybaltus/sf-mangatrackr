@@ -30,7 +30,8 @@ class ReleaseMangaUpdatesAPITest extends KernelTestCase implements EntityTestInt
         return (new ReleaseMangaUpdatesAPI())
             ->setManga($this->manga)
             ->setReleasedAt(new \DateTimeImmutable())
-            ->setChapterNb(52.3)
+            ->setChapterVal("52")
+            ->setVolumeVal("5")
         ;
     }
 
@@ -62,8 +63,9 @@ class ReleaseMangaUpdatesAPITest extends KernelTestCase implements EntityTestInt
         $validatorService = $container->get('validator');
 
         $entity = $this->getEntity(' ');
-        $entity->setChapterNb(-1);
+        $entity->setChapterVal('');
+        $entity->setVolumeVal('sdfdsoifjdsoifjodsifjodsfjsodifjoidsjfoisdjfoisdofisdjfdsiojf');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
-        $this->assertCount(1, $assertResults[0], $assertResults[1]);
+        $this->assertCount(3, $assertResults[0], $assertResults[1]);
     }
 }
