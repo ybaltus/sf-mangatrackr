@@ -32,3 +32,7 @@ services:
     App\Services\Api\ApiJikanService:
         arguments:
             $apiJikanUrl: '%api_jikan_url%'
+
+    App\Services\Api\ApiMangaUpdatesService:
+        arguments:
+            $apiMangaUpdatesUrl: '%api_manga_updates_url%'

@@ -16,12 +16,12 @@ final class ApiJikanService extends ApiServiceAbstract
     public const LIMIT_SEARCH = 15;
 
     public function __construct(
-        HttpClientInterface $httpClient,
-        private EntityManagerInterface $em,
-        string $apiJikanUrl
+        private readonly HttpClientInterface $httpClient,
+        private readonly EntityManagerInterface $em,
+        private readonly string $apiJikanUrl
     ) {
-        parent::__construct($httpClient, $em);
-        $this->baseUrl = $apiJikanUrl;
+        parent::__construct($this->httpClient, $this->em);
+        $this->baseUrl = $this->apiJikanUrl;
     }
 
     /**

@@ -70,6 +70,36 @@ abstract class ApiServiceAbstract
     }
 
     /**
+     * Execute a POST http request.
+     *
+     * @param array<string, mixed>        $apiParams
+     * @param array<string>|string[]|null $headers
+     *
+     * @throws TransportExceptionInterface
+     */
+    protected function postRequest(
+        string $url,
+        array $apiParams,
+        ?array $headers = null,
+    ): ResponseInterface {
+        $requestParams = [
+            'headers' => $headers ?: $this->headers,
+        ];
+
+        if ($headers) {
+            $requestParams['body'] = $apiParams;
+        } else {
+            $requestParams['json'] = $apiParams;
+        }
+
+        return $this->httpClient->request(
+            'POST',
+            $url,
+            $requestParams
+        );
+    }
+
+    /**
      * Simple handle http status code.
      */
     protected function handleHttpStatusCode(int $status): bool
