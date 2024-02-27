@@ -21,6 +21,10 @@ abstract class ApiServiceAbstract
         'Erotica',
         'Hentai',
         'Ecchi',
+        'Adult',
+        'Gender Bender',
+        'Lolicon',
+        'Shotacon',
     ];
 
     /**

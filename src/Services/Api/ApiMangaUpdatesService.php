@@ -3,6 +3,9 @@
 namespace App\Services\Api;
 
 use App\Entity\Manga;
+use App\Entity\MangaMangaUpdatesAPI;
+use App\Entity\MangaStatus;
+use App\Entity\MangaType;
 use App\Entity\ReleaseMangaUpdatesAPI;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -22,6 +25,8 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     }
 
     /**
+     * Fetch the mangas released.
+     *
      * @return array<mixed>
      */
     public function fetchMangaReleases(
@@ -69,6 +74,8 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     }
 
     /**
+     * Persist release datas in database.
+     *
      * @param array<string> $releaseDatas
      */
     public function saveReleaseDataInDb(array $releaseDatas): ?ReleaseMangaUpdatesAPI
@@ -109,16 +116,151 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     }
 
     /**
-     * @return string[]
+     * Fetch manga datas by title.
+     *
+     * @return mixed[]
      */
     public function fetchMangaByTitle(string $searchTerm, bool $isAdult = false, int $limit = self::LIMIT_SEARCH): array
     {
-        return ['TODO'];
+        $apiParams = [
+            'search' => $searchTerm,
+            'perpage' => $limit,
+        ];
+
+        if (!$isAdult) {
+            $apiParams['exclude_genre'] = [
+                'Adult',
+                'Ecchi',
+                'Hentai',
+                'Gender Bender',
+                'Lolicon',
+                'Shotacon',
+            ];
+        }
+
+        // Execute post request
+        $response = $this->postRequest($this->baseUrl.'/series/search', $apiParams);
+
+        if (!$this->handleHttpStatusCode($response->getStatusCode())) {
+            return ["Error http response : {$response->getStatusCode()}"];
+        }
+
+        return $response->toArray()['results'];
     }
 
+    /**
+     * Persist manga datas in database.
+     *
+     * @param array<mixed> $mangaDatas
+     */
+    public function saveMangaDatasInDb(array $mangaDatas): Manga
+    {
+        $result = $this->extractDatas($mangaDatas['record']);
+
+        // Check if the manga already exists
+        $manga = $this->verifyIfExistInDb(
+            Manga::class,
+            $result['muTitle'],
+            true
+        );
+
+        if (!$manga) {
+            $manga = new Manga();
+        }
+
+        // Set manga datas
+        /**
+         * @var Manga $manga
+         */
+        $manga->setTitle($result['muTitle'])
+            ->setTitleAlternative($manga->getTitleAlternative() ?? $result['muTitle'])
+            ->setDescription($manga->getDescription() ?? $result['muDescription'])
+            ->setAuthor('Inconnu')
+            ->setNbChapters($manga->getNbChapters() ?? 1)
+            ->setPublishedAt($manga->getPublishedAt() ?? new \DateTimeImmutable($result['muYear'].'-01-01'))
+            ->setIsAdult($manga->isIsAdult() ?? $this->checkIfAdult($result['muGenres']))
+        ;
+
+        // Set MangaType for manga entity
+        foreach ($result['muGenres'] as $genreName) {
+            $mangaType = $this->verifyIfExistInDb(
+                MangaType::class,
+                $genreName['genre']
+            );
+
+            if (!$mangaType) {
+                $mangaType = (new MangaType())
+                    ->setName($genreName['genre'])
+                ;
+            }
+            if (!$manga->getMangaType()->contains($mangaType)) {
+                $manga->addMangaType($mangaType);
+            }
+        }
+
+        // Set MangaStatus for manga entity
+        $mangaStatus = $this->verifyIfExistInDb(
+            MangaStatus::class,
+            'Publishing', // Already Exist in DB
+            true
+        );
+
+        $manga->setMangaStatus($mangaStatus);
+
+        // MangaMangaUpdatesAPI entity
+        $mangaMangaUpdatesAPI = $manga->getMangaMangaUpdatesAPI();
+
+        if (!$mangaMangaUpdatesAPI) {
+            $mangaMangaUpdatesAPI = new MangaMangaUpdatesAPI();
+        }
+
+        $mangaMangaUpdatesAPI
+            ->setManga($manga)
+            ->setMuSeriesId($result['muSeriesId'])
+            ->setMuDescription($result['muDescription'])
+            ->setMuUrl($result['muUrl'])
+            ->setMuImgJpg($result['muImgJpg'])
+            ->setMuThumbJpg($result['muThumbJpg'])
+            ->setMuYear($result['muYear'])
+            ->setMuGenres($result['muGenres'])
+        ;
+
+        $manga->setMangaMangaUpdatesAPI($mangaMangaUpdatesAPI);
+
+        // Persist manga in db
+        $this->em->persist($manga);
+        $this->em->flush();
+
+        return $manga;
+    }
+
+    /**
+     * @return array<mixed>
+     */
     public function extractDatas(array $result): array
     {
+        $muImgJpg = null;
+        $muThumbJpg = null;
+        if (isset($result['image'])) {
+            /**
+             * @var array<mixed> $imageLinks
+             */
+            $imageLinks = $result['image'];
+            if (array_key_exists('url', $imageLinks)) {
+                $muImgJpg = $imageLinks['url']['original'];
+                $muThumbJpg = $imageLinks['url']['thumb'];
+            }
+        }
+
         return [
+            'muSeriesId' => $result['series_id'],
+            'muTitle' => $result['title'],
+            'muUrl' => $result['url'],
+            'muDescription' => $result['description'],
+            'muImgJpg' => $muImgJpg,
+            'muThumbJpg' => $muThumbJpg,
+            'muYear' => $result['year'],
+            'muGenres' => $result['genres'],
         ];
     }
 
