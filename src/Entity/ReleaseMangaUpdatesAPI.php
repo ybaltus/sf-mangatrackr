@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReleaseMangaUpdatesAPIRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ReleaseMangaUpdatesAPI
 {
     #[ORM\Id]
@@ -121,5 +122,11 @@ class ReleaseMangaUpdatesAPI
         $this->chapterVal = $chapterVal;
 
         return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }

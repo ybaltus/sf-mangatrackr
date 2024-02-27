@@ -45,7 +45,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             return ["Error http response : {$response->getStatusCode()}"];
         }
 
-        // Retrieve results by page
+        // Get results by page
         $resultArray = $response->toArray();
         $resultsByPage = $resultArray['results'];
         $totalHits = intval($resultArray['total_hits']);
@@ -73,7 +73,11 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
      */
     public function saveReleaseDataInDb(array $releaseDatas): ?ReleaseMangaUpdatesAPI
     {
-        // Check if the manga already exists
+        /**
+         * Check if the manga already exists.
+         *
+         * @var Manga|bool $manga
+         */
         $manga = $this->verifyIfExistInDb(
             Manga::class,
             $releaseDatas['title'],
@@ -81,14 +85,21 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         );
 
         $releaseEntity = null;
-        if ($manga) {
-            // TODO Check if exist
 
-            $releaseEntity = (new ReleaseMangaUpdatesAPI())
+        if ($manga) {
+            $releaseDate = new \DateTimeImmutable($releaseDatas['release_date']);
+
+            // Check if the release already exists
+            $releaseEntity = $this->ifReleaseAlreadyExist(
+                $manga,
+                $releaseDate,
+            ) ?: new ReleaseMangaUpdatesAPI();
+
+            $releaseEntity
                 ->setManga($manga)
                 ->setVolumeVal($releaseDatas['volume'])
                 ->setChapterVal($releaseDatas['chapter'])
-                ->setReleasedAt(new \DateTimeImmutable($releaseDatas['release_date']))
+                ->setReleasedAt($releaseDate)
             ;
             $this->em->persist($releaseEntity);
             $this->em->flush();
@@ -97,6 +108,9 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         return $releaseEntity;
     }
 
+    /**
+     * @return string[]
+     */
     public function fetchMangaByTitle(string $searchTerm, bool $isAdult = false, int $limit = self::LIMIT_SEARCH): array
     {
         return ['TODO'];
@@ -106,5 +120,13 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     {
         return [
         ];
+    }
+
+    private function ifReleaseAlreadyExist(Manga $manga, \DateTimeImmutable $releaseDate): ?ReleaseMangaUpdatesAPI
+    {
+        return $this->em->getRepository(ReleaseMangaUpdatesAPI::class)->findOneBy([
+            'manga' => $manga,
+            'releasedAt' => $releaseDate,
+        ]);
     }
 }

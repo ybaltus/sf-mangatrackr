@@ -112,7 +112,7 @@ abstract class ApiServiceAbstract
     }
 
     /**
-     * Check if an entity already exists.
+     * Check if an entity already exists by name or title.
      */
     protected function verifyIfExistInDb(string $className, string $value, bool $isTitle = false): bool|object
     {
