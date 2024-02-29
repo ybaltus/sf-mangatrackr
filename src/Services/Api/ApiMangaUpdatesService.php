@@ -164,22 +164,25 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             true
         );
 
+        // Set manga datas
         if (!$manga) {
             $manga = new Manga();
+            $manga->setTitle($result['muTitle'])
+                ->setTitleAlternative($result['muTitle'])
+                ->setDescription($result['muDescription'])
+                ->setAuthor('Inconnu')
+                ->setNbChapters(1)
+                ->setPublishedAt(new \DateTimeImmutable($result['muYear'].'-01-01'))
+                ->setIsAdult($this->checkIfAdult($result['muGenres']))
+            ;
+        } else {
+            /**
+             * @var Manga $manga
+             */
+            $manga
+                ->setDescription($manga->getDescription() ?? $result['muDescription'])
+            ;
         }
-
-        // Set manga datas
-        /**
-         * @var Manga $manga
-         */
-        $manga->setTitle($result['muTitle'])
-            ->setTitleAlternative($manga->getTitleAlternative() ?? $result['muTitle'])
-            ->setDescription($manga->getDescription() ?? $result['muDescription'])
-            ->setAuthor('Inconnu')
-            ->setNbChapters($manga->getNbChapters() ?? 1)
-            ->setPublishedAt($manga->getPublishedAt() ?? new \DateTimeImmutable($result['muYear'].'-01-01'))
-            ->setIsAdult($manga->isIsAdult() ?? $this->checkIfAdult($result['muGenres']))
-        ;
 
         // Set MangaType for manga entity
         foreach ($result['muGenres'] as $genreName) {

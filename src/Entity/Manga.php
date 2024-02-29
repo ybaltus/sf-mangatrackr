@@ -414,10 +414,19 @@ class Manga
 
     private function setScanthequeData(): string
     {
+        // Set UrlImg
+        if ($this->getMangaJikanAPI()) {
+            $urlImg = $this->getMangaJikanAPI()->getMalImgWebp();
+        } elseif ($this->getMangaMangaUpdatesAPI()) {
+            $urlImg = $this->getMangaMangaUpdatesAPI()->getMuImgJpg();
+        } else {
+            $urlImg = $this->getUrlImg();
+        }
+
         return json_encode([
            'title' => $this->title,
            'titleSlug' => $this->titleSlug,
-           'urlImg' => $this->getMangaJikanAPI() ? $this->getMangaJikanAPI()->getMalImgWebp() : $this->getUrlImg(),
+           'urlImg' => $urlImg,
            'nbChapters' => $this->nbChapters,
             'mut' => null,
         ]);

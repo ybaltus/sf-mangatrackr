@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Manga;
 use App\Repository\MangaRepository;
 use App\Services\Api\ApiJikanService;
+use App\Services\Api\ApiMangaUpdatesService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class MangaController extends AbstractController
         Request $request,
         MangaRepository $mangaRepository,
         ApiJikanService $apiJikanService,
+        ApiMangaUpdatesService $apiMangaUpdatesService,
         ValidatorInterface $validator
     ): Response {
         $mangas = [];
@@ -45,9 +47,24 @@ class MangaController extends AbstractController
 
             if ($searchTerm && strlen($searchTerm) >= 3) {
                 if ($isAdvancedSearch) {
-                    $results = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
-                    foreach ($results as $manga) {
+                    // Save manga names to avoid duplication
+                    $tmpMangaNames = [];
+
+                    // First - We use Jikan API
+                    $jikanResults = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
+                    foreach ($jikanResults as $manga) {
+                        $tmpMangaNames[] = $manga['title'];
                         $mangas[] = $apiJikanService->saveMangaDatasInDb($manga);
+                    }
+
+                    // Second - We use MangaUpdates API
+                    $mangaUpdatesResults = $apiMangaUpdatesService->fetchMangaByTitle($searchTerm);
+                    foreach ($mangaUpdatesResults as $manga) {
+                        $mangaEntity = $apiMangaUpdatesService->saveMangaDatasInDb($manga);
+                        if (!in_array($mangaEntity->getTitle(), $tmpMangaNames)) {
+                            $tmpMangaNames[] = $manga['record']['title'];
+                            $mangas[] = $mangaEntity;
+                        }
                     }
                 } else {
                     $mangas = $mangaRepository->searchManga($searchTerm, $isAdult);
@@ -56,21 +73,21 @@ class MangaController extends AbstractController
         }
 
         return $this->render('components/htmx/mangas_list.html.twig', [
-            'mangasSearch' => $mangas,
-            'hasError' => $hasError,
-            'searchTerm' => $searchTerm,
+        'mangasSearch' => $mangas,
+        'hasError' => $hasError,
+        'searchTerm' => $searchTerm,
         ]);
     }
 
     private function validateSearchTerm(string $searchTerm, ValidatorInterface $validator): mixed
     {
         return $validator->validate($searchTerm, [
-            new Assert\Length([
-                'min' => 3,
-                'max' => 50,
-            ]),
-            new Assert\NotBlank(),
-            new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
+        new Assert\Length([
+            'min' => 3,
+            'max' => 50,
+        ]),
+        new Assert\NotBlank(),
+        new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
         ]);
     }
 }
