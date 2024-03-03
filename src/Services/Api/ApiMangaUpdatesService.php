@@ -35,7 +35,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         ?\DateTimeImmutable $endedAt = null,
     ): array {
         // Set api params
-        $currentDate = (new \DateTimeImmutable('2024-02-29'))->format('Y-m-d');
+        $currentDate = (new \DateTimeImmutable())->format('Y-m-d');
 
         $apiParams = [
             'start_date' => $startedAt ? $startedAt->format('Y-m-d') : $currentDate,
@@ -142,6 +142,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         if (!$isAdult) {
             $apiParams['exclude_genre'] = [
                 'Adult',
+                'Doujinshi',
                 'Ecchi',
                 'Hentai',
                 'Gender Bender',
