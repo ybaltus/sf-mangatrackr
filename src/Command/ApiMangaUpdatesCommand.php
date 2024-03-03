@@ -27,7 +27,7 @@ class ApiMangaUpdatesCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addUsage('release')
+            ->addUsage('calendar')
             ->addUsage('xxx')
             ->addArgument('mode', InputArgument::OPTIONAL, 'Select a mode')
         ;
@@ -43,10 +43,10 @@ class ApiMangaUpdatesCommand extends Command
         $mode = $input->getArgument('mode');
 
         // Select a mode
-        $choiceMode = ['release', 'xxx'];
+        $choiceMode = ['calendar', 'xxx'];
         if (!$mode || !in_array($mode, $choiceMode)) {
             $question = new ChoiceQuestion(
-                'Please select a mode (defaults to release)',
+                'Please select a mode (defaults to calendar)',
                 $choiceMode,
                 0
             );
@@ -57,7 +57,7 @@ class ApiMangaUpdatesCommand extends Command
 
         // Data management by mode
         switch ($mode) {
-            case 'release':
+            case 'calendar':
                 $results = $this->releaseResults();
                 $io->comment(sprintf('%d releases processed.', count($results)));
                 break;
