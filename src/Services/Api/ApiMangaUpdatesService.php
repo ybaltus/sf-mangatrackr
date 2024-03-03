@@ -102,12 +102,24 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
                 $releaseDate,
             ) ?: new ReleaseMangaUpdatesAPI();
 
+            // Get chapter
+            $chapter = $releaseDatas['chapter'];
+            if (str_contains($chapter, 'a')) {
+                $chapter = str_replace('a', '.5', $chapter);
+            }
+
+            // Set release data
             $releaseEntity
                 ->setManga($manga)
                 ->setVolumeVal($releaseDatas['volume'])
-                ->setChapterVal($releaseDatas['chapter'])
+                ->setChapterVal($chapter)
                 ->setReleasedAt($releaseDate)
             ;
+
+            // Edit nbChapters for the manga
+            $manga->setNbChapters(floatval($chapter));
+
+            // Save in DB
             $this->em->persist($releaseEntity);
             $this->em->flush();
         }
