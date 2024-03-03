@@ -35,7 +35,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         ?\DateTimeImmutable $endedAt = null,
     ): array {
         // Set api params
-        $currentDate = (new \DateTimeImmutable())->format('Y-m-d');
+        $currentDate = (new \DateTimeImmutable('2024-02-29'))->format('Y-m-d');
 
         $apiParams = [
             'start_date' => $startedAt ? $startedAt->format('Y-m-d') : $currentDate,
@@ -74,7 +74,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     }
 
     /**
-     * Persist release datas in database.
+     * Persist calendar datas in database.
      *
      * @param array<string> $releaseDatas
      */
@@ -96,7 +96,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         if ($manga) {
             $releaseDate = new \DateTimeImmutable($releaseDatas['release_date']);
 
-            // Check if the release already exists
+            // Check if the calendar already exists
             $releaseEntity = $this->ifReleaseAlreadyExist(
                 $manga,
                 $releaseDate,
@@ -108,7 +108,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
                 $chapter = str_replace('a', '.5', $chapter);
             }
 
-            // Set release data
+            // Set calendar data
             $releaseEntity
                 ->setManga($manga)
                 ->setVolumeVal($releaseDatas['volume'])
@@ -147,6 +147,10 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
                 'Gender Bender',
                 'Lolicon',
                 'Shotacon',
+                'Shounen Ai',
+                'Smut',
+                'Yaoi',
+                'Yuri',
             ];
         }
 
@@ -274,8 +278,8 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             'muDescription' => $result['description'],
             'muImgJpg' => $muImgJpg,
             'muThumbJpg' => $muThumbJpg,
-            'muYear' => $result['year'],
-            'muGenres' => $result['genres'],
+            'muYear' => '' !== $result['year'] ? $result['year'] : null,
+            'muGenres' => $result['genres'] ?? [],
         ];
     }
 

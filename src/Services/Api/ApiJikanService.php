@@ -37,7 +37,7 @@ final class ApiJikanService extends ApiServiceAbstract
         ];
 
         if (!$isAdult) {
-            $queryParams['genres_exclude'] = '12,9,49';
+            $queryParams['genres_exclude'] = '12,9,49,28,26';
         }
 
         $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);
