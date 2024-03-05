@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ReleaseMangaUpdatesAPI;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,18 @@ class ReleaseMangaUpdatesAPIRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ReleaseMangaUpdatesAPI::class);
+    }
+
+    public function paginationQuery(): Query
+    {
+        $query = $this->createQueryBuilder('r')
+            ->addSelect()
+            ->join('r.manga', 'm')
+            ->orderBy('r.releasedAt', 'DESC')
+            ->addOrderBy('m.title', 'ASC')
+        ;
+
+        return $query->getQuery();
     }
 
     //    /**

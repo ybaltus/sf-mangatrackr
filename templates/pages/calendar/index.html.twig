@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+
+{% block body %}
+    {# Header #}
+    {{ component('SectionHeaderComponent', {
+        title: 'Calendrier',
+        menuBreadcrumb: {
+            'current' : 'Calendrier'
+        }
+    }) }}
+
+    {# The releases #}
+    <section
+            id="release-gallery"
+            class="bg-app-clear-white dark:bg-app-dark-gray px-4"
+    >
+        <div class="mx-auto max-w-screen-xl py-10 md:py-14">
+            {% for key, releases in releasesFormatted %}
+                <div class="mt-6 mb-6">
+                    <p class="text-left text-h3-mob md:text-h3-tab lg:text-h3-desk font-sora-extraBold text-app-clear-purple3 dark:text-app-dark-purple">
+                        {{ key }}
+                    </p>
+                </div>
+                <div class="grid gap-4 md:gap-4 lg:gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:ml-6 lg:ml-6">
+                    {% for release in releases %}
+                        <div class="grid grid-cols-2 px-0 bg-app-clear-white rounded-lg dark:bg-transparent">
+                            <div>
+                                <a
+                                        href="{{ path('manga_index', {titleSlug: release.manga.titleSlug }) }}" title="{{ release.manga.title }}">
+                                    <img
+                                            class="w-release-card-mob md:w-release-card-tab lg:w-release-card-desk h-release-card-mob md:h-release-card-tab lg:h-release-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
+                                            {% if release.manga.mangaJikanAPI %}
+                                                src="{{ release.manga.mangaJikanAPI.malImgWebp }}"
+                                            {% elseif release.manga.mangaMangaUpdatesAPI %}
+                                                src="{{ release.manga.mangaMangaUpdatesAPI.muImgJpg }}"
+                                            {% else %}
+                                                src="{{ release.manga.urlImg  }}"
+                                            {% endif %}
+                                            alt="{{ release.manga.title }}"
+                                    >
+                                </a>
+                            </div>
+                            <div class="p-2">
+                                <h3
+                                        class="mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-semiBold tracking-normal text-app-clear-black dark:text-app-dark-gray2">
+                                    {{ release.manga.title }}
+                                </h3>
+                                {% if release.volumeVal %}
+                                    <p class="mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-extraBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"
+                                    >
+                                        Vol. {{ release.volumeVal }}
+                                    </p>
+                                {% endif %}
+                                <p class="mb-2 text-title-manga-mob lg:text-title-manga-desk line-clamp-2 font-sora-extraBold tracking-normal text-app-clear-black dark:text-app-dark-gray2"
+                                >
+                                    Ch. {{ release.chapterVal }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr class="h-px my-8 bg-app-clear-gray3 border-0 dark:bg-app-dark-gray1">
+            {% endfor %}
+
+            {# display navigation #}
+            <div class="flex justify-center py-20 navigation">
+                {{ knp_pagination_render(paginationReleases) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

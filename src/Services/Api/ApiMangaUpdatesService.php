@@ -40,6 +40,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         $apiParams = [
             'start_date' => $startedAt ? $startedAt->format('Y-m-d') : $currentDate,
             'end_date' => $endedAt ? $endedAt->format('Y-m-d') : $currentDate,
+            'include_metadata' => true,
             'per_page' => $limit,
         ];
 
@@ -76,12 +77,16 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
     /**
      * Persist calendar datas in database.
      *
-     * @param array<string> $releaseDatas
+     * @param array<mixed> $releases
      */
-    public function saveReleaseDataInDb(array $releaseDatas): ?ReleaseMangaUpdatesAPI
+    public function saveReleaseDataInDb(array $releases): ?ReleaseMangaUpdatesAPI
     {
+        // Extract record and metadata
+        $releaseMetaDatas = $releases['metadata'];
+        $releaseDatas = $releases['record'];
+
         /**
-         * Check if the manga already exists.
+         * Check if the manga already exists by title.
          *
          * @var Manga|bool $manga
          */
@@ -91,8 +96,24 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             true
         );
 
+        /**
+         * Check if the manga already exists by metadata series_id.
+         * Because $releaseDatas['title'] can be different to metadata title.
+         *
+         * @var Manga|bool $manga
+         */
+        if (!$manga && $releaseMetaDatas && $releaseMetaDatas['series'] && $releaseMetaDatas['series']['series_id']) {
+            $manga = $this->verifyIfExistInDbWithReleaseMetadataSerieId(
+                $releaseMetaDatas['series']['series_id']
+            );
+        }
+
+        // Release management
         $releaseEntity = null;
 
+        /**
+         * @var Manga|null $manga
+         */
         if ($manga) {
             $releaseDate = new \DateTimeImmutable($releaseDatas['release_date']);
 
@@ -117,7 +138,12 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             ;
 
             // Edit nbChapters for the manga
-            $manga->setNbChapters(floatval($chapter));
+            $multipleChapter = explode('-', $chapter);
+            if (count($multipleChapter) > 1) {
+                $manga->setNbChapters(floatval($multipleChapter[1]));
+            } else {
+                $manga->setNbChapters(floatval($chapter));
+            }
 
             // Save in DB
             $this->em->persist($releaseEntity);
@@ -290,5 +316,19 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             'manga' => $manga,
             'releasedAt' => $releaseDate,
         ]);
+    }
+
+    /**
+     * Check if an manga already exists metadata[series][series_id].
+     */
+    private function verifyIfExistInDbWithReleaseMetadataSerieId(string $metadataSeriesId): bool|object
+    {
+        $repository = $this->em->getRepository(MangaMangaUpdatesAPI::class);
+        $releaseEntity = $repository->findOneByMuSeriesId($metadataSeriesId);
+        if ($releaseEntity) {
+            return $releaseEntity->getManga();
+        }
+
+        return false;
     }
 }

@@ -19,6 +19,7 @@ final class NavBarComponent
         'home_index' => 'Accueil',
         'catalog_index' => 'Catalogue',
         'scantheque_index' => 'Scanthèque',
+        'calendar_index' => 'Calendrier',
         'about_index' => 'À propos',
     ];
 }

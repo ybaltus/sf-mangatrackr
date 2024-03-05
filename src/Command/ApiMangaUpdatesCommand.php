@@ -79,9 +79,9 @@ class ApiMangaUpdatesCommand extends Command
         $releases = $this->apiMangaUpdatesService->fetchMangaReleases();
         $releaseMangas = [];
         foreach ($releases as $result) {
-            $entity = $this->apiMangaUpdatesService->saveReleaseDataInDb($result['record']);
+            $entity = $this->apiMangaUpdatesService->saveReleaseDataInDb($result);
             if ($entity) {
-                $releaseMangas[] = $entity->getManga()->getTitle();
+                $releaseMangas[] = $entity->getManga()->getTitle().' / '.$entity->getManga()->getNbChapters();
             }
         }
 
