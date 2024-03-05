@@ -13,7 +13,13 @@
         <a href="{{ path('manga_index', {titleSlug: manga.titleSlug }) }}" title="{{ manga.title }}">
             <img
                     class="w-manga-card-mob md:w-manga-card-tab lg:w-manga-card-desk h-manga-card-mob md:h-manga-card-tab lg:h-manga-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
-                    src="{{ manga.mangaJikanAPI ? manga.mangaJikanAPI.malImgWebp: manga.urlImg }}"
+                    {% if manga.mangaJikanAPI %}
+                        src="{{ manga.mangaJikanAPI.malImgWebp }}"
+                    {% elseif manga.mangaMangaUpdatesAPI %}
+                        src="{{ manga.mangaMangaUpdatesAPI.muImgJpg }}"
+                    {% else %}
+                        src="{{ manga.urlImg  }}"
+                    {% endif %}
                     alt="{{ manga.title }}"
             />
             <div class="p-2">
@@ -34,7 +40,7 @@
                     <img class="mx-auto w-manga-scantheque-mob md:w-manga-scantheque-tab lg:w-manga-scantheque-desk h-manga-scantheque-mob md:h-manga-scantheque-tab lg:h-manga-scantheque-desk p-manga-card rounded-manga-scantheque-mob md:rounded-manga-scantheque-tab lg:rounded-manga-scantheque-desk"
                          src=""
                          alt=""
-                    />
+                    >
                 </a>
             </div>
             <div class="h-full">

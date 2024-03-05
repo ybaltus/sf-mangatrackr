@@ -285,14 +285,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         foreach ($listMangasTrack as $mangaTrack) {
             if (true === $mangaTrack->isIsActivated()) {
                 $manga = $mangaTrack->getManga();
+                // Set UrlImg
+                if ($manga->getMangaJikanAPI()) {
+                    $urlImg = $manga->getMangaJikanAPI()->getMalImgWebp();
+                } elseif ($manga->getMangaMangaUpdatesAPI()) {
+                    $urlImg = $manga->getMangaMangaUpdatesAPI()->getMuImgJpg();
+                } else {
+                    $urlImg = $manga->getUrlImg();
+                }
                 $results[$mangaTrack->getStatusTrack()->getNameSlug()][$manga->getTitleSlug()] = [
                     'nbChapters' => $manga->getNbChapters(),
                     'nbChaptersTrack' => $mangaTrack->getNbChapters(),
                     'statusTrack' => $mangaTrack->getStatusTrack()->getNameSlug(),
                     'title' => $manga->getTitle(),
                     'titleSlug' => $manga->getTitleSlug(),
-                    'urlImg' => $manga->getMangaJikanAPI() ?
-                        $manga->getMangaJikanAPI()->getMalImgWebp() : $manga->getUrlImg(),
+                    'urlImg' => $urlImg,
                     'mut' => $mangaTrack->getId(),
                 ];
             }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Editor;
 use App\Entity\Fantrad;
 use App\Entity\Manga;
+use App\Entity\MangaReleaseConfig;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use App\Entity\StatusTrack;
@@ -55,7 +56,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::LinkToCrud('Invitation Code', 'fa fa-envelope', UserInvitationCode::class);
         yield MenuItem::LinkToCrud('Reset password Code', 'fa fa-envelope', UserResetPassword::class);
 
-        yield MenuItem::section('Site');
+        yield MenuItem::section('Configurations du site');
         yield MenuItem::LinkToCrud('TextContentPage', 'fa fa-file-lines', TextContentPage::class);
+        yield MenuItem::linkToCrud('Mangas Calendar Config', 'fa-solid fa-calendar-plus', MangaReleaseConfig::class);
     }
 }

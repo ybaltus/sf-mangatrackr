@@ -124,6 +124,9 @@ class Manga
     )]
     private ?string $urlImg = null;
 
+    #[ORM\OneToOne(mappedBy: 'manga', cascade: ['persist', 'remove'])]
+    private ?MangaMangaUpdatesAPI $mangaMangaUpdatesAPI = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -411,10 +414,19 @@ class Manga
 
     private function setScanthequeData(): string
     {
+        // Set UrlImg
+        if ($this->getMangaJikanAPI()) {
+            $urlImg = $this->getMangaJikanAPI()->getMalImgWebp();
+        } elseif ($this->getMangaMangaUpdatesAPI()) {
+            $urlImg = $this->getMangaMangaUpdatesAPI()->getMuImgJpg();
+        } else {
+            $urlImg = $this->getUrlImg();
+        }
+
         return json_encode([
            'title' => $this->title,
            'titleSlug' => $this->titleSlug,
-           'urlImg' => $this->getMangaJikanAPI() ? $this->getMangaJikanAPI()->getMalImgWebp() : $this->getUrlImg(),
+           'urlImg' => $urlImg,
            'nbChapters' => $this->nbChapters,
             'mut' => null,
         ]);
@@ -428,6 +440,28 @@ class Manga
     public function setUrlImg(?string $urlImg): static
     {
         $this->urlImg = $urlImg;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
+    public function getMangaMangaUpdatesAPI(): ?MangaMangaUpdatesAPI
+    {
+        return $this->mangaMangaUpdatesAPI;
+    }
+
+    public function setMangaMangaUpdatesAPI(?MangaMangaUpdatesAPI $mangaMangaUpdatesAPI): static
+    {
+        // set the owning side of the relation if necessary
+        if ($mangaMangaUpdatesAPI->getManga() !== $this) {
+            $mangaMangaUpdatesAPI->setManga($this);
+        }
+
+        $this->mangaMangaUpdatesAPI = $mangaMangaUpdatesAPI;
 
         return $this;
     }

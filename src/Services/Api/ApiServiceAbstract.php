@@ -21,6 +21,10 @@ abstract class ApiServiceAbstract
         'Erotica',
         'Hentai',
         'Ecchi',
+        'Adult',
+        'Gender Bender',
+        'Lolicon',
+        'Shotacon',
     ];
 
     /**
@@ -57,7 +61,7 @@ abstract class ApiServiceAbstract
     protected function getRequest(
         string $url,
         array $queryParams,
-        array $headers = null,
+        ?array $headers = null,
     ): ResponseInterface {
         return $this->httpClient->request(
             'GET',
@@ -66,6 +70,36 @@ abstract class ApiServiceAbstract
                 'headers' => $headers ?? $this->headers,
                 'query' => $queryParams,
             ]
+        );
+    }
+
+    /**
+     * Execute a POST http request.
+     *
+     * @param array<string, mixed>        $apiParams
+     * @param array<string>|string[]|null $headers
+     *
+     * @throws TransportExceptionInterface
+     */
+    protected function postRequest(
+        string $url,
+        array $apiParams,
+        ?array $headers = null,
+    ): ResponseInterface {
+        $requestParams = [
+            'headers' => $headers ?: $this->headers,
+        ];
+
+        if ($headers) {
+            $requestParams['body'] = $apiParams;
+        } else {
+            $requestParams['json'] = $apiParams;
+        }
+
+        return $this->httpClient->request(
+            'POST',
+            $url,
+            $requestParams
         );
     }
 
@@ -82,7 +116,7 @@ abstract class ApiServiceAbstract
     }
 
     /**
-     * Check if an entity already exists.
+     * Check if an entity already exists by name or title.
      */
     protected function verifyIfExistInDb(string $className, string $value, bool $isTitle = false): bool|object
     {
