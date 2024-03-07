@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import * as userService from "./../js/user-service";
 
 export default class extends Controller {
-    static targets = ['counterDelete', 'btnDelete','btnCancelDelete'];
+    static targets = ['counterDelete', 'btnDelete','btnCancelDelete', 'loadingExportScantheque'];
     deleteTimer = false;
 
     connect()
@@ -14,7 +14,6 @@ export default class extends Controller {
     deleteUserAccount(event )
     {
         event.preventDefault();
-        console.log('OK');
 
         if (this.counterDeleteTarget.classList.contains('hidden')) {
             this.counterDeleteTarget.classList.remove('hidden');
@@ -45,5 +44,20 @@ export default class extends Controller {
         this.counterDeleteTarget.classList.add('hidden');
         this.btnCancelDeleteTarget.classList.add('hidden');
         this.btnDeleteTarget.classList.remove('hidden');
+    }
+
+    exportScantheque(event)
+    {
+        event.preventDefault();
+
+        if (this.loadingExportScanthequeTarget.classList.contains('hidden')) {
+            this.loadingExportScanthequeTarget.classList.remove('hidden');
+
+            userService.exportScantheque().then(result => {
+                this.loadingExportScanthequeTarget.classList.add('hidden');
+            });
+        } else {
+            this.loadingExportScanthequeTarget.classList.add('hidden');
+        }
     }
 }

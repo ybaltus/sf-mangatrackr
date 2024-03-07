@@ -84,4 +84,53 @@ export const deleteUserAccount = async() => {
     }
 }
 
+export const exportScantheque = async() => {
+    try {
+        const response = await fetch('/user/export/scantheque',{
+            method: "GET"
+        });
+
+        if (response.ok) {
+            // Create a Blob
+            const blob = await response.blob();
+
+            // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Create a link element
+            const link = document.createElement("a");
+
+            // Set link's href to point to the Blob URL
+            link.href = blobUrl;
+            link.download = `mangasync-scantheque.csv`;
+
+            // Append link to the body
+            document.body.appendChild(link);
+
+            // Dispatch click event on the link
+            // This is necessary as link.click() does not work on the latest firefox
+            link.dispatchEvent(
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                })
+            );
+
+            // Remove link from body
+            document.body.removeChild(link);
+
+            console.log('Success: File downloaded successfully.');
+        } else {
+            alert('Une erreur s\'est produite. L\'export n\'a pas pu être généré.');
+            console.error('Error uploading CSV file');
+        }
+
+        return 'ok';
+    } catch (error) {
+        console.error("Error uploading CSV file :", error);
+        return error;
+    }
+}
+
 

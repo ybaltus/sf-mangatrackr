@@ -7,12 +7,14 @@ use App\Entity\UserInvitationCode;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
 use App\Security\Auth\AppAuthenticator;
+use App\Services\Common\SpreadSheetService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -124,6 +126,58 @@ class UserController extends AbstractController
             $response = $security->logout(false);
 
             $this->em->flush();
+        } catch (\Exception $e) {
+            $message[0] = $e->getMessage();
+            $statusCode = 400;
+        }
+
+        return $this->json($message, $statusCode);
+    }
+
+    #[Route('/export/scantheque', name: 'user_export_scantheque', methods: ['GET'])]
+    public function exportScantheque(SpreadSheetService $spreadSheetService): Response
+    {
+        $user = $this->getUser();
+        /** @phpstan-ignore-next-line */
+        $scanthequeDatasJson = json_decode($user->getScanthequeData(), true);
+        $message = [
+            'success',
+            200,
+        ];
+
+        try {
+            // Init parameters for the csv file
+            $currentDate = (new \DateTimeImmutable())->format('Ymd');
+            $filename = "mangasync-scantheque-$currentDate.csv";
+            $columNames = ['Title', 'LastChapter', 'MaxChapter', 'Status'];
+            $columValues = [];
+            foreach ($scanthequeDatasJson as $mangasByStatus) {
+                foreach ($mangasByStatus as $manga) {
+                    $columValues[] = [
+                        $manga['title'],
+                        $manga['nbChaptersTrack'],
+                        $manga['nbChapters'],
+                        $manga['statusTrack'],
+                    ];
+                }
+            }
+
+            // Init SpreadSheet + Csv writer
+            $spreadSheet = $spreadSheetService->createSimpleSpreadSheet($columNames, $columValues);
+            $csvWriter = $spreadSheetService->createCsvWriter($spreadSheet);
+
+            // Create StreamedResponse
+            $response = new StreamedResponse();
+            $contentType = 'text/csv';
+            $response->headers->set('Content-Type', $contentType);
+            $response->headers->set('Content-Disposition', 'attachment;filename="'.$filename.'"');
+            $response->headers->set('Cache-Control', 'max-age=0');
+            $response->setPrivate();
+            $response->setCallback(function () use ($csvWriter) {
+                $csvWriter->save('php://output');
+            });
+
+            return $response;
         } catch (\Exception $e) {
             $message[0] = $e->getMessage();
             $statusCode = 400;
