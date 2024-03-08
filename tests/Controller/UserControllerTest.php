@@ -78,7 +78,7 @@ class UserControllerTest extends WebTestCase implements ControllerTestInterface
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/user');
-        $this->assertSelectorCount(4, 'div[role=tabpanel]');
+        $this->assertSelectorCount(5, 'div[role=tabpanel]');
     }
 
     public function testTabInfosContent(): void
@@ -153,7 +153,21 @@ class UserControllerTest extends WebTestCase implements ControllerTestInterface
 
         // Test link delete (stimulus target)
         $this->assertSelectorExists('p#counter-delete');
-                $this->assertSelectorExists('a[data-action="account#deleteUserAccount"]');
+        $this->assertSelectorExists('a[data-action="account#deleteUserAccount"]');
         $this->assertSelectorExists('a[data-account-target=btnDelete]');
      }
+
+    public function testTabExportsUserContent(): void
+    {
+        $client = static::createClient();
+
+        // Login User
+        $testUser = $this->getTestUser();
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/user');
+
+        // Test link scantheque export (stimulus action)
+        $this->assertSelectorExists('a[data-action="account#exportScantheque"]');
+    }
 }

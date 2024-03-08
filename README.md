@@ -22,9 +22,9 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 - [x] Consulter le détail d'un manga
 - [x] Gérer son suivi depuis une scanthèque
 - [x] Calendrier de sortie de mangas
-- [ ] Exporter sa scanthèque
-- [ ] Activer des notifications hebdomaires sur les prochaines sorties
+- [x] Exporter sa scanthèque
 - [ ] Authentification avec Google
+- [ ] Activer des notifications hebdomaires sur les prochaines sorties
 - [ ] Inscription ouvert
 
 ## Pour commencer
@@ -86,6 +86,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 * [fakerphp/faker](https://github.com/FakerPHP/Faker) - Librairie PHP
 * [easycorp/easyadmin-bundle](https://symfony.com/bundles/EasyAdminBundle/current/index.html) - Générateur d'administrateur pour Symfony
 * [knplabs/knp-paginator-bundle](https://github.com/KnpLabs/KnpPaginatorBundle) - Bundle de pagination
+* [phpoffice/phpspreadsheet](https://github.com/PHPOffice/PhpSpreadsheet) - Librairie PHP (Xls, Csv, Pdf, etc.)
 * [symfony/stimulus-bundle](https://symfony.com/bundles/StimulusBundle/current/index.html) - Framework Javascript
 * [stimulus-use](https://stimulus-use.github.io/stimulus-use/#/) - Collection de composants Stimulus
 * [symfony/ux-twig-component](https://symfony.com/bundles/ux-twig-component/current/index.html)
