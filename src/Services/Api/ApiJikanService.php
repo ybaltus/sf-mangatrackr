@@ -121,6 +121,8 @@ final class ApiJikanService extends ApiServiceAbstract
          */
         $manga->setTitle($result['malTitle'])
             ->setTitleAlternative($result['malTitleAlternative'])
+            ->setTitleEnglish($result['malTitleEnglish'])
+            ->setTitleSynonym($result['malTitleSynonym'])
             ->setNbChapters($result['malChapters'] ?? 1)
             ->setDescription($result['malDescription'])
             ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
@@ -222,6 +224,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'malId' => $result['mal_id'],
             'malTitle' => $result['title'],
             'malTitleAlternative' => $result['title_japanese'],
+            'malTitleEnglish' => $result['title_english'] ?? null,
+            'malTitleSynonym' => $result['title_synonyms'][0] ?? null,
             'malStatus' => $result['status'],
             'malDescription' => $result['synopsis'],
             'malUrl' => $result['url'],
