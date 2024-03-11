@@ -97,6 +97,15 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         );
 
         /**
+         * Check if the manga already exists by other titles.
+         *
+         * @var Manga|bool $manga
+         */
+        if (!$manga) {
+            $manga = $this->verifyIfExistWithOtherTitles($releaseDatas['title']);
+        }
+
+        /**
          * Check if the manga already exists by metadata series_id.
          * Because $releaseDatas['title'] can be different to metadata title.
          *
@@ -210,6 +219,11 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             $result['muTitle'],
             true
         );
+
+        // Check if the manga already exists by other titles
+        if (!$manga) {
+            $manga = $this->verifyIfExistWithOtherTitles($result['muTitle']);
+        }
 
         // Set manga datas
         if (!$manga) {
@@ -331,6 +345,19 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         $releaseEntity = $repository->findOneByMuSeriesId($metadataSeriesId);
         if ($releaseEntity) {
             return $releaseEntity->getManga();
+        }
+
+        return false;
+    }
+
+    private function verifyIfExistWithOtherTitles(string $title): bool|Manga
+    {
+        $mangaRepository = $this->em->getRepository(Manga::class);
+
+        $results = $mangaRepository->searchByTitles($title);
+
+        if ($results) {
+            return $results[0];
         }
 
         return false;

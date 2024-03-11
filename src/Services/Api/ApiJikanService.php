@@ -104,7 +104,7 @@ final class ApiJikanService extends ApiServiceAbstract
     {
         $result = $this->extractDatas($mangaDatas);
 
-        // Check if the manga already exists
+        // Check if the manga already exists by title
         $manga = $this->verifyIfExistInDb(
             Manga::class,
             $result['malTitle'],
