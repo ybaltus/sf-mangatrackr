@@ -175,7 +175,7 @@ module.exports = {
                 'manga-scantheque-mob': '100%',
                 'manga-scantheque-desk': '100%',
                 'manga-detail-mob': '50%',
-                'manga-detail-tab': '60%',
+                'manga-detail-tab': '80%',
                 'manga-detail-desk': '60%',
                 'img-jumbotron-mob': '16rem',
                 'img-jumbotron-tab': '27rem',
