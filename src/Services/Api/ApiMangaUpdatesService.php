@@ -125,8 +125,8 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
 
             // Get chapter
             $chapter = $releaseDatas['chapter'];
-            if (str_contains($chapter, 'a')) {
-                $chapter = str_replace('a', '.5', $chapter);
+            if (str_contains($chapter, 'a') || str_contains($chapter, 'b') || str_contains($chapter, 'c')) {
+                $chapter = str_replace(['a', 'b', 'c'], '.5', $chapter);
             }
 
             // Set calendar data
@@ -140,9 +140,13 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             // Edit nbChapters for the manga
             $multipleChapter = explode('-', $chapter);
             if (count($multipleChapter) > 1) {
-                $manga->setNbChapters(floatval($multipleChapter[1]));
+                $newMaxChapter = floatval($multipleChapter[1]);
             } else {
-                $manga->setNbChapters(floatval($chapter));
+                $newMaxChapter = floatval($chapter);
+            }
+
+            if ($manga->getNbChapters() < $newMaxChapter) {
+                $manga->setNbChapters($newMaxChapter);
             }
 
             // Save in DB

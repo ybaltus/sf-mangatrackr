@@ -115,7 +115,13 @@ final class ApiJikanService extends ApiServiceAbstract
             $manga = new Manga();
         }
 
+        // TODO Vérifier la date pour éviter les doublons
+
         // Set manga datas
+        $startPublishedAt = $result['malStartPublishedAt'] ?
+            new \DateTimeImmutable($result['malStartPublishedAt']) : null;
+        $endPublishedAt = $result['malEndPublishedAt'] ?
+            new \DateTimeImmutable($result['malEndPublishedAt']) : null;
         /**
          * @var Manga $manga
          */
@@ -123,12 +129,17 @@ final class ApiJikanService extends ApiServiceAbstract
             ->setTitleAlternative($result['malTitleAlternative'])
             ->setTitleEnglish($result['malTitleEnglish'])
             ->setTitleSynonym($result['malTitleSynonym'])
-            ->setNbChapters($result['malChapters'] ?? 1)
             ->setDescription($result['malDescription'])
             ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
-            ->setPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
+            ->setPublishedAt($startPublishedAt)
             ->setIsAdult($this->checkIfAdult($result['malGenres']))
         ;
+
+        // Set max chapter
+        $newMaxChapter = $result['malChapters'] ? floatval($result['malChapters']) : 1;
+        if ($manga->getNbChapters() < $newMaxChapter) {
+            $manga->setNbChapters($newMaxChapter);
+        }
 
         // Set MangaType for manga entity
         foreach ($result['malGenres'] as $genreName) {
@@ -183,6 +194,7 @@ final class ApiJikanService extends ApiServiceAbstract
         if (!$mangaJikanApi) {
             $mangaJikanApi = new MangaJikanAPI();
         }
+
         $mangaJikanApi
             ->setManga($manga)
             ->setMalId($result['malId'])
@@ -194,8 +206,8 @@ final class ApiJikanService extends ApiServiceAbstract
             ->setMalImgWebpLarge($result['malImgWebpLarge'])
             ->setMalChapters($result['malChapters'])
             ->setMalVolume($result['malVolumes'])
-            ->setMalStartPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
-            ->setMalEndPublishedAt(new \DateTimeImmutable($result['malEndPublishedAt']))
+            ->setMalStartPublishedAt($startPublishedAt)
+            ->setMalEndPublishedAt($endPublishedAt)
             ->setMalDemographics($result['malDemographics'])
             ->setMalGenres($result['malGenres'])
             ->setMalSerializations($result['malSerializations'])
@@ -235,8 +247,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'malImgWebpLarge' => $result['images']['webp']['large_image_url'] ?? null,
             'malChapters' => $result['chapters'],
             'malVolumes' => $result['volumes'],
-            'malStartPublishedAt' => $result['published']['from'] ?? 'now',
-            'malEndPublishedAt' => $result['published']['to'] ?? 'now',
+            'malStartPublishedAt' => $result['published']['from'],
+            'malEndPublishedAt' => $result['published']['to'],
             'malDemographics' => $this->extractDatasFromArray($result['demographics'], 'name'), // array
             'malGenres' => $this->extractDatasFromArray($result['genres'], 'name'), // array
             'malSerializations' => $this->extractDatasFromArray($result['serializations'], 'name'), // array
