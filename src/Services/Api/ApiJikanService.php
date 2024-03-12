@@ -8,6 +8,7 @@ use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ApiJikanService extends ApiServiceAbstract
@@ -104,29 +105,47 @@ final class ApiJikanService extends ApiServiceAbstract
     {
         $result = $this->extractDatas($mangaDatas);
 
-        // Check if the manga already exists
+        // Check if the manga already exists by title
         $manga = $this->verifyIfExistInDb(
             Manga::class,
             $result['malTitle'],
             true
         );
 
+        /**
+         * @var Manga|bool $manga
+         */
         if (!$manga) {
             $manga = new Manga();
+        } elseif (!in_array($manga->getAuthor(), $result['malAuthors'])) {
+            // Because there can be two mangas with the same title. So we check with the malId
+            $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId']);
         }
 
         // Set manga datas
+        $startPublishedAt = $result['malStartPublishedAt'] ?
+            new \DateTimeImmutable($result['malStartPublishedAt']) : null;
+        $endPublishedAt = $result['malEndPublishedAt'] ?
+            new \DateTimeImmutable($result['malEndPublishedAt']) : null;
+
         /**
          * @var Manga $manga
          */
         $manga->setTitle($result['malTitle'])
             ->setTitleAlternative($result['malTitleAlternative'])
-            ->setNbChapters($result['malChapters'] ?? 1)
+            ->setTitleEnglish($result['malTitleEnglish'])
+            ->setTitleSynonym($result['malTitleSynonym'])
             ->setDescription($result['malDescription'])
             ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
-            ->setPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
+            ->setPublishedAt($startPublishedAt)
             ->setIsAdult($this->checkIfAdult($result['malGenres']))
         ;
+
+        // Set max chapter
+        $newMaxChapter = $result['malChapters'] ? floatval($result['malChapters']) : 1;
+        if ($manga->getNbChapters() < $newMaxChapter) {
+            $manga->setNbChapters($newMaxChapter);
+        }
 
         // Set MangaType for manga entity
         foreach ($result['malGenres'] as $genreName) {
@@ -181,6 +200,7 @@ final class ApiJikanService extends ApiServiceAbstract
         if (!$mangaJikanApi) {
             $mangaJikanApi = new MangaJikanAPI();
         }
+
         $mangaJikanApi
             ->setManga($manga)
             ->setMalId($result['malId'])
@@ -192,8 +212,8 @@ final class ApiJikanService extends ApiServiceAbstract
             ->setMalImgWebpLarge($result['malImgWebpLarge'])
             ->setMalChapters($result['malChapters'])
             ->setMalVolume($result['malVolumes'])
-            ->setMalStartPublishedAt(new \DateTimeImmutable($result['malStartPublishedAt']))
-            ->setMalEndPublishedAt(new \DateTimeImmutable($result['malEndPublishedAt']))
+            ->setMalStartPublishedAt($startPublishedAt)
+            ->setMalEndPublishedAt($endPublishedAt)
             ->setMalDemographics($result['malDemographics'])
             ->setMalGenres($result['malGenres'])
             ->setMalSerializations($result['malSerializations'])
@@ -222,6 +242,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'malId' => $result['mal_id'],
             'malTitle' => $result['title'],
             'malTitleAlternative' => $result['title_japanese'],
+            'malTitleEnglish' => $result['title_english'] ?? null,
+            'malTitleSynonym' => $result['title_synonyms'][0] ?? null,
             'malStatus' => $result['status'],
             'malDescription' => $result['synopsis'],
             'malUrl' => $result['url'],
@@ -231,8 +253,8 @@ final class ApiJikanService extends ApiServiceAbstract
             'malImgWebpLarge' => $result['images']['webp']['large_image_url'] ?? null,
             'malChapters' => $result['chapters'],
             'malVolumes' => $result['volumes'],
-            'malStartPublishedAt' => $result['published']['from'] ?? 'now',
-            'malEndPublishedAt' => $result['published']['to'] ?? 'now',
+            'malStartPublishedAt' => $result['published']['from'],
+            'malEndPublishedAt' => $result['published']['to'],
             'malDemographics' => $this->extractDatasFromArray($result['demographics'], 'name'), // array
             'malGenres' => $this->extractDatasFromArray($result['genres'], 'name'), // array
             'malSerializations' => $this->extractDatasFromArray($result['serializations'], 'name'), // array
@@ -241,5 +263,21 @@ final class ApiJikanService extends ApiServiceAbstract
             'malScoredBy' => $result['scored_by'] ?? null,
             'malRank' => $result['rank'] ?? null,
         ];
+    }
+
+    private function verifyByTitleAndMalId(string $title, string $malId): Manga
+    {
+        // Search with slug+mal_id
+        $slugger = new AsciiSlugger();
+        $titleSlug = $slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
+        $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);
+
+        if (!$manga) {
+            $manga = (new Manga())
+            ->setTitleSlug($titleSlug)
+            ;
+        }
+
+        return $manga;
     }
 }

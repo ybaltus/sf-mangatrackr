@@ -47,22 +47,25 @@ class MangaController extends AbstractController
 
             if ($searchTerm && strlen($searchTerm) >= 3) {
                 if ($isAdvancedSearch) {
-                    // Save manga names to avoid duplication
-                    $tmpMangaNames = [];
+                    // Save manga id to avoid duplication
+                    $tmpMangasId = [];
 
                     // First - We use Jikan API
                     $jikanResults = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
-                    foreach ($jikanResults as $manga) {
-                        $tmpMangaNames[] = $manga['title'];
-                        $mangas[] = $apiJikanService->saveMangaDatasInDb($manga);
+                    foreach ($jikanResults as $result) {
+                        $manga = $apiJikanService->saveMangaDatasInDb($result);
+                        if (!in_array($manga->getId(), $tmpMangasId)) {
+                            $mangas[] = $manga;
+                            $tmpMangasId[] = $manga->getId();
+                        }
                     }
 
                     // Second - We use MangaUpdates API
                     $mangaUpdatesResults = $apiMangaUpdatesService->fetchMangaByTitle($searchTerm);
-                    foreach ($mangaUpdatesResults as $manga) {
-                        $mangaEntity = $apiMangaUpdatesService->saveMangaDatasInDb($manga);
-                        if (!in_array($mangaEntity->getTitle(), $tmpMangaNames)) {
-                            $tmpMangaNames[] = $manga['record']['title'];
+                    foreach ($mangaUpdatesResults as $result) {
+                        $mangaEntity = $apiMangaUpdatesService->saveMangaDatasInDb($result);
+                        if (!in_array($mangaEntity->getId(), $tmpMangasId)) {
+                            $tmpMangasId[] = $mangaEntity->getId();
                             $mangas[] = $mangaEntity;
                         }
                     }
@@ -73,21 +76,21 @@ class MangaController extends AbstractController
         }
 
         return $this->render('components/htmx/mangas_list.html.twig', [
-        'mangasSearch' => $mangas,
-        'hasError' => $hasError,
-        'searchTerm' => $searchTerm,
+            'mangasSearch' => $mangas,
+            'hasError' => $hasError,
+            'searchTerm' => $searchTerm,
         ]);
     }
 
     private function validateSearchTerm(string $searchTerm, ValidatorInterface $validator): mixed
     {
         return $validator->validate($searchTerm, [
-        new Assert\Length([
-            'min' => 3,
-            'max' => 50,
-        ]),
-        new Assert\NotBlank(),
-        new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
+            new Assert\Length([
+                'min' => 3,
+                'max' => 50,
+            ]),
+            new Assert\NotBlank(),
+            new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
         ]);
     }
 }

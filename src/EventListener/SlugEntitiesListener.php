@@ -65,10 +65,13 @@ class SlugEntitiesListener
             $entity->setNameSlug($this->slugger->slug($entity->getName())->lower());
         }
 
+        /**
+         * @var Manga|MangaStatus $entity
+         */
         if ($hasTitleSlug) {
-            /**
-             * @var Manga|MangaStatus $entity
-             */
+            if ($entity instanceof Manga && $entity->getTitleSlug()) {
+                return;
+            }
             $entity->setTitleSlug($this->slugger->slug($entity->getTitle())->lower());
         }
     }

@@ -49,7 +49,7 @@
                 {# Image #}
                 <div>
                     <img
-                            class="mx-auto w-manga-detail-mob md:w-manga-detail-desk lg:w-manga-detail-desk h-manga-detail-mob md:h-manga-detail-desk lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob md:rounded-manga-scantheque-tab lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3"
+                            class="mx-auto w-manga-detail-mob md:w-manga-detail-tab lg:w-manga-detail-desk h-manga-detail-mob md:h-manga-detail-desk lg:h-manga-detail-desk p-manga-card rounded-manga-scantheque-mob md:rounded-manga-scantheque-tab lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3"
                             {% if manga.mangaJikanAPI %}
                                 src="{{ manga.mangaJikanAPI.malImgWebp }}"
                             {% elseif manga.mangaMangaUpdatesAPI %}
@@ -96,7 +96,7 @@
                 </div>
                 {# Description #}
                 <p class="my-12 lg:max-w-3xl font-sora-regular text-left md:text-start lg:text-start text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
-                    {{manga.description}}
+                    {{manga.description|raw}}
                 </p>
                 {# Characteristics #}
                 <ul class="my-14 lg:my-28 lg:max-w-xl text-p-characteristics-mob md:text-p-characteristics-tab lg:text-p-characteristics-desk font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-gray2">

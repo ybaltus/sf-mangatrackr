@@ -17,9 +17,9 @@ final class NavBarComponent
      */
     public array $menus = [
         'home_index' => 'Accueil',
+        'calendar_index' => 'Calendrier',
         'catalog_index' => 'Catalogue',
         'scantheque_index' => 'Scanthèque',
-        'calendar_index' => 'Calendrier',
         'about_index' => 'À propos',
     ];
 }

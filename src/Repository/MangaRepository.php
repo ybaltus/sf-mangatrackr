@@ -118,8 +118,22 @@ class MangaRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()
-        ->setMaxResults($maxResults)
-        ->getResult();
+            ->setMaxResults($maxResults)
+            ->getResult();
+    }
+
+    /**
+     * @return Manga[]
+     */
+    public function searchByTitles(string $title): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.titleSynonym LIKE :title')
+            ->orWhere('m.titleEnglish LIKE :title')
+            ->setParameter('title', $title.'%')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     //    /**

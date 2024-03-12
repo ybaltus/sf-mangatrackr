@@ -20,25 +20,25 @@ class Manga
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 2,
-        max: 180
+        max: 255
     )]
-    private string $title;
+    private ?string $title;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\Length(
         min: 2,
-        max: 180
+        max: 255
     )]
-    private string $titleSlug;
+    private ?string $titleSlug = null;
 
-    #[ORM\Column(length: 180, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
         min: 2,
-        max: 180
+        max: 255
     )]
     private ?string $titleAlternative = null;
 
@@ -127,6 +127,12 @@ class Manga
     #[ORM\OneToOne(mappedBy: 'manga', cascade: ['persist', 'remove'])]
     private ?MangaMangaUpdatesAPI $mangaMangaUpdatesAPI = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $titleEnglish = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $titleSynonym = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -145,7 +151,7 @@ class Manga
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
@@ -157,7 +163,7 @@ class Manga
         return $this->titleSlug;
     }
 
-    public function setTitleSlug(string $titleSlug): static
+    public function setTitleSlug(?string $titleSlug): static
     {
         $this->titleSlug = $titleSlug;
 
@@ -462,6 +468,30 @@ class Manga
         }
 
         $this->mangaMangaUpdatesAPI = $mangaMangaUpdatesAPI;
+
+        return $this;
+    }
+
+    public function getTitleEnglish(): ?string
+    {
+        return $this->titleEnglish;
+    }
+
+    public function setTitleEnglish(?string $titleEnglish): static
+    {
+        $this->titleEnglish = $titleEnglish;
+
+        return $this;
+    }
+
+    public function getTitleSynonym(): ?string
+    {
+        return $this->titleSynonym;
+    }
+
+    public function setTitleSynonym(?string $titleSynonym): static
+    {
+        $this->titleSynonym = $titleSynonym;
 
         return $this;
     }

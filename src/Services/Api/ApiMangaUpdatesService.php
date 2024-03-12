@@ -84,6 +84,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         // Extract record and metadata
         $releaseMetaDatas = $releases['metadata'];
         $releaseDatas = $releases['record'];
+        $titleHtmlEntityDecode = html_entity_decode($releaseDatas['title']);
 
         /**
          * Check if the manga already exists by title.
@@ -92,9 +93,18 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
          */
         $manga = $this->verifyIfExistInDb(
             Manga::class,
-            $releaseDatas['title'],
+            $titleHtmlEntityDecode,
             true
         );
+
+        /**
+         * Check if the manga already exists by other titles.
+         *
+         * @var Manga|bool $manga
+         */
+        if (!$manga) {
+            $manga = $this->verifyIfExistWithOtherTitles($titleHtmlEntityDecode);
+        }
 
         /**
          * Check if the manga already exists by metadata series_id.
@@ -125,8 +135,8 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
 
             // Get chapter
             $chapter = $releaseDatas['chapter'];
-            if (str_contains($chapter, 'a')) {
-                $chapter = str_replace('a', '.5', $chapter);
+            if (str_contains($chapter, 'a') || str_contains($chapter, 'b') || str_contains($chapter, 'c')) {
+                $chapter = str_replace(['a', 'b', 'c'], '.5', $chapter);
             }
 
             // Set calendar data
@@ -140,9 +150,13 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             // Edit nbChapters for the manga
             $multipleChapter = explode('-', $chapter);
             if (count($multipleChapter) > 1) {
-                $manga->setNbChapters(floatval($multipleChapter[1]));
+                $newMaxChapter = floatval($multipleChapter[1]);
             } else {
-                $manga->setNbChapters(floatval($chapter));
+                $newMaxChapter = floatval($chapter);
+            }
+
+            if ($manga->getNbChapters() < $newMaxChapter) {
+                $manga->setNbChapters($newMaxChapter);
             }
 
             // Save in DB
@@ -206,6 +220,11 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
             $result['muTitle'],
             true
         );
+
+        // Check if the manga already exists by other titles
+        if (!$manga) {
+            $manga = $this->verifyIfExistWithOtherTitles($result['muTitle']);
+        }
 
         // Set manga datas
         if (!$manga) {
@@ -300,7 +319,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
 
         return [
             'muSeriesId' => $result['series_id'],
-            'muTitle' => $result['title'],
+            'muTitle' => html_entity_decode($result['title']),
             'muUrl' => $result['url'],
             'muDescription' => $result['description'],
             'muImgJpg' => $muImgJpg,
@@ -327,6 +346,19 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         $releaseEntity = $repository->findOneByMuSeriesId($metadataSeriesId);
         if ($releaseEntity) {
             return $releaseEntity->getManga();
+        }
+
+        return false;
+    }
+
+    private function verifyIfExistWithOtherTitles(string $title): bool|Manga
+    {
+        $mangaRepository = $this->em->getRepository(Manga::class);
+
+        $results = $mangaRepository->searchByTitles($title);
+
+        if ($results) {
+            return $results[0];
         }
 
         return false;
