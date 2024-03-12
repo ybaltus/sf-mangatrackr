@@ -84,6 +84,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
         // Extract record and metadata
         $releaseMetaDatas = $releases['metadata'];
         $releaseDatas = $releases['record'];
+        $titleHtmlEntityDecode = html_entity_decode($releaseDatas['title']);
 
         /**
          * Check if the manga already exists by title.
@@ -92,7 +93,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
          */
         $manga = $this->verifyIfExistInDb(
             Manga::class,
-            $releaseDatas['title'],
+            $titleHtmlEntityDecode,
             true
         );
 
@@ -102,7 +103,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
          * @var Manga|bool $manga
          */
         if (!$manga) {
-            $manga = $this->verifyIfExistWithOtherTitles($releaseDatas['title']);
+            $manga = $this->verifyIfExistWithOtherTitles($titleHtmlEntityDecode);
         }
 
         /**
@@ -318,7 +319,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
 
         return [
             'muSeriesId' => $result['series_id'],
-            'muTitle' => $result['title'],
+            'muTitle' => html_entity_decode($result['title']),
             'muUrl' => $result['url'],
             'muDescription' => $result['description'],
             'muImgJpg' => $muImgJpg,

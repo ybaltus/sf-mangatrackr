@@ -8,6 +8,7 @@ use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ApiJikanService extends ApiServiceAbstract
@@ -111,17 +112,22 @@ final class ApiJikanService extends ApiServiceAbstract
             true
         );
 
+        /**
+         * @var Manga|bool $manga
+         */
         if (!$manga) {
             $manga = new Manga();
+        } elseif (!in_array($manga->getAuthor(), $result['malAuthors'])) {
+            // Because there can be two mangas with the same title. So we check with the malId
+            $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId']);
         }
-
-        // TODO Vérifier la date pour éviter les doublons
 
         // Set manga datas
         $startPublishedAt = $result['malStartPublishedAt'] ?
             new \DateTimeImmutable($result['malStartPublishedAt']) : null;
         $endPublishedAt = $result['malEndPublishedAt'] ?
             new \DateTimeImmutable($result['malEndPublishedAt']) : null;
+
         /**
          * @var Manga $manga
          */
@@ -257,5 +263,21 @@ final class ApiJikanService extends ApiServiceAbstract
             'malScoredBy' => $result['scored_by'] ?? null,
             'malRank' => $result['rank'] ?? null,
         ];
+    }
+
+    private function verifyByTitleAndMalId(string $title, string $malId): Manga
+    {
+        // Search with slug+mal_id
+        $slugger = new AsciiSlugger();
+        $titleSlug = $slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
+        $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);
+
+        if (!$manga) {
+            $manga = (new Manga())
+            ->setTitleSlug($titleSlug)
+            ;
+        }
+
+        return $manga;
     }
 }

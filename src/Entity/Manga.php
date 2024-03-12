@@ -26,14 +26,14 @@ class Manga
         min: 2,
         max: 255
     )]
-    private string $title;
+    private ?string $title;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\Length(
         min: 2,
         max: 255
     )]
-    private string $titleSlug;
+    private ?string $titleSlug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
@@ -151,7 +151,7 @@ class Manga
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
@@ -163,7 +163,7 @@ class Manga
         return $this->titleSlug;
     }
 
-    public function setTitleSlug(string $titleSlug): static
+    public function setTitleSlug(?string $titleSlug): static
     {
         $this->titleSlug = $titleSlug;
 
