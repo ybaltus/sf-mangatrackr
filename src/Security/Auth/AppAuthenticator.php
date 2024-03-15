@@ -2,6 +2,8 @@
 
 namespace App\Security\Auth;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +24,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'security_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private UserRepository $userRepository)
     {
     }
 
@@ -47,6 +49,15 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+
+        /**
+         * Save current date for lastConnectedAt field of user.
+         *
+         * @var User $user
+         */
+        $user = $token->getUser();
+        $user->setLastConnectedAt(new \DateTimeImmutable());
+        $this->userRepository->flush();
 
         return new RedirectResponse($this->urlGenerator->generate('scantheque_index'));
     }

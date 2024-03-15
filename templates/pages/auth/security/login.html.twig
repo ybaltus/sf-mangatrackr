@@ -23,15 +23,34 @@
                     {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
             {% endif %}
-            <div
-                    class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray"
-            >
-                <div
-                        class="p-6 space-y-4 md:space-y-6"
-                >
-                    <form method="post"
-                          class="space-y-6 lg:space-y-8"
-                    >
+
+            <div class="w-full rounded-forms shadow md:mt-0 sm:max-w-3xl xl:p-0 border-forms border-app-clear-gray3 bg-app-clear-white dark:bg-app-dark-gray">
+                <div class="p-6 space-y-4 md:space-y-6">
+                    {# OAuth #}
+                    <div class="flex justify-center">
+                        <a
+                                href="{{ path('security_oauth_connect', {provider: 'google'}) }}"
+                                class="mx-auto inline-flex rounded-lg items-center justify-center p-5 border-2 border-app-clear-purple3 dark:border-app-dark-purple text-cta-mob md:text-cta-tab lg:text-cta-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white hover:dark:text-app-dark-black hover:bg-app-clear-gray3 dark:hover:bg-app-clear-gray2"
+                                title="Se connecter avec Google"
+                        >
+                            <svg
+                                    class="w-6 h-6 me-3"
+                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M12.037 21.998a10.313 10.313 0 0 1-7.168-3.049 9.888 9.888 0 0 1-2.868-7.118 9.947 9.947 0 0 1 3.064-6.949A10.37 10.37 0 0 1 12.212 2h.176a9.935 9.935 0 0 1 6.614 2.564L16.457 6.88a6.187 6.187 0 0 0-4.131-1.566 6.9 6.9 0 0 0-4.794 1.913 6.618 6.618 0 0 0-2.045 4.657 6.608 6.608 0 0 0 1.882 4.723 6.891 6.891 0 0 0 4.725 2.07h.143c1.41.072 2.8-.354 3.917-1.2a5.77 5.77 0 0 0 2.172-3.41l.043-.117H12.22v-3.41h9.678c.075.617.109 1.238.1 1.859-.099 5.741-4.017 9.6-9.746 9.6l-.215-.002Z" clip-rule="evenodd"/>
+                            </svg>
+
+                            <span class="w-full">Se connecter avec Google</span>
+                        </a>
+                    </div>
+                    <div class="inline-flex items-center justify-center w-full">
+                        <hr class="w-[80%] h-px my-8 bg-app-clear-gray3 border-2 dark:bg-app-dark-gray1">
+                        <span class="absolute px-3 font-sora-regular text-app-clear-black -translate-x-1/2 bg-app-clear-white left-1/2 dark:text-app-dark-gray2 dark:bg-app-dark-gray">OU</span>
+                    </div>
+
+                    <form method="post" class="space-y-6 lg:space-y-8">
                         <div>
                             <label
                                     for="inputEmail"
