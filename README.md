@@ -24,7 +24,8 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 - [x] Calendrier de sortie de mangas
 - [x] Exporter sa scanthèque
 - [ ] Authentification avec Google
-- [ ] Activer des notifications hebdomaires sur les prochaines sorties
+- [ ] Traduction Anglais et Français
+- [ ] Améliorer les fonctionnalités existantes
 - [ ] Inscription ouvert
 
 ## Pour commencer
@@ -83,6 +84,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 * MariaDB
 * [doctrine/doctrine-fixtures-bundle](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html)
 * [symfony/webpack-encore-bundle](https://symfony.com/doc/6.4/frontend/encore/index.html) - Module Bundler
+* [knpuniversity/oauth2-client-bundle](https://github.com/knpuniversity/oauth2-client-bundle?tab=readme-ov-file) - OAuth2 client
 * [fakerphp/faker](https://github.com/FakerPHP/Faker) - Librairie PHP
 * [easycorp/easyadmin-bundle](https://symfony.com/bundles/EasyAdminBundle/current/index.html) - Générateur d'administrateur pour Symfony
 * [knplabs/knp-paginator-bundle](https://github.com/KnpLabs/KnpPaginatorBundle) - Bundle de pagination
