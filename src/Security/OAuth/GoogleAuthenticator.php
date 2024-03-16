@@ -24,11 +24,7 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
             throw new \LogicException('Email must be verified');
         }
 
-        /**
-         * @var GoogleUser $resourceOwner
-         */
         return $userRepository->findOneBy([
-            'idGoogle' => $resourceOwner->getId(),
             'email' => $resourceOwner->getEmail(),
         ]);
     }
