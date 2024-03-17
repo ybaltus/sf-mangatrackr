@@ -11,6 +11,7 @@ parameters:
     app_team_name_2: '%env(APP_TEAM_NAME_2)%'
     api_jikan_url: '%env(API_JIKAN_URL)%'
     api_manga_updates_url: '%env(API_MANGA_UPDATES_URL)%'
+    oauth_test_emails: '%env(OAUTH_TEST_EMAILS)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,3 +37,7 @@ services:
     App\Services\Api\ApiMangaUpdatesService:
         arguments:
             $apiMangaUpdatesUrl: '%api_manga_updates_url%'
+
+    App\Security\OAuth\GoogleAuthenticator:
+        arguments:
+            $oauthTestEmails: '%oauth_test_emails%'

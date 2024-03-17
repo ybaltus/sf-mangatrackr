@@ -16,11 +16,16 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\Auth\AppAuthenticator
+            custom_authenticator:
+                - App\Security\Auth\AppAuthenticator
+                - App\Security\OAuth\GoogleAuthenticator
+
+            entry_point: App\Security\Auth\AppAuthenticator
+
             logout:
                 path: security_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: security_login
 
             remember_me:
                 secret: '%kernel.secret%'

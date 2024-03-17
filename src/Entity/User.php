@@ -83,6 +83,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserResetPassword::class, orphanRemoval: true)]
     private Collection $userResetPasswords;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $idGoogle = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastConnectedAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -329,6 +335,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeUserResetPassword(UserResetPassword $userResetPassword): static
     {
         $this->userResetPasswords->removeElement($userResetPassword);
+
+        return $this;
+    }
+
+    public function getIdGoogle(): ?string
+    {
+        return $this->idGoogle;
+    }
+
+    public function setIdGoogle(?string $idGoogle): static
+    {
+        $this->idGoogle = $idGoogle;
+
+        return $this;
+    }
+
+    public function getLastConnectedAt(): ?\DateTimeImmutable
+    {
+        return $this->lastConnectedAt;
+    }
+
+    public function setLastConnectedAt(?\DateTimeImmutable $lastConnectedAt): static
+    {
+        $this->lastConnectedAt = $lastConnectedAt;
 
         return $this;
     }

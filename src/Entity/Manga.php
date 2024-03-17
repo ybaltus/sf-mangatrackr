@@ -133,6 +133,12 @@ class Manga
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titleSynonym = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $nbVolumes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastReleasedAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -492,6 +498,30 @@ class Manga
     public function setTitleSynonym(?string $titleSynonym): static
     {
         $this->titleSynonym = $titleSynonym;
+
+        return $this;
+    }
+
+    public function getNbVolumes(): ?int
+    {
+        return $this->nbVolumes;
+    }
+
+    public function setNbVolumes(?int $nbVolumes): static
+    {
+        $this->nbVolumes = $nbVolumes;
+
+        return $this;
+    }
+
+    public function getLastReleasedAt(): ?\DateTimeImmutable
+    {
+        return $this->lastReleasedAt;
+    }
+
+    public function setLastReleasedAt(?\DateTimeImmutable $lastReleasedAt): static
+    {
+        $this->lastReleasedAt = $lastReleasedAt;
 
         return $this;
     }

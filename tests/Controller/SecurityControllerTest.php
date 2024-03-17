@@ -79,10 +79,10 @@ class SecurityControllerTest extends WebTestCase implements ControllerTestInterf
 
         $crawler = $client->request('GET', '/logout');
 
-        $this->assertResponseRedirects('/', 302);
+        $this->assertResponseRedirects('/login', 302);
 
         // Follow redirect
         $client->followRedirect();
-        $this->assertSelectorTextContains('h1', 'Synchronisez votre passion pour les mangas !');
+        $this->assertSelectorTextContains('h1', 'Se connecter');
     }
 }

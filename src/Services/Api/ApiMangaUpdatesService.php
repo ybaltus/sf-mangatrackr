@@ -10,7 +10,7 @@ use App\Entity\ReleaseMangaUpdatesAPI;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiMangaUpdatesService extends ApiServiceAbstract
+final class ApiMangaUpdatesService extends AbstractApiService
 {
     public string $baseUrl;
     public const LIMIT_SEARCH = 15;
@@ -147,7 +147,7 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
                 ->setReleasedAt($releaseDate)
             ;
 
-            // Edit nbChapters for the manga
+            // Edit nbChapters, nbVolumes and lastReleasedAt for the manga
             $multipleChapter = explode('-', $chapter);
             if (count($multipleChapter) > 1) {
                 $newMaxChapter = floatval($multipleChapter[1]);
@@ -157,6 +157,19 @@ final class ApiMangaUpdatesService extends ApiServiceAbstract
 
             if ($manga->getNbChapters() < $newMaxChapter) {
                 $manga->setNbChapters($newMaxChapter);
+            }
+
+            // Edit nbVolumes for the manga
+            if (
+                !$manga->getNbVolumes()
+                || ($releaseDatas['volume'] && $manga->getNbVolumes() < (int) $releaseDatas['volume'])
+            ) {
+                $manga->setNbVolumes($releaseDatas['volume']);
+            }
+
+            // Edit lastReleasedAt for the manga
+            if (!$manga->getLastReleasedAt() || $manga->getLastReleasedAt() < $releaseDate) {
+                $manga->setLastReleasedAt($releaseDate);
             }
 
             // Save in DB
