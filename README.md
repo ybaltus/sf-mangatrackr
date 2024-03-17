@@ -23,7 +23,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 - [x] Gérer son suivi depuis une scanthèque
 - [x] Calendrier de sortie de mangas
 - [x] Exporter sa scanthèque
-- [ ] Authentification avec Google
+- [x] Authentification avec Google
 - [ ] Traduction Anglais et Français
 - [ ] Améliorer les fonctionnalités existantes
 - [ ] Inscription ouvert
