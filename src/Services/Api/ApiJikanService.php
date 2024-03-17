@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiJikanService extends ApiServiceAbstract
+final class ApiJikanService extends AbstractApiService
 {
     public string $baseUrl;
     public const LIMIT_SEARCH = 15;
