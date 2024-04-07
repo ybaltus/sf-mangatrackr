@@ -8,7 +8,7 @@ use App\Entity\MangaJikanAPI;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ApiJikanService extends AbstractApiService
@@ -19,9 +19,10 @@ final class ApiJikanService extends AbstractApiService
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
-        private readonly string $apiJikanUrl
+        private readonly SluggerInterface $slugger,
+        private readonly string $apiJikanUrl,
     ) {
-        parent::__construct($this->httpClient, $this->em);
+        parent::__construct($this->httpClient, $this->em, $this->slugger);
         $this->baseUrl = $this->apiJikanUrl;
     }
 
@@ -105,21 +106,21 @@ final class ApiJikanService extends AbstractApiService
     {
         $result = $this->extractDatas($mangaDatas);
 
-        // Check if the manga already exists by title
-        $manga = $this->verifyIfExistInDb(
-            Manga::class,
+        // Check if the manga already exists by title and type
+        $manga = $this->verifyIfMangaExistInDb(
             $result['malTitle'],
-            true
+            $result['malCategory']
         );
 
         /**
          * @var Manga|bool $manga
          */
         if (!$manga) {
-            $manga = new Manga();
+            $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId'], false, true);
         } elseif (!in_array($manga->getAuthor(), $result['malAuthors'])) {
-            // Because there can be two mangas with the same title. So we check with the malId
-            $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId']);
+            // Because there can be two mangas with the same title and category but not the same author.
+            // So we check with the malId
+            $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId'], true);
         }
 
         // Set manga datas
@@ -136,6 +137,7 @@ final class ApiJikanService extends AbstractApiService
             ->setTitleEnglish($result['malTitleEnglish'])
             ->setTitleSynonym($result['malTitleSynonym'])
             ->setDescription($result['malDescription'])
+            ->setCategory($this->getMangaCategory($result['malCategory']))
             ->setAuthor($result['malAuthors'][0] ?? 'Inconnu')
             ->setPublishedAt($startPublishedAt)
             ->setIsAdult($this->checkIfAdult($result['malGenres']))
@@ -244,6 +246,7 @@ final class ApiJikanService extends AbstractApiService
             'malTitleAlternative' => $result['title_japanese'],
             'malTitleEnglish' => $result['title_english'] ?? null,
             'malTitleSynonym' => $result['title_synonyms'][0] ?? null,
+            'malCategory' => $result['type'] ?? null,
             'malStatus' => $result['status'],
             'malDescription' => $result['synopsis'],
             'malUrl' => $result['url'],
@@ -265,17 +268,31 @@ final class ApiJikanService extends AbstractApiService
         ];
     }
 
-    private function verifyByTitleAndMalId(string $title, string $malId): Manga
-    {
-        // Search with slug+mal_id
-        $slugger = new AsciiSlugger();
-        $titleSlug = $slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
+    private function verifyByTitleAndMalId(
+        string $title,
+        string $malId,
+        bool $isSetTitleSlug = false,
+        bool $isCheckWithOnlyTitle = false
+    ): Manga {
+        $titleSlug = $this->slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
         $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);
 
         if (!$manga) {
-            $manga = (new Manga())
-            ->setTitleSlug($titleSlug)
-            ;
+            if ($isCheckWithOnlyTitle) {
+                $manga = $this->verifyIfExistInDb(Manga::class, $title, true);
+
+                if ($manga) {
+                    $manga = null;
+                    $isSetTitleSlug = true;
+                }
+            }
+
+            if ($isSetTitleSlug) {
+                $manga = (new Manga())
+                    ->setTitleSlug($titleSlug);
+            } else {
+                $manga = new Manga();
+            }
         }
 
         return $manga;
