@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\MangaCategoryEnum;
 use App\Repository\MangaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -128,9 +129,11 @@ class Manga
     private ?MangaMangaUpdatesAPI $mangaMangaUpdatesAPI = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Type('string')]
     private ?string $titleEnglish = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Type('string')]
     private ?string $titleSynonym = null;
 
     #[ORM\Column(nullable: true)]
@@ -138,6 +141,9 @@ class Manga
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastReleasedAt = null;
+
+    #[ORM\Column(length: 100, enumType: MangaCategoryEnum::class, options: ['default' => MangaCategoryEnum::UNKNOWN])]
+    private MangaCategoryEnum $category = MangaCategoryEnum::UNKNOWN;
 
     public function __construct()
     {
@@ -522,6 +528,18 @@ class Manga
     public function setLastReleasedAt(?\DateTimeImmutable $lastReleasedAt): static
     {
         $this->lastReleasedAt = $lastReleasedAt;
+
+        return $this;
+    }
+
+    public function getCategory(): MangaCategoryEnum
+    {
+        return $this->category;
+    }
+
+    public function setCategory(MangaCategoryEnum $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

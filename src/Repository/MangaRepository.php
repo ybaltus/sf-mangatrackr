@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Enum\MangaCategoryEnum;
 use App\Entity\Manga;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -130,34 +131,25 @@ class MangaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->andWhere('m.titleSynonym LIKE :title')
             ->orWhere('m.titleEnglish LIKE :title')
-            ->setParameter('title', $title.'%')
+            ->setParameter('title', $title)
             ->getQuery()
             ->getResult()
         ;
     }
 
-    //    /**
-    //     * @return Manga[] Returns an array of Manga objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getBySlugTitleAndCategory(string $slugTitle, string $category): ?Manga
+    {
+        $unknownCategory = MangaCategoryEnum::UNKNOWN->value;
 
-    //    public function findOneBySomeField($value): ?Manga
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.titleSlug = :slugTitle')
+            ->andWhere('m.category = :category OR m.category = :unknownCategory')
+            ->setParameter('slugTitle', $slugTitle)
+            ->setParameter('category', $category)
+            ->setParameter('unknownCategory', $unknownCategory)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
