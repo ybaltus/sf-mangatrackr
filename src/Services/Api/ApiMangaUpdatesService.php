@@ -47,7 +47,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         ];
 
         // Execute post request
-        $response = $this->postRequest($this->baseUrl . '/releases/search', $apiParams);
+        $response = $this->postRequest($this->baseUrl.'/releases/search', $apiParams);
 
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
             return ["Error http response : {$response->getStatusCode()}"];
@@ -63,7 +63,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             for ($i = 2; $i <= $nbPage; ++$i) {
                 $apiParams['page'] = $i;
                 $response = $this->postRequest(
-                    $this->baseUrl . '/releases/search',
+                    $this->baseUrl.'/releases/search',
                     $apiParams
                 );
                 $results = $response->toArray()['results'];
@@ -94,8 +94,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
          * Because $releaseDatas['title'] can be different to metadata title.
          */
         if (
-            !$manga
-            && $releaseMetaDatas
+            $releaseMetaDatas
             && array_key_exists('series', $releaseMetaDatas)
             && $releaseMetaDatas['series']['series_id']
         ) {
@@ -213,7 +212,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         }
 
         // Execute post request
-        $response = $this->postRequest($this->baseUrl . '/series/search', $apiParams);
+        $response = $this->postRequest($this->baseUrl.'/series/search', $apiParams);
 
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
             return ["Error http response : {$response->getStatusCode()}"];
@@ -278,7 +277,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
                 ->setCategory($this->getMangaCategory($result['muCategory']))
                 ->setAuthor('Inconnu')
                 ->setNbChapters(1)
-                ->setPublishedAt(new \DateTimeImmutable($resultYear. '-01-01'))
+                ->setPublishedAt(new \DateTimeImmutable($resultYear.'-01-01'))
                 ->setIsAdult($this->checkIfAdult($result['muGenres']))
             ;
         } else {
@@ -289,7 +288,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
              */
             $manga
                 ->setDescription($manga->getDescription() ?? $result['muDescription'])
-                ->setCategory($manga->getCategory() && 'Unknown' !== $manga->getCategory()->value ?
+                ->setCategory('Unknown' !== $manga->getCategory()->value ?
                     $manga->getCategory() : $this->getMangaCategory($result['muCategory']))
                 ->setUpdatedAt(new \DateTimeImmutable())
             ;
@@ -421,7 +420,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         $manga = $repository->findOneByTitleSlug($titleSlug);
 
         if ($manga) {
-            $titleSlugWithSerieId = $this->slugger->slug($title)->lower()->slice(0, 10) . '-' . $seriesId;
+            $titleSlugWithSerieId = $this->slugger->slug($title)->lower()->slice(0, 10).'-'.$seriesId;
             $mangaSlugWithSerieId = $repository->findOneByTitleSlug($titleSlugWithSerieId);
 
             if (!$mangaSlugWithSerieId) {

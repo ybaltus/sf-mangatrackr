@@ -16,13 +16,13 @@ enum MangaCategoryEnum: string
     public function getCategory(): string
     {
         return match ($this) {
-            self::MANGA, 'manga' => 'Manga',
-            self::NOVEL, 'novel' => 'Novel',
-            self::LIGHTNOVEL, 'Light novel', 'light_novel', 'lighnovel', 'light-novel' => 'Light Novel',
-            self::ONESHOT, 'One-Shot', 'one-shot', 'one_shot','oneshot' => 'One Shot',
-            self::DOUJINSHI, 'doujinshi', 'doujin' => 'Doujinshi',
-            self::MANHWA, 'manhwa' => 'Manhwa',
-            self::MANHUA, 'manhua' => 'Manhua',
+            self::MANGA => 'Manga',
+            self::NOVEL => 'Novel',
+            self::LIGHTNOVEL => 'Light Novel',
+            self::ONESHOT => 'One Shot',
+            self::DOUJINSHI => 'Doujinshi',
+            self::MANHWA => 'Manhwa',
+            self::MANHUA => 'Manhua',
             default => 'Unknown',
         };
     }
