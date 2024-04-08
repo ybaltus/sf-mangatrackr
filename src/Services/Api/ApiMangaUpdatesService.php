@@ -8,6 +8,7 @@ use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use App\Entity\ReleaseMangaUpdatesAPI;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class ApiMangaUpdatesService extends AbstractApiService
@@ -18,9 +19,10 @@ final class ApiMangaUpdatesService extends AbstractApiService
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
+        private readonly SluggerInterface $slugger,
         private readonly string $apiMangaUpdatesUrl
     ) {
-        parent::__construct($this->httpClient, $this->em);
+        parent::__construct($this->httpClient, $this->em, $this->slugger);
         $this->baseUrl = $this->apiMangaUpdatesUrl;
     }
 
@@ -85,17 +87,30 @@ final class ApiMangaUpdatesService extends AbstractApiService
         $releaseMetaDatas = $releases['metadata'];
         $releaseDatas = $releases['record'];
         $titleHtmlEntityDecode = html_entity_decode($releaseDatas['title']);
+        $manga = null;
 
-        /**
-         * Check if the manga already exists by title.
-         *
-         * @var Manga|bool $manga
+        /*
+         * Check if the manga already exists by metadata series_id.
+         * Because $releaseDatas['title'] can be different to metadata title.
          */
-        $manga = $this->verifyIfExistInDb(
-            Manga::class,
-            $titleHtmlEntityDecode,
-            true
-        );
+        if (
+            $releaseMetaDatas
+            && array_key_exists('series', $releaseMetaDatas)
+            && $releaseMetaDatas['series']['series_id']
+        ) {
+            $manga = $this->verifyIfExistInDbWithReleaseMetadataSerieId(
+                $releaseMetaDatas['series']['series_id']
+            );
+        }
+
+        // Check if the manga already exists by title.
+        if (!$manga) {
+            $manga = $this->verifyIfExistInDb(
+                Manga::class,
+                $titleHtmlEntityDecode,
+                true
+            );
+        }
 
         /**
          * Check if the manga already exists by other titles.
@@ -104,18 +119,6 @@ final class ApiMangaUpdatesService extends AbstractApiService
          */
         if (!$manga) {
             $manga = $this->verifyIfExistWithOtherTitles($titleHtmlEntityDecode);
-        }
-
-        /**
-         * Check if the manga already exists by metadata series_id.
-         * Because $releaseDatas['title'] can be different to metadata title.
-         *
-         * @var Manga|bool $manga
-         */
-        if (!$manga && $releaseMetaDatas && $releaseMetaDatas['series'] && $releaseMetaDatas['series']['series_id']) {
-            $manga = $this->verifyIfExistInDbWithReleaseMetadataSerieId(
-                $releaseMetaDatas['series']['series_id']
-            );
         }
 
         // Release management
@@ -221,41 +224,73 @@ final class ApiMangaUpdatesService extends AbstractApiService
     /**
      * Persist manga datas in database.
      *
+     * Must be executed after ApiJikanService->saveMangaDatasInDb
+     *
      * @param array<mixed> $mangaDatas
      */
-    public function saveMangaDatasInDb(array $mangaDatas): Manga
+    public function saveMangaDatasInDb(array $mangaDatas): ?Manga
     {
         $result = $this->extractDatas($mangaDatas['record']);
+        $avoidDoubleTitleSlug = null;
 
-        // Check if the manga already exists
-        $manga = $this->verifyIfExistInDb(
-            Manga::class,
+        // Some year values are not int (Ex: year = 2009.12.01)
+        $resultYear = is_numeric($result['muYear']) ? $result['muYear'] : explode('.', $result['muYear'])[0];
+
+        // Check 1: Check if the manga already exists
+        $manga = $this->verifyIfMangaExistInDb(
             $result['muTitle'],
-            true
+            $result['muCategory']
         );
 
-        // Check if the manga already exists by other titles
+        // Check 2: Check if the manga already exists by other titles
         if (!$manga) {
             $manga = $this->verifyIfExistWithOtherTitles($result['muTitle']);
+            if ($manga && $manga->getCategory() !== $this->getMangaCategory($result['muCategory'])) {
+                $manga = null;
+            }
+        }
+
+        // Check 3: Check if the year is the same in order to skip some wrong results
+        if ($manga && $manga->getPublishedAt() && intval($resultYear) !== intval($manga->getPublishedAt()->format('Y'))) {
+            return null;
+        }
+
+        // Check 4: Check if a manga already exists with the simple slug (only title)
+        if (!$manga) {
+            $avoidDoubleTitleSlug = $this->verifyByTitleAndSerieId($result['muTitle'], $result['muSeriesId']);
+            if (!is_string($avoidDoubleTitleSlug)) {
+                $manga = $avoidDoubleTitleSlug;
+            }
         }
 
         // Set manga datas
         if (!$manga) {
             $manga = new Manga();
+
+            if (is_string($avoidDoubleTitleSlug)) {
+                $manga->setTitleSlug($avoidDoubleTitleSlug);
+            }
+
             $manga->setTitle($result['muTitle'])
                 ->setTitleAlternative($result['muTitle'])
                 ->setDescription($result['muDescription'])
+                ->setCategory($this->getMangaCategory($result['muCategory']))
                 ->setAuthor('Inconnu')
                 ->setNbChapters(1)
-                ->setPublishedAt(new \DateTimeImmutable($result['muYear'].'-01-01'))
+                ->setPublishedAt(new \DateTimeImmutable($resultYear.'-01-01'))
                 ->setIsAdult($this->checkIfAdult($result['muGenres']))
             ;
         } else {
             /**
+             * Update some datas.
+             *
              * @var Manga $manga
              */
             $manga
                 ->setDescription($manga->getDescription() ?? $result['muDescription'])
+                ->setCategory('Unknown' !== $manga->getCategory()->value ?
+                    $manga->getCategory() : $this->getMangaCategory($result['muCategory']))
+                ->setUpdatedAt(new \DateTimeImmutable())
             ;
         }
 
@@ -299,7 +334,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             ->setMuUrl($result['muUrl'])
             ->setMuImgJpg($result['muImgJpg'])
             ->setMuThumbJpg($result['muThumbJpg'])
-            ->setMuYear($result['muYear'])
+            ->setMuYear($resultYear)
             ->setMuGenres($result['muGenres'])
         ;
 
@@ -335,6 +370,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             'muTitle' => html_entity_decode($result['title']),
             'muUrl' => $result['url'],
             'muDescription' => $result['description'],
+            'muCategory' => $result['type'],
             'muImgJpg' => $muImgJpg,
             'muThumbJpg' => $muThumbJpg,
             'muYear' => '' !== $result['year'] ? $result['year'] : null,
@@ -375,5 +411,25 @@ final class ApiMangaUpdatesService extends AbstractApiService
         }
 
         return false;
+    }
+
+    private function verifyByTitleAndSerieId(string $title, string $seriesId): Manga|string|null
+    {
+        $repository = $this->em->getRepository(Manga::class);
+        $titleSlug = $this->slugger->slug($title)->lower();
+        $manga = $repository->findOneByTitleSlug($titleSlug);
+
+        if ($manga) {
+            $titleSlugWithSerieId = $this->slugger->slug($title)->lower()->slice(0, 10).'-'.$seriesId;
+            $mangaSlugWithSerieId = $repository->findOneByTitleSlug($titleSlugWithSerieId);
+
+            if (!$mangaSlugWithSerieId) {
+                return $titleSlugWithSerieId;
+            } else {
+                return $mangaSlugWithSerieId;
+            }
+        }
+
+        return null;
     }
 }

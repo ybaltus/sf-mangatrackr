@@ -64,7 +64,7 @@ class MangaController extends AbstractController
                     $mangaUpdatesResults = $apiMangaUpdatesService->fetchMangaByTitle($searchTerm);
                     foreach ($mangaUpdatesResults as $result) {
                         $mangaEntity = $apiMangaUpdatesService->saveMangaDatasInDb($result);
-                        if (!in_array($mangaEntity->getId(), $tmpMangasId)) {
+                        if ($mangaEntity && !in_array($mangaEntity->getId(), $tmpMangasId)) {
                             $tmpMangasId[] = $mangaEntity->getId();
                             $mangas[] = $mangaEntity;
                         }

@@ -2,12 +2,14 @@
 
 namespace App\Services\Api;
 
+use App\Entity\Enum\MangaCategoryEnum;
+use App\Entity\Manga;
 use App\Repository\EditorRepository;
 use App\Repository\MangaRepository;
 use App\Repository\MangaStatusRepository;
 use App\Repository\MangaTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -37,7 +39,8 @@ abstract class AbstractApiService
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly SluggerInterface $slugger
     ) {
     }
 
@@ -120,8 +123,7 @@ abstract class AbstractApiService
      */
     protected function verifyIfExistInDb(string $className, string $value, bool $isTitle = false): bool|object
     {
-        $slugger = new AsciiSlugger();
-        $valSlug = $slugger->slug($value)->lower();
+        $valSlug = $this->slugger->slug($value)->lower();
         /**
          * @var MangaRepository|MangaTypeRepository|EditorRepository|MangaStatusRepository $repository
          */
@@ -132,6 +134,25 @@ abstract class AbstractApiService
         ;
         if ($entity) {
             return $entity;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if a manga already exist by title and type.
+     */
+    protected function verifyIfMangaExistInDb(
+        string $title,
+        string $category
+    ): bool|Manga {
+        $mangaSlug = $this->slugger->slug($title)->lower();
+        $categoryManga = $this->getMangaCategory($category);
+
+        $manga = $this->em->getRepository(Manga::class)
+            ->getBySlugTitleAndCategory($mangaSlug, $categoryManga->value);
+        if ($manga) {
+            return $manga;
         }
 
         return false;
@@ -168,5 +189,19 @@ abstract class AbstractApiService
         }
 
         return false;
+    }
+
+    protected function getMangaCategory(string $category): MangaCategoryEnum
+    {
+        return match ($category) {
+            'Manga', 'manga' => MangaCategoryEnum::MANGA,
+            'Novel', 'novel' => MangaCategoryEnum::NOVEL,
+            'Light Novel', 'Light novel', 'light_novel', 'lighnovel', 'light-novel' => MangaCategoryEnum::LIGHTNOVEL,
+            'One-shot', 'One-Shot', 'one-shot', 'one_shot','oneshot' => MangaCategoryEnum::ONESHOT,
+            'Doujinshi', 'doujinshi', 'doujin' => MangaCategoryEnum::DOUJINSHI,
+            'Manhwa', 'manhwa' => MangaCategoryEnum::MANHWA,
+            'Manhua', 'manhua' => MangaCategoryEnum::MANHUA,
+            default => MangaCategoryEnum::UNKNOWN,
+        };
     }
 }
