@@ -234,6 +234,9 @@ final class ApiMangaUpdatesService extends AbstractApiService
         $result = $this->extractDatas($mangaDatas['record']);
         $avoidDoubleTitleSlug = null;
 
+        // Some year values are not int (Ex: year = 2009.12.01)
+        $resultYear = is_numeric($result['muYear']) ? $result['muYear'] : explode('.', $result['muYear'])[0];
+
         // Check 1: Check if the manga already exists
         $manga = $this->verifyIfMangaExistInDb(
             $result['muTitle'],
@@ -249,8 +252,8 @@ final class ApiMangaUpdatesService extends AbstractApiService
         }
 
         // Check 3: Check if the year is the same in order to skip some wrong results
-        if ($manga && $manga->getPublishedAt() && intval($result['muYear']) !== intval($manga->getPublishedAt()->format('Y'))) {
-                return null;
+        if ($manga && $manga->getPublishedAt() && intval($resultYear) !== intval($manga->getPublishedAt()->format('Y'))) {
+            return null;
         }
 
         // Check 4: Check if a manga already exists with the simple slug (only title)
@@ -275,7 +278,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
                 ->setCategory($this->getMangaCategory($result['muCategory']))
                 ->setAuthor('Inconnu')
                 ->setNbChapters(1)
-                ->setPublishedAt(new \DateTimeImmutable($result['muYear'] . '-01-01'))
+                ->setPublishedAt(new \DateTimeImmutable($resultYear. '-01-01'))
                 ->setIsAdult($this->checkIfAdult($result['muGenres']))
             ;
         } else {
@@ -332,7 +335,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             ->setMuUrl($result['muUrl'])
             ->setMuImgJpg($result['muImgJpg'])
             ->setMuThumbJpg($result['muThumbJpg'])
-            ->setMuYear($result['muYear'])
+            ->setMuYear($resultYear)
             ->setMuGenres($result['muGenres'])
         ;
 

@@ -106,6 +106,11 @@ final class ApiJikanService extends AbstractApiService
     {
         $result = $this->extractDatas($mangaDatas);
 
+        $startPublishedAt = $result['malStartPublishedAt'] ?
+            new \DateTimeImmutable($result['malStartPublishedAt']) : null;
+        $endPublishedAt = $result['malEndPublishedAt'] ?
+            new \DateTimeImmutable($result['malEndPublishedAt']) : null;
+
         // Check if the manga already exists by title and type
         $manga = $this->verifyIfMangaExistInDb(
             $result['malTitle'],
@@ -117,18 +122,16 @@ final class ApiJikanService extends AbstractApiService
          */
         if (!$manga) {
             $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId'], false, true);
-        } elseif (!in_array($manga->getAuthor(), $result['malAuthors'])) {
-            // Because there can be two mangas with the same title and category but not the same author.
+        } elseif (
+            !in_array($manga->getAuthor(), $result['malAuthors'])
+            && ($manga->getPublishedAt()->format('Y') !== $startPublishedAt->format('Y'))
+        ) {
+            // Because there can be two mangas with the same title and category but not the same author and date.
             // So we check with the malId
             $manga = $this->verifyByTitleAndMalId($result['malTitle'], $result['malId'], true);
         }
 
         // Set manga datas
-        $startPublishedAt = $result['malStartPublishedAt'] ?
-            new \DateTimeImmutable($result['malStartPublishedAt']) : null;
-        $endPublishedAt = $result['malEndPublishedAt'] ?
-            new \DateTimeImmutable($result['malEndPublishedAt']) : null;
-
         /**
          * @var Manga $manga
          */
