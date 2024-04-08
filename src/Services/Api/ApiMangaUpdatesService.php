@@ -334,7 +334,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             ->setMuUrl($result['muUrl'])
             ->setMuImgJpg($result['muImgJpg'])
             ->setMuThumbJpg($result['muThumbJpg'])
-            ->setMuYear($resultYear)
+            ->setMuYear(intval($resultYear))
             ->setMuGenres($result['muGenres'])
         ;
 

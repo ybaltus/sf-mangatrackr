@@ -12,7 +12,6 @@ use App\Repository\MangaTypeRepository;
 use App\Repository\StatusTrackRepository;
 use App\Services\Trait\SampleDataTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class InitDataService
