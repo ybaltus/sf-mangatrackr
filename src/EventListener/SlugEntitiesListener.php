@@ -13,7 +13,7 @@ use App\Entity\TextContentPage;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsDoctrineListener(event: Events::prePersist, priority: 500, connection: 'default')]
 class SlugEntitiesListener
@@ -30,7 +30,7 @@ class SlugEntitiesListener
     ];
 
     public function __construct(
-        private AsciiSlugger $slugger = new AsciiSlugger()
+        private SluggerInterface $slugger
     ) {
     }
 
