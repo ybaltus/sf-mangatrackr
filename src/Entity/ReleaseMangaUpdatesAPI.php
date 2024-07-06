@@ -42,6 +42,12 @@ class ReleaseMangaUpdatesAPI
     )]
     private string $chapterVal;
 
+    /**
+     * @var string[]|null
+     */
+    #[ORM\Column(nullable: true)]
+    private ?array $scanlators = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -128,5 +134,23 @@ class ReleaseMangaUpdatesAPI
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return string[]|null
+     */
+    public function getScanlators(): ?array
+    {
+        return $this->scanlators;
+    }
+
+    /**
+     * @param string[]|null $scanlators
+     */
+    public function setScanlators(?array $scanlators): static
+    {
+        $this->scanlators = $scanlators;
+
+        return $this;
     }
 }

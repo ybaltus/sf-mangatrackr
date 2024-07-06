@@ -2,6 +2,7 @@
 
 namespace App\Services\Api;
 
+use App\Entity\Fantrad;
 use App\Entity\Manga;
 use App\Entity\MangaMangaUpdatesAPI;
 use App\Entity\MangaStatus;
@@ -148,6 +149,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
                 ->setVolumeVal($releaseDatas['volume'])
                 ->setChapterVal($chapter)
                 ->setReleasedAt($releaseDate)
+                ->setScanlators($releaseDatas['groups'])
             ;
 
             // Edit nbChapters, nbVolumes and lastReleasedAt for the manga
@@ -173,6 +175,11 @@ final class ApiMangaUpdatesService extends AbstractApiService
             // Edit lastReleasedAt for the manga
             if (!$manga->getLastReleasedAt() || $manga->getLastReleasedAt() < $releaseDate) {
                 $manga->setLastReleasedAt($releaseDate);
+            }
+
+            // TODO Add Fantrad + MangaFantrad if not exist
+            if (count($releaseDatas['groups']) > 0) {
+                $this->groupsHandler($manga, $releaseDatas['groups']);
             }
 
             // Save in DB
@@ -431,5 +438,32 @@ final class ApiMangaUpdatesService extends AbstractApiService
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve group data from the API and convert it into Fantrad entities
+     * Groups = Fantrads.
+     *
+     * @param array<mixed> $groups
+     */
+    private function groupsHandler(Manga $manga, array $groups): void
+    {
+        foreach ($groups as $group) {
+            $fantrad = $this->verifyIfFantradExistInDb($group['name']);
+
+            if (!$fantrad) {
+                $response = $this->getRequest($this->baseUrl.'/groups/'.$group['group_id'], []);
+                $result = $response->toArray();
+
+                $fantrad = (new Fantrad())
+                    ->setName($result['name'])
+                    ->setUrl($result['url'])
+                ;
+
+                // Persist Fantrad and Add to Manga
+                $this->em->persist($fantrad);
+                $manga->addFantrad($fantrad);
+            }
+        }
     }
 }

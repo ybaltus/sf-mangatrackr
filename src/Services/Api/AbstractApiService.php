@@ -3,6 +3,7 @@
 namespace App\Services\Api;
 
 use App\Entity\Enum\MangaCategoryEnum;
+use App\Entity\Fantrad;
 use App\Entity\Manga;
 use App\Repository\EditorRepository;
 use App\Repository\MangaRepository;
@@ -153,6 +154,21 @@ abstract class AbstractApiService
             ->getBySlugTitleAndCategory($mangaSlug, $categoryManga->value);
         if ($manga) {
             return $manga;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if a fantrad already exist by name.
+     */
+    protected function verifyIfFantradExistInDb(
+        string $name,
+    ): bool|Fantrad {
+        $fantradSlug = $this->slugger->slug($name)->lower();
+        $fantrad = $this->em->getRepository(Fantrad::class)->findOneByNameSlug($fantradSlug);
+        if ($fantrad) {
+            return $fantrad;
         }
 
         return false;
