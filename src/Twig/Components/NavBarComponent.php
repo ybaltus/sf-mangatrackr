@@ -10,7 +10,7 @@ final class NavBarComponent
 {
     public string $appName;
 
-    public User|null $user;
+    public ?User $user;
 
     /**
      * @var array<string>|string[]
