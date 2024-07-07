@@ -25,16 +25,16 @@
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
-                class="flex-column space-y space-y-4 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular md:me-4 mb-4 md:mb-0 text-gray-500 dark:text-gray-400"
-                id="account-tabs"
-                data-tabs-toggle="#account-tab-content"
+                class="flex-column space-y space-y-4 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular md:me-4 mb-4 md:mb-0 text-app-clear-black dark:text-app-dark-gray2 border-r-2 border-app-clear-gray2 dark:border-app-dark-gray1 pr-4"
+                id="account-tab"
+                data-tabs-toggle="#account-tab"
                 role="tablist"
         >
             {# Btn tab 1 #}
-            <li>
+            <li role="presentation">
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 text-white dark:text-white bg-app-clear-blue dark:bg-app-dark-blue1 rounded-lg active w-full"
+                        class="inline-flex items-center px-4 py-3 text-app-clear-black dark:text-app-dark-gray2 bg-transparent w-full rounded-user-account-mob lg:rounded-user-account-desk border-user-account-mob md:border-user-account-tab lg:border-user-account-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                         aria-current="page"
                         {% if tabSelected is not defined %}
                             aria-selected="true"
@@ -46,17 +46,17 @@
                         role="tab"
                         title="Infos"
                 >
-                    <svg class="w-4 h-4 me-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
                     </svg>
                     Infos
                 </a>
             </li>
             {# Btn tab 2 #}
-            <li>
+            <li role="presentation">
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="inline-flex items-center px-4 py-3 text-app-clear-black dark:text-app-dark-gray2 bg-transparent w-full rounded-user-account-mob lg:rounded-user-account-desk border-user-account-mob md:border-user-account-tab lg:border-user-account-desk border-app-clear-gray3 dark:border-app-dark-gray2"
                         data-tabs-target="#tab-content-2"
                         {% if tabSelected == 2%}
                             aria-selected="true"
@@ -67,7 +67,7 @@
                         role="tab"
                         title="Exports"
                 >
-                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M13 11.1V4a1 1 0 1 0-2 0v7.1L8.8 8.4a1 1 0 1 0-1.6 1.2l4 5a1 1 0 0 0 1.6 0l4-5a1 1 0 1 0-1.6-1.2L13 11Z" clip-rule="evenodd"/>
                         <path fill-rule="evenodd" d="M9.7 15.9 7.4 13H5a2 2 0 0 0-2 2v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.4l-2.3 2.9a3 3 0 0 1-4.6 0Zm7.3.1a1 1 0 1 0 0 2 1 1 0 1 0 0-2Z" clip-rule="evenodd"/>
                     </svg>
@@ -75,10 +75,10 @@
                 </a>
             </li>
             {# Btn tab 3 #}
-            <li>
+            <li role="presentation">
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="inline-flex items-center px-4 py-3 text-app-clear-black dark:text-app-dark-gray2 bg-transparent w-full rounded-user-account-mob lg:rounded-user-account-desk border-user-account-mob md:border-user-account-tab lg:border-user-account-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                         data-tabs-target="#tab-content-3"
                         {% if tabSelected == 3%}
                             aria-selected="true"
@@ -89,7 +89,7 @@
                         role="tab"
                         title="Éditer mes informations"
                 >
-                    <svg class="w-4 h-4 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                    <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-1.391 7.361.707-3.535a3 3 0 0 1 .82-1.533L7.929 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h4.259a2.975 2.975 0 0 1-.15-1.639ZM8.05 17.95a1 1 0 0 1-.981-1.2l.708-3.536a1 1 0 0 1 .274-.511l6.363-6.364a3.007 3.007 0 0 1 4.243 0 3.007 3.007 0 0 1 0 4.243l-6.365 6.363a1 1 0 0 1-.511.274l-3.536.708a1.07 1.07 0 0 1-.195.023Z"/>
                     </svg>
 
@@ -97,10 +97,10 @@
                 </a>
             </li>
             {# Btn tab 4 #}
-            <li>
+            <li role="presentation">
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="inline-flex items-center px-4 py-3 text-app-clear-black dark:text-app-dark-gray2 bg-transparent w-full rounded-user-account-mob lg:rounded-user-account-desk border-user-account-mob md:border-user-account-tab lg:border-user-account-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                         data-tabs-target="#tab-content-4"
                         {% if tabSelected == 4%}
                             aria-selected="true"
@@ -111,7 +111,7 @@
                         role="tab"
                         title="Changer mon mot de passe"
                 >
-                    <svg class="w-5 h-5 me-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-5 h-5 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
                     </svg>
                     Changer mon mot de passe
@@ -121,14 +121,14 @@
             <li>
                 <a
                         href="#"
-                        class="inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 bg-gray-50 hover:bg-gray-100 w-full dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white"
+                        class="inline-flex items-center px-4 py-3 text-app-clear-black dark:text-app-dark-gray2 bg-transparent w-full rounded-user-account-mob lg:rounded-user-account-desk border-user-account-mob md:border-user-account-tab lg:border-user-account-desk border-app-clear-gray3 dark:border-app-clear-gray3"
                         data-tabs-target="#tab-content-5"
                         aria-selected="false"
                         aria-controls="tab-content-5"
                         role="tab"
                         title="Supprimer mon compte"
                 >
-                    <svg class="w-4 h-4 me-2 text-gray-400 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                    <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z"/>
                     </svg>
                     Supprimer mon compte
@@ -138,47 +138,36 @@
         {# Tab content 1 #}
         <div
                 id="tab-content-1"
-                class="p-4 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-4 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-1/2"
+{#                class="p-4 bg-app-clear-gray2 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"#}
                 role="tabpanel"
         >
             <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" aria-labelledby="stats-tab">
-                <h3 class="text-center text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                <h3 class="text-left text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-10">
                     Hello {{ user.username }} !
                 </h3>
 
-                <p class="text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
-                    Petit rappel :
+                <p class="text-mob md:text-tab lg:text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                    MangaSync s’engage pleinement à préserver la vie privée de ses utilisateurs. Conformément à nos mentions légales, nous tenons à rappeler qu’aucune donnée personnelle n’est enregistrée, à l’exception de l’adresse mail associée au compte, le speudonyme et le contenu de la scanthèque. Ces informations sont sauvegardées dans le strict respect de la confidentialité.
                 </p>
-                <ul class="w-full space-y-1 list-disc list-inside font-sora-regular text-text-mob md:text-text-tab lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2">
-                    <li class="pb-5">
-                        {{ app_name }} se distingue par son engagement envers la protection de la vie privée de ses utilisateurs.
-                    </li>
-                    <li class="pb-5">
-                        En tant qu'application, {{ app_name }} s'engage formellement à ne pas enregistrer les données personnelles de ses utilisateurs.
-                        Seuls l'e-mail associé au compte et la scanthèque, qui contient le suivi des mangas, seront sauvegardés dans le strict respect
-                        de la confidentialité. Ainsi, les utilisateurs peuvent profiter pleinement de l'expérience {{ app_name}} sans craindre une intrusion
-                        dans leur vie privée.
-                    </li>
-                    <li>
-                        De plus, il est important de noter que {{ app_name }} offre une expérience sans publicité, soulignant davantage son engagement
-                        envers une utilisation sans interruption et axée sur le contenu pour ses utilisateurs.
-                    </li>
-                </ul>
+                <p class="text-mob md:text-tab lg:text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                    Nous vous assurons une expérience sans publicité, soulignant notre engagement envers une utilisation sans interruption et axée sur le contenu. Profitez pleinement de MangaSync en toute confiance, sans craindre une intrusion dans votre vie privée.
+                </p>
             </div>
         </div>
         {# Tab content 2 #}
         <div
                 id="tab-content-2"
-                class="p-4 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-4 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-1/2"
                 role="tabpanel"
         >
             <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" aria-labelledby="stats-tab">
                 <h3
                         id="export-title"
-                        class="text-center text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
+                        class="text-left text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
                     Exporter des données
                 </h3>
-                <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
+                <div class="items-center justify-left space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                     <a
                             {{ stimulus_action('account', 'exportScantheque') }}
                             href="#"
@@ -211,12 +200,12 @@
         {# Tab content 3 #}
         <div
                 id="tab-content-3"
-                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
-                        class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                        class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
                     Éditer mes informations
                 </h3>
@@ -296,12 +285,12 @@
         {# Tab content 4 #}
         <div
                 id="tab-content-4"
-                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
-                        class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
+                        class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
                     Modifier mon mot de passe
                 </h3>
@@ -405,11 +394,11 @@
         {# Tab content 5 #}
         <div
                 id="tab-content-5"
-                class="p-2 bg-app-clear-gray3 dark:bg-app-dark-gray3 font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
                 role="tabpanel"
         >
             <div class="w-full p-4 text-center bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
-                <h5 class="mb-3 text-3xl font-sora-bold text-gray-900 dark:text-white">
+                <h5 class="mb-3 text-3xl font-bangers-regular text-gray-900 dark:text-white">
                     Suppression du compte
                 </h5>
                 <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
