@@ -2,6 +2,7 @@
 
 namespace App\Services\Api;
 
+use App\Entity\Enum\LangEnum;
 use App\Entity\Fantrad;
 use App\Entity\Manga;
 use App\Entity\MangaMangaUpdatesAPI;
@@ -457,11 +458,16 @@ final class ApiMangaUpdatesService extends AbstractApiService
 
                 $fantrad = (new Fantrad())
                     ->setName($result['name'])
-                    ->setUrl($result['url'])
+                    ->setUrl($result['social']['site'])
+                    ->setLanguage(LangEnum::EN)
                 ;
 
                 // Persist Fantrad and Add to Manga
                 $this->em->persist($fantrad);
+                //                $manga->addFantrad($fantrad);
+            }
+
+            if (!$manga->getFantrad()->contains($fantrad)) {
                 $manga->addFantrad($fantrad);
             }
         }

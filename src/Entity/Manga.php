@@ -442,10 +442,10 @@ class Manga
         }
 
         return json_encode([
-           'title' => $this->title,
-           'titleSlug' => $this->titleSlug,
-           'urlImg' => $urlImg,
-           'nbChapters' => $this->nbChapters,
+            'title' => $this->title,
+            'titleSlug' => $this->titleSlug,
+            'urlImg' => $urlImg,
+            'nbChapters' => $this->nbChapters,
             'mut' => null,
         ]);
     }

@@ -9,6 +9,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 final class MangaScanthequeComponent
 {
     public string $title;
-    public User|null $user;
+    public ?User $user;
     public string $statusTrack;
 }

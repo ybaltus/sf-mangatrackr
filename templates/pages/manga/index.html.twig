@@ -140,6 +140,24 @@
                             </div>
                         </div>
                     </li>
+                    {% if manga.fantrad and manga.fantrad|length > 0 %}
+                        <li class="pb-1 lg:pb-4">
+                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                <div class="flex-initial w-[60%] min-w-0">
+                                    <p>
+                                        Fantrad(s)
+                                    </p>
+                                </div>
+                                <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                    {% for fantrad in manga.fantrad %}
+                                        <a href="{{ fantrad.url }}" title="{{ fantrad.name }}" target="_blank" class="underline hover:text-app-clear-purple hover:dark:accent-app-dark-purple">
+                                            {{ fantrad.name }}
+                                        </a>,
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
                     <li class="pt-1 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
