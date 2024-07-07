@@ -12,14 +12,15 @@ use App\Repository\MangaTypeRepository;
 use App\Repository\StatusTrackRepository;
 use App\Services\Trait\SampleDataTrait;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class InitDataService
 {
     use SampleDataTrait;
 
     public function __construct(
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private SluggerInterface $slugger
     ) {
     }
 
@@ -77,8 +78,7 @@ final class InitDataService
 
     private function verifyIfExistInDb(string $className, string $value, bool $isTitle = false): bool|object
     {
-        $slugger = new AsciiSlugger();
-        $valSlug = $slugger->slug($value)->lower();
+        $valSlug = $this->slugger->slug($value)->lower();
         /**
          * @var MangaTypeRepository|MangaStatusRepository|StatusTrackRepository|FantradRepository $repository
          */
