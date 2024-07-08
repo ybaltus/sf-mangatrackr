@@ -150,7 +150,6 @@
                                 </div>
                                 <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
                                     <ul class="max-w-md space-y-1 list-disc list-inside">
-
                                         {% for fantrad in manga.fantrad %}
                                             <li class="flex items-center">
                                                 <svg class="w-3.5 h-3.5 md:w-6 md:h-6 me-2 text-app-clear-purple dark:text-app-dark-purple flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -218,11 +217,25 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Auteur
+                                    Auteur(s)
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
-                                {{ manga.author ? : '-' }}
+                                {% if manga.author %}
+                                    {% set authors = manga.author|split(',') %}
+                                    <ul class="max-w-md space-y-1 list-disc list-inside">
+                                        {% for author in authors %}
+                                            <li class="flex items-center">
+                                                <svg class="w-3.5 h-3.5 md:w-6 md:h-6 me-2 text-app-clear-purple dark:text-app-dark-purple flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+                                                </svg>
+                                                {{ author }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    -
+                                {% endif %}
                             </div>
                         </div>
                     </li>
