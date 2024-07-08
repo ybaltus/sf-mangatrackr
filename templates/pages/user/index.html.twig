@@ -25,7 +25,7 @@
         {# Get tabSelected param #}
         {% set tabSelected = app.request.query.get('tabSelected') %}
         <ul
-                class="flex-column space-y space-y-4 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular md:me-4 mb-4 md:mb-0 text-app-clear-black dark:text-app-dark-gray2 md:border-r-2 md:border-app-clear-gray2 md:dark:border-app-dark-gray1 pr-4"
+                class="flex-column space-y space-y-4 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular md:me-4 mb-4 md:mb-0 text-app-clear-black dark:text-app-dark-gray2 border-b-2 md:border-b-0 md:border-r-2 border-app-clear-gray2 dark:border-app-dark-gray1 pb-4 pr-4"
                 id="account-tab"
                 data-tabs-toggle="#account-tab"
                 role="tablist"
@@ -139,7 +139,6 @@
         <div
                 id="tab-content-1"
                 class="p-4 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full md:w-1/2"
-{#                class="p-4 bg-app-clear-gray2 dark:bg-app-dark-gray3 text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"#}
                 role="tabpanel"
         >
             <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" aria-labelledby="stats-tab">
@@ -200,10 +199,10 @@
         {# Tab content 3 #}
         <div
                 id="tab-content-3"
-                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full md:w-1/2"
                 role="tabpanel"
         >
-            <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
+            <div class="flex flex-col items-start justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
@@ -285,10 +284,10 @@
         {# Tab content 4 #}
         <div
                 id="tab-content-4"
-                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full md:w-1/2"
                 role="tabpanel"
         >
-            <div class="flex flex-col items-center justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
+            <div class="flex flex-col items-start justify-center px-2 py-8 lg:px-6 mx-auto lg:py-0">
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
@@ -394,13 +393,14 @@
         {# Tab content 5 #}
         <div
                 id="tab-content-5"
-                class="p-2 bg-transparent font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full"
+                class="p-2 bg-transparent font-sora-regular text-medium text-gray-500 dark:text-gray-400 rounded-forms w-full md:w-1/2"
                 role="tabpanel"
         >
-            <div class="w-full p-4 text-center bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
-                <h5 class="mb-3 text-3xl font-bangers-regular text-gray-900 dark:text-white">
-                    Suppression du compte
-                </h5>
+            <h5 class="mb-3 text-3xl font-bangers-regular text-gray-900 dark:text-white">
+                Suppression du compte
+            </h5>
+            <div class="w-full p-4 text-left bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
+
                 <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
 
                     La suppression du compte est irréversible et toutes vos données seront supprimées.
