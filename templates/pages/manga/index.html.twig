@@ -70,9 +70,9 @@
                             title="Ajouter à ma scanthèque"
                             class="font-sora-semiBold inline-flex text-cta-mob md:text-cta-tab lg:text-cta-desk px-6 py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-2 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
-{#                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
-{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
-{#                        </svg>#}
+                        {#                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
+                        {#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
+                        {#                        </svg>#}
                         Ajouter à la scanthèque
                     </button>
                 </div>
@@ -101,7 +101,7 @@
                 {# Characteristics #}
                 <ul class="my-14 lg:my-28 lg:max-w-xl text-p-characteristics-mob md:text-p-characteristics-tab lg:text-p-characteristics-desk font-sora-bold text-app-clear-black truncate dark:text-app-dark-gray2 divide-y divide-app-clear-black dark:divide-app-clear-gray2">
                     {% if manga.lastReleasedAt %}
-                        <li class="pb-1 lg:pb-4">
+                        <li class="pt-1 pb-4 lg:pb-4">
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div class="flex-initial w-[60%] min-w-0">
                                     <p>
@@ -115,20 +115,20 @@
                         </li>
                     {% endif %}
                     {% if manga.nbVolumes %}
-                    <li class="pb-1 lg:pb-4">
-                        <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                            <div class="flex-initial w-[60%] min-w-0">
-                                <p>
-                                    Volumes
-                                </p>
+                        <li class="pt-1 pb-4 lg:pb-4">
+                            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                <div class="flex-initial w-[60%] min-w-0">
+                                    <p>
+                                        Volumes
+                                    </p>
+                                </div>
+                                <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
+                                    {{ manga.nbVolumes ? : '-' }}
+                                </div>
                             </div>
-                            <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
-                                {{ manga.nbVolumes ? : '-' }}
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                     {% endif %}
-                    <li class="pb-1 lg:pb-4">
+                    <li class="pt-1 pb-4 lg:pb-4">
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
@@ -141,7 +141,7 @@
                         </div>
                     </li>
                     {% if manga.fantrad and manga.fantrad|length > 0 %}
-                        <li class="pb-1 lg:pb-4">
+                        <li class="pt-1 pb-4 lg:pb-4">
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div class="flex-initial w-[60%] min-w-0">
                                     <p>
@@ -149,11 +149,19 @@
                                     </p>
                                 </div>
                                 <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
-                                    {% for fantrad in manga.fantrad %}
-                                        <a href="{{ fantrad.url }}" title="{{ fantrad.name }}" target="_blank" class="underline hover:text-app-clear-purple hover:dark:accent-app-dark-purple">
-                                            {{ fantrad.name }}
-                                        </a>,
-                                    {% endfor %}
+                                    <ul class="max-w-md space-y-1 list-disc list-inside">
+
+                                        {% for fantrad in manga.fantrad %}
+                                            <li class="flex items-center">
+                                                <svg class="w-3.5 h-3.5 md:w-6 md:h-6 me-2 text-app-clear-purple dark:text-app-dark-purple flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.213 9.787a3.391 3.391 0 0 0-4.795 0l-3.425 3.426a3.39 3.39 0 0 0 4.795 4.794l.321-.304m-.321-4.49a3.39 3.39 0 0 0 4.795 0l3.424-3.426a3.39 3.39 0 0 0-4.794-4.795l-1.028.961"/>
+                                                </svg>
+                                                <a href="{{ fantrad.url }}" title="{{ fantrad.name }}" target="_blank" class="underline hover:text-app-clear-purple hover:dark:accent-app-dark-purple">
+                                                    {{ fantrad.name }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
                         </li>
@@ -214,7 +222,7 @@
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
-                                    {{ manga.author ? : '-' }}
+                                {{ manga.author ? : '-' }}
                             </div>
                         </div>
                     </li>
@@ -239,11 +247,11 @@
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
                                 {% if manga.editor|length > 0 %}
-                                {% for editor in manga.editor %}
-                                    <p>
-                                        {{ editor.name }}
-                                    </p>
-                                {% endfor %}
+                                    {% for editor in manga.editor %}
+                                        <p>
+                                            {{ editor.name }}
+                                        </p>
+                                    {% endfor %}
                                 {% else %}
                                     -
                                 {% endif %}
@@ -260,10 +268,10 @@
                             title="Ajouter à la scanthèque"
                             class="font-sora-semiBold text-cta-mob inline-flex md:text-cta-tab lg:text-cta-desk px-8 lg:px-16 py-2 lg:py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-3 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
-{#                        <svg class="me-2 my-auto w-5 h-5 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
-{#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
-{#                        </svg>#}
-                            Ajouter à la scanthèque
+                        {#                        <svg class="me-2 my-auto w-5 h-5 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
+                        {#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
+                        {#                        </svg>#}
+                        Ajouter à la scanthèque
                     </button>
                 </div>
             </div>
