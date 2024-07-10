@@ -1,3 +1,5 @@
+{% trans_default_domain 'app' %}
+
 <div{{ attributes }}>
     <!-- component html -->
     <nav
@@ -64,26 +66,26 @@
                                 <li>
                                     <a href="{{ path('admin_index') }}"
                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                       title="Espace administrateur"
+                                       title="{{ 'app.admin_area'|trans|capitalize }}"
                                     >
-                                        Espace admin
+                                        {{ 'app.admin_area'|trans|capitalize }}
                                     </a>
                                 </li>
                             {% endif %}
                             <li>
                                 <a href="{{ path('user_index') }}"
                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                   title="Mon compte"
+                                   title="{{ 'app.my_account'|trans|capitalize }}"
                                 >
-                                    Mon compte
+                                    {{ 'app.my_account'|trans|capitalize }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('security_logout') }}"
                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                   title="Se déconnecter"
+                                   title="{{ 'app.sign_out'|trans|capitalize }}"
                                 >
-                                    Se déconnecter
+                                    {{ 'app.sign_out'|trans|capitalize }}
                                 </a>
                             </li>
                         </ul>
@@ -92,9 +94,9 @@
                             <a
                                     href="{{ path('security_login') }}"
                                     class="block text-gray-900 dark:text-white"
-                                    title="Se connecter"
+                                    title="{{ 'app.sign_in'|trans|capitalize }}"
                             >
-                                Se connecter
+                                {{ 'app.sign_in'|trans|capitalize }}
                             </a>
                         </div>
                     {% endif %}
@@ -127,18 +129,18 @@
                                 <a href="{{ path(key) }}"
                                    class="block tracking-titles-spacing text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-clear-white rounded bg-transparent underline underline-offset-menu-mob lg:underline-offset-menu-desk decoration-menu-mob lg:decoration-menu-desk decoration-app-clear-purple3 dark:decoration-app-dark-purple"
                                    aria-current="page"
-                                   title="{{ menu }}"
+                                   title="{{ menu|trans|capitalize }}"
                                 >
-                                    {{ menu }}
+                                    {{ menu|trans|capitalize }}
                                 </a>
                             </li>
                         {% else %}
                             <li>
                                 <a href="{{ path(key) }}"
                                    class="block tracking-titles-spacing text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black border-b hover:bg-app-clear-gray lg:hover:bg-transparent lg:border-0 lg:hover:text-app-clear-purple3 lg:dark:hover:text-app-dark-purple dark:text-app-dark-gray2 border-transparent no-underline"
-                                   title="{{ menu }}"
+                                   title="{{ menu|trans|capitalize }}"
                                 >
-                                    {{ menu }}
+                                    {{ menu|trans|capitalize }}
                                 </a>
                             </li>
                         {% endif %}

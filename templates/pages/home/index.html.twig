@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'app' %}
+
 {% block title %}{{ app_name }}{% endblock %}
 
 {% block body %}
@@ -12,15 +14,12 @@
                     src="{{ asset('build/images/Roboto.svg') }}"
                     alt="{{ app_name }}"
             >
-
-
             {#  Title #}
             <h1
                     class="text-h1-mob md:text-h1-tab lg:text-h1-desk leading-normal font-bangers-regular tracking-titles-jumbotron text-app-dark-black mx-auto">
-                Synchronisez votre <br>
-                passion pour les<br>
+                {{ 'app.slogan'|trans|nl2br }}
                 <span class="text-stroke-black-custom">
-                    mangas !
+                    {{ 'app.manga'|trans }}s !
                 </span>
             </h1>
         </div>

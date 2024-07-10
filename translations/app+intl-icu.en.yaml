@@ -1,0 +1,15 @@
+app:
+  manga: manga
+  slogan: |
+    Synchronize your
+    passion for
+  home: Home
+  calendar: calendar
+  catalog: catalog
+  scantheque: scantheque
+  about: about
+  sign_in: sign in
+  sign_out: sign out
+  sign_up: sign up
+  admin_area: admin area
+  my_account: my account
