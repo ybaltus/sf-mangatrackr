@@ -27,21 +27,21 @@
 
     {# Top mangas #}
     {{ component('MangaCardInlineComponent', {
-        title: 'Les dernières tendances',
+        title: 'app.latest_trends'|trans,
         mangas: topMangas,
         isHome: true
     }) }}
 
      {# Info section  #}
     {{ component('InfoSectionComponent', {
-        title: 'Une expérience synchronisée',
-        info: app_name~', l’application dédiée aux passionnés de mangas, simplifie la gestion de votre progression de lecture. Créez votre scanthèque, suivez vos scans préférés et synchronisez votre avancée en temps réel.',
-        titleBtn: 'Découvrir'
+        title: 'app.synchronized_experience'|trans,
+        info: 'app.explore_text'|trans({'%app_name%': app_name}),
+        titleBtn: 'explore'|trans|capitalize
     }) }}
 
     {# Latest mangas #}
     {{ component('MangaCardInlineComponent', {
-        title: 'Les dernières sorties',
+        title: 'app.latest_releases'|trans,
         mangas: latestMangas,
         isHome: true
     }) }}

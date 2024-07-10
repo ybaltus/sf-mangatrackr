@@ -13,3 +13,21 @@ app:
   sign_up: s'inscrire
   admin_area: espace admin
   my_account: mon compte
+  terms_of_use: mentions légales
+  latest_trends: les dernières tendances
+  synchronized_experience: une expérience synchronisée
+  latest_releases: les dernières sorties
+  explore: Découvrir
+  explore_text: "{app_name}, l’application dédiée aux passionnés de mangas,
+                simplifie la gestion de votre progression de lecture.
+                Créez votre scanthèque, suivez vos scans préférés et synchronisez 
+                votre avancée en temps réel."
+
+scantheque:
+  config_status: configurer le status
+  in_progress: en cours
+  pause: mettre en pause
+  archive: archiver
+  delete: supprimer
+  decrease: diminuer
+  increase: augmenter

@@ -1,3 +1,5 @@
+{% trans_default_domain 'app' %}
+
 <div{{ attributes }}>
     <!-- component html -->
     {% if isOnlyTemplate == false %}
@@ -51,7 +53,7 @@
                             id="dropdown-btn"
                             class="rounded-lg text-sm p-1.5 inline-block text-app-clear-purple3 dark:text-app-dark-purple hover:text-app-clear-black dark:hover:text-app-dark-gray2 focus:ring-2 focus:outline-none focus:ring-app-clear-gray2 dark:focus:ring-app-dark-gray2"
                             type="button"
-                            title="Configurer le status"
+                            title="{{ 'scantheque.config_status'|trans|capitalize }}"
                     >
                         <span class="sr-only">Open dropdown</span>
                         <svg class="w-6 h-5 lg:w-10 lg:h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
@@ -66,19 +68,19 @@
                         <ul class="py-2 md:py-2 lg:py-2 text-center" aria-labelledby="dropdown-btn">
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
-                                    title="En cours"
+                                    title="{{ 'scantheque.in_progress'|trans|capitalize }}"
                                     status-track="play"
                                     class="hidden border-b-2 border-app-clear-gray3 dark:border-app-dark-gray1"
                             >
                                 <p
                                         class="block px-4 py-2 hover:text-app-focus-purple dark:hover:text-app-focus-purple"
                                 >
-                                    En cours
+                                    {{ 'scantheque.in_progress'|trans|capitalize }}
                                 </p>
                             </li>
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
-                                    title="Mettre en pause"
+                                    title="{{ 'scantheque.pause'|trans|capitalize }}"
                                     status-track="pause"
                                     class="hidden border-b-2 border-app-clear-gray3 dark:border-app-dark-gray1"
 
@@ -86,30 +88,30 @@
                                 <p
                                         class="block px-4 py-2 hover:text-app-clear-purple3 dark:hover:text-app-clear-purple3"
                                 >
-                                    Mettre en pause
+                                    {{ 'scantheque.pause'|trans|capitalize }}
                                 </p>
                             </li>
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
                                     class="hidden border-y-2 border-app-clear-gray3 dark:border-app-dark-gray1"
-                                    title="Archiver"
+                                    title="{{ 'scantheque.archive'|trans|capitalize }}"
                                     status-track="archived"
                             >
                                 <p
                                         class="block px-4 py-2 hover:text-app-clear-purple3 dark:hover:text-app-clear-purple3"
                                 >
-                                    Archiver
+                                    {{ 'scantheque.archive'|trans|capitalize }}
                                 </p>
                             </li>
                             <li
                                     {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
-                                    title="Supprimer"
+                                    title="{{ 'scantheque.delete'|trans|capitalize }}"
                                     status-track="delete"
                             >
                                 <p
                                         class="block px-4 py-2 hover:text-app-clear-purple3 dark:hover:text-app-clear-purple3"
                                 >
-                                    Supprimer
+                                    {{ 'scantheque.delete'|trans|capitalize }}
                                 </p>
                             </li>
                         </ul>
@@ -127,7 +129,7 @@
                                 <button
                                         {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-minus'}) }}
                                         type="button"
-                                        title="Décrémenter"
+                                        title="{{'scantheque.decrease'|trans|capitalize}}"
                                         id="minus-btn"
                                         name="minus-btn"
                                         data-input-counter-decrement="quantity-input"
@@ -161,7 +163,7 @@
                                         {{ stimulus_action('scantheque', 'updateNbChapter', 'click', {'formField': 'btn-plus'}) }}
                                         type="button"
                                         id="plus-btn"
-                                        title="Incrémenter"
+                                        title="{{'scantheque.increase'|trans|capitalize}}"
                                         name="plus-btn"
                                         data-input-counter-increment="quantity-input"
                                         class="plus-btn rounded-e-lg p-2 h-btn-minus-plus-mob lg:h-btn-minus-plus-desk bg-app-clear-white dark:bg-app-dark-gray hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple border border-app-clear-black dark:border-app-dark-gray2 focus:ring-app-clear-black dark:focus:ring-app-dark-gray2 focus:ring-2 focus:outline-none"

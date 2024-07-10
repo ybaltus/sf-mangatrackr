@@ -1,3 +1,4 @@
+{% trans_default_domain 'app' %}
 <div{{ attributes }}>
     <!-- component html -->
     <footer class="bg-app-clear-black dark:bg-app-dark-black">
@@ -19,13 +20,12 @@
                         class="md:order-last md:flex md:flex-wrap md:items-center mb-6 text-text-footer-mob md:text-text-footer-tab lg:text-text-footer-desk font-sora-semiBold text-app-clear-white sm:mb-0 dark:text-app-dark-gray2"
                 >
                     <li>
-                        <a href="{{ path('about_index') }}" class="hover:underline me-2 md:me-6" title="À propos">À propos</a>
+                        <a href="{{ path('about_index') }}" class="hover:underline me-2 md:me-6" title="{{ 'app.about'|trans|capitalize }}">{{ 'app.about'|trans|capitalize }}</a>
                     </li>
                     <li class="my-6 md:my-0">
-                        <a href="{{ path('terms_of_use_index') }}" class="hover:underline me-2 md:me-6" title="Mentions légales">Mentions légales</a>
+                        <a href="{{ path('terms_of_use_index') }}" class="hover:underline me-2 md:me-6" title="{{ 'app.terms_of_use'|trans|capitalize }}">{{ 'app.terms_of_use'|trans|capitalize }}</a>
                     </li>
                     <li>
-{#                        <a href="#" class="hover:underline">Contact</a>#}
                         v{{ app_version }}
                     </li>
                 </ul>

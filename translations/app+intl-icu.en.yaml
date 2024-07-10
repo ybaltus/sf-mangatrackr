@@ -13,3 +13,21 @@ app:
   sign_up: sign up
   admin_area: admin area
   my_account: my account
+  terms_of_use: terms of use
+  latest_trends: latest trends
+  synchronized_experience: a synchronized experience
+  latest_releases: latest releases
+  explore: explore
+  explore_text: "{ app_name }, the application dedicated to manga fans,
+                  simplifies the management of your reading progress.
+                  Create your library, track your favorite scans and synchronize
+                  your progress in real time."
+
+scantheque:
+  config_status: set status
+  in_progress: in progress
+  pause: pause
+  archive: archive
+  delete: delete
+  decrease: decrease
+  increase: increase
