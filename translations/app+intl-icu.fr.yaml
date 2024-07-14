@@ -1,4 +1,7 @@
 app:
+  french: français
+  english: anglais
+  language: langue
   manga: manga
   slogan: |
     Synchronisez votre

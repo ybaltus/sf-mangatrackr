@@ -5,6 +5,12 @@
     <nav
             class="z-50 w-full mx-auto py-2 px-2 lg:px-0 lg:py-4 bg-app-clear-white dark:bg-app-dark-gray border-b border-app-clear-gray2 dark:border-app-clear-gray3"
     >
+        {# Params for change language #}
+        {% set currentRoute = app.current_route %}
+        {% set currentParams = app.current_route_parameters|merge(app.request.query.all) %}
+        {% set pathFr = path(currentRoute, currentParams|merge({'_locale': 'fr'})) %}
+        {% set pathEn = path(currentRoute, currentParams|merge({'_locale': 'en'})) %}
+
         <div class="flex flex-wrap items-center justify-between mx-auto max-w-screen-xl p-4">
             <a
                     href="{{ path('home_index') }}"
@@ -57,7 +63,7 @@
 
                 </button>
                 <div
-                        class="z-50 hidden font-sora-regular text-title-menu-mob lg:text-title-manga-desk list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                        class="z-50 hidden font-sora-regular text-title-menu-mob lg:text-title-manga-desk list-none divide-y divide-gray-100 bg-app-clear-white dark:bg-app-dark-gray dark:divide-gray-600 rounded-lg shadow border-2 border-app-clear-gray3 dark:border-2 dark:border-app-dark-gray1"
                         id="user-dropdown"
                 >
                     {% if app.user %}
@@ -65,7 +71,7 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li>
                                     <a href="{{ path('admin_index') }}"
-                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                       class="block px-4 py-2 text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white dark:hover:text-app-clear-black hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"
                                        title="{{ 'app.admin_area'|trans|capitalize }}"
                                     >
                                         {{ 'app.admin_area'|trans|capitalize }}
@@ -74,7 +80,7 @@
                             {% endif %}
                             <li>
                                 <a href="{{ path('user_index') }}"
-                                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                   class="block px-4 py-2 text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white dark:hover:text-app-clear-black hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"
                                    title="{{ 'app.my_account'|trans|capitalize }}"
                                 >
                                     {{ 'app.my_account'|trans|capitalize }}
@@ -82,7 +88,7 @@
                             </li>
                             <li>
                                 <a href="{{ path('security_logout') }}"
-                                   class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                   class="block px-4 py-2 text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white dark:hover:text-app-clear-black hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"
                                    title="{{ 'app.sign_out'|trans|capitalize }}"
                                 >
                                     {{ 'app.sign_out'|trans|capitalize }}
@@ -90,16 +96,63 @@
                             </li>
                         </ul>
                     {% else %}
-                        <div class="px-4 py-3">
+                        <div class="py-2">
                             <a
                                     href="{{ path('security_login') }}"
-                                    class="block text-gray-900 dark:text-white"
+                                    class="block px-3 py-1 text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white dark:hover:text-app-clear-black hover:bg-app-clear-purple3 dark:hover:bg-app-dark-purple"
                                     title="{{ 'app.sign_in'|trans|capitalize }}"
                             >
                                 {{ 'app.sign_in'|trans|capitalize }}
                             </a>
                         </div>
                     {% endif %}
+                </div>
+
+                {# Language select #}
+                <div
+                        {{ stimulus_controller('language', {'pathFr': pathFr, 'pathEn': pathEn, 'currentLang': app.locale }) }}
+                        class="hidden lg:flex gap-2"
+                >
+                        <select
+                                {{ stimulus_action('language', 'changeLanguage', 'change', {currentLang: app.locale}) }}
+                                class="block py-2.5 px-0 w-full tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-white dark:bg-app-dark-gray border-0 border-b-2 border-app-clear-black dark:border-app-dark-gray2 appearance-none focus:outline-none focus:ring-0 focus:border-app-clear-gray3 peer"
+                        >
+                            <option
+                                    class="hover:bg-app-clear-purple"
+                                    {% if app.locale == 'en' %}
+                                        selected
+                                    {% endif %}
+                                    value="en"
+                            >
+                                EN
+                            </option>
+                            <option
+                                    {% if app.locale == 'fr' %}
+                                        selected
+                                    {% endif %}
+                                    value="fr"
+                            >
+                                FR
+                            </option>
+                        </select>
+                    {#                    <button#}
+                    {#                            {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathEn, targetLang: 'en', currentLocale: app.locale}) }}#}
+                    {#                            class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"#}
+                    {#                            id="enBtn"#}
+                    {#                            title="{{ 'app.english'|trans|capitalize }}"#}
+                    {#                    >#}
+                    {#                        EN#}
+                    {#                    </button>#}
+
+                    {#                    <span class="text-app-dark-gray dark:text-app-dark-gray2">|</span>#}
+                    {#                    <button#}
+                    {#                            {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathFr, targetLang: 'fr', currentLocale: app.locale}) }}#}
+                    {#                            class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"#}
+                    {#                            id="frBtn"#}
+                    {#                            title="{{ 'app.french'|trans|capitalize }}"#}
+                    {#                    >#}
+                    {#                        FR#}
+                    {#                    </button>#}
                 </div>
 
                 {# Mobile burger menu#}
@@ -145,6 +198,36 @@
                             </li>
                         {% endif %}
                     {% endfor %}
+                    <li
+                            {{ stimulus_controller('language') }}
+                            class="flex gap-2 lg:hidden"
+                    >
+                        <button
+                                {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathEn, targetLang: 'en', currentLocale: app.locale}) }}
+                                class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"
+                                id="enBtn"
+                                title="{{ 'app.english'|trans|capitalize }}"
+                        >
+                            <img class="w-5 h-5 rounded-full me-3"
+                                 src="{{ asset('build/images/united-states-of-america-united-states-svgrepo-com.svg') }}"
+                                 alt="{{ app_team_name_1 }}"
+                            >
+                            EN
+                        </button>
+                        <span class="text-app-dark-gray dark:text-app-dark-gray2">|</span>
+                        <button
+                                {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathFr, targetLang: 'fr', currentLocale: app.locale}) }}
+                                class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"
+                                id="frBtn"
+                                title="{{ 'app.french'|trans|capitalize }}"
+                        >
+                            <img class="w-5 h-5 rounded-full me-3"
+                                 src="{{ asset('build/images/france-svgrepo-com.svg') }}"
+                                 alt="{{ app_team_name_1 }}"
+                            >
+                            FR
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
