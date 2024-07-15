@@ -25,10 +25,6 @@ class UserType extends AbstractType
                     new Length([
                         'min' => 2,
                         'max' => 20,
-                        'maxMessage' => 'Cette valeur est trop longue.
-                         Elle ne doit pas dépasser {{ limit }} caractères.',
-                        'minMessage' => 'Cette valeur est trop petite.
-                         Elle doit contenir au moins {{ limit }} caractères.',
                     ]),
                 ],
                 'required' => true,

@@ -111,3 +111,4 @@ user:
     hint_min_chars: "Minimum {nbChar} characters."
     delete_p1: Deleting your account is irreversible and all your data will be deleted.
     delete_p2: Are you sure you want to delete your account ?
+    invalid_password: Password fields must match.

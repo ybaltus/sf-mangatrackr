@@ -34,8 +34,7 @@ class UserController extends AbstractController
         Security $security,
         UserPasswordHasherInterface $passwordHasher,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         /**
          * @var User $user
          */
