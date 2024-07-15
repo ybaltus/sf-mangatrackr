@@ -113,46 +113,32 @@
                         {{ stimulus_controller('language', {'pathFr': pathFr, 'pathEn': pathEn, 'currentLang': app.locale }) }}
                         class="hidden lg:flex gap-2"
                 >
-                        <select
-                                {{ stimulus_action('language', 'changeLanguage', 'change', {currentLang: app.locale}) }}
-                                class="block py-2.5 px-0 w-full tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-white dark:bg-app-dark-gray border-0 border-b-2 border-app-clear-black dark:border-app-dark-gray2 appearance-none focus:outline-none focus:ring-0 focus:border-app-clear-gray3 peer"
-                        >
-                            <option
-                                    class="hover:bg-app-clear-purple"
-                                    {% if app.locale == 'en' %}
-                                        selected
-                                    {% endif %}
-                                    value="en"
-                            >
-                                EN
-                            </option>
-                            <option
-                                    {% if app.locale == 'fr' %}
-                                        selected
-                                    {% endif %}
-                                    value="fr"
-                            >
-                                FR
-                            </option>
-                        </select>
-                    {#                    <button#}
-                    {#                            {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathEn, targetLang: 'en', currentLocale: app.locale}) }}#}
-                    {#                            class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"#}
-                    {#                            id="enBtn"#}
-                    {#                            title="{{ 'app.english'|trans|capitalize }}"#}
-                    {#                    >#}
-                    {#                        EN#}
-                    {#                    </button>#}
 
-                    {#                    <span class="text-app-dark-gray dark:text-app-dark-gray2">|</span>#}
-                    {#                    <button#}
-                    {#                            {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathFr, targetLang: 'fr', currentLocale: app.locale}) }}#}
-                    {#                            class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"#}
-                    {#                            id="frBtn"#}
-                    {#                            title="{{ 'app.french'|trans|capitalize }}"#}
-                    {#                    >#}
-                    {#                        FR#}
-                    {#                    </button>#}
+                    <select
+                            {{ stimulus_action('language', 'changeLanguage', 'change', {currentLang: app.locale}) }}
+                            class="block py-2.5 px-0 w-full tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-white dark:bg-app-dark-gray border-0 border-b-2 border-app-clear-black dark:border-app-dark-gray2 appearance-none focus:outline-none focus:ring-0 focus:border-app-clear-purple3 dark:focus:border-app-dark-purple peer"
+                            id="selectLanguage"
+                    >
+                        <option
+                                class="hover:bg-app-clear-purple"
+                                {% if app.locale == 'en' %}
+                                    selected
+                                {% endif %}
+                                value="en"
+                                title="{{ 'app.english'|trans|capitalize }}"
+                        >
+                            EN
+                        </option>
+                        <option
+                                {% if app.locale == 'fr' %}
+                                    selected
+                                {% endif %}
+                                value="fr"
+                                title="{{ 'app.french'|trans|capitalize }}"
+                        >
+                            FR
+                        </option>
+                    </select>
                 </div>
 
                 {# Mobile burger menu#}
@@ -198,37 +184,42 @@
                             </li>
                         {% endif %}
                     {% endfor %}
-                    <li
-                            {{ stimulus_controller('language') }}
-                            class="flex gap-2 lg:hidden"
+                </ul>
+
+                <hr class="h-px my-8 bg-app-clear-black border-0 dark:bg-app-dark-gray2">
+
+                {# Language select (mobile devices) #}
+                <div
+                        {{ stimulus_controller('language', {'pathFr': pathFr, 'pathEn': pathEn, 'currentLang': app.locale }) }}
+                        class="lg:hidden gap-2 inline-flex items-center"
+                >
+
+                    <select
+                            {{ stimulus_action('language', 'changeLanguage', 'change', {currentLang: app.locale}) }}
+                            class="block py-2.5 px-0 w-full tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-app-clear-white dark:bg-app-dark-gray border-0 border-b-2 border-app-clear-black dark:border-app-dark-gray2 appearance-none focus:outline-none focus:ring-0 focus:border-app-clear-purple3 dark:focus:border-app-dark-purple peer"
+                            id="selectLanguage"
                     >
-                        <button
-                                {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathEn, targetLang: 'en', currentLocale: app.locale}) }}
-                                class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"
-                                id="enBtn"
+                        <option
+                                class="hover:bg-app-clear-purple"
+                                {% if app.locale == 'en' %}
+                                    selected
+                                {% endif %}
+                                value="en"
                                 title="{{ 'app.english'|trans|capitalize }}"
                         >
-                            <img class="w-5 h-5 rounded-full me-3"
-                                 src="{{ asset('build/images/united-states-of-america-united-states-svgrepo-com.svg') }}"
-                                 alt="{{ app_team_name_1 }}"
-                            >
-                            EN
-                        </button>
-                        <span class="text-app-dark-gray dark:text-app-dark-gray2">|</span>
-                        <button
-                                {{ stimulus_action('language', 'changeLanguage', 'click', {targetPath: pathFr, targetLang: 'fr', currentLocale: app.locale}) }}
-                                class="inline-flex items-center tracking-titles-spacing font-bangers-regular text-title-menu-mob md:text-title-menu-tab lg:text-title-manga-desk text-app-clear-black dark:text-app-dark-gray2 bg-transparent cursor-pointer hover:text-app-clear-purple dark:hover:text-app-dark-purple"
-                                id="frBtn"
+                            {{ 'app.english'|trans|capitalize }}
+                        </option>
+                        <option
+                                {% if app.locale == 'fr' %}
+                                    selected
+                                {% endif %}
+                                value="fr"
                                 title="{{ 'app.french'|trans|capitalize }}"
                         >
-                            <img class="w-5 h-5 rounded-full me-3"
-                                 src="{{ asset('build/images/france-svgrepo-com.svg') }}"
-                                 alt="{{ app_team_name_1 }}"
-                            >
-                            FR
-                        </button>
-                    </li>
-                </ul>
+                            {{ 'app.french'|trans|capitalize }}
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
     </nav>
