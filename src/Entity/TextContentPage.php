@@ -51,6 +51,14 @@ class TextContentPage
     #[Assert\Type('boolean')]
     private bool $isActivated = true;
 
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 4000
+    )]
+    private string $contentTransFr;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -137,5 +145,17 @@ class TextContentPage
     public function setUpdatedAtValue(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getContentTransFr(): string
+    {
+        return $this->contentTransFr;
+    }
+
+    public function setContentTransFr(string $contentTransFr): static
+    {
+        $this->contentTransFr = $contentTransFr;
+
+        return $this;
     }
 }

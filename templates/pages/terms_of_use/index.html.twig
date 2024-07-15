@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Mentions Légales{% endblock %}
+{% trans_default_domain 'app' %}
+{% block title %}{{ 'app.terms_of_use2'|trans }}{% endblock %}
 
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: "Mentions Légales",
+        title: 'app.terms_of_use2'|trans,
     }) }}
 
     <section
@@ -16,7 +16,11 @@
 
             {% if terms is not null %}
                 {# Text generate with Trix Editor #}
-                {{ terms.content|raw }}
+                {% if app.locale == 'fr' %}
+                    {{ terms.contentTransFr|raw }}
+                {% else %}
+                    {{ terms.content|raw }}
+                {% endif %}
             {% else %}
                 <p>
 
