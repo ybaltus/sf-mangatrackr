@@ -33,11 +33,15 @@ class CalendarController extends AbstractController
 
         // Group the releases per dates
         $releasesFormatted = [];
+        $locale = $request->getLocale();
+
         /**
          * @var ReleaseMangaUpdatesAPI $release
          */
         foreach ($paginationReleases as $release) {
-            $releasedAt = $release->getReleasedAt()->format('d/m/Y');
+            $releasedAt = 'fr' === $locale ?
+                $release->getReleasedAt()->format('d/m/Y')
+                : $release->getReleasedAt()->format('m/d/Y');
             if (!array_key_exists($releasedAt, $releasesFormatted)) {
                 $releasesFormatted[$releasedAt] = [];
             }
