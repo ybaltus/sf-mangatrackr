@@ -34,3 +34,11 @@ scantheque:
   delete: supprimer
   decrease: diminuer
   increase: augmenter
+
+catalog:
+  adult: Adulte
+  search: Rechercher un manga
+  search_advanced: Recherche étendue
+  toggleAdvancedText: Activer la recherche étendue à travers le web.
+  toggleAdultText: Activer le contenu pour adulte (érotique, ecchi et hentai).
+  noResults: Aucun résultats.

@@ -3,7 +3,7 @@
         {% if mangasSearch is defined %}
             {% if mangasSearch|length == 0 and searchTerm != '' %}
                 <p id="p-noresults" class="mb-10 text-gray-500 dark:text-gray-400">
-                    Aucun résultats.
+                    {{ 'catalog.noResults'|trans({},'app')}}
                 </p>
             {% endif %}
             {% for key, manga in mangasSearch %}

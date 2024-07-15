@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Catalogue{% endblock %}
+{% trans_default_domain 'app' %}
+{% block title %}{{ 'app.catalog'|trans|capitalize }}{% endblock %}
 
 {% block stylesheetsExtends %}
     {{ encore_entry_link_tags('htmx') }}
@@ -13,21 +13,21 @@
 {% block body %}
     {# Header #}
     {{ component('SectionHeaderComponent', {
-        title: 'Catalogue',
+        title: 'app.catalog'|trans|capitalize,
         menuBreadcrumb: {
-            'current' : 'Catalogue'
+            'current' : 'app.catalog'|trans|capitalize
         }
     }) }}
 
     {# Search Bar #}
     {{ component('SearchComponent', {
-        placeholder: 'Rechercher un manga',
+        placeholder: 'catalog.search'|trans,
         isToggleAdvanced: true,
-        toggleAdvancedTitle: 'Recherche étendue',
-        toggleAdvancedText: 'Activer la recherche étendue à travers le web.',
+        toggleAdvancedTitle: 'catalog.search_advanced'|trans,
+        toggleAdvancedText: 'catalog.toggleAdvancedText'|trans,
         isToggleAdult: true,
-        toggleAdultTitle: 'Adulte',
-        toggleAdultText: 'Activer le contenu pour adulte (érotique, ecchi et hentai).',
+        toggleAdultTitle: 'catalog.adult'|trans,
+        toggleAdultText: 'catalog.toggleAdultText'|trans,
     }) }}
 
     {# HTMX Search results #}
