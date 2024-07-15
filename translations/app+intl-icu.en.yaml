@@ -73,3 +73,41 @@ about:
       browser, but log in to avoid data loss."
   p4: "If you have any questions or comments, please don't hesitate to contact us at : { mailer_contact }"
 
+user:
+  my_account: My account
+  edit_user_success: Your information has been successfully edited !
+  edit_pass_success: The password has been successfully edited !
+  wrong_password: The password you entered is incorrect.
+  deletion_in: Deletion in
+  seconds: seconds
+  infos: Infos
+  exports: Exports
+  export_data: Exporting data
+  export_scantheque: Export my Scanthèque
+  click_here: Click here to
+  edit_infos: Edit my information
+  change_password: Change my password
+  delete_account: Delete my account
+  cancel_account: Cancel deletion
+  hello: "Hello { username } !"
+  p1: "MangaSync is fully committed to preserving the privacy of its users. In accordance with our legal notice,
+      we would like to remind you that no personal data is recorded, with the exception of the e-mail address associated with the account,
+      the pseudonym and the contents of the scanthèque. This information is kept strictly confidential."
+  p2: "We assure you of an ad-free experience, underlining our commitment to uninterrupted, content-driven usage.
+      Enjoy MangaSync with confidence, without fear of invasion of your privacy."
+  form:
+    username: Username
+    pseudo: My username
+    email: Email
+    save_infos: Save changes
+    submit: Validate
+    submit_edit: Modify
+    show: Show
+    hide: Hide
+    password: Password
+    new_password: New password
+    new_password_confirm: Confirm new password
+    hint_max_chars: "Maximum {nbChar} characters."
+    hint_min_chars: "Minimum {nbChar} characters."
+    delete_p1: Deleting your account is irreversible and all your data will be deleted.
+    delete_p2: Are you sure you want to delete your account ?

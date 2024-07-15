@@ -22,8 +22,8 @@ class UserPasswordType extends AbstractType
                 ],
                 'required' => true,
                 'toggle' => true,
-                'hidden_label' => 'Masquer',
-                'visible_label' => 'Afficher',
+                'hidden_label' => 'user.form.hide',
+                'visible_label' => 'user.form.show',
                 'button_classes' => ['toggle-password-button', 'text-app-clear-black', 'dark:text-app-dark-gray2'],
                 'constraints' => [
                     new NotBlank([

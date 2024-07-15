@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'app' %}
 
-{% block title %}Mon compte{% endblock %}
+{% block title %}{{ 'user.my_account'|trans }}{% endblock %}
 
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: 'Mon compte',
+        title: 'user.my_account'|trans,
         menuBreadcrumb: {
-            'current' : 'Mon compte'
+            'current' : 'user.my_account'|trans
         }
     }) }}
 
@@ -44,12 +45,12 @@
                         data-tabs-target="#tab-content-1"
                         aria-controls="tab-content-1"
                         role="tab"
-                        title="Infos"
+                        title="{{ 'user.infos'|trans }}"
                 >
                     <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
                     </svg>
-                    Infos
+                    {{ 'user.infos'|trans }}
                 </a>
             </li>
             {# Btn tab 2 #}
@@ -65,13 +66,13 @@
                         {% endif %}
                         aria-controls="tab-content-2"
                         role="tab"
-                        title="Exports"
+                        title="{{ 'user.exports'|trans }}"
                 >
                     <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M13 11.1V4a1 1 0 1 0-2 0v7.1L8.8 8.4a1 1 0 1 0-1.6 1.2l4 5a1 1 0 0 0 1.6 0l4-5a1 1 0 1 0-1.6-1.2L13 11Z" clip-rule="evenodd"/>
                         <path fill-rule="evenodd" d="M9.7 15.9 7.4 13H5a2 2 0 0 0-2 2v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2.4l-2.3 2.9a3 3 0 0 1-4.6 0Zm7.3.1a1 1 0 1 0 0 2 1 1 0 1 0 0-2Z" clip-rule="evenodd"/>
                     </svg>
-                    Exports
+                    {{ 'user.exports'|trans }}
                 </a>
             </li>
             {# Btn tab 3 #}
@@ -87,13 +88,13 @@
                         {% endif %}
                         aria-controls="tab-content-3"
                         role="tab"
-                        title="Éditer mes informations"
+                        title="{{ 'user.edit_infos'|trans }}"
                 >
                     <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm-1.391 7.361.707-3.535a3 3 0 0 1 .82-1.533L7.929 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h4.259a2.975 2.975 0 0 1-.15-1.639ZM8.05 17.95a1 1 0 0 1-.981-1.2l.708-3.536a1 1 0 0 1 .274-.511l6.363-6.364a3.007 3.007 0 0 1 4.243 0 3.007 3.007 0 0 1 0 4.243l-6.365 6.363a1 1 0 0 1-.511.274l-3.536.708a1.07 1.07 0 0 1-.195.023Z"/>
                     </svg>
 
-                    Éditer mes informations
+                    {{ 'user.edit_infos'|trans }}
                 </a>
             </li>
             {# Btn tab 4 #}
@@ -109,12 +110,12 @@
                         {% endif %}
                         aria-controls="tab-content-4"
                         role="tab"
-                        title="Changer mon mot de passe"
+                        title="{{ 'user.change_password'|trans }}"
                 >
                     <svg class="w-5 h-5 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
                     </svg>
-                    Changer mon mot de passe
+                    {{ 'user.change_password'|trans }}
                 </a>
             </li>
             {# Btn tab 5 #}
@@ -126,12 +127,12 @@
                         aria-selected="false"
                         aria-controls="tab-content-5"
                         role="tab"
-                        title="Supprimer mon compte"
+                        title="{{ 'user.delete_account'|trans }}"
                 >
                     <svg class="w-4 h-4 me-2 text-app-clear-black dark:text-app-dark-gray2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z"/>
                     </svg>
-                    Supprimer mon compte
+                    {{ 'user.delete_account'|trans }}
                 </a>
             </li>
         </ul>
@@ -143,14 +144,14 @@
         >
             <div class="p-4 bg-app-clear-white rounded-forms md:p-8 dark:bg-app-dark-gray" id="stats" aria-labelledby="stats-tab">
                 <h3 class="text-left text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-10">
-                    Hello {{ user.username }} !
+                    {{ 'user.hello'|trans({'%username%': user.username}) }}
                 </h3>
 
                 <p class="text-mob md:text-tab lg:text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
-                    MangaSync s’engage pleinement à préserver la vie privée de ses utilisateurs. Conformément à nos mentions légales, nous tenons à rappeler qu’aucune donnée personnelle n’est enregistrée, à l’exception de l’adresse mail associée au compte, le speudonyme et le contenu de la scanthèque. Ces informations sont sauvegardées dans le strict respect de la confidentialité.
+                    {{ 'user.p1'|trans }}
                 </p>
                 <p class="text-mob md:text-tab lg:text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
-                    Nous vous assurons une expérience sans publicité, soulignant notre engagement envers une utilisation sans interruption et axée sur le contenu. Profitez pleinement de MangaSync en toute confiance, sans craindre une intrusion dans votre vie privée.
+                    {{ 'user.p2'|trans }}
                 </p>
             </div>
         </div>
@@ -164,22 +165,22 @@
                 <h3
                         id="export-title"
                         class="text-left text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2 mb-2">
-                    Exporter des données
+                    {{'user.export_data'|trans}}
                 </h3>
                 <div class="items-center justify-left space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
                     <a
                             {{ stimulus_action('account', 'exportScantheque') }}
                             href="#"
                             class="w-full sm:w-auto bg-green-700 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                            title="Exporter ma scanthèque"
+                            title="{{'user.export_scantheque'|trans}}"
                     >
                         <svg class="me-3 w-7 h-7 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4c0 .6.4 1 1 1h14c.6 0 1-.4 1-1v-4c0-.6-.4-1-1-1h-2m-1-5-4 5-4-5m9 8h0"/>
                         </svg>
 
                         <div class="text-left rtl:text-right">
-                            <div class="mb-1 text-xs">CLiquez ici pour</div>
-                            <div class="-mt-1 font-sans text-sm font-semibold">Exporter ma Scanthèque</div>
+                            <div class="mb-1 text-xs">{{ 'user.click_here'|trans }}</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">{{ 'user.export_scantheque'|trans }}</div>
                         </div>
                         <svg
                                 {{ stimulus_target('account', 'loadingExportScantheque') }}
@@ -206,7 +207,7 @@
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
-                    Éditer mes informations
+                    {{ 'user.edit_infos'|trans }}
                 </h3>
 
                 <div
@@ -224,7 +225,7 @@
                         <div class="mb-10">
                             {{ form_label(
                                 userForm.username,
-                                "Nom d'utilisateur",
+                                'user.form.username'|trans,
                                 {'label_attr':
                                     {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
@@ -239,18 +240,18 @@
                                 userForm.username,
                                 {'attr': {
                                     'class' : "w-full text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular rounded-lg focus:ring-app-clear-purple3 focus:border-app-clear-purple3 dark:focus:ring-app-dark-purple dark:focus:border-app-dark-purple block p-2.5 bg-app-clear-white dark:bg-app-dark-gray border border-app-clear-gray3 dark:placeholder-app-clear-gray3 ",
-                                    'placeholder': "Mon pseudo"
+                                    'placeholder': 'user.form.pseudo'|trans
                                 }}
                                 ,                        ) }}
                             <p class="mt-1 text-sm text-app-clear-black dark:text-app-dark-gray2">
-                                Maximum 20 caractères.
+                                {{ 'user.form.hint_max_chars'|trans({'%nbChar%': 20}) }}
                             </p>
                         </div>
                         {# Email #}
                         <div class="pb-6">
                             {{ form_label(
                                 userForm.email,
-                                "Email",
+                                'user.form.email'|trans,
                                 {'label_attr':
                                     {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
@@ -272,9 +273,9 @@
                         <button
                                 type="submit"
                                 class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
-                                title="Enregistrer les modifications"
+                                title="{{ 'user.form.save_infos'|trans }}"
                         >
-                            Valider
+                            {{ 'user.form.submit'|trans }}
                         </button>
                         {{ form_end(userForm) }}
                     </div>
@@ -291,7 +292,7 @@
                 <h3
                         class="flex items-center mb-6 text-h3-mob md:lg:text-h3-tab lg:text-h3-desk font-bangers-regular text-app-clear-black dark:text-app-dark-gray2"
                 >
-                    Modifier mon mot de passe
+                    {{ 'user.change_password'|trans }}
                 </h3>
 
                 <div
@@ -309,7 +310,7 @@
                         <div class="mb-10">
                             {{ form_label(
                                 passwordForm.plainPassword,
-                                "Mot de passe",
+                                'user.form.password'|trans,
                                 {'label_attr':
                                     {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
@@ -327,7 +328,7 @@
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
-                                Minimum 8 caractères.
+                                {{ 'user.form.hint_min_chars'|trans({'%nbChar%': 8}) }}
                             </p>
                         </div>
 
@@ -335,7 +336,7 @@
                         <div class="mb-10">
                             {{ form_label(
                                 passwordForm.newPassword.first,
-                                "Nouveau mot de passe",
+                               'user.form.new_password'|trans,
                                 {'label_attr':
                                     {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
@@ -353,11 +354,11 @@
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
-                                Minimum 8 caractères.
+                                {{ 'user.form.hint_min_chars'|trans({'%nbChar%': 8}) }}
                             </p>
                             {{ form_label(
                                 passwordForm.newPassword.second,
-                                "Confirmez le nouveau mot de passe",
+                                'user.form.new_password_confirm'|trans,
                                 {'label_attr':
                                     {'class': "block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"}
                                 })
@@ -375,15 +376,15 @@
                                 }}
                             ) }}
                             <p class="mt-1 mb-4 text-sm text-app-clear-black dark:text-app-dark-gray2">
-                                Minimum 8 caractères.
+                                {{ 'user.form.hint_min_chars'|trans({'%nbChar%': 8}) }}
                             </p>
                         </div>
                         <button
                                 type="submit"
                                 class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2 "
-                                title="Modifier"
+                                title="{{ 'user.form.submit_edit'|trans }}"
                         >
-                            Modifier
+                            {{ 'user.form.submit_edit'|trans }}
                         </button>
                         {{ form_end(passwordForm) }}
                     </div>
@@ -397,17 +398,15 @@
                 role="tabpanel"
         >
             <h5 class="mb-3 text-3xl font-bangers-regular text-gray-900 dark:text-white">
-                Suppression du compte
+                {{ 'user.delete_account'|trans }}
             </h5>
             <div class="w-full p-4 text-left bg-white border-forms border-red-700 rounded-forms shadow sm:p-8 dark:bg-app-dark-gray dark:border-red-700">
 
                 <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
-
-                    La suppression du compte est irréversible et toutes vos données seront supprimées.
+                    {{ 'user.form.delete_p1'|trans }}
                 </p>
                 <p class="mb-5 text-base text-app-clear-black sm:text-lg dark:text-app-dark-gray2">
-
-                    Êtes-vous sûre de vouloir supprimer votre compte ?
+                    {{ 'user.form.delete_p2'|trans }}
                 </p>
                 <p
                         {{ stimulus_target('account', 'counterDelete') }}
@@ -416,19 +415,21 @@
                 >
                 </p>
                 <div class="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
+                    {% set deletionIn = 'user.deletion_in'|trans %}
+                    {% set seconds = 'user.seconds'|trans %}
                     <a
-                            {{ stimulus_action('account', 'deleteUserAccount') }}
+                            {{ stimulus_action('account', 'deleteUserAccount', 'click', {'deletionIn': 'user.deletion_in'|trans, 'seconds': 'user.seconds'|trans}) }}
                             {{ stimulus_target('account', 'btnDelete') }}
                             href="#"
                             class="w-full sm:w-auto bg-red-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-red-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                            title="Supprimer mon compte"
+                            title="{{ 'user.delete_account'|trans }}"
                     >
                         <svg class="me-3 w-7 h-7 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
                         </svg>
                         <div class="text-left rtl:text-right">
-                            <div class="mb-1 text-xs">CLiquez ici pour</div>
-                            <div class="-mt-1 font-sans text-sm font-semibold">Supprimer mon compte</div>
+                            <div class="mb-1 text-xs">{{ 'user.click_here'|trans }}</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">{{ 'user.delete_account'|trans }}</div>
                         </div>
                     </a>
                     <a
@@ -436,14 +437,14 @@
                             {{ stimulus_target('account', 'btnCancelDelete') }}
                             href="#"
                             class="hidden w-full sm:w-auto bg-green-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-green-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                            title="Annuler la suppression"
+                            title="{{ 'user.cancel_account'|trans }}"
                     >
                         <svg class="me-3 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 16">
                             <path d="M10.819.4a1.974 1.974 0 0 0-2.147.33l-6.5 5.773A2.014 2.014 0 0 0 2 6.7V1a1 1 0 0 0-2 0v14a1 1 0 1 0 2 0V9.3c.055.068.114.133.177.194l6.5 5.773a1.982 1.982 0 0 0 2.147.33A1.977 1.977 0 0 0 12 13.773V2.227A1.977 1.977 0 0 0 10.819.4Z"/>
                         </svg>
                         <div class="text-left rtl:text-right">
-                            <div class="mb-1 text-xs">CLiquez ici pour</div>
-                            <div class="-mt-1 font-sans text-sm font-semibold">Annuler la suppression</div>
+                            <div class="mb-1 text-xs">{{ 'user.click_here'|trans }}</div>
+                            <div class="-mt-1 font-sans text-sm font-semibold">{{ 'user.cancel_account'|trans }}</div>
                         </div>
                     </a>
                 </div>

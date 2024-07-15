@@ -72,3 +72,43 @@ about:
       et synchronisez votre progression en temps réel. Par défaut, votre liste de lecture est sauvegardée dans votre
       navigateur, mais connectez-vous pour éviter toute perte de données."
   p4: "Pour toute question ou remarque, n’hésitez pas à nous contacter à : { mailer_contact}"
+
+user:
+  my_account: Mon compte
+  edit_user_success: Vos informations ont été éditées avec succès !
+  edit_pass_success: Le mot de passe a été édité avec success !
+  wrong_password: Le mot de passe renseigné est incorrect.
+  deletion_in: Suppression dans
+  seconds: secondes
+  infos: Infos
+  exports: Exports
+  export_data: Exporter des données
+  export_scantheque: Exporter ma Scanthèque
+  click_here: Cliquez ici pour
+  edit_infos: Éditer mes informations
+  change_password: Changer mon mot de passe
+  delete_account: Supprimer mon compte
+  cancel_account: Annuler la suppression
+  hello: "Hello { username } !"
+  p1: "MangaSync s’engage pleinement à préserver la vie privée de ses utilisateurs. Conformément à nos mentions légales,
+      nous tenons à rappeler qu’aucune donnée personnelle n’est enregistrée, à l’exception de l’adresse mail associée au compte,
+      le pseudonyme et le contenu de la scanthèque. Ces informations sont sauvegardées dans le strict respect de la confidentialité."
+  p2: "Nous vous assurons une expérience sans publicité, soulignant notre engagement envers une utilisation sans interruption et axée sur le contenu.
+      Profitez pleinement de MangaSync en toute confiance, sans craindre une intrusion dans votre vie privée."
+  form:
+    username: Nom d'utilisateur
+    pseudo: Mon pseudo
+    email: Email
+    save_infos: Enregistrer les modifications
+    submit: Valider
+    submit_edit: Modifier
+    show: Afficher
+    hide: Masquer
+    password: Mot de passe
+    new_password: Nouveau mot de passe
+    new_password_confirm: Confirmez le nouveau mot de passe
+    hint_max_chars: "Maximum {nbChar} caractères."
+    hint_min_chars: "Minimum {nbChar} caractères."
+    delete_p1: La suppression du compte est irréversible et toutes vos données seront supprimées.
+    delete_p2: Êtes-vous sûre de vouloir supprimer votre compte ?
+

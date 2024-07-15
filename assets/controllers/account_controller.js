@@ -19,11 +19,13 @@ export default class extends Controller {
             this.counterDeleteTarget.classList.remove('hidden');
             this.btnDeleteTarget.classList.add('hidden');
             this.btnCancelDeleteTarget.classList.remove('hidden');
+            const messageDeletionIn = event.params.deletionIn;
+            const messageSeconds = event.params.seconds;
 
             let i = 10;
 
             this.deleteTimer = setInterval(() => {
-                this.counterDeleteTarget.innerText = 'Suppression dans ' + i + ' secondes';
+                this.counterDeleteTarget.innerText = messageDeletionIn + ' ' + i + ' ' + messageSeconds;
 
                 if (i === 0) {
                     clearInterval(this.deleteTimer);

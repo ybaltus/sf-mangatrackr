@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -28,7 +29,12 @@ class UserController extends AbstractController
     }
 
     #[Route('', name: 'user_index')]
-    public function index(Request $request, Security $security, UserPasswordHasherInterface $passwordHasher): Response
+    public function index(
+        Request $request,
+        Security $security,
+        UserPasswordHasherInterface $passwordHasher,
+        TranslatorInterface $translator
+    ): Response
     {
         /**
          * @var User $user
@@ -50,7 +56,7 @@ class UserController extends AbstractController
             $this->em->flush();
             $this->addFlash(
                 'success',
-                'Vos informations ont été éditées avec succès !'
+                $translator->trans('user.edit_user_success', domain: 'app')
             );
 
             // Login the user if the email is edited
@@ -77,14 +83,14 @@ class UserController extends AbstractController
                 $this->em->flush();
                 $this->addFlash(
                     'success',
-                    'Le mot de passe a été édité avec success !'
+                    $translator->trans('user.edit_pass_success', domain: 'app')
                 );
 
                 return $this->redirectToRoute('user_index');
             } else {
                 $this->addFlash(
                     'warning',
-                    'Le mot de passe renseigné est incorrect.'
+                    $translator->trans('user.wrong_password', domain: 'app')
                 );
             }
 
