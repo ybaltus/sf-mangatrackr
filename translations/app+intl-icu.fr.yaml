@@ -107,8 +107,17 @@ user:
     password: Mot de passe
     new_password: Nouveau mot de passe
     new_password_confirm: Confirmez le nouveau mot de passe
+    forget_password: Mot de passe oublié ?
     hint_max_chars: "Maximum {nbChar} caractères."
     hint_min_chars: "Minimum {nbChar} caractères."
     delete_p1: La suppression du compte est irréversible et toutes vos données seront supprimées.
     delete_p2: Êtes-vous sûre de vouloir supprimer votre compte ?
     invalid_password: Les champs du mot de passe doivent correspondre.
+  login:
+    title: Se connecter
+    login_to: "Se connecter à {app_name}"
+    with_google: Se connecter avec Google
+    or: OU
+    your_email: Votre email
+    no_account: Vous n'avez pas encore de compte ?
+    sign_up: S'inscrire

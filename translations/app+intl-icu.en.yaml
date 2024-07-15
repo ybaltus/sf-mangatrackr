@@ -107,8 +107,17 @@ user:
     password: Password
     new_password: New password
     new_password_confirm: Confirm new password
+    forget_password: Forget password ?
     hint_max_chars: "Maximum {nbChar} characters."
     hint_min_chars: "Minimum {nbChar} characters."
     delete_p1: Deleting your account is irreversible and all your data will be deleted.
     delete_p2: Are you sure you want to delete your account ?
     invalid_password: Password fields must match.
+  login:
+    title: Sign in
+    login_to: "Sign in to {app_name}"
+    with_google: Sign in with Google
+    or: OR
+    your_email: Your email
+    no_account: Don't have an account yet ?
+    sign_up: Sign up

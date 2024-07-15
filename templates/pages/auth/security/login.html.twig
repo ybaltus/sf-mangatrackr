@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'app' %}
 
-{% block title %}Se connecter{% endblock %}
+{% block title %}{{ 'user.login.title'|trans }}{% endblock %}
 
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: 'Se connecter à ' ~ app_name
+        title: 'user.login.login_to'|trans({'%app_name%': app_name})
     }) }}
 
     {# Form #}
@@ -31,7 +32,7 @@
                         <a
                                 href="{{ path('security_oauth_connect', {provider: 'google'}) }}"
                                 class="mx-auto inline-flex rounded-lg items-center justify-center p-5 border-2 border-app-clear-purple3 dark:border-app-dark-purple text-cta-mob md:text-cta-tab lg:text-cta-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2 hover:text-app-clear-white hover:dark:text-app-dark-black hover:bg-app-clear-gray3 dark:hover:bg-app-clear-gray2"
-                                title="Se connecter avec Google"
+                                title="{{ 'user.login.with_google'|trans }}"
                         >
                             <svg
                                     class="w-6 h-6 me-3"
@@ -42,12 +43,12 @@
                                 <path fill-rule="evenodd" d="M12.037 21.998a10.313 10.313 0 0 1-7.168-3.049 9.888 9.888 0 0 1-2.868-7.118 9.947 9.947 0 0 1 3.064-6.949A10.37 10.37 0 0 1 12.212 2h.176a9.935 9.935 0 0 1 6.614 2.564L16.457 6.88a6.187 6.187 0 0 0-4.131-1.566 6.9 6.9 0 0 0-4.794 1.913 6.618 6.618 0 0 0-2.045 4.657 6.608 6.608 0 0 0 1.882 4.723 6.891 6.891 0 0 0 4.725 2.07h.143c1.41.072 2.8-.354 3.917-1.2a5.77 5.77 0 0 0 2.172-3.41l.043-.117H12.22v-3.41h9.678c.075.617.109 1.238.1 1.859-.099 5.741-4.017 9.6-9.746 9.6l-.215-.002Z" clip-rule="evenodd"/>
                             </svg>
 
-                            <span class="w-full">Se connecter avec Google</span>
+                            <span class="w-full">{{ 'user.login.with_google'|trans }}</span>
                         </a>
                     </div>
                     <div class="inline-flex items-center justify-center w-full">
                         <hr class="w-[80%] h-px my-8 bg-app-clear-gray3 border-2 dark:bg-app-dark-gray1">
-                        <span class="absolute px-3 font-sora-regular text-app-clear-black -translate-x-1/2 bg-app-clear-white left-1/2 dark:text-app-dark-gray2 dark:bg-app-dark-gray">OU</span>
+                        <span class="absolute px-3 font-sora-regular text-app-clear-black -translate-x-1/2 bg-app-clear-white left-1/2 dark:text-app-dark-gray2 dark:bg-app-dark-gray">{{ 'user.login.or'|trans }}</span>
                     </div>
 
                     <form method="post" class="space-y-6 lg:space-y-8">
@@ -56,7 +57,7 @@
                                     for="inputEmail"
                                     class="block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                             >
-                                Votre email
+                                {{ 'user.login.your_email'|trans }}
                             </label>
                             <input
                                     type="email"
@@ -75,7 +76,7 @@
                                     for="inputPassword"
                                     class="block mb-3 text-label-form-mob md:text-label-form-tab lg:text-label-form-desk font-sora-semiBold text-app-clear-black dark:text-app-dark-gray2"
                             >
-                                Mot de passe
+                                {{ 'user.form.password'|trans }}
                             </label>
                             <div class="toggle-password-container">
                                 <input
@@ -87,8 +88,8 @@
                                         required
                                         autocomplete="current-password"
                                         {{ stimulus_controller('symfony/ux-toggle-password/toggle-password', {
-                                            visibleLabel: 'Afficher',
-                                            hiddenLabel: 'Masquer',
+                                            visibleLabel: 'user.form.show'|trans,
+                                            hiddenLabel: 'user.form.hide'|trans,
                                             buttonClasses: ['toggle-password-button', 'text-app-clear-black', 'dark:text-app-dark-gray2'],
                                         }) }}
                                 >
@@ -117,25 +118,25 @@
                             <a
                                     href="{{ path('reset_password_index') }}"
                                     class="w-full text-end text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob md:text-text-form-tab lg:text-text-form-desk font-sora-regular hover:underline "
-                                    title="Mot de passe oublié ?"
+                                    title="{{ 'user.form.forget_password'|trans }}"
                             >
-                                Mot de passe oublié ?
+                                {{ 'user.form.forget_password'|trans }}
                             </a>
                         </div>
                         <button
                                 type="submit"
                                 class="w-full mb-10 rounded-full font-sora-semiBold text-cta-mob md:text-cta-tab lg:text-cta-desk px-16 py-3.5 text-center text-app-clear-white dark:text-app-dark-black bg-app-clear-purple3 dark:bg-app-dark-purple hover:text-app-clear-white hover:bg-app-clear-gray3 dark:hover:text-app-dark-black dark:hover:bg-app-clear-gray2"
-                                title="Se connecter"
+                                title="{{ 'user.login.title'|trans }}"
                         >
-                            Se connecter
+                            {{ 'user.login.title'|trans }}
                         </button>
                         <p class="text-app-clear-black dark:text-app-dark-gray2 text-text-form-mob lg:text-text-form-desk font-sora-regular">
-                            Vous n'avez pas encore de compte ?
+                            {{ 'user.login.no_account'|trans }}
                             <a
                                     href="#"
                                     class="text-app-clear-purple3 hover:underline dark:text-app-dark-purple underline"
-                                    title="S'inscrire"
-                            >S'inscrire</a>
+                                    title="{{ 'user.login.title'|trans }}"
+                            >{{ 'user.login.title'|trans }}</a>
                         </p>
                     </form>
                 </div>
