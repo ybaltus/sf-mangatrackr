@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'app' %}
 
-{% block title %}À propos{% endblock %}
+{% block title %}{{ 'app.about'|trans|capitalize }}{% endblock %}
 
 {% block body %}
     {# About  #}
@@ -10,31 +11,26 @@
                 <h1
                         class="text-h1-mob md:text-h1-tab lg:text-h1-desk tracking-titles-spacing font-bangers-regular"
                 >
-                    Lisez.<br>
+                    {{ 'about.read'|trans }}.<br>
                     <span
                             class="text-app-clear-purple3 dark:text-app-dark-purple"
                     >
-                        Suivez. <br>
+                        {{ 'about.follow'|trans }}. <br>
                     </span>
-                    Répétez.
-
+                    {{ 'about.repeat'|trans }}.
                 </h1>
             </div>
             <div
                     class="lg:max-w-xl font-sora-regular text-text-mob md:text-text-tab  lg:text-text-desk text-app-clear-black dark:text-app-dark-gray2"
             >
                 <p class="mb-4 md:mb-10 lg:mb-10">
-                    {{ app_name }} est une application dédiée aux passionnés de mangas qui recherchent une solution simple
-                    et efficace pour suivre leur progression de lecture.
+                    {{ 'about.p1'|trans({'%app_name%' : app_name}) }}
                 </p>
                 <p class="mb-4 lg:mb-10">
-                    Notre mission est claire : simplifier votre expérience de lecture de scans. Chaque lecteur a ses préférences
-                    et son rythme, c’est pourquoi {{ app_name }} propose une solution sans tracas pour suivre vos mangas.
+                    {{ 'about.p2'|trans({'%app_name%' : app_name}) }}
                 </p>
                 <p>
-                    Créez votre compte {{ app_name }} pour maximiser votre plaisir de lecture. Accédez à votre scanthèque de n’importe où
-                    et synchronisez votre progression en temps réel. Par défaut, votre liste de lecture est sauvegardée dans votre
-                    navigateur, mais connectez-vous pour éviter toute perte de données.
+                    {{ 'about.p3'|trans({'%app_name%' : app_name}) }}
                 </p>
             </div>
         </div>
@@ -67,11 +63,10 @@
             </div>
             <div class="px-4 lg:px-0 max-w-full lg:max-w-sm text-app-clear-black dark:text-app-dark-gray2 order-1 md:order-2 lg:order-2">
                 <h2 class="mb-10 md:mb-20 lg:mb-20 text-h2-mob md:text-h2-tab lg:text-h2-desk font-bangers-regular tracking-titles-spacing">
-                    L'équipe
+                    {{ 'about.team'|trans }}
                 </h2>
                 <p class="mb-4 font-sora-regular text-text-mob md:text-text-tab lg:text-text-desk">
-                    Pour toute question ou remarque, n’hésitez pas à nous contacter à : {{ mailer_contact}}
-                </p>
+                    {{ 'about.p4'|trans({'%mailer_contact%' : mailer_contact}) }}                </p>
             </div>
         </div>
     </section>

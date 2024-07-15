@@ -58,3 +58,17 @@ manga:
   author: Autheur
   designer: Designer
   edition: Édition
+
+about:
+  read: Lisez
+  follow: Suivez
+  repeat: Répétez
+  team: L'équipe
+  p1: "{ app_name } est une application dédiée aux passionnés de mangas qui recherchent une solution simple
+       et efficace pour suivre leur progression de lecture."
+  p2: "Notre mission est claire : simplifier votre expérience de lecture de scans. Chaque lecteur a ses préférences
+      et son rythme, c’est pourquoi { app_name } propose une solution sans tracas pour suivre vos mangas."
+  p3: "Créez votre compte { app_name } pour maximiser votre plaisir de lecture. Accédez à votre scanthèque de n’importe où
+      et synchronisez votre progression en temps réel. Par défaut, votre liste de lecture est sauvegardée dans votre
+      navigateur, mais connectez-vous pour éviter toute perte de données."
+  p4: "Pour toute question ou remarque, n’hésitez pas à nous contacter à : { mailer_contact}"

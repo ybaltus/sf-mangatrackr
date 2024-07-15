@@ -59,3 +59,17 @@ manga:
   designer: Designer
   edition: Edition
 
+about:
+  read: Read
+  follow: Follow
+  repeat: Repeat
+  team: The team
+  p1: "{ app_name } is an application dedicated to manga fans who are looking for a simple and
+       to track their reading progress."
+  p2: "Our mission is clear: to simplify your scan reading experience. Every reader has his or her own preferences and pace,
+      which is why { app_name } offers a hassle-free solution to keep track of your manga."
+  p3: "Create your { app_name } account to maximize your reading pleasure. Access your library from anywhere
+      and synchronize your progress in real time. By default, your playlist is saved in your browser.
+      browser, but log in to avoid data loss."
+  p4: "If you have any questions or comments, please don't hesitate to contact us at : { mailer_contact }"
+
