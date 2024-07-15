@@ -67,7 +67,7 @@
                     >
                         <ul class="py-2 md:py-2 lg:py-2 text-center" aria-labelledby="dropdown-btn">
                             <li
-                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click', {'deleteConfirm': 'scantheque.delete_confirm'|trans}) }}
                                     title="{{ 'scantheque.in_progress'|trans|capitalize }}"
                                     status-track="play"
                                     class="hidden border-b-2 border-app-clear-gray3 dark:border-app-dark-gray1"
@@ -79,7 +79,7 @@
                                 </p>
                             </li>
                             <li
-                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click', {'deleteConfirm': 'scantheque.delete_confirm'|trans}) }}
                                     title="{{ 'scantheque.pause'|trans|capitalize }}"
                                     status-track="pause"
                                     class="hidden border-b-2 border-app-clear-gray3 dark:border-app-dark-gray1"
@@ -92,7 +92,7 @@
                                 </p>
                             </li>
                             <li
-                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click', {'deleteConfirm': 'scantheque.delete_confirm'|trans}) }}
                                     class="hidden border-y-2 border-app-clear-gray3 dark:border-app-dark-gray1"
                                     title="{{ 'scantheque.archive'|trans|capitalize }}"
                                     status-track="archived"
@@ -104,7 +104,7 @@
                                 </p>
                             </li>
                             <li
-                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click') }}
+                                    {{ stimulus_action('scantheque', 'setStatusManga', 'click', {'deleteConfirm': 'scantheque.delete_confirm'|trans}) }}
                                     title="{{ 'scantheque.delete'|trans|capitalize }}"
                                     status-track="delete"
                             >

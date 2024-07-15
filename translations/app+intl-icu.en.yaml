@@ -41,6 +41,7 @@ scantheque:
   chapter_play: Chapters in progress
   chapter_pause: Chapters in pause
   chapter_archived: Archived chapters
+  delete_confirm: Do you really want to delete this manga ?
   step1: "Step 1 : Explore the catalog"
   step2: "Step 2 : Add to Scanthèque"
   step3: "Step 3 : Customize and enjoy"

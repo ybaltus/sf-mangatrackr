@@ -14,7 +14,7 @@
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: user ? 'scantheque.hello'|trans : 'app.scantheque'|trans|capitalize,
+        title: user ? 'scantheque.hello'|trans({'%username%': user.username}) : 'app.scantheque'|trans|capitalize,
         menuBreadcrumb: {
             'app.catalog' : path('catalog_index'),
             'current' : 'app.scantheque'|trans|capitalize

@@ -73,11 +73,8 @@ export default class extends Controller {
             if (userConnected) {
                 userService.persistScanthequeDatas(statusTrack, [mangaData.titleSlug = {...mangaData, 'statusTrack': statusTrack, 'nbChaptersTrack': 1}]);
             }
-
-            // toastService.handleToastMessage('Ajouté à la scanthèque !');
             toastService.handleToastMessage(messageSuccess);
         } else {
-            // toastService.handleToastMessage('Existe déjà dans la scanthèque.');
             toastService.handleToastMessage(messageAlreadyExist);
         }
     }
@@ -117,8 +114,9 @@ export default class extends Controller {
         const titleSlug = currentElement.getAttribute('manga-title-slug');
         const mangaCardId = currentElement.getAttribute('manga-card-id');
 
+        const deleteConfirmLang = event.params.deleteConfirm;
         // Request confirmation before deleting
-        if (newStatusTrack === 'delete' && !confirm("Voulez-vous vraiment supprimer ce manga ?")) {
+        if (newStatusTrack === 'delete' && !confirm(deleteConfirmLang)) {
             // Cancel
             return;
         }

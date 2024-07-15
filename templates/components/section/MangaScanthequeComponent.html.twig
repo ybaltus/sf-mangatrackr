@@ -1,3 +1,4 @@
+{% trans_default_domain 'app' %}
 <div{{ attributes }}>
     <!-- component html -->
     <section
@@ -26,7 +27,6 @@
                                 aria-expanded="true"
                             {% endif %}
                             aria-controls="scantheque-list-{{ statusTrack }}"
-                            title="Afficher les chapitres archivés"
                     >
                         <svg
                                 data-accordion-icon

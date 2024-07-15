@@ -41,6 +41,7 @@ scantheque:
   chapter_play: Les chapitres en cours
   chapter_pause: Les chapitres en pause
   chapter_archived: Les chapitres archivés
+  delete_confirm: Voulez-vous vraiment supprimer ce manga ?
   step1: "Étape 1 : Explorez le catalogue"
   step2: "Étape 2 : Ajoutez à la Scanthèque"
   step3: "Étape 3 : Personnalisez et profitez"
