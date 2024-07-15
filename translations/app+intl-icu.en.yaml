@@ -9,7 +9,7 @@ app:
   home: Home
   calendar: calendar
   catalog: catalog
-  scantheque: scantheque
+  scantheque: scanthèque
   about: about
   sign_in: sign in
   sign_out: sign out
@@ -34,6 +34,9 @@ scantheque:
   delete: delete
   decrease: decrease
   increase: increase
+  add_success: Added to the scanthèque !
+  already_exist: Already exists in the scanthèque.
+  btn_add: Add to my scanthèque
 
 catalog:
   adult: Adult
@@ -42,3 +45,17 @@ catalog:
   toggleAdvancedText: Enable extended web search.
   toggleAdultText: Enable adult content (erotica, ecchi and hentai).
   noResults: No results.
+
+manga:
+  chapter: chapter
+  release_last: Last release
+  volume: volume
+  fantrad: Scanlator
+  published: Published on
+  status: Status
+  public: Public
+  category: Category
+  author: Author
+  designer: Designer
+  edition: Edition
+

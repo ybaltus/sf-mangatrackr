@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'app' %}
 
 {% block title %}{{ manga.title|capitalize }}{% endblock %}
 
@@ -17,7 +18,7 @@
             {{ component('BreadcumbComponent', {
                 'isCenter': false,
                 'menus' : {
-                    'Catalogue' : path('catalog_index'),
+                    'app.catalog' : path('catalog_index'),
                     'current' : manga.title
                 }
             }) }}
@@ -26,7 +27,7 @@
 
         {# Toast message #}
         {{ component('ToastComponent', {
-            message: 'Ajouté à la scanthèque !',
+            message: 'scantheque.add_success',
             typeMessage: 'success',
             positionYMob: 'bottom-[18rem]',
             positionXMob: 'right-[2%]',
@@ -65,15 +66,17 @@
                 <div class="hidden w-full md:inline-block lg:inline-block my-10 text-center">
                     {# Add scanthèque #}
                     <button
-                            {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
+                            {{ stimulus_action('scantheque', 'addToScantheque', 'click', {
+                                'mangaData': manga.scanthequeData,
+                                'statusTrack': 'play',
+                                'messageSuccess': 'scantheque.add_success'|trans,
+                                'messageAlreadyExist': 'scantheque.already_exist'|trans
+                            }) }}
                             type="button"
-                            title="Ajouter à ma scanthèque"
+                            title="{{'scantheque.btn_add'|trans}}"
                             class="font-sora-semiBold inline-flex text-cta-mob md:text-cta-tab lg:text-cta-desk px-6 py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-2 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
-                        {#                        <svg class="me-2 my-auto w-8 h-8 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
-                        {#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
-                        {#                        </svg>#}
-                        Ajouter à la scanthèque
+                        {{'scantheque.btn_add'|trans}}
                     </button>
                 </div>
             </div>
@@ -105,7 +108,7 @@
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div class="flex-initial w-[60%] min-w-0">
                                     <p>
-                                        Dernière sortie
+                                        {{'manga.release_last'|trans }}
                                     </p>
                                 </div>
                                 <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -119,7 +122,7 @@
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div class="flex-initial w-[60%] min-w-0">
                                     <p>
-                                        Volumes
+                                        {{ 'manga.volume'|trans|capitalize }}s
                                     </p>
                                 </div>
                                 <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -132,7 +135,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Chapitres
+                                    {{ 'manga.chapter'|trans|capitalize }}s
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -145,7 +148,7 @@
                             <div class="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div class="flex-initial w-[60%] min-w-0">
                                     <p>
-                                        Fantrad(s)
+                                        {{ 'app.fantrad'|trans }}(s)
                                     </p>
                                 </div>
                                 <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -169,7 +172,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Publié le
+                                    {{ 'manga.published'|trans}}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -181,7 +184,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Statut
+                                    {{ 'manga.status'|trans }}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -193,7 +196,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Public
+                                    {{ 'manga.public'|trans }}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -205,7 +208,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Catégorie
+                                    {{'manga.category'|trans}}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -217,7 +220,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Auteur(s)
+                                    {{ 'manga.author'|trans }}(s)
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -243,7 +246,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Designer
+                                    {{ 'manga.designer'|trans }}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -255,7 +258,7 @@
                         <div class="flex items-center space-x-4 rtl:space-x-reverse">
                             <div class="flex-initial w-[60%] min-w-0">
                                 <p>
-                                    Édition
+                                    {{ 'manga.edition'|trans }}
                                 </p>
                             </div>
                             <div class="inline-flex items-center font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
@@ -278,13 +281,13 @@
                     <button
                             {{ stimulus_action('scantheque', 'addToScantheque', 'click', {'mangaData': manga.scanthequeData, 'statusTrack': 'play'}) }}
                             type="button"
-                            title="Ajouter à la scanthèque"
+                            title="{{'scantheque.btn_add'|trans }}"
                             class="font-sora-semiBold text-cta-mob inline-flex md:text-cta-tab lg:text-cta-desk px-8 lg:px-16 py-2 lg:py-3.5 text-center text-app-clear-white dark:text-app-dark-black me-2 mb-3 rounded-full bg-app-clear-purple3 dark:bg-app-dark-purple"
                     >
                         {#                        <svg class="me-2 my-auto w-5 h-5 lg:w-6 lg:h-6 text-app-clear-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 19">#}
                         {#                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>#}
                         {#                        </svg>#}
-                        Ajouter à la scanthèque
+                        {{'scantheque.btn_add'|trans }}
                     </button>
                 </div>
             </div>
@@ -292,12 +295,12 @@
         <div class="flex justify-between w-full pb-10 lg:pb-20 px-2 lg:px-4 mx-auto max-w-screen-xl">
             {# Return btn #}
             {{ component('ButtonNavigateComponent', {
-                title: 'Catalogue',
+                title: 'app.catalog'|trans|capitalize,
                 routeName: path('catalog_index')
             }) }}
             {# Next btn #}
             {{ component('ButtonNavigateComponent', {
-                title: 'Scanthèque',
+                title: 'app.scantheque'|trans|capitalize,
                 routeName: path('scantheque_index'),
                 direction: 'right'
             }) }}

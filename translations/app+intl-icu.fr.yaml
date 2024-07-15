@@ -34,6 +34,9 @@ scantheque:
   delete: supprimer
   decrease: diminuer
   increase: augmenter
+  add_success: Ajouté à la scanthèque !
+  already_exist: Existe déjà dans la scanthèque.
+  btn_add: Ajouter à ma scanthèque
 
 catalog:
   adult: Adulte
@@ -42,3 +45,16 @@ catalog:
   toggleAdvancedText: Activer la recherche étendue à travers le web.
   toggleAdultText: Activer le contenu pour adulte (érotique, ecchi et hentai).
   noResults: Aucun résultats.
+
+manga:
+  chapter: chapitre
+  release_last: Dernière sortie
+  volume: volume
+  fantrad: Fantrad
+  published: Publié le
+  status: Statut
+  public: Public
+  category: Catégorie
+  author: Autheur
+  designer: Designer
+  edition: Édition

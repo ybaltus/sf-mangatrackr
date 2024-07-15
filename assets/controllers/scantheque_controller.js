@@ -63,6 +63,8 @@ export default class extends Controller {
 
         const mangaData = event.params.mangaData;
         const statusTrack = event.params.statusTrack;
+        const messageSuccess = event.params.messageSuccess;
+        const messageAlreadyExist = event.params.messageAlreadyExist;
         const userConnected = this.userConnectedValue;
 
         if (mangaData && !mangaService.searchMangaFromLocalstorage(mangaData.titleSlug) && !mangaService.checkMaxEntry(statusTrack, this.maxEntry)) {
@@ -72,9 +74,11 @@ export default class extends Controller {
                 userService.persistScanthequeDatas(statusTrack, [mangaData.titleSlug = {...mangaData, 'statusTrack': statusTrack, 'nbChaptersTrack': 1}]);
             }
 
-            toastService.handleToastMessage('Ajouté à la scanthèque !');
+            // toastService.handleToastMessage('Ajouté à la scanthèque !');
+            toastService.handleToastMessage(messageSuccess);
         } else {
-            toastService.handleToastMessage('Existe déjà dans la scanthèque.');
+            // toastService.handleToastMessage('Existe déjà dans la scanthèque.');
+            toastService.handleToastMessage(messageAlreadyExist);
         }
     }
 
