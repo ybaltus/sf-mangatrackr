@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'app' %}
 
-{% block title %}Scanthèque{% endblock %}
+{% block title %}{{ 'app.scantheque'|trans|capitalize }}{% endblock %}
 
 {% block stylesheetsExtends %}
     {{ encore_entry_link_tags('htmx') }}
@@ -13,10 +14,10 @@
 {% block body %}
     {#  Header #}
     {{ component('SectionHeaderComponent', {
-        title: user ? 'Hello, ' ~user.username : 'Scanthèque',
+        title: user ? 'scantheque.hello'|trans : 'app.scantheque'|trans|capitalize,
         menuBreadcrumb: {
-            'Catalogue' : path('catalog_index'),
-            'current' : 'Scanthèque'
+            'app.catalog' : path('catalog_index'),
+            'current' : 'app.scantheque'|trans|capitalize
         }
     }) }}
 
@@ -45,22 +46,21 @@
                     class="pb-32 px-4 md:pb-32 md:px-14 lg:pb-32 lg:px-20 mx-auto max-w-screen-xl text-center"
             >
                 <p class="py-20 px-12 md:px-20 lg:px-32 text-text-mob md:text-text-tab lg:text-text-desk font-sora-regular text-app-clear-black dark:text-app-dark-gray2">
-                    Bienvenue dans votre scanthèque {{ app_name}} ! Commencez votre aventure en ajoutant vos mangas préférés.
+                    {{ 'scantheque.p1'|trans({'%app_name%': app_name}) }}
                 </p>
                 <div class="px-4 md:px-6 lg:px-6 mx-auto text-center max-w-screen-lg">
                     {# Step info #}
                     {{  component('StepInfosComponent', {
                         idStep: 'step',
                         titles: [
-                            'Étape 1 : Explorez le catalogue',
-                            'Étape 2 : Ajoutez à la Scanthèque',
-                            'Étape 3 : Personnalisez et profitez',
+                            'scantheque.step1'|trans,
+                            'scantheque.step2'|trans,
+                            'scantheque.step3'|trans,
                         ],
                         contents: [
-                            'Utilisez la barre de recherche pour trouver vos mangas préférés ou explorez de nouveaux scans. <a href="/catalog" class="text-app-clear-purple3 dark:text-app-dark-purple" title="Voir le catalogue">Voir le catalogue.</a>',
-                            'Depuis la page du manga, cliquez sur le bouton “Ajouter à la scanthèque”.',
-                            'Retournez à votre scanthèque où vous verrez maintenant le manga ajouté.
-                            Marquez vos chapitres lus et laissez votre scanthèque évoluer avec vos lectures.'
+                            'scantheque.p2'|trans,
+                            'scantheque.p3'|trans,
+                            'scantheque.p4'|trans
                         ]
                     }) }}
                 </div>
@@ -69,21 +69,21 @@
 
         {# Current Chapters #}
         {{ component('MangaScanthequeComponent', {
-            title: 'Les chapitres en cours',
+            title: 'scantheque.chapter_play'|trans,
             user: user,
             statusTrack: 'play'
         }) }}
 
         {# Paused Chapters #}
         {{ component('MangaScanthequeComponent', {
-            title: 'Les chapitres en pause',
+            title: 'scantheque.chapter_pause'|trans,
             user: user,
             statusTrack: 'pause'
         }) }}
 
         {# Archived Chapters #}
         {{ component('MangaScanthequeComponent', {
-            title: 'Les chapitres archivés',
+            title: 'scantheque.chapter_archived'|trans,
             user: user,
             statusTrack: 'archived'
         }) }}

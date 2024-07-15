@@ -27,6 +27,7 @@ app:
                 votre avancée en temps réel."
 
 scantheque:
+  hello: "Hello, { username }"
   config_status: configurer le status
   in_progress: en cours
   pause: mettre en pause
@@ -37,6 +38,18 @@ scantheque:
   add_success: Ajouté à la scanthèque !
   already_exist: Existe déjà dans la scanthèque.
   btn_add: Ajouter à ma scanthèque
+  chapter_play: Les chapitres en cours
+  chapter_pause: Les chapitres en pause
+  chapter_archived: Les chapitres archivés
+  step1: "Étape 1 : Explorez le catalogue"
+  step2: "Étape 2 : Ajoutez à la Scanthèque"
+  step3: "Étape 3 : Personnalisez et profitez"
+  p1: "Bienvenue dans votre scanthèque { app_name } !
+      Commencez votre aventure en ajoutant vos mangas préférés."
+  p2: "Utilisez la barre de recherche pour trouver vos mangas préférés ou explorez de nouveaux scans. <a href='/catalog' class='text-app-clear-purple3 dark:text-app-dark-purple' title='Voir le catalogue'>Voir le catalogue.</a>"
+  p3: "Depuis la page du manga, cliquez sur le bouton “Ajouter à la scanthèque”."
+  p4: "Retournez à votre scanthèque où vous verrez maintenant le manga ajouté
+      Marquez vos chapitres lus et laissez votre scanthèque évoluer avec vos lectures."
 
 catalog:
   adult: Adulte
