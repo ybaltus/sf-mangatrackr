@@ -106,7 +106,7 @@ abstract class AbstractOAuthAuthenticator extends OAuth2Authenticator implements
         return new RedirectResponse($this->router->generate(self::LOGIN_ROUTE));
     }
 
-    public function start(Request $request, ?AuthenticationException $authException = null)
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new RedirectResponse(
             $this->router->generate(self::LOGIN_ROUTE), // might be the site, where users choose their oauth provider
