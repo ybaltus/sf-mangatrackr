@@ -33,13 +33,20 @@ class InitDataCommand extends Command
 
             // Initialize some mangas for the homepage
             $topManga = $this->apiJikanService->fetchTopManga(25);
-            foreach ($topManga as $manga) {
-                $this->apiJikanService->saveMangaDatasInDb($manga);
+            if ($topManga) {
+                foreach ($topManga as $manga) {
+                    $this->apiJikanService->saveMangaDatasInDb($manga);
+                }
             }
 
             $latestManga = $this->apiJikanService->fetchLastestManga(25);
-            foreach ($latestManga as $manga) {
-                $this->apiJikanService->saveMangaDatasInDb($manga);
+            if ($latestManga) {
+                foreach ($latestManga as $manga) {
+                    $this->apiJikanService->saveMangaDatasInDb($manga);
+                }
+            }
+            if (!$latestManga || !$topManga) {
+                throw new \Exception('Error initDataCommand: No data fetched from API');
             }
 
             $io->success('app:init-datas executed with success !');

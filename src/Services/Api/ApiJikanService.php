@@ -54,9 +54,9 @@ final class ApiJikanService extends AbstractApiService
     /**
      * Fetch the top of mangas.
      *
-     * @return array<mixed>
+     * @return array<mixed>|bool
      */
-    public function fetchTopManga(int $limit = self::LIMIT_SEARCH): array
+    public function fetchTopManga(int $limit = self::LIMIT_SEARCH): array|bool
     {
         // $limit max = 25 for Jikan
         $limit = $limit <= 25 ? $limit : 25;
@@ -66,8 +66,9 @@ final class ApiJikanService extends AbstractApiService
         ];
 
         $response = $this->getRequest($this->baseUrl.'/top/manga', $queryParams);
+
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
-            return ["Error http response : {$response->getStatusCode()}"];
+            return false;
         }
 
         return $response->toArray()['data'];
@@ -76,9 +77,9 @@ final class ApiJikanService extends AbstractApiService
     /**
      * Fetch the latest mangas.
      *
-     * @return array<mixed>
+     * @return array<mixed>|bool
      */
-    public function fetchLastestManga(int $limit = self::LIMIT_SEARCH): array
+    public function fetchLastestManga(int $limit = self::LIMIT_SEARCH): array|bool
     {
         // $limit max = 25 for Jikan
         $limit = $limit <= 25 ? $limit : 25;
@@ -91,7 +92,7 @@ final class ApiJikanService extends AbstractApiService
 
         $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
-            return ["Error http response : {$response->getStatusCode()}"];
+            return false;
         }
 
         return $response->toArray()['data'];
