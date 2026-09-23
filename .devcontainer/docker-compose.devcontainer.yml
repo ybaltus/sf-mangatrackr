@@ -1,0 +1,23 @@
+services:
+  app:
+    # Surcharge le Dockerfile de prod par un Dockerfile dédié au développement
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile.dev
+
+    # Monte le code source en volume pour que les modifications soient reflétées en temps réel
+    volumes:
+      - .:/var/www:cached
+
+    # Garde le conteneur actif sans lancer l'entrypoint de production
+    command: sleep infinity
+
+    environment:
+      APP_ENV: dev
+      DB_HOST: database
+      DATABASE_URL: mysql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@database:3306/${DB_NAME:-sf_mangatrackr_app}?serverVersion=mariadb-11.4.3&charset=utf8mb4
+
+  database:
+    # Expose le port MariaDB pour un accès direct depuis l'hôte (ex: DataGrip)
+    ports:
+      - "3306:3306"

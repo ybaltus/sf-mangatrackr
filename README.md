@@ -41,6 +41,16 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 
 Éxécutez les commandes ci-dessous pour installer le projet.
 
+* Avec **Dev Container** (JetBrains Gateway / PhpStorm) :
+```
+- Ouvrir le projet avec JetBrains Gateway ou PhpStorm
+- Sélectionner "Dev Containers" comme environnement de développement
+- Le conteneur se construit automatiquement et installe les dépendances via make first-install
+- App disponible sur localhost:8080 (Apache) ou localhost:8000 (Symfony CLI)
+- MariaDB accessible sur localhost:3306
+- Xdebug configuré sur le port 9003
+```
+
 * Avec Docker :
 ```
 - make docker-compose-up
