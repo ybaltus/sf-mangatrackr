@@ -3,12 +3,12 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Manga;
-use App\Entity\MangaJikanAPI;
+use App\Entity\MangaTenraiAPI;
 use App\Tests\Traits\AppTestTrait;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class MangaJikanAPITest extends KernelTestCase implements EntityTestInterface
+class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
 {
     use AppTestTrait;
     
@@ -29,13 +29,13 @@ class MangaJikanAPITest extends KernelTestCase implements EntityTestInterface
             ->setAuthor('je suis auteur')
                 ;
 
-        return (new MangaJikanAPI())
+        return (new MangaTenraiAPI())
             ->setManga($manga)
             ->setMalId(25)
-            ->setMalImgJpg('https://jikan.moe/')
-            ->setMalImgJpgLarge('https://jikan.moe/')
-            ->setMalImgWebp('https://jikan.moe/')
-            ->setMalImgWebpLarge('https://jikan.moe/')
+            ->setMalImgJpg('https://api.tenrai.org/')
+            ->setMalImgJpgLarge('https://api.tenrai.org/')
+            ->setMalImgWebp('https://api.tenrai.org/')
+            ->setMalImgWebpLarge('https://api.tenrai.org/')
             ;
     }
 
@@ -52,10 +52,10 @@ class MangaJikanAPITest extends KernelTestCase implements EntityTestInterface
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
         $entity = $this->getEntity('EntityInvalidValid');
-        $entity->setMalImgJpg('jikan.moe');
-        $entity->setMalImgJpgLarge('jikan.moe/');
-        $entity->setMalImgWebp('jikan.moe/');
-        $entity->setMalImgWebpLarge('jikan.moe/');
+        $entity->setMalImgJpg('tenrai.org');
+        $entity->setMalImgJpgLarge('tenrai.org/');
+        $entity->setMalImgWebp('tenrai.org/');
+        $entity->setMalImgWebpLarge('tenrai.org/');
 
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(4, $assertResults[0], $assertResults[1]);

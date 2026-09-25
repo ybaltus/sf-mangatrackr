@@ -2,14 +2,14 @@
 
 namespace App\Tests\Services\Api;
 
-use App\Services\Api\ApiJikanService;
+use App\Services\Api\ApiTenraiService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-final class ApiJikanServiceTest extends TestCase
+final class ApiTenraiServiceTest extends TestCase
 {
     public function testFetchTopMangaSuccess(): void
     {
@@ -28,7 +28,7 @@ final class ApiJikanServiceTest extends TestCase
         $em = $this->createMock(EntityManagerInterface::class);
         $slugger = $this->createMock(SluggerInterface::class);
 
-        $service = new ApiJikanService($httpClient, $em, $slugger, 'https://api.jikan.moe/v4');
+        $service = new ApiTenraiService($httpClient, $em, $slugger, 'https://api.tenrai.org/v1');
         $result = $service->fetchTopManga(10);
 
         $this->assertIsArray($result);
@@ -45,7 +45,7 @@ final class ApiJikanServiceTest extends TestCase
         $em = $this->createMock(EntityManagerInterface::class);
         $slugger = $this->createMock(SluggerInterface::class);
 
-        $service = new ApiJikanService($httpClient, $em, $slugger, 'https://api.jikan.moe/v4');
+        $service = new ApiTenraiService($httpClient, $em, $slugger, 'https://api.tenrai.org/v1');
         $result = $service->fetchTopManga(10);
 
         $this->assertIsBool($result);

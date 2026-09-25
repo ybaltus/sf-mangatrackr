@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Manga;
 use App\Repository\MangaRepository;
-use App\Services\Api\ApiJikanService;
+use App\Services\Api\ApiTenraiService;
 use App\Services\Api\ApiMangaUpdatesService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,11 +26,11 @@ class MangaController extends AbstractController
 
     #[Route('/search', name: 'manga_search', methods: ['POST'])]
     public function searchMangas(
-        Request $request,
-        MangaRepository $mangaRepository,
-        ApiJikanService $apiJikanService,
+        Request                $request,
+        MangaRepository        $mangaRepository,
+        ApiTenraiService       $apiTenraiService,
         ApiMangaUpdatesService $apiMangaUpdatesService,
-        ValidatorInterface $validator
+        ValidatorInterface     $validator
     ): Response {
         $mangas = [];
         $hasError = false;
@@ -50,10 +50,10 @@ class MangaController extends AbstractController
                     // Save manga id to avoid duplication
                     $tmpMangasId = [];
 
-                    // First - We use Jikan API
-                    $jikanResults = $apiJikanService->fetchMangaByTitle($searchTerm, $isAdult);
-                    foreach ($jikanResults as $result) {
-                        $manga = $apiJikanService->saveMangaDatasInDb($result);
+                    // First - We use Tenrai API
+                    $tenraiResults = $apiTenraiService->fetchMangaByTitle($searchTerm, $isAdult);
+                    foreach ($tenraiResults as $result) {
+                        $manga = $apiTenraiService->saveMangaDatasInDb($result);
                         if (!in_array($manga->getId(), $tmpMangasId)) {
                             $mangas[] = $manga;
                             $tmpMangasId[] = $manga->getId();

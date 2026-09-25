@@ -13,14 +13,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Installer les outils système utiles pour le développement
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
+    openssh-client \
     curl \
     wget \
     unzip \
     make \
+    bash-completion \
     ca-certificates \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
+
+# Activer la complétion (notamment des cibles Makefile) dans les terminaux Bash
+RUN printf '\nif [ -f /usr/share/bash-completion/bash_completion ]; then\n    . /usr/share/bash-completion/bash_completion\nfi\n' >> /etc/bash.bashrc
 
 # Installer Composer
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \

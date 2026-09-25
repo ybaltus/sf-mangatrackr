@@ -292,8 +292,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if (true === $mangaTrack->isIsActivated()) {
                 $manga = $mangaTrack->getManga();
                 // Set UrlImg
-                if ($manga->getMangaJikanAPI()) {
-                    $urlImg = $manga->getMangaJikanAPI()->getMalImgWebp();
+                if ($manga->getMangaTenraiAPI()) {
+                    $urlImg = $manga->getMangaTenraiAPI()->getMalImgWebp();
                 } elseif ($manga->getMangaMangaUpdatesAPI()) {
                     $urlImg = $manga->getMangaMangaUpdatesAPI()->getMuImgJpg();
                 } else {

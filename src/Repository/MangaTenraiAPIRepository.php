@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\MangaJikanAPI;
+use App\Entity\MangaTenraiAPI;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<MangaJikanAPI>
+ * @extends ServiceEntityRepository<MangaTenraiAPI>
  *
- * @method MangaJikanAPI|null find($id, $lockMode = null, $lockVersion = null)
- * @method MangaJikanAPI|null findOneBy(array $criteria, array $orderBy = null)
- * @method MangaJikanAPI[]    findAll()
- * @method MangaJikanAPI[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MangaTenraiAPI|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MangaTenraiAPI|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MangaTenraiAPI[]    findAll()
+ * @method MangaTenraiAPI[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MangaJikanAPIRepository extends ServiceEntityRepository
+class MangaTenraiAPIRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MangaJikanAPI::class);
+        parent::__construct($registry, MangaTenraiAPI::class);
     }
 
     //    /**
-    //     * @return MangaJikanAPI[] Returns an array of MangaJikanAPI objects
+     //     * @return MangaTenraiAPI[] Returns an array of MangaTenraiAPI objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class MangaJikanAPIRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?MangaJikanAPI
+     //    public function findOneBySomeField($value): ?MangaTenraiAPI
     //    {
     //        return $this->createQueryBuilder('m')
     //            ->andWhere('m.exampleField = :val')

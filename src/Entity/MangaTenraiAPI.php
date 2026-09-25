@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MangaJikanAPIRepository;
+use App\Repository\MangaTenraiAPIRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: MangaJikanAPIRepository::class)]
-class MangaJikanAPI
+#[ORM\Entity(repositoryClass: MangaTenraiAPIRepository::class)]
+#[ORM\Table(name: 'manga_tenrai_api')]
+class MangaTenraiAPI
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -118,7 +119,7 @@ class MangaJikanAPI
     #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToOne(inversedBy: 'mangaJikanAPI')]
+    #[ORM\OneToOne(inversedBy: 'mangaTenraiAPI')]
     #[ORM\JoinColumn(nullable: false)]
     private Manga $manga;
 

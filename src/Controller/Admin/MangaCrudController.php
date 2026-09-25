@@ -67,8 +67,8 @@ class MangaCrudController extends AbstractCrudController
             BooleanField::new('isActivated'),
             AssociationField::new('mangaStatistic')->onlyOnDetail()
                 ->setTemplatePath('admin/fields/manga/manga_statistic.html.twig'),
-            AssociationField::new('mangaJikanAPI')->onlyOnDetail()
-                ->setTemplatePath('admin/fields/manga/manga_jikan_api.html.twig'),
+            AssociationField::new('mangaTenraiAPI')->onlyOnDetail()
+                ->setTemplatePath('admin/fields/manga/manga_tenrai_api.html.twig'),
         ];
     }
 }

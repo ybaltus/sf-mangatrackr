@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Api\ApiJikanService;
+use App\Services\Api\ApiTenraiService;
 use App\Services\Command\InitDataService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +18,7 @@ class InitDataCommand extends Command
 {
     public function __construct(
         private InitDataService $initDataService,
-        private ApiJikanService $apiJikanService
+        private ApiTenraiService $apiTenraiService
     ) {
         parent::__construct();
     }
@@ -32,17 +32,17 @@ class InitDataCommand extends Command
             $this->initDataService->initAllDatas();
 
             // Initialize some mangas for the homepage
-            $topManga = $this->apiJikanService->fetchTopManga(25);
+            $topManga = $this->apiTenraiService->fetchTopManga(25);
             if ($topManga) {
                 foreach ($topManga as $manga) {
-                    $this->apiJikanService->saveMangaDatasInDb($manga);
+                    $this->apiTenraiService->saveMangaDatasInDb($manga);
                 }
             }
 
-            $latestManga = $this->apiJikanService->fetchLastestManga(25);
+            $latestManga = $this->apiTenraiService->fetchLastestManga(25);
             if ($latestManga) {
                 foreach ($latestManga as $manga) {
-                    $this->apiJikanService->saveMangaDatasInDb($manga);
+                    $this->apiTenraiService->saveMangaDatasInDb($manga);
                 }
             }
             if (!$latestManga || !$topManga) {

@@ -71,7 +71,7 @@ class MangaStatisticSubscriberTest extends KernelTestCase
             [
                 'title' => $manga->getTitle(),
                 'titleSlug' => $manga->getTitleSlug(),
-                'urlImg' => $manga->getMangaJikanAPI()->getMalImgWebp(),
+                'urlImg' => $manga->getMangaTenraiAPI()->getMalImgWebp(),
                 'nbChapters' => 100,
                 'mut' => $mut->getId(),
                 'statusTrack' => $mut->getStatusTrack()->getNameSlug(),
