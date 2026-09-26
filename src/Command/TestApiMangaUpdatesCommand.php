@@ -25,7 +25,7 @@ class TestApiMangaUpdatesCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('searchTerm', InputArgument::REQUIRED, 'Search term with the JIKAN API')
+            ->addArgument('searchTerm', InputArgument::REQUIRED, 'Search term with the MangaUpdates API')
         ;
     }
 

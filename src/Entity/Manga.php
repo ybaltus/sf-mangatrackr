@@ -110,7 +110,7 @@ class Manga
     private MangaStatistic $mangaStatistic;
 
     #[ORM\OneToOne(mappedBy: 'manga', cascade: ['persist', 'remove'])]
-    private ?MangaJikanAPI $mangaJikanAPI = null;
+    private ?MangaTenraiAPI $mangaTenraiAPI = null;
 
     /**
      * Used to initiate the datas for the localstorage
@@ -404,19 +404,19 @@ class Manga
         return $this;
     }
 
-    public function getMangaJikanAPI(): ?MangaJikanAPI
+    public function getMangaTenraiAPI(): ?MangaTenraiAPI
     {
-        return $this->mangaJikanAPI;
+        return $this->mangaTenraiAPI;
     }
 
-    public function setMangaJikanAPI(MangaJikanAPI $mangaJikanAPI): static
+    public function setMangaTenraiAPI(MangaTenraiAPI $mangaTenraiAPI): static
     {
         // set the owning side of the relation if necessary
-        if ($mangaJikanAPI->getManga() !== $this) {
-            $mangaJikanAPI->setManga($this);
+        if ($mangaTenraiAPI->getManga() !== $this) {
+            $mangaTenraiAPI->setManga($this);
         }
 
-        $this->mangaJikanAPI = $mangaJikanAPI;
+        $this->mangaTenraiAPI = $mangaTenraiAPI;
 
         return $this;
     }
@@ -433,8 +433,8 @@ class Manga
     private function setScanthequeData(): string
     {
         // Set UrlImg
-        if ($this->getMangaJikanAPI()) {
-            $urlImg = $this->getMangaJikanAPI()->getMalImgWebp();
+        if ($this->getMangaTenraiAPI()) {
+            $urlImg = $this->getMangaTenraiAPI()->getMalImgWebp();
         } elseif ($this->getMangaMangaUpdatesAPI()) {
             $urlImg = $this->getMangaMangaUpdatesAPI()->getMuImgJpg();
         } else {

@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class ApiJikanCommandTest extends KernelTestCase implements CommandTestInterface
+final class ApiTenraiCommandTest extends KernelTestCase implements CommandTestInterface
 {
     public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
-        $command = $application->find('api:jikan');
+        $command = $application->find('api:tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [
@@ -32,7 +32,7 @@ final class ApiJikanCommandTest extends KernelTestCase implements CommandTestInt
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
 
-        $command = $application->find('api:jikan');
+        $command = $application->find('api:tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
         ]);
@@ -44,7 +44,7 @@ final class ApiJikanCommandTest extends KernelTestCase implements CommandTestInt
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
-        $command = $application->find('api:jikan');
+        $command = $application->find('api:tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             [

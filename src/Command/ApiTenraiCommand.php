@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Services\Api\ApiJikanService;
+use App\Services\Api\ApiTenraiService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -10,14 +10,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/** Console command for fetching manga data from Tenrai. */
 #[AsCommand(
-    name: 'api:jikan',
-    description: 'Command to fetch Jikan\'s REST API',
+    name: 'api:tenrai',
+    description: 'Command to fetch Tenrai REST API',
 )]
-class ApiJikanCommand extends Command
+class ApiTenraiCommand extends Command
 {
     public function __construct(
-        private readonly ApiJikanService $apiJikanService
+        private readonly ApiTenraiService $apiTenraiService
     ) {
         parent::__construct();
     }
@@ -46,18 +47,18 @@ class ApiJikanCommand extends Command
 
         // Fetch 25 top mangas
         if ($topMangasOption) {
-            $topMangas = $this->apiJikanService->fetchTopManga(25);
+            $topMangas = $this->apiTenraiService->fetchTopManga(25);
             foreach ($topMangas as $manga) {
-                $this->apiJikanService->saveMangaDatasInDb($manga);
+                $this->apiTenraiService->saveMangaDatasInDb($manga);
             }
             $io->success('Top 25 mangas collection');
         }
 
         // Fetch 25 latest mangas
         if ($latestMangasOption) {
-            $latestMangas = $this->apiJikanService->fetchLastestManga(25);
+            $latestMangas = $this->apiTenraiService->fetchLastestManga(25);
             foreach ($latestMangas as $manga) {
-                $this->apiJikanService->saveMangaDatasInDb($manga);
+                $this->apiTenraiService->saveMangaDatasInDb($manga);
             }
             $io->success('Latest mangas');
         }

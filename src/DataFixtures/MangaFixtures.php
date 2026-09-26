@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Manga;
-use App\Entity\MangaJikanAPI;
+use App\Entity\MangaTenraiAPI;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -46,15 +46,15 @@ class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInte
             $mgStatistic->setNbTrack(mt_rand(1, 10));
             $mgStatistic->setNbView(mt_rand(100, 200));
 
-            // Edit MangaJikanAPI after the MangaEntityListener
-            $mangaJikanAPI = (new MangaJikanAPI())
+            // Edit MangaTenraiAPI after the MangaEntityListener
+            $mangaTenraiAPI = (new MangaTenraiAPI())
             ->setManga($entity)
             ;
-            $entity->setMangaJikanAPI($mangaJikanAPI);
-            $mgJikanAPI = $entity->getMangaJikanAPI();
-            $mgJikanAPI->setMalImgJpgLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
-            $mgJikanAPI->setMalImgWebpLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
-            $mgJikanAPI->setMalAuthors(['Echiiro Oda']);
+            $entity->setMangaTenraiAPI($mangaTenraiAPI);
+            $mgTenraiAPI = $entity->getMangaTenraiAPI();
+            $mgTenraiAPI->setMalImgJpgLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
+            $mgTenraiAPI->setMalImgWebpLarge('https://cdn.myanimelist.net/images/manga/2/253146l.jpg');
+            $mgTenraiAPI->setMalAuthors(['Echiiro Oda']);
 
             $this->saveReferences($entity, $key, 'manga');
         }

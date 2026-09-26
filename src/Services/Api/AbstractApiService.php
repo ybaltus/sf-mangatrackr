@@ -114,7 +114,7 @@ abstract class AbstractApiService
     {
         return match ($status) {
             200, 201, 204 => true,
-            400, 401, 403, 404, 500 => false,
+            400, 401, 403, 404, 500 , 504 => false,
             default => false
         };
     }

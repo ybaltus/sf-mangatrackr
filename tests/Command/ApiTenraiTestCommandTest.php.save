@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-final class ApiJikanTestCommandTest extends KernelTestCase implements CommandTestInterface
+final class ApiTenraiTestCommandTest extends KernelTestCase implements CommandTestInterface
 {
     public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
-        $command = $application->find('api:test-jikan');
+        $command = $application->find('api:test-tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'searchTerm' => 'One piece',
@@ -30,7 +30,7 @@ final class ApiJikanTestCommandTest extends KernelTestCase implements CommandTes
         $kernel = self::bootKernel();
         $application = new Application(self::$kernel);
 
-        $command = $application->find('api:test-jikan');
+        $command = $application->find('api:test-tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'searchTerm' => '',
@@ -44,7 +44,7 @@ final class ApiJikanTestCommandTest extends KernelTestCase implements CommandTes
         $kernel = self::bootKernel();
 
         $application = new Application(self::$kernel);
-        $command = $application->find('api:test-jikan');
+        $command = $application->find('api:test-tenrai');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'searchTerm' => 'c56d9d',

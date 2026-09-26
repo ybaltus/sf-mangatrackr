@@ -135,7 +135,7 @@ sf-rdb-test: ## Reset database for tests
 	$(SYMFONY_CONSOLE) doctrine:migrations:migrate --no-interaction --env=test
 
 ##----------------- 🎉 First install 🎉 -------------#
-first-install: composer-install npm-install npm-build qa-sf-security-checker sf-ddc sf-dmm ## First installation
+first-install: composer-install npm-install npm-build sf-ddc sf-dmm ## First installation
 
 ##----------------- 🎉 Start With docker 🎉 -------------#
 docker-compose-up: ## Start with docker-compose

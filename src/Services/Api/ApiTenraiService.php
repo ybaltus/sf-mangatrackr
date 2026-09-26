@@ -4,14 +4,15 @@ namespace App\Services\Api;
 
 use App\Entity\Editor;
 use App\Entity\Manga;
-use App\Entity\MangaJikanAPI;
+use App\Entity\MangaTenraiAPI;
 use App\Entity\MangaStatus;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class ApiJikanService extends AbstractApiService
+/** Service for retrieving manga data from Tenrai. */
+final class ApiTenraiService extends AbstractApiService
 {
     public string $baseUrl;
     public const LIMIT_SEARCH = 15;
@@ -20,10 +21,10 @@ final class ApiJikanService extends AbstractApiService
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
         private readonly SluggerInterface $slugger,
-        private readonly string $apiJikanUrl,
+        private readonly string $apiTenraiUrl,
     ) {
         parent::__construct($this->httpClient, $this->em, $this->slugger);
-        $this->baseUrl = $this->apiJikanUrl;
+        $this->baseUrl = $this->apiTenraiUrl;
     }
 
     /**
@@ -54,11 +55,11 @@ final class ApiJikanService extends AbstractApiService
     /**
      * Fetch the top of mangas.
      *
-     * @return array<mixed>
+     * @return array<mixed>|bool
      */
-    public function fetchTopManga(int $limit = self::LIMIT_SEARCH): array
+    public function fetchTopManga(int $limit = self::LIMIT_SEARCH): array|bool
     {
-        // $limit max = 25 for Jikan
+        // $limit max = 25 for Tenrai
         $limit = $limit <= 25 ? $limit : 25;
 
         $queryParams = [
@@ -66,8 +67,9 @@ final class ApiJikanService extends AbstractApiService
         ];
 
         $response = $this->getRequest($this->baseUrl.'/top/manga', $queryParams);
+
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
-            return ["Error http response : {$response->getStatusCode()}"];
+            return false;
         }
 
         return $response->toArray()['data'];
@@ -76,11 +78,11 @@ final class ApiJikanService extends AbstractApiService
     /**
      * Fetch the latest mangas.
      *
-     * @return array<mixed>
+     * @return array<mixed>|bool
      */
-    public function fetchLastestManga(int $limit = self::LIMIT_SEARCH): array
+    public function fetchLastestManga(int $limit = self::LIMIT_SEARCH): array|bool
     {
-        // $limit max = 25 for Jikan
+        // $limit max = 25 for Tenrai
         $limit = $limit <= 25 ? $limit : 25;
 
         $queryParams = [
@@ -91,7 +93,7 @@ final class ApiJikanService extends AbstractApiService
 
         $response = $this->getRequest($this->baseUrl.'/manga', $queryParams);
         if (!$this->handleHttpStatusCode($response->getStatusCode())) {
-            return ["Error http response : {$response->getStatusCode()}"];
+            return false;
         }
 
         return $response->toArray()['data'];
@@ -199,14 +201,14 @@ final class ApiJikanService extends AbstractApiService
             }
         }
 
-        // MangaJianAPI entity
-        $mangaJikanApi = $manga->getMangaJikanAPI();
+        // MangaTenraiAPI entity
+        $mangaTenraiApi = $manga->getMangaTenraiAPI();
 
-        if (!$mangaJikanApi) {
-            $mangaJikanApi = new MangaJikanAPI();
+        if (!$mangaTenraiApi) {
+            $mangaTenraiApi = new MangaTenraiAPI();
         }
 
-        $mangaJikanApi
+        $mangaTenraiApi
             ->setManga($manga)
             ->setMalId($result['malId'])
             ->setMalDescription($result['malDescription'])
@@ -227,7 +229,7 @@ final class ApiJikanService extends AbstractApiService
             ->setMalScroredBy($result['malScoredBy'])
             ->setMalRank($result['malRank'])
         ;
-        $manga->setMangaJikanAPI($mangaJikanApi);
+        $manga->setMangaTenraiAPI($mangaTenraiApi);
 
         // Persist manga in db
         $this->em->persist($manga);

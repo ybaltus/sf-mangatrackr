@@ -31,8 +31,8 @@
                                         href="{{ path('manga_index', {titleSlug: release.manga.titleSlug }) }}" title="{{ release.manga.title }}">
                                     <img
                                             class="w-release-card-mob md:w-release-card-tab lg:w-release-card-desk h-release-card-mob md:h-release-card-tab lg:h-release-card-desk p-manga-card rounded-manga-scantheque-mob lg:rounded-manga-scantheque-desk border-manga-card-mob md:border-manga-card-tab lg:border-manga-card-desk border-app-clear-gray3 dark:border-app-clear-gray3"
-                                            {% if release.manga.mangaJikanAPI %}
-                                                src="{{ release.manga.mangaJikanAPI.malImgWebp }}"
+                                            {% if release.manga.mangaTenraiAPI %}
+                                                src="{{ release.manga.mangaTenraiAPI.malImgWebp }}"
                                             {% elseif release.manga.mangaMangaUpdatesAPI %}
                                                 src="{{ release.manga.mangaMangaUpdatesAPI.muImgJpg }}"
                                             {% else %}

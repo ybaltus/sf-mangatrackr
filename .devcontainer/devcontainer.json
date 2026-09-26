@@ -1,0 +1,43 @@
+{
+    "name": "MangaTrakr - Symfony Dev",
+
+    // Utilise le docker-compose existant avec un override dédié au devcontainer
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "docker-compose.devcontainer.yml"
+    ],
+
+    // Le service principal dans lequel l'IDE se connectera
+    "service": "app",
+
+    // Répertoire de travail dans le conteneur
+    "workspaceFolder": "/var/www",
+
+    // Commande exécutée après la création du conteneur (installation des dépendances)
+    "postCreateCommand": "make first-install",
+
+    // Commande exécutée après chaque démarrage du conteneur
+    "postStartCommand": "symfony server:start -d --no-tls",
+
+    // Variables d'environnement supplémentaires pour le dev
+    "remoteEnv": {
+        "APP_ENV": "dev"
+    },
+
+    // Forwarding des ports
+    "forwardPorts": [
+        8080,
+        8000
+    ],
+
+    "portsAttributes": {
+        "8080": {
+            "label": "Apache (HTTP)",
+            "onAutoForward": "notify"
+        },
+        "8000": {
+            "label": "Symfony CLI server",
+            "onAutoForward": "notify"
+        }
+    }
+}

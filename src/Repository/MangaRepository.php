@@ -29,7 +29,7 @@ class MangaRepository extends ServiceEntityRepository
     public function getTopMangas(int $quantity = 4, bool $isAdult = false, ?string $durationDateInterval = null): array
     {
         $query = $this->createQueryBuilder('m')
-            ->join('m.mangaJikanAPI', 'a')
+            ->join('m.mangaTenraiAPI', 'a')
             ->where('m.isActivated != FALSE')
             ->orderBy('a.malScored', 'DESC')
             ->setMaxResults($quantity)

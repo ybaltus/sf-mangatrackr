@@ -232,7 +232,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
     /**
      * Persist manga datas in database.
      *
-     * Must be executed after ApiJikanService->saveMangaDatasInDb
+     * Must be executed after ApiTenraiService->saveMangaDatasInDb
      *
      * @param array<mixed> $mangaDatas
      */
