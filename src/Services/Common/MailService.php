@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Common;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -13,6 +14,7 @@ class MailService
 {
     public function __construct(
         private MailerInterface $mailer,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -40,8 +42,8 @@ class MailService
 
             return 'Email sent successfully.';
         } catch (TransportExceptionInterface $e) {
-            // var_dump($e->getMessage());
-            // throw new \Exception($e->getMessage());
+            $this->logger->error('Unable to send the email.', ['exception' => $e]);
+
             return sprintf('Email not sent : %s', $e->getMessage());
         }
     }

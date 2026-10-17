@@ -8,6 +8,7 @@ use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use App\Services\Common\ScanthequeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +83,7 @@ class ScanthequeController extends AbstractController
     #[IsGranted('mut_delete', 'mangaUserTrack')]
     public function deleteMangaUserTrackDatas(
         EntityManagerInterface $em,
+        LoggerInterface $logger,
         MangaUserTrack $mangaUserTrack,
     ): JsonResponse {
         $status = 200;
@@ -91,7 +93,8 @@ class ScanthequeController extends AbstractController
             $em->remove($mangaUserTrack);
             $em->flush();
         } catch (\Exception $e) {
-            $message = $e->getMessage();
+            $logger->error('Unable to delete the manga of the scantheque.', ['exception' => $e]);
+            $message = 'Delete failed';
             $status = 400;
         }
 

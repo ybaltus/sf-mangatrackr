@@ -8,11 +8,13 @@ use App\Entity\Manga;
 use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class ScanthequeService
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -41,12 +43,13 @@ class ScanthequeService
                 $mangaStatusTrack->setNbChapters($this->toNbChapters($mData['nbChaptersTrack']));
 
                 $this->em->persist($mangaStatusTrack);
-                //                dump($mangaStatusTrack);
             }
             $this->em->flush();
 
             return true;
         } catch (\Exception $e) {
+            $this->logger->error('Unable to persist the mangas datas of the scantheque.', ['exception' => $e]);
+
             return false;
         }
     }
@@ -70,6 +73,8 @@ class ScanthequeService
 
             return true;
         } catch (\Exception $e) {
+            $this->logger->error('Unable to update the manga datas of the scantheque.', ['exception' => $e]);
+
             return false;
         }
     }
