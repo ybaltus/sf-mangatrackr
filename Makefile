@@ -3,16 +3,16 @@
 MAKE = make
 
 #--- PHP CS FIXER
-PHPCSFIXER = php vendor/bin/php-cs-fixer
+PHPCSFIXER = php vendor/bin/php-cs-fixer --config=.php-cs-fixer.dist.php
 
 #--- PHPStan
-PHPSTAN = php vendor/bin/phpstan
+PHPSTAN = php vendor/bin/phpstan --memory-limit=1G
 
 #--- PHP Insights
 PHPINSIGHTS = php vendor/bin/phpinsights
 
 #--- PHPUnit
-PHPUNIT = php bin/phpunit
+PHPUNIT = APP_ENV=test php bin/phpunit
 
 #--- Composer
 COMPOSER = composer
@@ -34,13 +34,13 @@ NPM_UPDATE = $(NPM) update
 
 ##-----------------🐛 Quality code 🐛-------------#
 qa-php-cs-fixer-dry-run-verbose: ## Run php-cs-fixer with dry run and verbose
-	$(PHPCSFIXER) fix src --dry-run --verbose
+	$(PHPCSFIXER) fix src tests --dry-run --verbose
 
 qa-php-cs-fixer-dry-run-diff: ## Run php-cs-fixer with dry run and diff
-	$(PHPCSFIXER) fix src --dry-run --diff
+	$(PHPCSFIXER) fix src tests --dry-run --diff
 
 qa-php-cs-fixer: ## Run php-cs-fixer
-	$(PHPCSFIXER) fix src --verbose
+	$(PHPCSFIXER) fix src tests --verbose
 
 qa-php-stan: ## Run PHPStan
 	$(PHPSTAN) analyse
