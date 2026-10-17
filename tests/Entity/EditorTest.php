@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Editor;
@@ -25,7 +27,7 @@ class EditorTest extends KernelTestCase implements EntityTestInterface
         return (new Editor())
             ->setName($title)
             ->setNameSlug($title.'_slug')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void

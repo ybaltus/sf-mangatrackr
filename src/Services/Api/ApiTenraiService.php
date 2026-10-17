@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Api;
 
 use App\Entity\Editor;
 use App\Entity\Manga;
-use App\Entity\MangaTenraiAPI;
 use App\Entity\MangaStatus;
+use App\Entity\MangaTenraiAPI;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;

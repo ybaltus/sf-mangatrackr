@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
@@ -105,7 +107,5 @@ class ResetPasswordControllerTest extends WebTestCase implements ControllerTestI
             'reset_password[plainPassword][second]' => 'password',
         ]);
         $this->assertResponseRedirects('/login', 302);
-
-
     }
 }

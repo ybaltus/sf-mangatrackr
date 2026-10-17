@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\EventSubscriber;
 
 use App\Entity\UserInvitationCode;
@@ -26,7 +28,7 @@ class EasyAdminSubscriberTest extends TestCase
         $dispatcher->dispatch($event);
     }
 
-    private function getEasyAdminSubscriber(MailService $mailerService = null): EasyAdminSubscriber
+    private function getEasyAdminSubscriber(?MailService $mailerService = null): EasyAdminSubscriber
     {
         // Mock the services
         $router = $this->createMock(UrlGeneratorInterface::class);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Manga;
@@ -31,12 +33,12 @@ class MangaMangaUpdatesAPITest extends KernelTestCase implements EntityTestInter
 
         return (new MangaMangaUpdatesAPI())
             ->setManga($manga)
-            ->setMuSeriesId("12345")
+            ->setMuSeriesId('12345')
             ->setMuUrl('https://www.mangaupdates.com/')
             ->setMuImgJpg('https://www.mangaupdates.com/')
             ->setMuThumbJpg('https://www.mangaupdates.com/')
             ->setMuYear(2024)
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void

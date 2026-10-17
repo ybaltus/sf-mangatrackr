@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\MangaStatistic;
@@ -25,7 +27,7 @@ class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
         return (new MangaStatistic())
             ->setNbTrack(50)
             ->setNbView(1000)
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
@@ -45,6 +47,5 @@ class MangaStatisticTest extends KernelTestCase implements EntityTestInterface
         $entity->setNbTrack(-1);
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(3, $assertResults[0], $assertResults[1]);
-
     }
 }

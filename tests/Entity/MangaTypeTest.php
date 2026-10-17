@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\MangaType;
@@ -25,7 +27,7 @@ class MangaTypeTest extends KernelTestCase implements EntityTestInterface
         return (new MangaType())
             ->setName($title)
             ->setNameSlug($title.'_slug')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
@@ -34,7 +36,6 @@ class MangaTypeTest extends KernelTestCase implements EntityTestInterface
         $editor = $this->getEntity('EntityValid');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $editor);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
-
     }
 
     public function testEntityIsInvalid(): void
@@ -43,6 +44,5 @@ class MangaTypeTest extends KernelTestCase implements EntityTestInterface
         $entity = $this->getEntity('');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(2, $assertResults[0], $assertResults[1]);
-
     }
 }

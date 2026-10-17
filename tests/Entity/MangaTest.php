@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Manga;
@@ -26,7 +28,7 @@ class MangaTest extends KernelTestCase implements EntityTestInterface
             ->setTitle($title)
             ->setTitleSlug($title.'_slug')
             ->setAuthor('je suis auteur')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
@@ -35,7 +37,6 @@ class MangaTest extends KernelTestCase implements EntityTestInterface
         $entity = $this->getEntity('EntityValid');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
-
     }
 
     public function testEntityIsInvalid(): void

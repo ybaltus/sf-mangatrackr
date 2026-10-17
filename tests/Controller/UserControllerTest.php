@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Entity\User;
@@ -155,7 +157,7 @@ class UserControllerTest extends WebTestCase implements ControllerTestInterface
         $this->assertSelectorExists('p#counter-delete');
         $this->assertSelectorExists('a[data-action="account#deleteUserAccount"]');
         $this->assertSelectorExists('a[data-account-target=btnDelete]');
-     }
+    }
 
     public function testTabExportsUserContent(): void
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\User;
@@ -27,7 +29,7 @@ class UserTest extends KernelTestCase implements EntityTestInterface
             ->setUsername($title.'_username')
             ->setPlainPassword('password')
             ->setPassword('password')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
