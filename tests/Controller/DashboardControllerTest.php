@@ -1,13 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Controller\Admin\DashboardController;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Test\AbstractCrudTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @extends AbstractCrudTestCase<CrudControllerInterface<object>>
+ */
 class DashboardControllerTest extends AbstractCrudTestCase implements ControllerTestInterface
 {
     private function getTestUser(): User
@@ -18,6 +24,9 @@ class DashboardControllerTest extends AbstractCrudTestCase implements Controller
         return $userRepository->findOneByEmail(self::TEST_ADMIN_EMAIL);
     }
 
+    /**
+     * @return class-string<CrudControllerInterface<object>>
+     */
     protected function getControllerFqcn(): string
     {
         return DashboardController::class;

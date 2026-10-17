@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
 use App\Entity\UserInvitationCode;
@@ -20,7 +22,7 @@ class InvitationControllerTest extends WebTestCase implements ControllerTestInte
         // Set userCodeInvitation
         $userCodeInvitation = (new UserInvitationCode())
             ->setEmail($userEmail)
-            ->setCodeInvitation(Uuid::v4())
+            ->setCodeInvitation(Uuid::v4()->toRfc4122())
         ;
         $em->persist($userCodeInvitation);
         $em->flush();
@@ -67,6 +69,6 @@ class InvitationControllerTest extends WebTestCase implements ControllerTestInte
 
         // Follow redirect
         $client->followRedirect();
-        $this->assertSelectorTextContains('h1', "Hello, userInvit");
+        $this->assertSelectorTextContains('h1', 'Hello, userInvit');
     }
 }

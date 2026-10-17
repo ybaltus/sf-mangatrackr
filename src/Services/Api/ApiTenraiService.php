@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Api;
 
 use App\Entity\Editor;
 use App\Entity\Manga;
-use App\Entity\MangaTenraiAPI;
 use App\Entity\MangaStatus;
+use App\Entity\MangaTenraiAPI;
 use App\Entity\MangaType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -275,9 +277,9 @@ final class ApiTenraiService extends AbstractApiService
 
     private function verifyByTitleAndMalId(
         string $title,
-        string $malId,
+        int $malId,
         bool $isSetTitleSlug = false,
-        bool $isCheckWithOnlyTitle = false
+        bool $isCheckWithOnlyTitle = false,
     ): Manga {
         $titleSlug = $this->slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
         $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);

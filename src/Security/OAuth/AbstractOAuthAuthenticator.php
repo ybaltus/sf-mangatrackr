@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\OAuth;
 
 use App\Entity\User;
@@ -34,18 +36,18 @@ abstract class AbstractOAuthAuthenticator extends OAuth2Authenticator implements
     public function __construct(
         private readonly ClientRegistry $registry,
         private readonly RouterInterface $router,
-        private readonly UserRepository $userRepository
+        private readonly UserRepository $userRepository,
     ) {
     }
 
     abstract protected function getUserFromRessourceOwner(
         ResourceOwnerInterface $resourceOwner,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ): ?User;
 
     abstract protected function persistNewUserFromRessourceOwner(
         ResourceOwnerInterface $resourceOwner,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ): User;
 
     public function supports(Request $request): ?bool

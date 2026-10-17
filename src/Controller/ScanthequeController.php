@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use App\Services\Common\ScanthequeService;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +34,7 @@ class ScanthequeController extends AbstractController
     public function saveMangaUserTrackDatas(
         Request $request,
         ScanthequeService $scanthequeService,
-        StatusTrack $statusTrack
+        StatusTrack $statusTrack,
     ): JsonResponse {
         $user = $this->getUser();
         $status = 200;
@@ -61,7 +64,7 @@ class ScanthequeController extends AbstractController
     public function updateMangaUserTrackDatas(
         Request $request,
         ScanthequeService $scanthequeService,
-        MangaUserTrack $mangaUserTrack
+        MangaUserTrack $mangaUserTrack,
     ): JsonResponse {
         $status = 200;
         $mangaData = $request->toArray();
@@ -80,7 +83,8 @@ class ScanthequeController extends AbstractController
     #[IsGranted('mut_delete', 'mangaUserTrack')]
     public function deleteMangaUserTrackDatas(
         EntityManagerInterface $em,
-        MangaUserTrack $mangaUserTrack
+        LoggerInterface $logger,
+        MangaUserTrack $mangaUserTrack,
     ): JsonResponse {
         $status = 200;
         $message = 'Delete with success';
@@ -89,7 +93,8 @@ class ScanthequeController extends AbstractController
             $em->remove($mangaUserTrack);
             $em->flush();
         } catch (\Exception $e) {
-            $message = $e->getMessage();
+            $logger->error('Unable to delete the manga of the scantheque.', ['exception' => $e]);
+            $message = 'Delete failed';
             $status = 400;
         }
 

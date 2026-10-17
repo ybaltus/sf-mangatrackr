@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\Api\ApiTenraiService;
 use App\Services\Command\InitDataService;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +21,8 @@ class InitDataCommand extends Command
 {
     public function __construct(
         private InitDataService $initDataService,
-        private ApiTenraiService $apiTenraiService
+        private ApiTenraiService $apiTenraiService,
+        private LoggerInterface $logger,
     ) {
         parent::__construct();
     }
@@ -53,6 +57,7 @@ class InitDataCommand extends Command
 
             return Command::SUCCESS;
         } catch (\Exception $e) {
+            $this->logger->error('app:init-datas failed.', ['exception' => $e]);
             $io->error(sprintf('Error initDataCommand: %s', $e->getMessage()));
 
             return Command::FAILURE;

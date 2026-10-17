@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Fantrad;
@@ -26,7 +28,7 @@ class FantradTest extends KernelTestCase implements EntityTestInterface
             ->setName($title)
             ->setNameSlug($title.'_slug')
             ->setUrl('https://fantrad.com')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
@@ -45,13 +47,12 @@ class FantradTest extends KernelTestCase implements EntityTestInterface
         $this->assertCount(2, $assertResults[0], $assertResults[1]);
     }
 
-    public function testUrlIsInvalid():void
+    public function testUrlIsInvalid(): void
     {
         $validatorService = $this->initBootKernelContainer()->get('validator');
         $entity = $this->getEntity('FantradValid');
         $entity->setUrl('f');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(2, $assertResults[0], $assertResults[1]);
-
     }
 }

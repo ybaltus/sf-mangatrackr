@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Controller\Admin\Trait\RemoveEditActionTrait;
@@ -12,6 +14,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/**
+ * @extends AbstractCrudController<UserInvitationCode>
+ */
 class UserInvitationCodeCrudController extends AbstractCrudController
 {
     use RemoveEditActionTrait;

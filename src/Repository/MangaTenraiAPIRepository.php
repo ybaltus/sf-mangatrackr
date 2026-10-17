@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\MangaTenraiAPI;
@@ -22,7 +24,7 @@ class MangaTenraiAPIRepository extends ServiceEntityRepository
     }
 
     //    /**
-     //     * @return MangaTenraiAPI[] Returns an array of MangaTenraiAPI objects
+    //     * @return MangaTenraiAPI[] Returns an array of MangaTenraiAPI objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +38,7 @@ class MangaTenraiAPIRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-     //    public function findOneBySomeField($value): ?MangaTenraiAPI
+    //    public function findOneBySomeField($value): ?MangaTenraiAPI
     //    {
     //        return $this->createQueryBuilder('m')
     //            ->andWhere('m.exampleField = :val')

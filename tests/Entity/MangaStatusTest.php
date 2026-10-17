@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\MangaStatus;
@@ -25,7 +27,7 @@ class MangaStatusTest extends KernelTestCase implements EntityTestInterface
         return (new MangaStatus())
             ->setTitle($title)
             ->setTitleSlug($title.'_slug')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void

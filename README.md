@@ -32,7 +32,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 
 ### Pré-requis
 
-- PHP >= 8.1
+- PHP >= 8.2
 - Composer v2
 - NodeJS
 - MariaDB

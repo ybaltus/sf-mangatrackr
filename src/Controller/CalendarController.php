@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Controller\Trait\DetectMobileDeviceTrait;
@@ -19,7 +21,7 @@ class CalendarController extends AbstractController
     public function index(
         ReleaseMangaUpdatesAPIRepository $releaseMangaUpdatesAPIRepository,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
     ): Response {
         // Detect if the user is using a mobile device
         $isMobileDevice = $this->detectMobileDevice($request);

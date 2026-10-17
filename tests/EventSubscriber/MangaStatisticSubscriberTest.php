@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\EventSubscriber;
 
 use App\Controller\MangaController;
@@ -78,7 +80,6 @@ class MangaStatisticSubscriberTest extends KernelTestCase
                 'nbChaptersTrack' => 10,
             ],
         ]]);
-
 
         $subscriber = new MangaStatisticSubscriber($entityManager);
         $request = new Request([], [], [], [], [], [], $scanthequeDatasBody);

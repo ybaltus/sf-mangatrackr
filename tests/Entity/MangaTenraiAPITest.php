@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Manga;
@@ -11,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
 {
     use AppTestTrait;
-    
+
     public function initBootKernelContainer(): ContainerInterface
     {
         // boot the Symfony kernel
@@ -27,7 +29,7 @@ class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
             ->setTitle($title)
             ->setTitleSlug($title.'_slug')
             ->setAuthor('je suis auteur')
-                ;
+        ;
 
         return (new MangaTenraiAPI())
             ->setManga($manga)
@@ -36,7 +38,7 @@ class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
             ->setMalImgJpgLarge('https://api.tenrai.org/')
             ->setMalImgWebp('https://api.tenrai.org/')
             ->setMalImgWebpLarge('https://api.tenrai.org/')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void
@@ -45,7 +47,6 @@ class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
         $entity = $this->getEntity('EntityValid');
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(0, $assertResults[0], $assertResults[1]);
-
     }
 
     public function testEntityIsInvalid(): void
@@ -59,6 +60,5 @@ class MangaTenraiAPITest extends KernelTestCase implements EntityTestInterface
 
         $assertResults = $this->assertViolationsWithValidator($validatorService, $entity);
         $this->assertCount(4, $assertResults[0], $assertResults[1]);
-
     }
 }

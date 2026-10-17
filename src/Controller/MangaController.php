@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Manga;
 use App\Repository\MangaRepository;
-use App\Services\Api\ApiTenraiService;
 use App\Services\Api\ApiMangaUpdatesService;
+use App\Services\Api\ApiTenraiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +28,11 @@ class MangaController extends AbstractController
 
     #[Route('/search', name: 'manga_search', methods: ['POST'])]
     public function searchMangas(
-        Request                $request,
-        MangaRepository        $mangaRepository,
-        ApiTenraiService       $apiTenraiService,
+        Request $request,
+        MangaRepository $mangaRepository,
+        ApiTenraiService $apiTenraiService,
         ApiMangaUpdatesService $apiMangaUpdatesService,
-        ValidatorInterface     $validator
+        ValidatorInterface $validator,
     ): Response {
         $mangas = [];
         $hasError = false;

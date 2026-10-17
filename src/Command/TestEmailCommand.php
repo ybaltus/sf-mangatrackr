@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\Common\MailService;
@@ -21,7 +23,7 @@ class TestEmailCommand extends Command
 {
     public function __construct(
         private MailService $mailService,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
         parent::__construct();
     }

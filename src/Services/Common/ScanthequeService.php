@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Common;
 
 use App\Entity\Manga;
 use App\Entity\MangaUserTrack;
 use App\Entity\StatusTrack;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class ScanthequeService
 {
     public function __construct(
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -20,7 +24,7 @@ class ScanthequeService
     public function persistMangasDatas(
         StatusTrack $statusTrack,
         mixed $user,
-        array $mangaDatas
+        array $mangaDatas,
     ): bool {
         try {
             foreach ($mangaDatas as $mData) {
@@ -36,15 +40,16 @@ class ScanthequeService
 
                 // Update status and nbChapter
                 $mangaStatusTrack->setStatusTrack($statusTrack);
-                $mangaStatusTrack->setNbChapters($mData['nbChaptersTrack']);
+                $mangaStatusTrack->setNbChapters($this->toNbChapters($mData['nbChaptersTrack']));
 
                 $this->em->persist($mangaStatusTrack);
-                //                dump($mangaStatusTrack);
             }
             $this->em->flush();
 
             return true;
         } catch (\Exception $e) {
+            $this->logger->error('Unable to persist the mangas datas of the scantheque.', ['exception' => $e]);
+
             return false;
         }
     }
@@ -62,22 +67,38 @@ class ScanthequeService
                     ->findOneByNameSlug($mangaData['statusTrack']);
                 $mangaUserTrack->setStatusTrack($statusTrack);
             } else {
-                $mangaUserTrack->setNbChapters($mangaData['nbChaptersTrack']);
+                $mangaUserTrack->setNbChapters($this->toNbChapters($mangaData['nbChaptersTrack']));
             }
             $this->em->flush();
 
             return true;
         } catch (\Exception $e) {
+            $this->logger->error('Unable to update the manga datas of the scantheque.', ['exception' => $e]);
+
             return false;
         }
+    }
+
+    /**
+     * The front sends the value of an input, so the number of chapters can be a numeric string.
+     *
+     * @throws \InvalidArgumentException if the value is not numeric
+     */
+    private function toNbChapters(mixed $value): float
+    {
+        if (!is_numeric($value)) {
+            throw new \InvalidArgumentException('The number of chapters must be numeric.');
+        }
+
+        return (float) $value;
     }
 
     private function checkMutEntryInData(mixed $mData): bool
     {
         if (!array_key_exists('mut', $mData) || !$mData['mut']) {
             return false;
-        } else {
-            return is_numeric($mData['mut']);
         }
+
+        return is_numeric($mData['mut']);
     }
 }

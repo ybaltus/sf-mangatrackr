@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Controller\MangaController;
@@ -14,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class MangaStatisticSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
     ) {
     }
 

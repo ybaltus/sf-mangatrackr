@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventSubscriber;
 
 use App\Entity\UserInvitationCode;
@@ -19,7 +21,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         private UrlGeneratorInterface $router,
         private ContainerBagInterface $params,
         private MailService $mailService,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -31,23 +33,29 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param BeforeEntityPersistedEvent<UserInvitationCode> $event
+     */
     public function setInvitationCode(BeforeEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof UserInvitationCode)) {
+        if (!$entity instanceof UserInvitationCode) {
             return;
         }
 
-        $codeInvitation = Uuid::v4();
+        $codeInvitation = Uuid::v4()->toRfc4122();
         $entity->setCodeInvitation($codeInvitation);
     }
 
+    /**
+     * @param AfterEntityPersistedEvent<UserInvitationCode> $event
+     */
     public function sendEmailInvitationCode(AfterEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof UserInvitationCode)) {
+        if (!$entity instanceof UserInvitationCode) {
             return;
         }
 

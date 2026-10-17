@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\TextContentPage;
@@ -24,7 +26,7 @@ class TextContentPageTest extends KernelTestCase implements EntityTestInterface
     {
         return (new TextContentPage())
             ->setName($title)
-            ->setNameSlug($title . '_sl')
+            ->setNameSlug($title.'_sl')
             ->setContent('Lorem ipsum dolor sit amet, consectetur adipiscing elit,
              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip

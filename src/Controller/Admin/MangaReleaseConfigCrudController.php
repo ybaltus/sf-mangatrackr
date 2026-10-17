@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Controller\Admin\Trait\RemoveEditActionTrait;
@@ -11,6 +13,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/**
+ * @extends AbstractCrudController<MangaReleaseConfig>
+ */
 class MangaReleaseConfigCrudController extends AbstractCrudController
 {
     use RemoveEditActionTrait;

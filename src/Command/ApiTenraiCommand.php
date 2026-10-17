@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\Api\ApiTenraiService;
@@ -18,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ApiTenraiCommand extends Command
 {
     public function __construct(
-        private readonly ApiTenraiService $apiTenraiService
+        private readonly ApiTenraiService $apiTenraiService,
     ) {
         parent::__construct();
     }

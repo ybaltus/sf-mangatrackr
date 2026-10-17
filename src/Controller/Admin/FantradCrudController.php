@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Controller\Admin\Trait\RemoveDeleteActionTrait;
@@ -13,6 +15,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
+/**
+ * @extends AbstractCrudController<Fantrad>
+ */
 class FantradCrudController extends AbstractCrudController
 {
     use RemoveDeleteActionTrait;

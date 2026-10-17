@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\Manga;
@@ -30,8 +32,8 @@ class ReleaseMangaUpdatesAPITest extends KernelTestCase implements EntityTestInt
         return (new ReleaseMangaUpdatesAPI())
             ->setManga($this->manga)
             ->setReleasedAt(new \DateTimeImmutable())
-            ->setChapterVal("52")
-            ->setVolumeVal("5")
+            ->setChapterVal('52')
+            ->setVolumeVal('5')
         ;
     }
 

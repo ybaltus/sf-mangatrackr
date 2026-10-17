@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Controller;
 
+use App\Entity\User;
+use App\Entity\UserResetPassword;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,7 +109,37 @@ class ResetPasswordControllerTest extends WebTestCase implements ControllerTestI
             'reset_password[plainPassword][second]' => 'password',
         ]);
         $this->assertResponseRedirects('/login', 302);
+    }
 
+    public function testEditPasswordWithAnExpiredCode(): void
+    {
+        $client = static::createClient();
 
+        // Use a dedicated user to keep the shared fixtures untouched
+        $em = static::getContainer()->get('doctrine')->getManager();
+        $uniqueId = uniqid();
+        $user = (new User())
+            ->setEmail("user-expired-$uniqueId@default.com")
+            ->setUsername("user_expired_$uniqueId")
+            ->setPlainPassword('password')
+        ;
+        $userResetPassword = (new UserResetPassword())
+            ->setUser($user)
+            ->setResetCode("expired-code-$uniqueId")
+            ->setExpiredAt(new \DateTimeImmutable('-1 day'))
+        ;
+        $em->persist($user);
+        $em->persist($userResetPassword);
+        $em->flush();
+
+        $client->request('GET', "/reset_password/edit_password/expired-code-$uniqueId");
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_GONE);
+
+        // Clean the dedicated datas
+        $em = static::getContainer()->get('doctrine')->getManager();
+        $em->remove($em->find(UserResetPassword::class, $userResetPassword->getId()));
+        $em->remove($em->find(User::class, $user->getId()));
+        $em->flush();
     }
 }

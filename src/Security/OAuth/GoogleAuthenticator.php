@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Security\OAuth;
 
 use App\Entity\User;
@@ -17,16 +19,16 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
         ClientRegistry $registry,
         RouterInterface $router,
         UserRepository $userRepository,
-        private string $oauthTestEmails
+        private string $oauthTestEmails,
     ) {
         parent::__construct($registry, $router, $userRepository);
     }
 
     protected function getUserFromRessourceOwner(
         ResourceOwnerInterface $resourceOwner,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ): ?User {
-        if (!($resourceOwner instanceof GoogleUser)) {
+        if (!$resourceOwner instanceof GoogleUser) {
             throw new \RuntimeException('Resource owner must be an instance of GoogleUser');
         }
 
@@ -55,7 +57,7 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
 
     protected function persistNewUserFromRessourceOwner(
         ResourceOwnerInterface $resourceOwner,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ): User {
         /**
          * @var GoogleUser $resourceOwner

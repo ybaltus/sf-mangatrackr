@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Command;
 
 use App\Entity\Fantrad;
@@ -20,7 +22,7 @@ final class InitDataService
 
     public function __construct(
         private EntityManagerInterface $em,
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 

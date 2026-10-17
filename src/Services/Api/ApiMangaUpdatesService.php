@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Api;
 
 use App\Entity\Enum\LangEnum;
@@ -22,7 +24,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
         private readonly SluggerInterface $slugger,
-        private readonly string $apiMangaUpdatesUrl
+        private readonly string $apiMangaUpdatesUrl,
     ) {
         parent::__construct($this->httpClient, $this->em, $this->slugger);
         $this->baseUrl = $this->apiMangaUpdatesUrl;
@@ -101,7 +103,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             && $releaseMetaDatas['series']['series_id']
         ) {
             $manga = $this->verifyIfExistInDbWithReleaseMetadataSerieId(
-                $releaseMetaDatas['series']['series_id']
+                (string) $releaseMetaDatas['series']['series_id']
             );
         }
 
@@ -433,9 +435,9 @@ final class ApiMangaUpdatesService extends AbstractApiService
 
             if (!$mangaSlugWithSerieId) {
                 return $titleSlugWithSerieId;
-            } else {
-                return $mangaSlugWithSerieId;
             }
+
+            return $mangaSlugWithSerieId;
         }
 
         return null;

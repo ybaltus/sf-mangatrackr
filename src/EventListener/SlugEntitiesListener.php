@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\EventListener;
 
 use App\Entity\Editor;
@@ -30,7 +32,7 @@ class SlugEntitiesListener
     ];
 
     public function __construct(
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 
@@ -62,7 +64,7 @@ class SlugEntitiesListener
             /**
              * @var Editor|MangaType|Fantrad|StatusTrack|TextContentPage $entity
              */
-            $entity->setNameSlug($this->slugger->slug($entity->getName())->lower());
+            $entity->setNameSlug($this->slugger->slug($entity->getName())->lower()->toString());
         }
 
         /**
@@ -72,7 +74,7 @@ class SlugEntitiesListener
             if ($entity instanceof Manga && $entity->getTitleSlug()) {
                 return;
             }
-            $entity->setTitleSlug($this->slugger->slug($entity->getTitle())->lower());
+            $entity->setTitleSlug($this->slugger->slug($entity->getTitle())->lower()->toString());
         }
     }
 

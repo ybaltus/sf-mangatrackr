@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\EventSubscriber;
 
 use App\Entity\UserInvitationCode;
@@ -17,16 +19,19 @@ use Symfony\Component\Uid\Uuid;
 
 class EasyAdminSubscriberTest extends TestCase
 {
+    /**
+     * @param AbstractLifecycleEvent<UserInvitationCode> $event
+     */
     private function dispatchEvent(
         EasyAdminSubscriber $subscriber,
-        AbstractLifecycleEvent $event
+        AbstractLifecycleEvent $event,
     ): void {
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($subscriber);
         $dispatcher->dispatch($event);
     }
 
-    private function getEasyAdminSubscriber(MailService $mailerService = null): EasyAdminSubscriber
+    private function getEasyAdminSubscriber(?MailService $mailerService = null): EasyAdminSubscriber
     {
         // Mock the services
         $router = $this->createMock(UrlGeneratorInterface::class);
@@ -77,7 +82,7 @@ class EasyAdminSubscriberTest extends TestCase
         // Create a new UserInvitationCode
         $userInvitationCode = (new UserInvitationCode())
             ->setEmail('testSendEmail@test.fr')
-            ->setCodeInvitation(Uuid::v4())
+            ->setCodeInvitation(Uuid::v4()->toRfc4122())
         ;
 
         // Create AfterEntityPersistedEvent

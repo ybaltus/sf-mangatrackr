@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\UserInvitationCode;
 use App\Form\UserPasswordType;
 use App\Form\UserType;
 use App\Security\Auth\AppAuthenticator;
 use App\Services\Common\SpreadSheetService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Services\User\AccountService;
+use App\Services\User\ScanthequeExportService;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -23,12 +25,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $em
+        private readonly AccountService $accountService,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     #[Route('', name: 'user_index')]
-    public function index(Request $request, Security $security, UserPasswordHasherInterface $passwordHasher): Response
+    public function index(Request $request, Security $security): Response
     {
         /**
          * @var User $user
@@ -47,7 +50,7 @@ class UserController extends AbstractController
         if ($formUser->isSubmitted() && $formUser->isValid()) {
             $data = $formUser->getData();
 
-            $this->em->flush();
+            $this->accountService->updateProfile();
             $this->addFlash(
                 'success',
                 'Vos informations ont été éditées avec succès !'
@@ -67,26 +70,18 @@ class UserController extends AbstractController
         if ($formUserPassword->isSubmitted() && $formUserPassword->isValid()) {
             $data = $formUserPassword->getData();
 
-            // Check if password is valid
-            if ($passwordHasher->isPasswordValid($user, $data['plainPassword'])) {
-                $user->setPlainPassword($data['newPassword']);
-
-                // To trigger the UserEntityListener
-                $user->setUpdatedAt(new \DateTimeImmutable());
-
-                $this->em->flush();
+            if ($this->accountService->changePassword($user, $data['plainPassword'], $data['newPassword'])) {
                 $this->addFlash(
                     'success',
                     'Le mot de passe a été édité avec success !'
                 );
 
                 return $this->redirectToRoute('user_index');
-            } else {
-                $this->addFlash(
-                    'warning',
-                    'Le mot de passe renseigné est incorrect.'
-                );
             }
+            $this->addFlash(
+                'warning',
+                'Le mot de passe renseigné est incorrect.'
+            );
 
             return $this->redirectToRoute('user_index', [
                 'tabSelected' => 3,
@@ -103,86 +98,63 @@ class UserController extends AbstractController
     #[Route('/delete-account', name: 'user_delete_account', methods: ['DELETE'])]
     public function deleteAccount(Security $security): JsonResponse
     {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
-        $statusCode = 200;
-        $message = [
-            'success',
-            $this->generateUrl('home_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
-        ];
 
         try {
-            // Remove UserInvitationCode
-            $invitations = $this->em->getRepository(UserInvitationCode::class)->findByUser($user);
-            if (count($invitations) > 0) {
-                foreach ($invitations as $invit) {
-                    $this->em->remove($invit);
-                }
-            }
+            $this->accountService->deleteAccount($user);
 
-            // Remove User (cascade with UserNews, UserTrackList and MangaUserTrack)
-            $this->em->remove($user);
-
-            // logout the user before the delete
-            $response = $security->logout(false);
-
-            $this->em->flush();
+            // logout the user once his account is deleted
+            $security->logout(false);
         } catch (\Exception $e) {
-            $message[0] = $e->getMessage();
-            $statusCode = 400;
+            $this->logger->error('Unable to delete the user account.', ['exception' => $e]);
+
+            return $this->json(['error', null], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($message, $statusCode);
+        return $this->json([
+            'success',
+            $this->generateUrl('home_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
     }
 
     #[Route('/export/scantheque', name: 'user_export_scantheque', methods: ['GET'])]
-    public function exportScantheque(SpreadSheetService $spreadSheetService): Response
-    {
+    public function exportScantheque(
+        SpreadSheetService $spreadSheetService,
+        ScanthequeExportService $scanthequeExportService,
+    ): Response {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
-        /** @phpstan-ignore-next-line */
-        $scanthequeDatasJson = json_decode($user->getScanthequeData(), true);
-        $message = [
-            'success',
-            200,
-        ];
 
         try {
-            // Init parameters for the csv file
-            $currentDate = (new \DateTimeImmutable())->format('Ymd');
-            $filename = "mangasync-scantheque-$currentDate.csv";
-            $columNames = ['Title', 'LastChapter', 'MaxChapter', 'Status'];
-            $columValues = [];
-            foreach ($scanthequeDatasJson as $mangasByStatus) {
-                foreach ($mangasByStatus as $manga) {
-                    $columValues[] = [
-                        $manga['title'],
-                        $manga['nbChaptersTrack'],
-                        $manga['nbChapters'],
-                        $manga['statusTrack'],
-                    ];
-                }
-            }
+            $rows = $scanthequeExportService->buildRows($user->getScanthequeData());
 
             // Init SpreadSheet + Csv writer
-            $spreadSheet = $spreadSheetService->createSimpleSpreadSheet($columNames, $columValues);
+            $spreadSheet = $spreadSheetService->createSimpleSpreadSheet(ScanthequeExportService::COLUMN_NAMES, $rows);
             $csvWriter = $spreadSheetService->createCsvWriter($spreadSheet);
-
-            // Create StreamedResponse
-            $response = new StreamedResponse();
-            $contentType = 'text/csv';
-            $response->headers->set('Content-Type', $contentType);
-            $response->headers->set('Content-Disposition', 'attachment;filename="'.$filename.'"');
-            $response->headers->set('Cache-Control', 'max-age=0');
-            $response->setPrivate();
-            $response->setCallback(function () use ($csvWriter) {
-                $csvWriter->save('php://output');
-            });
-
-            return $response;
         } catch (\Exception $e) {
-            $message[0] = $e->getMessage();
-            $statusCode = 400;
+            $this->logger->error('Unable to export the scantheque.', ['exception' => $e]);
+
+            return $this->json(['error', Response::HTTP_BAD_REQUEST], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($message, $statusCode);
+        // Create StreamedResponse
+        $response = new StreamedResponse();
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set(
+            'Content-Disposition',
+            'attachment;filename="'.$scanthequeExportService->getFilename().'"'
+        );
+        $response->headers->set('Cache-Control', 'max-age=0');
+        $response->setPrivate();
+        $response->setCallback(function () use ($csvWriter) {
+            $csvWriter->save('php://output');
+        });
+
+        return $response;
     }
 }

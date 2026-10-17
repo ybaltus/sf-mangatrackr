@@ -1,22 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Auth;
 
 use App\Entity\User;
 use App\Entity\UserInvitationCode;
 use App\Form\Auth\InvitationFormType;
 use App\Security\Auth\AppAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Services\User\InvitationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InvitationController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $em
+        private readonly InvitationService $invitationService,
     ) {
     }
 
@@ -32,8 +35,8 @@ class InvitationController extends AbstractController
         }
 
         // Verify the invitation code
-        if (!$this->isInvitationCodeValid($userInvitationCode)) {
-            throw new \Exception('This invitation code is no longer valid.');
+        if (!$this->invitationService->isInvitationCodeValid($userInvitationCode)) {
+            throw new GoneHttpException('This invitation code is no longer valid.');
         }
 
         $user = new User();
@@ -50,15 +53,11 @@ class InvitationController extends AbstractController
                     'The email does not match this invitation code.'
                 );
             } else {
-                // Use setPlainPassword to set the plainPassword for prePersist doctrineEvent(UserEntityListener)
-                $user->setPlainPassword($form->get('plainPassword')->getData());
-
-                // Disable the invitation code
-                $userInvitationCode->setUser($user);
-                $userInvitationCode->setIsActivated(false);
-
-                $this->em->persist($user);
-                $this->em->flush();
+                $this->invitationService->register(
+                    $userInvitationCode,
+                    $user,
+                    (string) $form->get('plainPassword')->getData()
+                );
 
                 // Login the user
                 $security->login($user, AppAuthenticator::class);
@@ -71,27 +70,5 @@ class InvitationController extends AbstractController
             'invitationForm' => $form->createView(),
             'userEmail' => $userInvitationCode->getEmail(),
         ]);
-    }
-
-    private function isInvitationCodeValid(UserInvitationCode $userInvitationCode): bool
-    {
-        $isValid = false;
-        $dateNow = new \DateTimeImmutable();
-
-        // Expired or already used
-        if (
-            !$userInvitationCode->getUser()
-            && ($dateNow < $userInvitationCode->getExpiredAt())
-        ) {
-            $isValid = true;
-        }
-
-        // Disable if not valid
-        if (!$isValid) {
-            $userInvitationCode->setIsActivated(false);
-            $this->em->flush();
-        }
-
-        return $isValid;
     }
 }

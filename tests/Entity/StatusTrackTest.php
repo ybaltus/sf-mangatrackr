@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Entity;
 
 use App\Entity\StatusTrack;
@@ -25,7 +27,7 @@ class StatusTrackTest extends KernelTestCase implements EntityTestInterface
         return (new StatusTrack())
             ->setName($title)
             ->setNameSlug($title.'_slug')
-            ;
+        ;
     }
 
     public function testEntityIsValid(): void

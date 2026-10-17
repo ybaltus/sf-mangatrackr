@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class ApiMangaUpdatesCommandTest extends KernelTestCase implements CommandTestInterface
@@ -42,10 +45,10 @@ final class ApiMangaUpdatesCommandTest extends KernelTestCase implements Command
         // If mode is not 0 (releases) or 1 (search)
         $commandTester->setInputs([2]);
 
-        $commandTester->execute(['command' => $command->getName()]);
+        // Since symfony/console 6.4.4x, the validation error is rethrown when the inputs are exhausted
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Mode 2 is invalid.');
 
-        // the output of the command in the console
-        $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('invalid', $output);
+        $commandTester->execute(['command' => $command->getName()]);
     }
 }
