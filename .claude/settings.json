@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make:*)",
+      "Bash(php bin/console:*)",
+      "Bash(symfony console:*)",
+      "Bash(php bin/phpunit:*)",
+      "Bash(php vendor/bin/phpstan:*)",
+      "Bash(vendor/bin/phpstan:*)",
+      "Bash(php vendor/bin/php-cs-fixer:*)",
+      "Bash(vendor/bin/php-cs-fixer:*)",
+      "Bash(composer show:*)",
+      "Bash(npm run:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": [
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Bash(php bin/console doctrine:database:drop:*)",
+      "Bash(php bin/console doctrine:schema:drop:*)",
+      "Bash(symfony console doctrine:database:drop:*)",
+      "Bash(symfony console doctrine:schema:drop:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "php \"$CLAUDE_PROJECT_DIR/.claude/hooks/php-cs-fixer.php\""
+          }
+        ]
+      }
+    ]
+  }
+}

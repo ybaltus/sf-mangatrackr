@@ -21,7 +21,8 @@
 
     // Variables d'environnement supplémentaires pour le dev
     "remoteEnv": {
-        "APP_ENV": "dev"
+        "APP_ENV": "dev",
+        "EDITOR": "nano"
     },
 
     // Forwarding des ports

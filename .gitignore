@@ -43,3 +43,8 @@ phpstan.neon
 /.phpcs-cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
+
+###> claude ###
+/.claude/settings.local.json
+/CLAUDE.local.md
+###< claude ###
