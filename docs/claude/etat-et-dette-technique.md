@@ -1,7 +1,7 @@
 # État du projet et dette technique
 
 Document **daté** : à relire et à mettre à jour de temps en temps.
-Dernière mise à jour : 2026-10-17 (branche `dev`).
+Dernière mise à jour : 2026-10-17 (`main` et `dev` identiques, commit `0e0d7b1`).
 
 ## État actuel
 - 169 tests, 329 assertions, PHPStan niveau 6 sans erreur, `composer audit` sans avis.
@@ -10,11 +10,12 @@ Dernière mise à jour : 2026-10-17 (branche `dev`).
 - GrumPHP actif (ADR 0006).
 - PHP 8.2 minimum depuis l'ADR 0008 (le lock issu de la mise à jour n'était pas installable
   sous PHP 8.1, ce que la CI a révélé).
-- PR #16 (brouillon) de `dev` vers `main` ouverte ; la CI doit repasser au vert avant de la
-  passer en « Ready for review ».
+- Lockfile npm régénéré avec npm 11 (ADR 0009).
+- PR #16 fusionnée dans `main` ; la CI de `main` est verte (PHP 8.2 : Composer, `npm ci`,
+  build, cs-fixer, PHPStan, migrations, fixtures, PHPUnit). `dev` est à jour avec `main`.
 
-## À vérifier à la main avant la PR vers `main`
-Les tests couvrent peu ces zones, qui ont reçu de grosses mises à jour :
+## À vérifier à la main (peu couvert par les tests)
+Ces zones ont reçu de grosses mises à jour. À tester sur l'environnement réel après déploiement :
 - l'interface d'administration EasyAdmin (4.10 vers 4.29) ;
 - la connexion Google OAuth (Guzzle 7 vers 8) ;
 - la modification des chapitres dans la scanthèque (régression corrigée, ADR 0001).
@@ -36,6 +37,7 @@ Les tests couvrent peu ces zones, qui ont reçu de grosses mises à jour :
 | Symfony 6.4 | Version LTS ; la suivante (7.4 LTS) demandera une migration |
 
 ## Pistes pour la suite
+Ordre suggéré :
 1. Script d'init MariaDB pour la base de test.
 2. `npm audit` et mise à jour des dépendances JS.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
