@@ -38,7 +38,7 @@ class ScanthequeService
 
                 // Update status and nbChapter
                 $mangaStatusTrack->setStatusTrack($statusTrack);
-                $mangaStatusTrack->setNbChapters($mData['nbChaptersTrack']);
+                $mangaStatusTrack->setNbChapters($this->toNbChapters($mData['nbChaptersTrack']));
 
                 $this->em->persist($mangaStatusTrack);
                 //                dump($mangaStatusTrack);
@@ -64,7 +64,7 @@ class ScanthequeService
                     ->findOneByNameSlug($mangaData['statusTrack']);
                 $mangaUserTrack->setStatusTrack($statusTrack);
             } else {
-                $mangaUserTrack->setNbChapters($mangaData['nbChaptersTrack']);
+                $mangaUserTrack->setNbChapters($this->toNbChapters($mangaData['nbChaptersTrack']));
             }
             $this->em->flush();
 
@@ -72,6 +72,20 @@ class ScanthequeService
         } catch (\Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * The front sends the value of an input, so the number of chapters can be a numeric string.
+     *
+     * @throws \InvalidArgumentException if the value is not numeric
+     */
+    private function toNbChapters(mixed $value): float
+    {
+        if (!is_numeric($value)) {
+            throw new \InvalidArgumentException('The number of chapters must be numeric.');
+        }
+
+        return (float) $value;
     }
 
     private function checkMutEntryInData(mixed $mData): bool
