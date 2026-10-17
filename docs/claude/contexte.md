@@ -42,9 +42,13 @@ Google OAuth.
   `/var/www`, Apache :8080) et `database` (MariaDB, hôte `database`).
 - **Le shell exporte `APP_ENV=dev`** : il écrase `phpunit.xml.dist`. Le Makefile préfixe donc
   PHPUnit par `APP_ENV=test`. Hors Makefile, lancer `APP_ENV=test vendor/bin/phpunit`.
-- Base de test `sf_mangatrackr_app_test` : l'utilisateur applicatif n'a ses droits que si un
-  compte root les a accordés (voir l'état et la dette technique). Pas de client `mysql` dans
-  le conteneur `app` : passer par PDO ou par `docker compose exec database`.
+- Base de test `<base>_test` (suffixe ajouté par `doctrine.yaml`) : créée, avec les droits de
+  l'utilisateur applicatif, par `docker/mariadb/init/01-create-test-database.sh`, monté dans
+  `/docker-entrypoint-initdb.d`. **Ce script ne s'exécute qu'à la première création du volume
+  `db-data`.** Pour un volume existant, depuis l'hôte : `docker compose up -d database` (recrée le
+  conteneur avec le montage, données conservées) puis
+  `docker compose exec database sh /docker-entrypoint-initdb.d/01-create-test-database.sh`.
+  Pas de client `mysql` dans le conteneur `app` : passer par PDO ou par `docker compose exec database`.
 - Secrets : `.env.local` (non versionné) ; la config Claude interdit sa lecture.
 
 ## Commandes utiles

@@ -14,11 +14,13 @@ Dernière mise à jour : 2026-10-17 (`main` et `dev` identiques, commit `0e0d7b1
 - PR #16 fusionnée dans `main` ; la CI de `main` est verte (PHP 8.2 : Composer, `npm ci`,
   build, cs-fixer, PHPStan, migrations, fixtures, PHPUnit). `dev` est à jour avec `main`.
 
-## À vérifier à la main (peu couvert par les tests)
-Ces zones ont reçu de grosses mises à jour. À tester sur l'environnement réel après déploiement :
-- l'interface d'administration EasyAdmin (4.10 vers 4.29) ;
-- la connexion Google OAuth (Guzzle 7 vers 8) ;
-- la modification des chapitres dans la scanthèque (régression corrigée, ADR 0001).
+## Vérifications manuelles
+Faites à la main le 2026-10-17 (par le mainteneur), avec les versions mises à jour :
+- interface d'administration EasyAdmin (4.29) : OK ;
+- connexion Google OAuth (Guzzle 8) : OK ;
+- scanthèque, dont la modification des chapitres (ADR 0001) : OK.
+
+La couverture **automatique** de ces zones reste faible (voir la dette technique).
 
 ## Dette technique connue
 | Sujet | Détail |
@@ -26,7 +28,7 @@ Ces zones ont reçu de grosses mises à jour. À tester sur l'environnement rée
 | Versions majeures en attente | PHPStan 1.x vers 2.x, PHPUnit 9 vers 11, Doctrine ORM 2 vers 3 et DBAL 3 vers 4 (contraintes `^2` / `^3` dans `composer.json`) |
 | Paquets abandonnés | `doctrine/cache`, `symfony/ux-toggle-password` (aucun remplaçant indiqué) |
 | Dépendances JavaScript | `npm audit` jamais fait |
-| Base de test | `sf_mangatrackr_app_test` et ses droits ont été créés à la main avec le compte root. Un volume recréé les perd : prévoir un script d'init MariaDB (`/docker-entrypoint-initdb.d`) |
+| Base de test | Script d'init MariaDB ajouté (`docker/mariadb/init/`), **non testé de bout en bout** (pas de Docker dans le conteneur `app`) : à valider en recréant le volume `db-data`. Sur un volume existant, il faut le lancer à la main (voir `contexte.md`) |
 | Lockfile npm | Les liens `file:vendor/symfony/ux-*/assets` font planter npm 10.8 (Node 20) quand les assets UX changent ; lockfile régénéré avec npm 11 (ADR 0009). Envisager Node 22/24 ou npm 11 dans le devcontainer et la CI |
 | Environnement | `APP_ENV=dev` exporté par le shell du devcontainer, contourné dans le Makefile |
 | Tests réseau | Plusieurs tests de commandes (`ApiTenraiCommandTest`, `InitDataCommandTest`, `ApiMangaUpdatesCommandTest`) appellent les vraies API : réseau requis, résultats non déterministes |
@@ -38,7 +40,7 @@ Ces zones ont reçu de grosses mises à jour. À tester sur l'environnement rée
 
 ## Pistes pour la suite
 Ordre suggéré :
-1. Script d'init MariaDB pour la base de test.
+1. Valider le script d'init MariaDB en recréant le volume `db-data` (sur l'hôte : `docker compose down -v`, **qui efface aussi la base de développement** ; prévoir `make first-install` ensuite).
 2. `npm audit` et mise à jour des dépendances JS.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.

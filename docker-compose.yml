@@ -6,6 +6,8 @@ services:
     restart: on-failure
     volumes:
       - db-data:/var/lib/mysql
+      # Scripts exécutés à la première création du volume (base de test + droits)
+      - ./docker/mariadb/init:/docker-entrypoint-initdb.d:ro
     environment:
       MARIADB_ROOT_PASSWORD: root1234
       MYSQL_DATABASE: ${DB_NAME:-sf_mangatrackr_app}
