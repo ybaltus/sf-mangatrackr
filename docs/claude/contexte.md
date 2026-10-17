@@ -12,7 +12,7 @@ EasyAdmin. Inscription **sur invitation** (code envoyé par email), connexion pa
 Google OAuth.
 
 ## Stack
-- PHP >= 8.1 (PHP 8.2 en local), Symfony 6.4 (LTS), Doctrine ORM 2.20 / DBAL 3 / MariaDB.
+- PHP >= 8.2 (8.2 en local, en CI et en production), Symfony 6.4 (LTS), Doctrine ORM 2.20 / DBAL 3 / MariaDB.
 - Front : Twig, Twig Components (`src/Twig/Components`), Stimulus (`assets/controllers`),
   Symfony UX (Autocomplete, Toggle Password), Webpack Encore, Tailwind (PostCSS).
 - Admin : EasyAdmin 4.29. Pagination : KnpPaginator. Export : PhpSpreadsheet (CSV).
@@ -53,7 +53,7 @@ charge les fixtures et lance PHPUnit ; `make test-only` rejoue sans réinitialis
 doivent donc rester rejouables) ; `make qa-php-cs-fixer` couvre `src` et `tests`.
 
 ## Workflow Git
-Branche de travail `dev`, PR vers `main`. La CI GitHub (PHP 8.1 et 8.2) ne tourne que sur les
+Branche de travail `dev`, PR vers `main`. La CI GitHub (PHP 8.2) ne tourne que sur les
 PR vers `main`. GrumPHP vérifie à chaque commit : cs-fixer, PHPStan, `symfony security:check`
 et le message (**objet <= 60 caractères, lignes du corps <= 72**). Commits en français,
 préfixes `fix:`, `refactor:`, `feat:`, `test:`, `docs:`, `style:`.

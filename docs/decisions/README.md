@@ -13,6 +13,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0005](0005-mise-a-jour-des-dependances.md) | Mise à jour des dépendances (92 avis de sécurité) | Acceptée |
 | [0006](0006-qualite-automatisee-et-commits.md) | Qualité automatisée : GrumPHP actif, règles de commit | Acceptée |
 | [0007](0007-conventions-de-tests.md) | Conventions de tests (rejouables, doubles, horloge figée) | Acceptée |
+| [0008](0008-php-8-2-minimum.md) | PHP 8.2 minimum (lock incompatible avec 8.1) | Acceptée |
 
 ## Modèle
 ```markdown

@@ -1,15 +1,17 @@
 # État du projet et dette technique
 
 Document **daté** : à relire et à mettre à jour de temps en temps.
-Dernière mise à jour : 2026-10-17 (branche `dev`, tête `d846763`).
+Dernière mise à jour : 2026-10-17 (branche `dev`).
 
 ## État actuel
 - 169 tests, 329 assertions, PHPStan niveau 6 sans erreur, `composer audit` sans avis.
 - Toutes les dépendances Composer mises à jour dans leurs contraintes (voir l'ADR 0005).
 - `declare(strict_types=1)` dans tous les fichiers PHP de `src/` et `tests/` (ADR 0001).
 - GrumPHP actif (ADR 0006).
-- La branche `dev` n'a pas encore été fusionnée vers `main` : la CI n'a donc pas tourné sur
-  ces changements.
+- PHP 8.2 minimum depuis l'ADR 0008 (le lock issu de la mise à jour n'était pas installable
+  sous PHP 8.1, ce que la CI a révélé).
+- PR #16 (brouillon) de `dev` vers `main` ouverte ; la CI doit repasser au vert avant de la
+  passer en « Ready for review ».
 
 ## À vérifier à la main avant la PR vers `main`
 Les tests couvrent peu ces zones, qui ont reçu de grosses mises à jour :

@@ -26,7 +26,7 @@
       strategy:
         fail-fast: true
         matrix:
-          php-versions: ['8.1', '8.2']
+          php-versions: ['8.2']
       steps:
       # -- Setup Github Action --------------------------
         - name: Checkout v4
@@ -81,7 +81,7 @@
 
       # -- PHP Stan --------------------------------------
         - name: Static analysis of php code (php stan)
-          run: php vendor/bin/phpstan analyse
+          run: php vendor/bin/phpstan analyse --memory-limit=1G
 
       # -- PHP Unit --------------------------------------
         - name: Copy .env.test.local

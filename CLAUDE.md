@@ -3,7 +3,7 @@
 Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendrier de sorties, export, admin EasyAdmin, connexion Google OAuth).
 
 ## Stack
-- PHP >= 8.1, Symfony 6.4, Doctrine ORM 2 / MariaDB
+- PHP >= 8.2, Symfony 6.4, Doctrine ORM 2 / MariaDB
 - Front : Twig + Symfony UX (Stimulus, Twig Components, Autocomplete), Webpack Encore, Tailwind
 - API externes : Tenrai (remplace Jikan) via `src/Services/Api/ApiTenraiService.php`, MangaUpdates via `src/Services/Api/ApiMangaUpdatesService.php`
 
