@@ -15,6 +15,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0007](0007-conventions-de-tests.md) | Conventions de tests (rejouables, doubles, horloge figée) | Acceptée |
 | [0008](0008-php-8-2-minimum.md) | PHP 8.2 minimum (lock incompatible avec 8.1) | Acceptée |
 | [0009](0009-lockfile-npm-et-assets-ux.md) | Lockfile npm régénéré avec npm 11 (assets Symfony UX) | Acceptée |
+| [0010](0010-audit-npm-et-borne-webpack.md) | Audit npm sans version majeure et borne sur webpack | Acceptée |
 
 ## Modèle
 ```markdown
