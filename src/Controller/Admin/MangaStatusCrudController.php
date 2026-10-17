@@ -9,6 +9,9 @@ use App\Controller\Admin\Trait\SimpleEntityConfigTrait;
 use App\Entity\MangaStatus;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
+/**
+ * @extends AbstractCrudController<MangaStatus>
+ */
 class MangaStatusCrudController extends AbstractCrudController
 {
     use SimpleEntityConfigTrait;

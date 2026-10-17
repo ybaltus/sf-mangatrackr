@@ -15,6 +15,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
+/**
+ * @extends AbstractCrudController<Fantrad>
+ */
 class FantradCrudController extends AbstractCrudController
 {
     use RemoveDeleteActionTrait;

@@ -9,6 +9,9 @@ use App\Controller\Admin\Trait\SimpleEntityConfigTrait;
 use App\Entity\Editor;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
+/**
+ * @extends AbstractCrudController<Editor>
+ */
 class EditorCrudController extends AbstractCrudController
 {
     use SimpleEntityConfigTrait;

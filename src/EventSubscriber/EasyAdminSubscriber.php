@@ -33,6 +33,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param BeforeEntityPersistedEvent<UserInvitationCode> $event
+     */
     public function setInvitationCode(BeforeEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();
@@ -45,6 +48,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $entity->setCodeInvitation($codeInvitation);
     }
 
+    /**
+     * @param AfterEntityPersistedEvent<UserInvitationCode> $event
+     */
     public function sendEmailInvitationCode(AfterEntityPersistedEvent $event): void
     {
         $entity = $event->getEntityInstance();

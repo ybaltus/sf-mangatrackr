@@ -14,6 +14,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/**
+ * @extends AbstractCrudController<UserResetPassword>
+ */
 class UserResetPasswordCrudController extends AbstractCrudController
 {
     public function configureActions(Actions $actions): Actions

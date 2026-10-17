@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Manga;
 use App\Entity\MangaUserTrack;
+use App\Entity\StatusTrack;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -15,9 +17,9 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
     public function load(ObjectManager $manager): void
     {
         $users = [
-            $this->getReference('user_ref_1'),
-            $this->getReference('user_ref_2'),
-            $this->getReference('user_ref_3'),
+            $this->getReference('user_ref_1', User::class),
+            $this->getReference('user_ref_2', User::class),
+            $this->getReference('user_ref_3', User::class),
         ];
 
         /**
@@ -26,9 +28,9 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
         foreach ($users as $key => $user) {
             for ($i = 0; $i < 3; ++$i) {
                 $entity = (new MangaUserTrack())
-                    ->setManga($this->getReference('manga_ref_'.mt_rand(1, 3)))
+                    ->setManga($this->getReference('manga_ref_'.mt_rand(1, 3), Manga::class))
                     ->setUserTrackList($user->getUserTrackList())
-                    ->setStatusTrack($this->getReference('sTrack_ref_'.mt_rand(1, 3)))
+                    ->setStatusTrack($this->getReference('sTrack_ref_'.mt_rand(1, 3), StatusTrack::class))
                     ->setNbChapters(mt_rand(1, 150))
                 ;
 
@@ -38,7 +40,7 @@ class MangaUserTrackFixtures extends Fixture implements DependentFixtureInterfac
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,

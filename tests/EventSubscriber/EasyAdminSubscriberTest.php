@@ -19,6 +19,9 @@ use Symfony\Component\Uid\Uuid;
 
 class EasyAdminSubscriberTest extends TestCase
 {
+    /**
+     * @param AbstractLifecycleEvent<UserInvitationCode> $event
+     */
     private function dispatchEvent(
         EasyAdminSubscriber $subscriber,
         AbstractLifecycleEvent $event,

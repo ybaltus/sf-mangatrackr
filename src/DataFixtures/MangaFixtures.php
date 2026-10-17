@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Editor;
+use App\Entity\Fantrad;
 use App\Entity\Manga;
+use App\Entity\MangaStatus;
 use App\Entity\MangaTenraiAPI;
+use App\Entity\MangaType;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -29,15 +33,15 @@ class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInte
                 ->setAuthor($faker->name())
                 ->setDescription($faker->paragraph())
                 ->setDesigner($faker->name())
-                ->setMangaStatus($this->getReference('mStatus_ref_'.mt_rand(1, 3)))
+                ->setMangaStatus($this->getReference('mStatus_ref_'.mt_rand(1, 3), MangaStatus::class))
                 ->setPublishedAt(new \DateTimeImmutable())
                 ->setNbChapters(mt_rand(1, 300))
-                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3)))
-                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3)))
-                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3)))
-                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3)))
-                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3)))
-                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3)))
+                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3), Editor::class))
+                ->addEditor($this->getReference('editor_ref_'.mt_rand(1, 3), Editor::class))
+                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3), MangaType::class))
+                ->addMangaType($this->getReference('mType_ref_'.mt_rand(1, 3), MangaType::class))
+                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3), Fantrad::class))
+                ->addFantrad($this->getReference('fantrad_ref_'.mt_rand(1, 3), Fantrad::class))
             ;
 
             $manager->persist($entity);
@@ -63,7 +67,7 @@ class MangaFixtures extends DataFixturesAbstract implements DependentFixtureInte
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             EditorFixtures::class,

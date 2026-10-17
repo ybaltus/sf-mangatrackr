@@ -9,6 +9,9 @@ use App\Controller\Admin\Trait\SimpleEntityConfigTrait;
 use App\Entity\StatusTrack;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
+/**
+ * @extends AbstractCrudController<StatusTrack>
+ */
 class StatusTrackCrudController extends AbstractCrudController
 {
     use SimpleEntityConfigTrait;

@@ -14,6 +14,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
+/**
+ * @extends AbstractCrudController<UserInvitationCode>
+ */
 class UserInvitationCodeCrudController extends AbstractCrudController
 {
     use RemoveEditActionTrait;
