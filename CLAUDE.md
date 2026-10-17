@@ -35,3 +35,16 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - Avant de déclarer une tâche terminée : `make qa-php-stan` et `make test-only` doivent passer.
 - Les secrets vont dans `.env.local` (non versionné), jamais dans `.env`.
 - Branche de travail `dev`, PR vers `main`.
+
+## Points d'attention
+- Le shell exporte `APP_ENV=dev` : le Makefile préfixe PHPUnit par `APP_ENV=test` (hors Makefile : `APP_ENV=test vendor/bin/phpunit`).
+- GrumPHP est actif : message de commit avec objet <= 60 caractères et lignes du corps <= 72, en français, préfixe `fix:`/`refactor:`/`feat:`/`test:`/`docs:`/`style:`.
+- `strict_types` : les valeurs venant du front, des commandes ou des API sont souvent des chaînes ; les convertir à la frontière et les tester sous forme de chaînes (ADR 0001).
+- Les tests doivent rester rejouables avec `make test-only` : ne pas laisser de données résiduelles.
+
+## Contexte détaillé
+Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.
+- Contexte du projet (stack, architecture, environnement, workflow) :
+@docs/claude/contexte.md
+- État du projet et dette technique (daté) : `docs/claude/etat-et-dette-technique.md`
+- Décisions d'architecture (ADR), avec un index et un modèle : `docs/decisions/README.md`
