@@ -42,6 +42,14 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - `strict_types` : les valeurs venant du front, des commandes ou des API sont souvent des chaînes ; les convertir à la frontière et les tester sous forme de chaînes (ADR 0001).
 - Les tests doivent rester rejouables avec `make test-only` : ne pas laisser de données résiduelles.
 
+## Méthode de travail
+- **Git** : ne commiter ni pousser que sur demande explicite, et ne pas se fier à un accord donné pour une étape précédente. Quand plusieurs commits sont demandés, découper par sujet (le `fix:` d'abord, le style séparé de la logique) en gardant un arbre cohérent et vérifié (cs-fixer, PHPStan) à chaque étape ; GrumPHP contrôle l'arbre entier, pas l'index.
+- **Actions visibles par d'autres** (PR, push, modification d'une PR) : demander confirmation avant ; ouvrir la PR d'abord en brouillon.
+- **Audits et mises à jour** : commencer en lecture seule et présenter l'ampleur ; appliquer ensuite sans commiter pour laisser relire le diff ; garder une sauvegarde pour pouvoir revenir en arrière.
+- **Dépendances** : Composer — vérifier que le lock s'installe avec le PHP minimum de `composer.json` (ADR 0008) ; npm — modifier le lockfile avec npm 11, valider avec `npm ci` en npm 10.8.2 puis `npm run build` (ADR 0009 et 0010).
+- **Rapport** : dire franchement les échecs, les régressions et ce qui n'a pas pu être vérifié ; ne rien déclarer terminé sans `make qa-php-stan` et `make test-only` verts.
+- **Traçabilité** : un ADR pour toute décision structurante, et mise à jour de `docs/claude/etat-et-dette-technique.md` en fin de chantier.
+
 ## Contexte détaillé
 Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.
 - Contexte du projet (stack, architecture, environnement, workflow) :
