@@ -20,7 +20,7 @@ class InvitationControllerTest extends WebTestCase implements ControllerTestInte
         // Set userCodeInvitation
         $userCodeInvitation = (new UserInvitationCode())
             ->setEmail($userEmail)
-            ->setCodeInvitation(Uuid::v4())
+            ->setCodeInvitation(Uuid::v4()->toRfc4122())
         ;
         $em->persist($userCodeInvitation);
         $em->flush();

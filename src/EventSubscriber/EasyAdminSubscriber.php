@@ -39,7 +39,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $codeInvitation = Uuid::v4();
+        $codeInvitation = Uuid::v4()->toRfc4122();
         $entity->setCodeInvitation($codeInvitation);
     }
 

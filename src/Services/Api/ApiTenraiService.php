@@ -275,7 +275,7 @@ final class ApiTenraiService extends AbstractApiService
 
     private function verifyByTitleAndMalId(
         string $title,
-        string $malId,
+        int $malId,
         bool $isSetTitleSlug = false,
         bool $isCheckWithOnlyTitle = false
     ): Manga {

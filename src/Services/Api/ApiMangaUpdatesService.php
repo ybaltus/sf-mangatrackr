@@ -101,7 +101,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
             && $releaseMetaDatas['series']['series_id']
         ) {
             $manga = $this->verifyIfExistInDbWithReleaseMetadataSerieId(
-                $releaseMetaDatas['series']['series_id']
+                (string) $releaseMetaDatas['series']['series_id']
             );
         }
 

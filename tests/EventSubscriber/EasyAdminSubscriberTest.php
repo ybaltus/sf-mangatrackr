@@ -77,7 +77,7 @@ class EasyAdminSubscriberTest extends TestCase
         // Create a new UserInvitationCode
         $userInvitationCode = (new UserInvitationCode())
             ->setEmail('testSendEmail@test.fr')
-            ->setCodeInvitation(Uuid::v4())
+            ->setCodeInvitation(Uuid::v4()->toRfc4122())
         ;
 
         // Create AfterEntityPersistedEvent

@@ -52,14 +52,14 @@ class ResetPasswordController extends AbstractController
                 if (0 === count($user->getUserResetPasswords())) {
                     $userResetPassword = (new UserResetPassword())
                         ->setUser($user)
-                        ->setResetCode(Uuid::v4())
+                        ->setResetCode(Uuid::v4()->toRfc4122())
                     ;
                     $this->em->persist($userResetPassword);
                 } else {
                     $createdAt = new \DateTimeImmutable();
                     $expiredAt = $createdAt->add(new \DateInterval('P1D'));
                     $user->getUserResetPasswords()[0]
-                        ->setResetCode(Uuid::v4())
+                        ->setResetCode(Uuid::v4()->toRfc4122())
                         ->setCreatedAt($createdAt)
                         ->setExpiredAt($expiredAt)
                         ->setSendingEmailStatus('')

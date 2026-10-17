@@ -147,7 +147,7 @@ abstract class AbstractApiService
         string $title,
         string $category
     ): bool|Manga {
-        $mangaSlug = $this->slugger->slug($title)->lower();
+        $mangaSlug = $this->slugger->slug($title)->lower()->toString();
         $categoryManga = $this->getMangaCategory($category);
 
         $manga = $this->em->getRepository(Manga::class)
