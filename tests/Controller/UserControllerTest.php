@@ -172,4 +172,62 @@ class UserControllerTest extends WebTestCase implements ControllerTestInterface
         // Test link scantheque export (stimulus action)
         $this->assertSelectorExists('a[data-action="account#exportScantheque"]');
     }
+
+    public function testExportScantheque(): void
+    {
+        $client = static::createClient();
+        $client->loginUser($this->getTestUser());
+
+        $client->request('GET', '/user/export/scantheque');
+
+        $this->assertResponseIsSuccessful();
+        $this->assertStringStartsWith('text/csv', (string) $client->getResponse()->headers->get('Content-Type'));
+        $this->assertStringContainsString(
+            'attachment;filename="mangasync-scantheque-',
+            (string) $client->getResponse()->headers->get('Content-Disposition')
+        );
+        $this->assertStringStartsWith(
+            '"Title";"LastChapter";"MaxChapter";"Status"',
+            $client->getInternalResponse()->getContent()
+        );
+    }
+
+    public function testExportScanthequeNotConnected(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/user/export/scantheque');
+
+        $this->assertResponseRedirects('/login', Response::HTTP_FOUND);
+    }
+
+    public function testDeleteAccount(): void
+    {
+        $client = static::createClient();
+
+        // Use a dedicated user to keep the shared fixtures untouched
+        $em = static::getContainer()->get('doctrine')->getManager();
+        $user = (new User())
+            ->setEmail('user-to-delete@default.com')
+            ->setUsername('user_to_delete')
+            ->setPlainPassword('password')
+        ;
+        $em->persist($user);
+        $em->flush();
+        $client->loginUser($user);
+
+        $client->request('DELETE', '/user/delete-account');
+
+        $this->assertResponseIsSuccessful();
+        $result = json_decode((string) $client->getInternalResponse()->getContent(), true);
+        $this->assertSame('success', $result[0]);
+        $this->assertNull(static::getContainer()->get(UserRepository::class)->findOneByEmail('user-to-delete@default.com'));
+    }
+
+    public function testDeleteAccountNotConnected(): void
+    {
+        $client = static::createClient();
+        $client->request('DELETE', '/user/delete-account');
+
+        $this->assertResponseRedirects('/login', Response::HTTP_FOUND);
+    }
 }
