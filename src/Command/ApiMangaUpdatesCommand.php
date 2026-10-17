@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ApiMangaUpdatesCommand extends Command
 {
     public function __construct(
-        private readonly ApiMangaUpdatesService $apiMangaUpdatesService
+        private readonly ApiMangaUpdatesService $apiMangaUpdatesService,
     ) {
         parent::__construct();
     }

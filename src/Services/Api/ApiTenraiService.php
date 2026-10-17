@@ -279,7 +279,7 @@ final class ApiTenraiService extends AbstractApiService
         string $title,
         int $malId,
         bool $isSetTitleSlug = false,
-        bool $isCheckWithOnlyTitle = false
+        bool $isCheckWithOnlyTitle = false,
     ): Manga {
         $titleSlug = $this->slugger->slug($title)->lower()->slice(0, 10).'-'.$malId;
         $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);

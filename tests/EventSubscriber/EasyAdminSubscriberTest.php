@@ -21,7 +21,7 @@ class EasyAdminSubscriberTest extends TestCase
 {
     private function dispatchEvent(
         EasyAdminSubscriber $subscriber,
-        AbstractLifecycleEvent $event
+        AbstractLifecycleEvent $event,
     ): void {
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($subscriber);

@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class ScanthequeService
 {
     public function __construct(
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
     ) {
     }
 
@@ -22,7 +22,7 @@ class ScanthequeService
     public function persistMangasDatas(
         StatusTrack $statusTrack,
         mixed $user,
-        array $mangaDatas
+        array $mangaDatas,
     ): bool {
         try {
             foreach ($mangaDatas as $mData) {
@@ -78,8 +78,8 @@ class ScanthequeService
     {
         if (!array_key_exists('mut', $mData) || !$mData['mut']) {
             return false;
-        } else {
-            return is_numeric($mData['mut']);
         }
+
+        return is_numeric($mData['mut']);
     }
 }

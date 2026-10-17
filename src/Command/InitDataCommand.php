@@ -20,7 +20,7 @@ class InitDataCommand extends Command
 {
     public function __construct(
         private InitDataService $initDataService,
-        private ApiTenraiService $apiTenraiService
+        private ApiTenraiService $apiTenraiService,
     ) {
         parent::__construct();
     }

@@ -90,28 +90,27 @@ class CreateUserCommand extends Command
             $io->error('Email, username and password are required.');
 
             return Command::FAILURE;
-        } else {
-            // Check if user already exists
-            if ($this->em->getRepository(User::class)->findOneByEmail($email)) {
-                $io->error('This email already exists.');
-
-                return Command::FAILURE;
-            }
-
-            // Create a new user
-            $user = (new User())
-                ->setEmail($email)
-                ->setPlainPassword($password)
-                ->setUsername($username)
-            ;
-
-            if ($isAdmin) {
-                $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
-            }
-
-            $this->em->persist($user);
-            $this->em->flush();
         }
+        // Check if user already exists
+        if ($this->em->getRepository(User::class)->findOneByEmail($email)) {
+            $io->error('This email already exists.');
+
+            return Command::FAILURE;
+        }
+
+        // Create a new user
+        $user = (new User())
+            ->setEmail($email)
+            ->setPlainPassword($password)
+            ->setUsername($username)
+        ;
+
+        if ($isAdmin) {
+            $user->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         $io->success("User {$email} has been created with success !");
 

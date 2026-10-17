@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class MangaStatisticSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $em
+        private readonly EntityManagerInterface $em,
     ) {
     }
 

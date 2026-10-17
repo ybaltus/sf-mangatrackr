@@ -21,7 +21,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         private UrlGeneratorInterface $router,
         private ContainerBagInterface $params,
         private MailService $mailService,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -37,7 +37,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof UserInvitationCode)) {
+        if (!$entity instanceof UserInvitationCode) {
             return;
         }
 
@@ -49,7 +49,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof UserInvitationCode)) {
+        if (!$entity instanceof UserInvitationCode) {
             return;
         }
 

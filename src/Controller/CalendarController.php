@@ -21,7 +21,7 @@ class CalendarController extends AbstractController
     public function index(
         ReleaseMangaUpdatesAPIRepository $releaseMangaUpdatesAPIRepository,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
     ): Response {
         // Detect if the user is using a mobile device
         $isMobileDevice = $this->detectMobileDevice($request);

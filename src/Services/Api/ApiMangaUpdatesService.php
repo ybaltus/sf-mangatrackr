@@ -24,7 +24,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
         private readonly SluggerInterface $slugger,
-        private readonly string $apiMangaUpdatesUrl
+        private readonly string $apiMangaUpdatesUrl,
     ) {
         parent::__construct($this->httpClient, $this->em, $this->slugger);
         $this->baseUrl = $this->apiMangaUpdatesUrl;
@@ -435,9 +435,9 @@ final class ApiMangaUpdatesService extends AbstractApiService
 
             if (!$mangaSlugWithSerieId) {
                 return $titleSlugWithSerieId;
-            } else {
-                return $mangaSlugWithSerieId;
             }
+
+            return $mangaSlugWithSerieId;
         }
 
         return null;

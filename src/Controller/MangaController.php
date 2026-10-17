@@ -32,7 +32,7 @@ class MangaController extends AbstractController
         MangaRepository $mangaRepository,
         ApiTenraiService $apiTenraiService,
         ApiMangaUpdatesService $apiMangaUpdatesService,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
     ): Response {
         $mangas = [];
         $hasError = false;

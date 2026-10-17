@@ -33,7 +33,7 @@ class ScanthequeController extends AbstractController
     public function saveMangaUserTrackDatas(
         Request $request,
         ScanthequeService $scanthequeService,
-        StatusTrack $statusTrack
+        StatusTrack $statusTrack,
     ): JsonResponse {
         $user = $this->getUser();
         $status = 200;
@@ -63,7 +63,7 @@ class ScanthequeController extends AbstractController
     public function updateMangaUserTrackDatas(
         Request $request,
         ScanthequeService $scanthequeService,
-        MangaUserTrack $mangaUserTrack
+        MangaUserTrack $mangaUserTrack,
     ): JsonResponse {
         $status = 200;
         $mangaData = $request->toArray();
@@ -82,7 +82,7 @@ class ScanthequeController extends AbstractController
     #[IsGranted('mut_delete', 'mangaUserTrack')]
     public function deleteMangaUserTrackDatas(
         EntityManagerInterface $em,
-        MangaUserTrack $mangaUserTrack
+        MangaUserTrack $mangaUserTrack,
     ): JsonResponse {
         $status = 200;
         $message = 'Delete with success';

@@ -22,7 +22,7 @@ final class InitDataService
 
     public function __construct(
         private EntityManagerInterface $em,
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 

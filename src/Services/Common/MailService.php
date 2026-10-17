@@ -12,7 +12,7 @@ use Symfony\Component\Mime\Address;
 class MailService
 {
     public function __construct(
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
     ) {
     }
 

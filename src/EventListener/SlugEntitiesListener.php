@@ -32,7 +32,7 @@ class SlugEntitiesListener
     ];
 
     public function __construct(
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 

@@ -82,12 +82,11 @@ class ResetPasswordController extends AbstractController
                 );
 
                 return $this->redirectToRoute('reset_password_index');
-            } else {
-                $this->addFlash(
-                    'warning',
-                    "Cette email n'existe pas ou est incorrect."
-                );
             }
+            $this->addFlash(
+                'warning',
+                "Cette email n'existe pas ou est incorrect."
+            );
         }
 
         return $this->render('pages/reset_password/index.html.twig', [
@@ -99,7 +98,7 @@ class ResetPasswordController extends AbstractController
     public function updatePassword(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        UserResetPassword $userResetPassword
+        UserResetPassword $userResetPassword,
     ): Response {
         // Verify the invitation code
         if (!$this->isResetCodeValid($userResetPassword)) {

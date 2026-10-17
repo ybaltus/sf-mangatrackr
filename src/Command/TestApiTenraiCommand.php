@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class TestApiTenraiCommand extends Command
 {
     public function __construct(
-        private ApiTenraiService $apiTenraiService
+        private ApiTenraiService $apiTenraiService,
     ) {
         parent::__construct();
     }

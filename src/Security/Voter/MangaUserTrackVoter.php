@@ -35,7 +35,7 @@ class MangaUserTrackVoter extends Voter
 
         return match ($attribute) {
             self::EDIT, self::DELETE => $this->canEdit($subject, $user),
-            default => throw new \LogicException('This code should not be reached!')
+            default => throw new \LogicException('This code should not be reached!'),
         };
     }
 

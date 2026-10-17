@@ -14,7 +14,7 @@ abstract class DataFixturesAbstract extends Fixture implements ReferenceFixtures
             0 => sprintf('%s_ref_%d', $prefixRef, 1),
             1 => sprintf('%s_ref_%d', $prefixRef, 2),
             2 => sprintf('%s_ref_%d', $prefixRef, 3),
-            default => false
+            default => false,
         };
 
         if (!$targetReference) {

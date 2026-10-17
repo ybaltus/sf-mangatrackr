@@ -23,7 +23,7 @@ class TestEmailCommand extends Command
 {
     public function __construct(
         private MailService $mailService,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
         parent::__construct();
     }

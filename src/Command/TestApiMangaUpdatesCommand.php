@@ -19,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class TestApiMangaUpdatesCommand extends Command
 {
     public function __construct(
-        private ApiMangaUpdatesService $apiMangaUpdatesService
+        private ApiMangaUpdatesService $apiMangaUpdatesService,
     ) {
         parent::__construct();
     }

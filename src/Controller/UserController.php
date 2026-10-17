@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class UserController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
     ) {
     }
 
@@ -83,12 +83,11 @@ class UserController extends AbstractController
                 );
 
                 return $this->redirectToRoute('user_index');
-            } else {
-                $this->addFlash(
-                    'warning',
-                    'Le mot de passe renseigné est incorrect.'
-                );
             }
+            $this->addFlash(
+                'warning',
+                'Le mot de passe renseigné est incorrect.'
+            );
 
             return $this->redirectToRoute('user_index', [
                 'tabSelected' => 3,

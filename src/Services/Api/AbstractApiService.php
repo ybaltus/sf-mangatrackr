@@ -43,7 +43,7 @@ abstract class AbstractApiService
     public function __construct(
         private readonly HttpClientInterface $httpClient,
         private readonly EntityManagerInterface $em,
-        private readonly SluggerInterface $slugger
+        private readonly SluggerInterface $slugger,
     ) {
     }
 
@@ -117,7 +117,7 @@ abstract class AbstractApiService
         return match ($status) {
             200, 201, 204 => true,
             400, 401, 403, 404, 500 , 504 => false,
-            default => false
+            default => false,
         };
     }
 
@@ -147,7 +147,7 @@ abstract class AbstractApiService
      */
     protected function verifyIfMangaExistInDb(
         string $title,
-        string $category
+        string $category,
     ): bool|Manga {
         $mangaSlug = $this->slugger->slug($title)->lower()->toString();
         $categoryManga = $this->getMangaCategory($category);
