@@ -24,6 +24,12 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - Logique métier dans `src/Services/`, accès aux données dans `src/Repository/`, listeners Doctrine dans `src/EventListener/`
 - Migrations Doctrine dans `migrations/`
 
+## Bonnes pratiques
+À respecter pour toute nouvelle fonctionnalité, et à tracer dans le récap final (« Bonnes pratiques appliquées », écarts justifiés).
+- PSR : PSR-1 et PSR-4 (autoload `App\`), PSR-12 via `@Symfony` (PHP-CS-Fixer), PSR-3 (`LoggerInterface`), PSR-11 (conteneur), PSR-7/15 uniquement via HttpFoundation/HttpKernel.
+- Symfony : contrôleurs minces (logique dans `src/Services/`), injection par constructeur + autowiring (jamais `$container->get()`), Voters pour l'autorisation, FormTypes + contraintes du Validator pour la validation, EventListener/Messenger pour le découplage, routes et mapping en attributs, configuration via paramètres/`.env`, Twig sans logique métier.
+- PHP : `declare(strict_types=1)`, types de paramètres et de retour explicites, `final`/`readonly` quand pertinent.
+
 ## Règles
 - Ne jamais modifier une migration déjà commitée : en générer une nouvelle avec `make sf-mm`.
 - Avant de déclarer une tâche terminée : `make qa-php-stan` et `make test-only` doivent passer.
