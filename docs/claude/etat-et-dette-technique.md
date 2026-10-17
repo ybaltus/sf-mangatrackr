@@ -26,6 +26,7 @@ Les tests couvrent peu ces zones, qui ont reçu de grosses mises à jour :
 | Paquets abandonnés | `doctrine/cache`, `symfony/ux-toggle-password` (aucun remplaçant indiqué) |
 | Dépendances JavaScript | `npm audit` jamais fait |
 | Base de test | `sf_mangatrackr_app_test` et ses droits ont été créés à la main avec le compte root. Un volume recréé les perd : prévoir un script d'init MariaDB (`/docker-entrypoint-initdb.d`) |
+| Lockfile npm | Les liens `file:vendor/symfony/ux-*/assets` font planter npm 10.8 (Node 20) quand les assets UX changent ; lockfile régénéré avec npm 11 (ADR 0009). Envisager Node 22/24 ou npm 11 dans le devcontainer et la CI |
 | Environnement | `APP_ENV=dev` exporté par le shell du devcontainer, contourné dans le Makefile |
 | Tests réseau | Plusieurs tests de commandes (`ApiTenraiCommandTest`, `InitDataCommandTest`, `ApiMangaUpdatesCommandTest`) appellent les vraies API : réseau requis, résultats non déterministes |
 | Admin | Presque pas de tests sur EasyAdmin (un test de redirection du dashboard) |
