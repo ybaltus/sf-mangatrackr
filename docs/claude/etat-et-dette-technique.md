@@ -73,9 +73,23 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 | Outil de transfert | M-F : `--inject-failure` présent dans le script de production ; `--require-baseline` n'accepte pas « baseline seule version ». Le garde-fou (hôte + base du DSN, `CONFIRM_TARGET`) ne détecte pas un alias DNS ou un tunnel nommé comme la cible attendue : en production, fixer `TRANSFER_EXPECTED_HOST/DB` et saisir `CONFIRM_TARGET` à la main | 023, 024 |
 | Accès source | Un agent a lu `_import` avec l'utilisateur root MariaDB (lecture seule) ; préférer l'utilisateur applicatif limité à `SELECT` | 024 |
 
+## Dette issue du déploiement sur le homelab (chantier `deploiement-homelab`, 2026-10-18)
+Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
+| Sujet | Détail | Rapport |
+|---|---|---|
+| HTTPS et Google OAuth | Pas de reverse proxy ni de domaine : application en HTTP sur `192.168.1.29:8080` (LAN) ; Google refuse l'URI de redirection sur IP privée, connexion Google non fonctionnelle en prod. Chantier à part (proxies de confiance, URL canonique, URI OAuth) | 002 |
+| `symfony/ux-toggle-password` 2.29 | Dépréciation constatée au démarrage en prod (paquet abandonné, voir plus haut) ; à remplacer dans un chantier à part | 002 |
+| Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
+| Sauvegardes | `deploy/backup.sh` écrit sur la VM seulement (rotation 7, non chiffré) : copie hors VM à organiser ; test de restauration (procédure 7.6 de la doc) à planifier et à répéter. Remplacement d'une base non vide : manuel (renommage, doc 7.5) | 001, 002 |
+| Retour arrière | Un seul niveau (`mangatrackr:prod-previous`) et pas de retour de schéma : restaurer la sauvegarde prise par `--migrate` | 001 |
+| Scripts non éprouvés en réel | Testés par simulation (pas de Docker dans le devcontainer) ; premier essai `--dry-run` sur la VM par l'utilisateur | 001, 003 |
+| Doc du PostgreSQL mutualisé absente | Le conteneur `postgres` (image, volume, réseau `database`, healthcheck, sauvegarde du cluster) n'est documenté nulle part dans le dépôt ; la doc locale de la VM dit « à documenter séparément ». Une réinstallation de VM vierge n'est donc pas exécutable de bout en bout (section 5.3 de `apps-dev.md`) | 005, 006 |
+| Journaux Apache | `docker/vhosts/mangatracker.conf` écrit `ErrorLog`/`CustomLog` dans des fichiers du conteneur : absents de `compose logs`, hors du contrôle de secrets de `check.sh`, croissance dans la couche inscriptible. Vhost de prod vers `/proc/self/fd/1` et `/2` à prévoir | 005, 006 |
+| Images de dev construites avant 2026-10-18 | Le `.dockerignore` racine n'excluait pas `ressources/` : une image construite par `docker/Dockerfile` (ou `Dockerfile.prod` sans BuildKit) avant la correction peut contenir l'env de prod et un dump. Les supprimer (`docker image ls`, `docker image rm`) puis reconstruire ; sur la VM, contrôle `ls /var/www/ressources` (section 6 de `apps-dev.md`) | 005, 006 |
+
 ## Pistes pour la suite
 Ordre suggéré :
-1. Ouvrir la PR brouillon vers `main` (premier run CI PostgreSQL), puis importer la base sur le homelab (`homelab.md`).
+1. Ouvrir la PR brouillon vers `main` (premier run CI PostgreSQL) ; essai des scripts `deploy/` sur la VM (section 6 de `docs/deploiement/apps-dev.md`). L'import de la base sur le homelab est fait.
 2. Montées majeures JS, une par une : d'abord `@symfony/webpack-encore` 5 (retirer la borne webpack), puis `tailwindcss` 4 (chantier à part), `htmx.org` 2, `flowbite`.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.

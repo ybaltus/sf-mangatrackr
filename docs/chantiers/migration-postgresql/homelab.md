@@ -1,5 +1,9 @@
 # Homelab : procédure simplifiée (MangaTrackr sur PostgreSQL)
 
+> **Historique.** Procédure de l'import initial (2026-10-18). Pour l'exploitation et la réinstallation
+> de la production (VM `apps-dev`, Compose prod, scripts `deploy/`), suivre
+> [`docs/deploiement/apps-dev.md`](../../deploiement/apps-dev.md).
+
 - Date : 2026-10-18 (décision de l'utilisateur ; remplace `plan-bascule.md` comme référence)
 - Rapport : `rapports/034-migration-donnees-export-homelab.md`
 - Hors périmètre ici : reverse proxy, serveur web (non décrits, à configurer côté homelab).

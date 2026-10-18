@@ -9,4 +9,5 @@ Reprendre : `/chantier reprendre <nom>`.
 
 | Chantier | Objectif | Statut | Démarré |
 |---|---|---|---|
-| [migration-postgresql](migration-postgresql/etat.md) | Passer de MariaDB à PostgreSQL 18 | terminé côté dépôt (import homelab par l'utilisateur) | 2026-10-18 |
+| [migration-postgresql](migration-postgresql/etat.md) | Passer de MariaDB à PostgreSQL 18 | terminé (import homelab fait) | 2026-10-18 |
+| [deploiement-homelab](deploiement-homelab/etat.md) | Déploiement scripté et réinstallation de la VM `apps-dev` | en cours | 2026-10-18 |
