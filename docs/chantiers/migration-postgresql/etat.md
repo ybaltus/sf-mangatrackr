@@ -1,6 +1,6 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet, lancement T7)
+Dernière mise à jour : 2026-10-18 (chef de projet, clôture du chantier côté dépôt)
 
 **Phase courante** : 1. Validation de l'extraction — **terminée** (extraction correcte) ; 2. Audit **terminé** (T3) ; décisions D1-D9 prises ; 3. Schéma et infra en cours.
 
@@ -14,7 +14,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet, lancement T7)
 | T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | terminé (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; T4.8 terminé `012` ; T4.6 écrit `011`, non exécuté sur GitHub ; données résiduelles corrigées `013` ; revue `014` (validé avec réserves) et validation `015` faites ; `DATABASE_URL` CI corrigée `016`) → **T4 terminé**, sous réserve du 1er run CI réel (PR brouillon, sur accord) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
 | T5 | Transfert des données + parité | migration-donnees | T2, T4 | terminé (parité 22 tables ; doctrine_migration_versions volontairement non transférée) | `017-migration-donnees-transfert.md` |
 | T6 | Recette QA + revue | testeur, relecteur | T5 | terminé (rapports 018-025) | `023-relecteur-revue-corrections.md` |
-| T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | en cours (026 plan de bascule + ADR 0013, 027 dette technique) | — |
+| T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | terminé (procédure simplifiée `homelab.md`, export `make pg-export` ; plan-bascule.md non retenu) | — |
 
 ## Sous-tâches T4 / T5 (proposées par l'audit, rapport 002 § Recommandation)
 - T4.1 ADR migration PG 18 (D1-D5, D7, D8) · T4.2 Docker `postgres:18` + `pdo_pgsql` (rebuild hôte)

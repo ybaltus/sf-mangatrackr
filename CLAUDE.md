@@ -3,12 +3,12 @@
 Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendrier de sorties, export, admin EasyAdmin, connexion Google OAuth).
 
 ## Stack
-- PHP >= 8.2, Symfony 6.4, Doctrine ORM 2 / MariaDB
+- PHP >= 8.2, Symfony 6.4, Doctrine ORM 2 / PostgreSQL 18 (ADR 0012)
 - Front : Twig + Symfony UX (Stimulus, Twig Components, Autocomplete), Webpack Encore, Tailwind
 - API externes : Tenrai (remplace Jikan) via `src/Services/Api/ApiTenraiService.php`, MangaUpdates via `src/Services/Api/ApiMangaUpdatesService.php`
 
 ## Environnement
-- Devcontainer (`.devcontainer/`) basé sur `docker-compose.yml` : service `app` (code dans `/var/www`) + `database` (MariaDB).
+- Devcontainer (`.devcontainer/`) basé sur `docker-compose.yml` : service `app` (code dans `/var/www`) + `postgres` (PostgreSQL 18). Le service `database` (MariaDB) ne sert que de source d'import (`sf_mangatrackr_app_import`).
 - Serveur : `symfony server:start -d --no-tls` (port 8000), Apache sur le port 8080.
 
 ## Commandes (Makefile)
@@ -40,7 +40,9 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - Le shell exporte `APP_ENV=dev` : le Makefile préfixe PHPUnit par `APP_ENV=test` (hors Makefile : `APP_ENV=test vendor/bin/phpunit`).
 - GrumPHP est actif : message de commit avec objet <= 60 caractères et lignes du corps <= 72, en français, préfixe `fix:`/`refactor:`/`feat:`/`test:`/`docs:`/`style:`.
 - `strict_types` : les valeurs venant du front, des commandes ou des API sont souvent des chaînes ; les convertir à la frontière et les tester sous forme de chaînes (ADR 0001).
-- Les tests doivent rester rejouables avec `make test-only` : ne pas laisser de données résiduelles.
+- Les tests doivent rester rejouables avec `make test-only` : ne pas laisser de données résiduelles (voir `tests/Traits/PurgeTestDataTrait.php`).
+- `make test` supprime et recrée la base de test PostgreSQL (le rôle applicatif a `CREATEDB`). Un `%` dans un `DATABASE_URL` écrit à la main doit être doublé.
+- Export/import de la base vers un autre serveur : `make pg-export` et `make pg-import` (`docs/chantiers/migration-postgresql/homelab.md`). Les dumps (`ressources/`) contiennent des données personnelles : ne jamais les commiter. Outils de transfert MariaDB → PostgreSQL et de parité : `.claude/skills/verif-donnees/`.
 
 ## Méthode de travail
 - **Git** : ne commiter ni pousser que sur demande explicite, et ne pas se fier à un accord donné pour une étape précédente. Quand plusieurs commits sont demandés, découper par sujet (le `fix:` d'abord, le style séparé de la logique) en gardant un arbre cohérent et vérifié (cs-fixer, PHPStan) à chaque étape ; GrumPHP contrôle l'arbre entier, pas l'index.
@@ -53,7 +55,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 ## Chantiers (travaux en plusieurs sessions)
 - La session principale pilote en chef de projet et délègue aux sous-agents de `.claude/agents/` (ADR 0011, skill `chantier`).
 - État sur disque dans `docs/chantiers/<nom>/` (`etat.md` = tableau de bord) ; index : `docs/chantiers/README.md`.
-- En cours : **migration-postgresql** (MariaDB → PostgreSQL 18). Reprendre avec `/chantier reprendre migration-postgresql`.
+- Aucun chantier en cours. **migration-postgresql** (MariaDB → PostgreSQL 18) : dépôt prêt et export de la base disponible ; reste l'import sur le homelab, fait par l'utilisateur (`docs/chantiers/migration-postgresql/homelab.md`).
 
 ## Contexte détaillé
 Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.

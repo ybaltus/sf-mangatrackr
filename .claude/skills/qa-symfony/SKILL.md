@@ -18,7 +18,7 @@ description: Lancer et interpréter la QA de MangaTrackr (PHP-CS-Fixer, PHPStan 
    charge les fixtures) ; prévenir le chef avant si la base de test est partagée.
 
 ## Lecture des résultats
-- Référence connue (2026-10-17) : 169 tests, 329 assertions. Une baisse du nombre de tests
+- Référence connue (2026-10-18) : 226 tests, 580 assertions. Une baisse du nombre de tests
   est une régression à signaler.
 - Tests réseau non déterministes : `ApiTenraiCommandTest`, `InitDataCommandTest`,
   `ApiMangaUpdatesCommandTest` appellent les vraies API. Un échec réseau sur ceux-là se signale
