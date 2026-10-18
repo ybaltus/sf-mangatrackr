@@ -14,7 +14,9 @@
       "Bash(git status)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
-      "Read(./docker-compose.yml)"
+      "Read(./docker-compose.yml)",
+      "Bash(php .claude/skills/import-dump-mariadb/scripts/import-dump.php:*)",
+      "Bash(php .claude/skills/verif-donnees/scripts/inventaire.php:*)"
     ],
     "deny": [
       "Read(./.env.local)",

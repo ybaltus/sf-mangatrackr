@@ -8,16 +8,30 @@ services:
     # Monte le code source en volume pour que les modifications soient reflétées en temps réel
     volumes:
       - .:/var/www:cached
+      # Conserve la configuration et la mémoire de Claude Code entre les reconstructions
+      - claude-config:/root/.claude
 
     # Garde le conteneur actif sans lancer l'entrypoint de production
     command: sleep infinity
 
     environment:
       APP_ENV: dev
-      DB_HOST: database
-      DATABASE_URL: mysql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@database:3306/${DB_NAME:-sf_mangatrackr_app}?serverVersion=mariadb-11.4.3&charset=utf8mb4
+      # PostgreSQL 18 (ADR 0012). Variable réelle : elle l'emporte sur .env/.env.local, en dev comme en test.
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DATABASE_URL: postgresql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@postgres:5432/${DB_NAME:-sf_mangatrackr_app}?serverVersion=18&charset=utf8
+      # Ancienne base MariaDB, conservée jusqu'à la bascule (D6) ; non lue par l'application
+      DATABASE_URL_MARIADB: mysql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@database:3306/${DB_NAME:-sf_mangatrackr_app}?serverVersion=${MARIADB_VERSION:-10.11.5}-MariaDB&charset=utf8mb4
 
   database:
     # Expose le port MariaDB pour un accès direct depuis l'hôte (ex: DataGrip)
     ports:
       - "3306:3306"
+
+  postgres:
+    # Expose le port PostgreSQL pour un accès direct depuis l'hôte (ex: DataGrip)
+    ports:
+      - "5432:5432"
+
+volumes:
+  claude-config:

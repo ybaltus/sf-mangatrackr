@@ -1,0 +1,40 @@
+{
+    "dump": "/var/www/ressources/u556516513_20261018_mangasync.sql",
+    "dump_sha256": "967d07509838cf5832c48eb79a60c425a4415323629c6d572ff8f577e1465286",
+    "mode": "dry-run",
+    "target_db": null,
+    "duration_s": 1.29,
+    "statements": {
+        "statements": 442,
+        "create_table": 23,
+        "insert": 353,
+        "alter": 55,
+        "other": 11
+    },
+    "tables": 23,
+    "expected_rows": {
+        "doctrine_migration_versions": 15,
+        "editor": 550,
+        "fantrad": 562,
+        "manga": 7412,
+        "manga_editor": 4795,
+        "manga_fantrad": 1726,
+        "manga_manga_type": 17684,
+        "manga_manga_updates_api": 2038,
+        "manga_release_config": 0,
+        "manga_statistic": 7415,
+        "manga_status": 7,
+        "manga_tenrai_api": 5679,
+        "manga_type": 82,
+        "manga_user_track": 68,
+        "messenger_messages": 0,
+        "release_manga_updates_api": 22966,
+        "status_track": 6,
+        "text_content_page": 1,
+        "user": 6,
+        "user_invitation_code": 5,
+        "user_news": 6,
+        "user_reset_password": 0,
+        "user_track_list": 6
+    }
+}

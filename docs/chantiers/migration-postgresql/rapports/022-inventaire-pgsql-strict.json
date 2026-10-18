@@ -1,0 +1,462 @@
+{
+    "driver": "pgsql",
+    "mode": "strict",
+    "generated_at": "2026-10-18T15:50:09+00:00",
+    "tables": {
+        "app_user": {
+            "rows": 6,
+            "sha256": "6e31c4c986f57bee221fb676b29e1ae5bdc74c8d787dbd503950272378967961",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "email",
+                "id",
+                "id_google",
+                "is_activated",
+                "last_connected_at",
+                "password",
+                "roles",
+                "updated_at",
+                "username"
+            ]
+        },
+        "doctrine_migration_versions": {
+            "rows": 1,
+            "sha256": "9a5333fbf38e4eb8dcbd52f81b51368583d377c4c1c9707cf3d812087afb42c8",
+            "primary_key": [
+                "version"
+            ],
+            "columns": [
+                "executed_at",
+                "execution_time",
+                "version"
+            ]
+        },
+        "editor": {
+            "rows": 550,
+            "sha256": "2750a22702ef15ae516158c53201186e66fe22254f4c9f223c7043e034a2cc66",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "name",
+                "name_slug",
+                "updated_at"
+            ]
+        },
+        "fantrad": {
+            "rows": 562,
+            "sha256": "880f3f4327b23c38e55542ee4aef0695087d0375f8435fc2fb0cbf5cd003c767",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "language",
+                "name",
+                "name_slug",
+                "updated_at",
+                "url"
+            ]
+        },
+        "manga": {
+            "rows": 7412,
+            "sha256": "3c3bcae3bb7ab7c8c80ca883f8f0304de5ed7f15a1ae6c829c7c7370dc1301ee",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "author",
+                "category",
+                "created_at",
+                "description",
+                "designer",
+                "id",
+                "is_activated",
+                "is_adult",
+                "last_released_at",
+                "manga_statistic_id",
+                "manga_status_id",
+                "nb_chapters",
+                "nb_volumes",
+                "published_at",
+                "title",
+                "title_alternative",
+                "title_english",
+                "title_slug",
+                "title_synonym",
+                "updated_at",
+                "url_img"
+            ]
+        },
+        "manga_editor": {
+            "rows": 4795,
+            "sha256": "da2b391b6c47d3eb3111bcea11bd24d77c41d5e6f373ebe9d65322ed1b33dc44",
+            "primary_key": [
+                "manga_id",
+                "editor_id"
+            ],
+            "columns": [
+                "editor_id",
+                "manga_id"
+            ]
+        },
+        "manga_fantrad": {
+            "rows": 1726,
+            "sha256": "5bd414780466ab41ffe32f1a423d661814f149d0fdb6f23885c3a9ab01254f3d",
+            "primary_key": [
+                "manga_id",
+                "fantrad_id"
+            ],
+            "columns": [
+                "fantrad_id",
+                "manga_id"
+            ]
+        },
+        "manga_manga_type": {
+            "rows": 17684,
+            "sha256": "34e9c3ec83b73ddeac9b2d7f29c37f8a37574d98194fb3794b03e1370375f98b",
+            "primary_key": [
+                "manga_id",
+                "manga_type_id"
+            ],
+            "columns": [
+                "manga_id",
+                "manga_type_id"
+            ]
+        },
+        "manga_manga_updates_api": {
+            "rows": 2038,
+            "sha256": "11115c34ddbbee051d1ccbd44635a706da353d88101186785046e74f82331e26",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "id",
+                "manga_id",
+                "mu_description",
+                "mu_genres",
+                "mu_img_jpg",
+                "mu_series_id",
+                "mu_thumb_jpg",
+                "mu_url",
+                "mu_year",
+                "updated_at"
+            ]
+        },
+        "manga_release_config": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "manga_id"
+            ]
+        },
+        "manga_statistic": {
+            "rows": 7415,
+            "sha256": "5d5cb2946b736f3724975715ccb7c0acf57c0230cefbd89d3bf6797f6cf2188b",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "id",
+                "nb_track",
+                "nb_view",
+                "rating",
+                "updated_at"
+            ]
+        },
+        "manga_status": {
+            "rows": 7,
+            "sha256": "e3bbc9425f46abf55df16daa78201486e3c1a1d320d7f808f1325934691a7952",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "title",
+                "title_slug",
+                "updated_at"
+            ]
+        },
+        "manga_tenrai_api": {
+            "rows": 5679,
+            "sha256": "3625cda481c69bc5ac357385056180f9d43ca136c3665472a72a7732746c5e04",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "id",
+                "mal_authors",
+                "mal_chapters",
+                "mal_demographics",
+                "mal_description",
+                "mal_end_published_at",
+                "mal_genres",
+                "mal_id",
+                "mal_img_jpg",
+                "mal_img_jpg_large",
+                "mal_img_webp",
+                "mal_img_webp_large",
+                "mal_rank",
+                "mal_scored",
+                "mal_scrored_by",
+                "mal_serializations",
+                "mal_start_published_at",
+                "mal_url",
+                "mal_volume",
+                "manga_id",
+                "updated_at"
+            ]
+        },
+        "manga_type": {
+            "rows": 82,
+            "sha256": "951a2c0ec531f85fdf6bda916a75d3a2ee10df8e16941dc6a0d3d975e581b1a3",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "name",
+                "name_slug",
+                "updated_at"
+            ]
+        },
+        "manga_user_track": {
+            "rows": 68,
+            "sha256": "72c9158a37886eda9e03859db90409303995b1b5a06b27be50f632f077609b9b",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "manga_id",
+                "nb_chapters",
+                "status_track_id",
+                "updated_at",
+                "user_track_list_id"
+            ]
+        },
+        "messenger_messages": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "available_at",
+                "body",
+                "created_at",
+                "delivered_at",
+                "headers",
+                "id",
+                "queue_name"
+            ]
+        },
+        "release_manga_updates_api": {
+            "rows": 22966,
+            "sha256": "9937ef7e33b3b1bf0adb6151fc1989c885dcb68bb7ef56e6572d866c28028788",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "chapter_val",
+                "created_at",
+                "id",
+                "manga_id",
+                "released_at",
+                "scanlators",
+                "updated_at",
+                "volume_val"
+            ]
+        },
+        "status_track": {
+            "rows": 6,
+            "sha256": "1f386a181cb159f2249270f52f1577db3ca7ef872916c4a9b1e6ff062f47f2c7",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "id",
+                "is_activated",
+                "name",
+                "name_slug",
+                "updated_at"
+            ]
+        },
+        "text_content_page": {
+            "rows": 1,
+            "sha256": "fa33642efe8e1063f4cc50ba10e2ff34d19f4812d80d8f82b7a9ce8498627c87",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "content",
+                "created_at",
+                "id",
+                "is_activated",
+                "name",
+                "name_slug",
+                "updated_at"
+            ]
+        },
+        "user_invitation_code": {
+            "rows": 5,
+            "sha256": "a3b1d200499750f4292d034a42e22fc23068c175de8fa4aa0b93f9fc05d9b89b",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "code_invitation",
+                "created_at",
+                "email",
+                "expired_at",
+                "id",
+                "is_activated",
+                "sending_email_status",
+                "updated_at",
+                "user_id"
+            ]
+        },
+        "user_news": {
+            "rows": 6,
+            "sha256": "a172cde073c9c2c6b581118d1c8a8a49615627a7c8586783b7a5933e9df8c440",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "id",
+                "is_activated",
+                "updated_at",
+                "user_id"
+            ]
+        },
+        "user_reset_password": {
+            "rows": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "created_at",
+                "expired_at",
+                "id",
+                "is_activated",
+                "reset_code",
+                "sending_email_status",
+                "user_id"
+            ]
+        },
+        "user_track_list": {
+            "rows": 6,
+            "sha256": "0e0599ec331f58939d2dbde9c7d7a045ee40d5a73056b3fa47c95683b1089c4d",
+            "primary_key": [
+                "id"
+            ],
+            "columns": [
+                "id",
+                "updated_at",
+                "user_id"
+            ]
+        }
+    },
+    "sequences": {
+        "app_user.id": {
+            "next": 7,
+            "expected": 7
+        },
+        "editor.id": {
+            "next": 552,
+            "expected": 552
+        },
+        "fantrad.id": {
+            "next": 571,
+            "expected": 571
+        },
+        "manga.id": {
+            "next": 7429,
+            "expected": 7429
+        },
+        "manga_manga_updates_api.id": {
+            "next": 2041,
+            "expected": 2041
+        },
+        "manga_release_config.id": {
+            "next": 1,
+            "expected": 1
+        },
+        "manga_statistic.id": {
+            "next": 7429,
+            "expected": 7429
+        },
+        "manga_status.id": {
+            "next": 8,
+            "expected": 8
+        },
+        "manga_tenrai_api.id": {
+            "next": 5682,
+            "expected": 5682
+        },
+        "manga_type.id": {
+            "next": 83,
+            "expected": 83
+        },
+        "manga_user_track.id": {
+            "next": 91,
+            "expected": 91
+        },
+        "messenger_messages.id": {
+            "next": 1,
+            "expected": 1
+        },
+        "release_manga_updates_api.id": {
+            "next": 22967,
+            "expected": 22967
+        },
+        "status_track.id": {
+            "next": 7,
+            "expected": 7
+        },
+        "text_content_page.id": {
+            "next": 2,
+            "expected": 2
+        },
+        "user_invitation_code.id": {
+            "next": 8,
+            "expected": 8
+        },
+        "user_news.id": {
+            "next": 7,
+            "expected": 7
+        },
+        "user_reset_password.id": {
+            "next": 1,
+            "expected": 1
+        },
+        "user_track_list.id": {
+            "next": 7,
+            "expected": 7
+        }
+    },
+    "migrations": [
+        "DoctrineMigrations\\Version20261018145659"
+    ]
+}

@@ -13,8 +13,9 @@
     // Répertoire de travail dans le conteneur
     "workspaceFolder": "/var/www",
 
-    // Commande exécutée après la création du conteneur (installation des dépendances)
-    "postCreateCommand": "make first-install",
+    // Commande exécutée après la création du conteneur : restauration de la mémoire Claude
+    // depuis la sauvegarde (sans écraser l'existant), puis installation des dépendances
+    "postCreateCommand": "mkdir -p /root/.claude/projects/-var-www/memory && cp -n var/claude-memory-backup/* /root/.claude/projects/-var-www/memory/ 2>/dev/null; make first-install",
 
     // Commande exécutée après chaque démarrage du conteneur
     "postStartCommand": "symfony server:start -d --no-tls",

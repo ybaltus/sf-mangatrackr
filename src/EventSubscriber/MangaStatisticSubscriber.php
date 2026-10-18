@@ -75,8 +75,9 @@ class MangaStatisticSubscriber implements EventSubscriberInterface
              * ]
             */
             $requestParams = $event->getRequest()->toArray();
-            if (array_key_exists('mangas', $requestParams)) {
-                $this->incrementNbTrack($requestParams['mangas'][0]['titleSlug']);
+            $titleSlug = $requestParams['mangas'][0]['titleSlug'] ?? null;
+            if (is_string($titleSlug) && '' !== $titleSlug) {
+                $this->incrementNbTrack($titleSlug);
             }
         }
     }
@@ -91,9 +92,12 @@ class MangaStatisticSubscriber implements EventSubscriberInterface
     private function incrementNbTrack(string $titleSlug): void
     {
         /**
-         * @var Manga $manga
+         * @var Manga|null $manga
          */
         $manga = $this->em->getRepository(Manga::class)->findOneByTitleSlug($titleSlug);
+        if (null === $manga) {
+            return;
+        }
         $oldNbTrack = $manga->getMangaStatistic()->getNbTrack();
         $manga->getMangaStatistic()->setNbTrack($oldNbTrack + 1);
         $this->em->flush();

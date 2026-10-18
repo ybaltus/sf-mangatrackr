@@ -31,9 +31,14 @@ class MangaRepository extends ServiceEntityRepository
     public function getTopMangas(int $quantity = 4, bool $isAdult = false, ?string $durationDateInterval = null): array
     {
         $query = $this->createQueryBuilder('m')
+            // Portable NULLS LAST: MariaDB sorts NULL last in DESC, PostgreSQL first.
+            ->addSelect('CASE WHEN a.malScored IS NULL THEN 1 ELSE 0 END AS HIDDEN malScoredIsNull')
             ->join('m.mangaTenraiAPI', 'a')
             ->where('m.isActivated != FALSE')
-            ->orderBy('a.malScored', 'DESC')
+            ->orderBy('malScoredIsNull', 'ASC')
+            ->addOrderBy('a.malScored', 'DESC')
+            // Stable tie-breaker: same result on MariaDB and PostgreSQL.
+            ->addOrderBy('m.id', 'DESC')
             ->setMaxResults($quantity)
         ;
 
@@ -58,8 +63,13 @@ class MangaRepository extends ServiceEntityRepository
     public function getLatestMangas(int $quantity = 4, bool $isAdult = false): array
     {
         $query = $this->createQueryBuilder('m')
+            // Portable NULLS LAST: MariaDB sorts NULL last in DESC, PostgreSQL first.
+            ->addSelect('CASE WHEN m.publishedAt IS NULL THEN 1 ELSE 0 END AS HIDDEN publishedAtIsNull')
             ->where('m.isActivated != FALSE')
-            ->orderBy('m.publishedAt', 'DESC')
+            ->orderBy('publishedAtIsNull', 'ASC')
+            ->addOrderBy('m.publishedAt', 'DESC')
+            // Stable tie-breaker: same result on MariaDB and PostgreSQL.
+            ->addOrderBy('m.id', 'DESC')
             ->setMaxResults($quantity)
         ;
 
@@ -109,9 +119,11 @@ class MangaRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
-            ->andWhere('m.title LIKE :searchTerm')
+            // Case- and accent-insensitive (PostgreSQL: LOWER + unaccent extension, D4).
+            ->andWhere('LOWER(UNACCENT(m.title)) LIKE LOWER(UNACCENT(:searchTerm))')
             ->orderBy('m.titleSlug', 'ASC')
-            ->setParameter('searchTerm', '%'.$searchTerm.'%')
+            // LIKE wildcards (and the escape character) are escaped: the term is a literal substring.
+            ->setParameter('searchTerm', '%'.addcslashes($searchTerm, '\\%_').'%')
         ;
 
         if (!$isAdult) {
@@ -131,9 +143,10 @@ class MangaRepository extends ServiceEntityRepository
     public function searchByTitles(string $title): array
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.titleSynonym LIKE :title')
-            ->orWhere('m.titleEnglish LIKE :title')
+            // Case-insensitive equality on every engine (was LIKE without wildcard).
+            ->andWhere('LOWER(m.titleSynonym) = LOWER(:title) OR LOWER(m.titleEnglish) = LOWER(:title)')
             ->setParameter('title', $title)
+            ->orderBy('m.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -149,6 +162,7 @@ class MangaRepository extends ServiceEntityRepository
             ->setParameter('slugTitle', $slugTitle)
             ->setParameter('category', $category)
             ->setParameter('unknownCategory', $unknownCategory)
+            ->orderBy('m.id', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()

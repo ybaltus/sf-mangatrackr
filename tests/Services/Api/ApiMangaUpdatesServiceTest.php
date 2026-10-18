@@ -138,7 +138,7 @@ final class ApiMangaUpdatesServiceTest extends TestCase
             'genres' => [['genre' => 'Action']],
         ]);
 
-        $this->assertSame(123, $datas['muSeriesId']);
+        $this->assertSame('123', $datas['muSeriesId']);
         $this->assertSame('Fullmetal & Alchemist', $datas['muTitle']);
         $this->assertSame('https://img.test/o.jpg', $datas['muImgJpg']);
         $this->assertSame('https://img.test/t.jpg', $datas['muThumbJpg']);

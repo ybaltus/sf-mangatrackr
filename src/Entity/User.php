@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Services\Common\EmailNormalizer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+// "user" est un mot réservé de PostgreSQL : table renommée (ADR 0012, D2)
+#[ORM\Table(name: 'app_user')]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -83,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var ArrayCollection|Collection<int, UserResetPassword>
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserResetPassword::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     private Collection $userResetPasswords;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -109,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        $this->email = $email;
+        $this->email = EmailNormalizer::normalize($email);
 
         return $this;
     }

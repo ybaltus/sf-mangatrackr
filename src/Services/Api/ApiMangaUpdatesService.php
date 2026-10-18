@@ -376,7 +376,7 @@ final class ApiMangaUpdatesService extends AbstractApiService
         }
 
         return [
-            'muSeriesId' => $result['series_id'],
+            'muSeriesId' => (string) $result['series_id'],
             'muTitle' => html_entity_decode($result['title']),
             'muUrl' => $result['url'],
             'muDescription' => $result['description'],

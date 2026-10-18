@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 use App\Entity\UserInvitationCode;
+use App\Tests\Traits\PurgeTestDataTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +13,25 @@ use Symfony\Component\Uid\Uuid;
 
 class InvitationControllerTest extends WebTestCase implements ControllerTestInterface
 {
+    use PurgeTestDataTrait;
+
+    /** @var list<string> */
+    private array $createdEmails = [];
+
+    protected function tearDown(): void
+    {
+        $this->purgeUsersAndInvitationsByEmail($this->createdEmails);
+        $this->createdEmails = [];
+        parent::tearDown();
+    }
+
     private function generateUserInvitationCode(): UserInvitationCode
     {
         $em = static::getContainer()->get(EntityManagerInterface::class);
 
         // Set userEmail
-        $userEmail = sprintf('user-%d@invitation.com', mt_rand(1, 1000));
+        $userEmail = sprintf('user-%s@invitation.com', bin2hex(random_bytes(6)));
+        $this->createdEmails[] = $userEmail;
 
         // Set userCodeInvitation
         $userCodeInvitation = (new UserInvitationCode())

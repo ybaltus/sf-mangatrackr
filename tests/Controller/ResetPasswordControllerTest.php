@@ -73,6 +73,20 @@ class ResetPasswordControllerTest extends WebTestCase implements ControllerTestI
         $this->assertResponseRedirects('/reset_password', 302);
     }
 
+    public function testResetPasswordFormSubmitIsCaseInsensitiveOnEmail(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/reset_password');
+
+        // Email typed with upper case letters: the user must still be found
+        $client->submitForm('Envoyer', [
+            'reset_password_email[email]' => strtoupper(self::TEST_USER_EMAIL),
+        ]);
+
+        $this->assertEmailCount(1);
+        $this->assertResponseRedirects('/reset_password', 302);
+    }
+
     public function testEditPasswordHTTPResponseFailed(): void
     {
         $client = static::createClient();

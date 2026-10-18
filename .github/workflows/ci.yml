@@ -1,99 +1,149 @@
-  name: MangaTrackr CI
+name: MangaTrackr CI
 
-  on:
-    push:
-      branches:
-        - main
-    pull_request:
-      branches:
-        - main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-  jobs:
-    qa-and-tests:
-      name: Execute QA and tests scripts - PHP ${{ matrix.php-versions }}
-      runs-on: ubuntu-latest
-      services:
-        mariadb:
-          image: mariadb:latest
-          ports:
-            - 3306:3306
-          env:
-            MARIADB_ROOT_PASSWORD: ${{ secrets.DB_ROOT_PASSWORD }}
-            MARIADB_DATABASE: sf_mangatrackr_app_test
-            MARIADB_USER: mangatrackr
-            MARIADB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=10s --health-timeout=5s --health-retries=3
-      strategy:
-        fail-fast: true
-        matrix:
-          php-versions: ['8.2']
-      steps:
-      # -- Setup Github Action --------------------------
-        - name: Checkout v4
-          uses: actions/checkout@v4
+jobs:
+  qa-and-tests:
+    name: Execute QA and tests scripts - PHP ${{ matrix.php-versions }}
+    runs-on: ubuntu-latest
+    env:
+      # Mot de passe du rôle applicatif (même nom que .env et docker-compose.yml).
+      # Base éphémère de CI : repli sur la valeur d'exemple si le secret n'est pas défini.
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD || 'ChangeMe' }}
+      DB_USER: mangatrackr
+      DB_NAME: sf_mangatrackr_app
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      # Superutilisateur du service, utilisé seulement pour créer le rôle et la base de test.
+      PGPASSWORD: postgres-ci-superuser
+    services:
+      postgres:
+        # PostgreSQL 18 (ADR 0012) ; collation ICU "fr" comme docker-compose.yml
+        image: postgres:18
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres-ci-superuser
+          POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale-provider=icu --icu-locale=fr"
+        options: >-
+          --health-cmd="pg_isready -h 127.0.0.1 -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['8.2']
+    steps:
+    # -- Setup Github Action --------------------------
+      - name: Checkout v4
+        uses: actions/checkout@v4
 
-        # https://github.com/shivammathur/setup-php (community)
-        - name: Setup PHP, extensions and composer with shivammathur/setup-php
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.php-versions }}
-            extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring
-          env:
-            update: true
+      # https://github.com/shivammathur/setup-php (community)
+      - name: Setup PHP, extensions and composer with shivammathur/setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_pgsql, dom, filter, gd, iconv, json, mbstring
+        env:
+          update: true
 
-        - name: Check PHP Version
-          run: php -v
+      - name: Check PHP Version
+        run: php -v
 
-      # -- Composer --------------------------------------
-        - name: Validate composer.json and composer.lock
-          run: composer validate
+    # -- Composer --------------------------------------
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-        - name: Cache Composer packages
-          id: composer-cache
-          uses: actions/cache@v4
-          with:
-            path: vendor
-            key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-            restore-keys: |
-              ${{ runner.os }}-php-
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-        - name: Install Dependencies
-          run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+      - name: Install Dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
-      # -- Symfony -------------------------------------------
-        - name: Check the Symfony console
-          run: bin/console about
+    # -- Symfony -------------------------------------------
+      - name: Check the Symfony console
+        run: bin/console about
 
-      # -- NodeJs --------------------------------------------
-        - name: Nodejs install dependencies
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20'
-            cache: 'npm'
-        - run: npm ci
+    # -- NodeJs --------------------------------------------
+      - name: Nodejs install dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
 
-        - name: Run NPM build
-          run: npm run build
+      - name: Run NPM build
+        run: npm run build
 
-      # -- PHP Cs-fixer -----------------------------------
-        - name: Coding standards checks (php cs-fixer)
-          run: php vendor/bin/php-cs-fixer fix src
+    # -- PHP Cs-fixer -----------------------------------
+      - name: Coding standards checks (php cs-fixer)
+        run: php vendor/bin/php-cs-fixer --config=.php-cs-fixer.dist.php fix src tests --dry-run --diff
 
-      # -- PHP Stan --------------------------------------
-        - name: Static analysis of php code (php stan)
-          run: php vendor/bin/phpstan analyse --memory-limit=1G
+    # -- PHP Stan --------------------------------------
+      - name: Static analysis of php code (php stan)
+        run: php vendor/bin/phpstan analyse --memory-limit=1G
 
-      # -- PHP Unit --------------------------------------
-        - name: Copy .env.test.local
-          run: cp .env.test .env.test.local
+    # -- PHP Unit --------------------------------------
+      - name: Copy .env.test.local
+        run: cp .env.test .env.test.local
 
-        - name: Run Doctrine migrations
-          run: |
-            php bin/console doctrine:migrations:migrate --no-interaction --env=test
+      # DATABASE_URL avec le mot de passe encodé en pourcentage (@ : / # ? % $ ... sans risque).
+      # 1) rawurlencode rend l'URL valide ; 2) chaque "%" est doublé car doctrine.yaml lit
+      # "%env(resolve:DATABASE_URL)%" et le processeur "resolve" prendrait "%40...%" pour un
+      # paramètre du conteneur (ParameterNotFoundException) ; "%%" redevient "%" après résolution.
+      # Une variable d'environnement réelle l'emporte sur .env / .env.test(.local).
+      # Le mot de passe est masqué dans les logs et n'est jamais passé en argument de commande.
+      - name: Build DATABASE_URL with encoded password
+        run: |
+          php -r '
+            $pw = (string) getenv("DB_PASSWORD");
+            if ("" === $pw || preg_match("/[\r\n]/", $pw)) {
+              fwrite(STDERR, "DB_PASSWORD vide ou multiligne\n");
+              exit(1);
+            }
+            $enc = str_replace("%", "%%", rawurlencode($pw));
+            echo "::add-mask::{$pw}\n::add-mask::{$enc}\n";
+            $url = sprintf(
+              "postgresql://%s:%s@%s:%s/%s?serverVersion=18&charset=utf8",
+              rawurlencode((string) getenv("DB_USER")), $enc, getenv("DB_HOST"), getenv("DB_PORT"), getenv("DB_NAME")
+            );
+            file_put_contents(getenv("GITHUB_ENV"), "DATABASE_URL={$url}\n", FILE_APPEND);
+          '
 
-        - name: Load Doctrine fixtures
-          run: |
-            php bin/console doctrine:fixtures:load --no-interaction --env=test
+      # Rôle applicatif non superutilisateur (CREATEDB, comme en local) et base de test
+      # "<DB_NAME>_test" (suffixe ajouté par doctrine.yaml), en ICU "fr".
+      # L'extension unaccent est créée par la migration baseline, pas ici.
+      - name: Create PostgreSQL role and test database
+        run: |
+          psql -v ON_ERROR_STOP=1 --no-psqlrc -h 127.0.0.1 -U postgres -d postgres \
+            -v app_db="${DB_NAME}_test" -v app_user="${DB_USER}" -v app_password="${DB_PASSWORD}" <<'SQL'
+          SELECT format('CREATE ROLE %I LOGIN CREATEDB PASSWORD %L', :'app_user', :'app_password')
+          \gexec
+          SELECT format('CREATE DATABASE %I OWNER %I TEMPLATE template0 ENCODING %L LOCALE_PROVIDER icu ICU_LOCALE %L', :'app_db', :'app_user', 'UTF8', 'fr')
+          \gexec
+          SQL
 
-        - name: Run the phpunit tests
-          run: php bin/phpunit --testdox
+      - name: Run Doctrine migrations
+        run: |
+          php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Load Doctrine fixtures
+        run: |
+          php bin/console doctrine:fixtures:load --no-interaction --env=test
+
+      - name: Run the phpunit tests
+        run: php bin/phpunit --testdox

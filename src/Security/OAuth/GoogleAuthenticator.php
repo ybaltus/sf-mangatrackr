@@ -6,6 +6,7 @@ namespace App\Security\OAuth;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Services\Common\EmailNormalizer;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use League\OAuth2\Client\Provider\GoogleUser;
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
@@ -33,7 +34,11 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
         }
 
         // Check if email is in test emails (**** Remove later ****)
-        if (!in_array($resourceOwner->getEmail(), explode(',', $this->oauthTestEmails))) {
+        $allowedEmails = array_map(
+            static fn (string $email): string => EmailNormalizer::normalize($email),
+            explode(',', $this->oauthTestEmails)
+        );
+        if (!in_array(EmailNormalizer::normalize((string) $resourceOwner->getEmail()), $allowedEmails, true)) {
             throw new \RuntimeException('You are not allowed to use this application');
         }
 
@@ -42,9 +47,7 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
             throw new \RuntimeException('Email must be verified');
         }
 
-        $user = $userRepository->findOneBy([
-            'email' => $resourceOwner->getEmail(),
-        ]);
+        $user = $userRepository->findOneByEmailInsensitive((string) $resourceOwner->getEmail());
 
         // Update idGoogle if user already exists but idGoogle is null
         if ($user && !$user->getIdGoogle()) {
@@ -63,7 +66,7 @@ final class GoogleAuthenticator extends AbstractOAuthAuthenticator
          * @var GoogleUser $resourceOwner
          */
         $user = new User();
-        $user->setEmail($resourceOwner->getEmail());
+        $user->setEmail((string) $resourceOwner->getEmail());
         $user->setPlainPassword('Google'.mt_rand(1, 999).'_'.time());
         $user->setUsername(explode('@', $resourceOwner->getEmail())[0]);
         $user->setIdGoogle($resourceOwner->getId());

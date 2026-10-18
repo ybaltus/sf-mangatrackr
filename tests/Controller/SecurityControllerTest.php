@@ -75,6 +75,20 @@ class SecurityControllerTest extends WebTestCase implements ControllerTestInterf
         $this->assertSelectorTextContains('h1', sprintf('Hello, %s', $user->getUsername()));
     }
 
+    public function testLoginIsCaseInsensitiveOnEmail(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/login');
+
+        // Email typed with upper case letters: must match the stored lower case email
+        $client->submitForm('Se connecter', [
+            'email' => strtoupper(self::TEST_USER_EMAIL),
+            'password' => 'password',
+        ]);
+        $this->assertResponseRedirects('/scantheque', 302);
+    }
+
     public function testSucessfulLogoutAndRedirect(): void
     {
         $client = static::createClient();
