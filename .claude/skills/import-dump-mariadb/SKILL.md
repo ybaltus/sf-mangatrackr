@@ -3,6 +3,9 @@ name: import-dump-mariadb
 description: Importer un dump SQL MariaDB/MySQL (phpMyAdmin, mysqldump) de MangaTrackr dans une base locale dédiée `*_import` et vérifier que l'extraction est complète et cohérente avec les entités Doctrine. À utiliser pour valider une extraction de production ou préparer une source de migration.
 ---
 
+> **Archive** : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de l'infra en T8
+> (rapport `docs/chantiers/migration-postgresql/rapports/035-migration-schema-retrait-mariadb.md`).
+
 # Importer et valider un dump MariaDB
 
 Le conteneur `app` n'a pas de client `mysql` et le dump dépasse `max_allowed_packet` : on

@@ -7,6 +7,9 @@ skills:
   - verif-donnees
 ---
 
+> **Archive** (transfert MariaDB → PostgreSQL) : nécessite un serveur MariaDB externe et `pdo_mysql`,
+> retirés de l'infra en T8 ; `make pg-export` / `make pg-import` restent utilisables.
+
 Tu es **ingénieur données** du chantier `migration-postgresql`.
 
 ## Mission type

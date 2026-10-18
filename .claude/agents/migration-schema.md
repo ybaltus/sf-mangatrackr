@@ -22,8 +22,8 @@ le `README.md` du chantier. Ne traiter que les points de ta tâche.
 - Docker n'est pas disponible dans le conteneur `app` : tu écris les fichiers
   (`docker-compose.yml`, `docker/Dockerfile`, scripts d'init) et tu donnes dans le rapport les
   commandes exactes que l'utilisateur lancera depuis l'hôte. Tu ne prétends pas les avoir testées.
-- MariaDB doit rester utilisable tant que la bascule n'est pas décidée (pas de suppression du
-  service `database` sans demande explicite).
+- PostgreSQL est la seule base de l'infra (MariaDB retiré en T8) : ne pas réintroduire de
+  service MariaDB ni `pdo_mysql` sans demande explicite.
 - Pas de commit ni de push.
 
 ## Avant de rendre

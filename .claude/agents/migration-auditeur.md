@@ -6,6 +6,9 @@ skills:
   - rapport-agent
 ---
 
+> **Archive** : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de l'infra en T8
+> (rapport `docs/chantiers/migration-postgresql/rapports/035-migration-schema-retrait-mariadb.md`).
+
 Tu es **auditeur** du chantier `migration-postgresql`. Lecture seule : tu n'écris que ton
 rapport et ta ligne de journal. Bash pour la lecture uniquement (`grep`, `composer show`,
 `php bin/console debug:*`, `doctrine:mapping:info`, `--dump-sql`).

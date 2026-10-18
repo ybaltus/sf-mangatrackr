@@ -1,8 +1,8 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet, clôture du chantier côté dépôt)
+Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
 
-**Phase courante** : 1. Validation de l'extraction — **terminée** (extraction correcte) ; 2. Audit **terminé** (T3) ; décisions D1-D9 prises ; 3. Schéma et infra en cours.
+**Phase courante** : T0-T7 terminées (dépôt sur PostgreSQL 18, export homelab prêt) ; T8 (retrait de MariaDB) terminé, non commité.
 
 ## Tâches
 | ID | Tâche | Agent | Dépend de | Statut | Rapport |
@@ -11,65 +11,41 @@ Dernière mise à jour : 2026-10-18 (chef de projet, clôture du chantier côté
 | T1 | Analyse hors ligne du dump (dry-run) | chef | — | terminé | `rapports/001-attendu.json` |
 | T2 | Import dans `sf_mangatrackr_app_import` + vérifications | migration-importeur | T1, base joignable | terminé | `rapports/003-migration-importeur-import-dump.md` |
 | T3 | Audit compatibilité MariaDB → PG 18 | migration-auditeur | — (lecture seule) | terminé | `rapports/002-migration-auditeur-audit-compatibilite.md` |
-| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | terminé (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; T4.8 terminé `012` ; T4.6 écrit `011`, non exécuté sur GitHub ; données résiduelles corrigées `013` ; revue `014` (validé avec réserves) et validation `015` faites ; `DATABASE_URL` CI corrigée `016`) → **T4 terminé**, sous réserve du 1er run CI réel (PR brouillon, sur accord) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
+| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3 | terminé (T4.1-T4.8, rapports 004-016) ; réserve : 1er run CI réel sur GitHub non fait | `010-migration-schema-baseline-postgresql.md` |
 | T5 | Transfert des données + parité | migration-donnees | T2, T4 | terminé (parité 22 tables ; doctrine_migration_versions volontairement non transférée) | `017-migration-donnees-transfert.md` |
 | T6 | Recette QA + revue | testeur, relecteur | T5 | terminé (rapports 018-025) | `023-relecteur-revue-corrections.md` |
-| T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | terminé (procédure simplifiée `homelab.md`, export `make pg-export` ; plan-bascule.md non retenu) | — |
-
-## Sous-tâches T4 / T5 (proposées par l'audit, rapport 002 § Recommandation)
-- T4.1 ADR migration PG 18 (D1-D5, D7, D8) · T4.2 Docker `postgres:18` + `pdo_pgsql` (rebuild hôte)
-  · T4.3 config `.env`/`doctrine.yaml`/mapping `User` · T4.4 baseline PG (archive des 15 migrations,
-  corrige les 2 index) · T4.5 vérifs (migrate, diff vide, schema:validate) · T4.6 CI
-  · T4.7 `developpeur` : corrections portables (NULL en tête, `LOWER`, emails, OrderBy) + tests
-  · T4.8 `developpeur` : recherche insensible aux accents (`unaccent`, fonction DQL), PG seulement, après T4.4.
-- T5.1 outil PHP/DBAL · T5.2 transfert ordonné · T5.3 recalage des 19 séquences
-  · T5.4 parité `--compare` · T5.5 procédure rejouable pour la bascule.
+| T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | terminé (procédure simplifiée `homelab.md`, export `make pg-export` ; plan-bascule.md non retenu) | `034-migration-donnees-export-homelab.md` |
+| T8 | Retrait de MariaDB (infra, config, docs vivantes) ; outils de migration et historique conservés | migration-schema, relecteur, testeur | T7 | terminé (relecteur : validé avec réserves, mineurs 1/3/4 corrigés ; testeur : nouvelle image sans `pdo_mysql`, 226/580 verts) ; non commité | `035-…`, `036-…`, `037-testeur-validation-retrait-mariadb.md` |
 
 ## Blocages
-- **Attente utilisateur** : recréer `app` depuis l'hôte (le shell exporte encore `DATABASE_URL` MySQL),
-  puis lancer `make test` (drop/create PG non encore vérifié). `.env.local` : clés OAuth seules, rien à adapter.
-- Rebuild fait ; vérifié par le chef depuis `app` (2026-10-18) : 4, 5, 7, 8 OK (PG 18.6,
-  ICU `fr`, rôle non super avec `CREATEDB`, mot de passe par défaut `ChangeMe`) ; 6 partielle
-  (`unaccent` 1.1 disponible et `trusted`, `CREATE EXTENSION` à prouver en T4.4) ; 9 OK
-  (MariaDB dev/test intacts, `make test-only` vert : 192 tests / 541 assertions).
-- `sf_mangatrackr_app_import` présente (23 tables, 2026-10-18, vérifié par l'utilisateur) ; lignes et empreintes à revérifier au début de T5, accès depuis `app` à obtenir.
-  applicatif). À contrôler avant T5 (`docker exec mangatrackr_db …`), sinon réimport du dump.
+- Aucun côté dépôt (propriétaire root des fichiers corrigé par l'utilisateur, 2026-10-18).
 
 ## Décisions à prendre
 - Aucune en attente.
 
-## Points de vigilance (rapport 004)
-- Dès T4.3/T4.4, la QA ne tourne plus sur MariaDB (baseline PG seule, `app_user`) : le rebuild
-  PG 18 + `pdo_pgsql` par l'utilisateur doit être fait **avant** T4.3.
-- `CREATE EXTENSION unaccent` : décision du chef → dans la baseline (T4.4) ; extension « trusted »
-  depuis PG 13, droit du propriétaire de la base à confirmer sur un vrai serveur.
-- T5.4 : `inventaire.php --compare` doit gérer la correspondance `user` → `app_user`.
-- T4.7 modifie l'authentification (`security.yaml` : `property: email` retiré, `UserLoaderInterface`) :
-  relu (rapport 006) : **validé avec réserves**, 0 bloquant ; R1-R3 corrigés en T4.7-bis (rapport 008, 192 tests / 541 assertions).
-- T4.3 : harmoniser `DB_PASSWORD` (compose) / `DB_USER_PASSWORD` (`.env`) ; port 5432 de l'hôte possiblement occupé ;
-  rôle `mangatrackr` avec `CREATEDB` en dev seulement (pas en prod homelab).
-- Test instable : 1 erreur isolée (192 tests / 540 assertions) au 1er `make test-only` après
-  rebuild, non reproduite sur 7 relances ; test non identifié (rien dans `var/log/test.log`).
-- CI cassée jusqu'à T4.6. Données résiduelles des tests (+2 `app_user`, +2 `user_invitation_code` par passage :
-  `CreateUserCommandTest`, `InvitationControllerTest`, `EasyAdminSubscriberTest`), préexistant, ADR 0007 non respecté.
-- DBAL 4 : revérifier qu'aucun diff ne propose de supprimer l'index d'expression `LOWER(email)`.
-- Corrigés en T4.7-bis : `oauthTestEmails` comparé avec la casse ; valeur non typée passée à `UserBadge` dans `AppAuthenticator`.
+## Points de vigilance
+- CI PostgreSQL : verte sur la PR #17 (fusionnée dans `main` le 2026-10-18) ; PR T8 brouillon #18 ouverte (`dev` 366f19a).
+- Test instable isolé (1 erreur, non reproduite) ; DBAL 4 : surveiller l'index d'expression `LOWER(email)`.
+- Après T8, l'utilisateur doit reconstruire le devcontainer et arrêter `mangatrackr_db` depuis l'hôte ;
+  le volume `db-data` (base `_import`) n'est supprimé que sur sa décision.
+- Le devcontainer tourne en root : les fichiers qu'il crée appartiennent à root sur l'hôte
+  (`remoteUser`/UID 1000 à envisager).
 
 ## Décisions prises
 - 2026-10-18 : cible PostgreSQL 18 ; production future sur le homelab ; dump désindexé et
   `ressources/*.sql` ignoré par git ; agents au modèle de la session ; organisation ADR 0011.
-- 2026-10-18 : les 2 écarts d'index hérités (index de `manga_tenrai_api` à renommer, index
-  composite de `messenger_messages`) seront corrigés **dans la baseline PostgreSQL** (T4),
-  sans migration MariaDB dédiée. À intégrer au périmètre de T4.
+- 2026-10-18 : les 2 écarts d'index hérités corrigés dans la baseline PostgreSQL (T4).
 - 2026-10-18 (audit T3, rapport 002) : D1 baseline PG unique + archivage des 15 migrations MySQL ;
-  **D2 table `user` renommée `app_user`** (le transfert T5 doit faire la correspondance) ;
-  D3 IDENTITY ; **D4 recherche insensible à la casse ET aux accents** (`LOWER` + `unaccent`) ;
-  D5 collation ICU `fr` ; D6 coexistence MariaDB/PG jusqu'à T5, schéma Hostinger gelé ;
+  **D2 table `user` renommée `app_user`** ; D3 IDENTITY ; **D4 recherche insensible à la casse ET
+  aux accents** (`LOWER` + `unaccent`) ; D5 collation ICU `fr` ; D6 coexistence MariaDB/PG jusqu'à T5 ;
   D7 `json` ; D8 `disable_type_comments: true` ; D9 transfert par script PHP/DBAL.
 - 2026-10-18 : index unique sur `LOWER(email)` (table `app_user`) dans la baseline PG (T4.4).
+- 2026-10-18 : bascule simplifiée, faite par l'utilisateur sur le homelab (PG 18) avec `make pg-import`.
+- 2026-10-18 : ADR 0014 (bascule simplifiée, retrait de MariaDB) remplace l'ADR 0013.
+- 2026-10-18 (T8) : MariaDB retiré de l'infra ; outils de migration MariaDB conservés comme archive ;
+  historique (ADR, rapports, journal, `migrations-archive-mariadb/`) non modifié.
 
 ## Prochaine action
-1. (Utilisateur) Décider du commit de T4 (non commité : ci.yml, doctrine.yaml, MangaRepository, tests, `src/Doctrine/`, trait de purge, rapports 011-016). Découpage suggéré : `feat:` UNACCENT, `test:` purge, `fix:` CI.
-2. (Chef) T5 : vérifier d'abord la présence de `sf_mangatrackr_app_import` (`docker exec mangatrackr_db …`), sinon réimport du dump, puis `migration-donnees` (T5.1-T5.5).
-3. Dette à tracer en T7 : PHP Insights (qa-all rc=2, cause non isolée), deprecations identity/ORM 3, pg_trgm pour la recherche, `searchByTitles` et EasyAdmin sensibles aux accents, dama/doctrine-test-bundle, `%` à doubler dans `DATABASE_URL` (resolve), secret `DB_ROOT_PASSWORD` à supprimer sur GitHub.
-4. T6 : après le rapport 020, rejeu complet sur la base dev (phase 2, rétablit aussi la ligne 332 de `manga_statistic`), puis parité. Bugs à confier au `developpeur` : 500 sur liste vide (`MangaStatisticSubscriber` l.79) ; `validateSearchTerm` ASCII seulement, donc les accents n'atteignent jamais `searchManga`.
+1. (Utilisateur) Fusionner la PR #18 (CI verte, prête pour relecture).
+2. (Utilisateur) Rebuild du devcontainer, `docker compose down --remove-orphans`, décision sur le volume `db-data`.
+3. (Utilisateur) Supprimer le secret GitHub `DB_ROOT_PASSWORD` ; import sur le homelab (`homelab.md`).

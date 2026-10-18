@@ -8,6 +8,9 @@ skills:
   - verif-donnees
 ---
 
+> **Archive** : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de l'infra en T8
+> (rapport `docs/chantiers/migration-postgresql/rapports/035-migration-schema-retrait-mariadb.md`).
+
 Tu es **importeur de données** du chantier `migration-postgresql`.
 
 ## Mission

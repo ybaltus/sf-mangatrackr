@@ -31,13 +31,13 @@ class MangaRepository extends ServiceEntityRepository
     public function getTopMangas(int $quantity = 4, bool $isAdult = false, ?string $durationDateInterval = null): array
     {
         $query = $this->createQueryBuilder('m')
-            // Portable NULLS LAST: MariaDB sorts NULL last in DESC, PostgreSQL first.
+            // NULLS LAST: PostgreSQL sorts NULL first in DESC, push them to the end.
             ->addSelect('CASE WHEN a.malScored IS NULL THEN 1 ELSE 0 END AS HIDDEN malScoredIsNull')
             ->join('m.mangaTenraiAPI', 'a')
             ->where('m.isActivated != FALSE')
             ->orderBy('malScoredIsNull', 'ASC')
             ->addOrderBy('a.malScored', 'DESC')
-            // Stable tie-breaker: same result on MariaDB and PostgreSQL.
+            // Stable tie-breaker: deterministic order between equal values.
             ->addOrderBy('m.id', 'DESC')
             ->setMaxResults($quantity)
         ;
@@ -63,12 +63,12 @@ class MangaRepository extends ServiceEntityRepository
     public function getLatestMangas(int $quantity = 4, bool $isAdult = false): array
     {
         $query = $this->createQueryBuilder('m')
-            // Portable NULLS LAST: MariaDB sorts NULL last in DESC, PostgreSQL first.
+            // NULLS LAST: PostgreSQL sorts NULL first in DESC, push them to the end.
             ->addSelect('CASE WHEN m.publishedAt IS NULL THEN 1 ELSE 0 END AS HIDDEN publishedAtIsNull')
             ->where('m.isActivated != FALSE')
             ->orderBy('publishedAtIsNull', 'ASC')
             ->addOrderBy('m.publishedAt', 'DESC')
-            // Stable tie-breaker: same result on MariaDB and PostgreSQL.
+            // Stable tie-breaker: deterministic order between equal values.
             ->addOrderBy('m.id', 'DESC')
             ->setMaxResults($quantity)
         ;

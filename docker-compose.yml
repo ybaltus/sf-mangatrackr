@@ -1,22 +1,6 @@
 services:
 
-  database:
-    image: mariadb:${MARIADB_VERSION:-lts}
-    container_name: mangatrackr_db
-    restart: on-failure
-    volumes:
-      - db-data:/var/lib/mysql
-      # Scripts exécutés à la première création du volume (base de test + droits)
-      - ./docker/mariadb/init:/docker-entrypoint-initdb.d:ro
-    environment:
-      MARIADB_ROOT_PASSWORD: root1234
-      MYSQL_DATABASE: ${DB_NAME:-sf_mangatrackr_app}
-      MYSQL_USER: ${DB_USER:-mangatrackr}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-ChangeMe}
-    networks:
-      - mangatrackr_network
-
-  # PostgreSQL 18 (ADR 0012), en coexistence avec MariaDB jusqu'à la bascule (D6).
+  # PostgreSQL 18 (ADR 0012), seule base de l'application.
   # Le superutilisateur reste "postgres" ; le rôle applicatif (non superutilisateur), la base
   # principale et la base de test sont créés par les scripts de docker/postgres/init,
   # exécutés uniquement à la PREMIÈRE création du volume pg-data.
@@ -34,7 +18,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:-root1234}
       # Collation ICU "fr" pour template1 (bases créées ensuite, y compris par doctrine:database:create)
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale-provider=icu --icu-locale=fr"
-      # Lus par les scripts d'init (alignés sur les variables du service database)
+      # Lus par les scripts d'init (mêmes variables DB_* que .env)
       APP_DB_NAME: ${DB_NAME:-sf_mangatrackr_app}
       APP_DB_USER: ${DB_USER:-mangatrackr}
       APP_DB_PASSWORD: ${DB_PASSWORD:-ChangeMe}
@@ -58,7 +42,6 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - database
       - postgres
     networks:
       - mangatrackr_network
@@ -71,5 +54,4 @@ networks:
   mangatrackr_network:
 
 volumes:
-  db-data:
   pg-data:

@@ -45,7 +45,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Case-insensitive lookup by email, identical on MariaDB and PostgreSQL.
+     * Case-insensitive lookup by email (PostgreSQL compares strings case-sensitively).
      */
     public function findOneByEmailInsensitive(string $email): ?User
     {

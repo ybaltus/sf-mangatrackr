@@ -3,10 +3,13 @@ name: verif-donnees
 description: Inventorier et comparer le contenu de bases MariaDB et PostgreSQL de MangaTrackr (nombre de lignes et empreinte normalisée par table) pour prouver qu'un import ou un transfert de données est complet. À utiliser après un import de dump ou une migration MariaDB → PostgreSQL.
 ---
 
+> **Archive** : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de l'infra en T8
+> (rapport `docs/chantiers/migration-postgresql/rapports/035-migration-schema-retrait-mariadb.md`).
+
 # Vérifier la parité des données
 
-Outil : `.claude/skills/verif-donnees/scripts/inventaire.php` (PDO ; `pdo_mysql` présent,
-`pdo_pgsql` requis pour PostgreSQL).
+Outil : `.claude/skills/verif-donnees/scripts/inventaire.php` (PDO ; `pdo_pgsql` présent,
+`pdo_mysql` requis pour MariaDB, absent de l'image depuis T8).
 
 ## Commandes
 - Inventaire d'une base (JSON : lignes, SHA-256 normalisé, clé primaire, colonnes) :

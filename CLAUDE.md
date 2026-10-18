@@ -8,7 +8,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - API externes : Tenrai (remplace Jikan) via `src/Services/Api/ApiTenraiService.php`, MangaUpdates via `src/Services/Api/ApiMangaUpdatesService.php`
 
 ## Environnement
-- Devcontainer (`.devcontainer/`) basé sur `docker-compose.yml` : service `app` (code dans `/var/www`) + `postgres` (PostgreSQL 18). Le service `database` (MariaDB) ne sert que de source d'import (`sf_mangatrackr_app_import`).
+- Devcontainer (`.devcontainer/`) basé sur `docker-compose.yml` : service `app` (code dans `/var/www`) + `postgres` (PostgreSQL 18). PostgreSQL est la seule base (MariaDB retiré de l'infra en T8).
 - Serveur : `symfony server:start -d --no-tls` (port 8000), Apache sur le port 8080.
 
 ## Commandes (Makefile)
@@ -42,7 +42,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - `strict_types` : les valeurs venant du front, des commandes ou des API sont souvent des chaînes ; les convertir à la frontière et les tester sous forme de chaînes (ADR 0001).
 - Les tests doivent rester rejouables avec `make test-only` : ne pas laisser de données résiduelles (voir `tests/Traits/PurgeTestDataTrait.php`).
 - `make test` supprime et recrée la base de test PostgreSQL (le rôle applicatif a `CREATEDB`). Un `%` dans un `DATABASE_URL` écrit à la main doit être doublé.
-- Export/import de la base vers un autre serveur : `make pg-export` et `make pg-import` (`docs/chantiers/migration-postgresql/homelab.md`). Les dumps (`ressources/`) contiennent des données personnelles : ne jamais les commiter. Outils de transfert MariaDB → PostgreSQL et de parité : `.claude/skills/verif-donnees/`.
+- Export/import de la base vers un autre serveur : `make pg-export` et `make pg-import` (`docs/chantiers/migration-postgresql/homelab.md`). Les dumps (`ressources/`) contiennent des données personnelles : ne jamais les commiter. Outils de transfert MariaDB → PostgreSQL et de parité : `.claude/skills/verif-donnees/` (archive : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de l'infra en T8).
 
 ## Méthode de travail
 - **Git** : ne commiter ni pousser que sur demande explicite, et ne pas se fier à un accord donné pour une étape précédente. Quand plusieurs commits sont demandés, découper par sujet (le `fix:` d'abord, le style séparé de la logique) en gardant un arbre cohérent et vérifié (cs-fixer, PHPStan) à chaque étape ; GrumPHP contrôle l'arbre entier, pas l'index.

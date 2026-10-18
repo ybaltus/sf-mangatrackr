@@ -20,13 +20,6 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DATABASE_URL: postgresql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@postgres:5432/${DB_NAME:-sf_mangatrackr_app}?serverVersion=18&charset=utf8
-      # Ancienne base MariaDB, conservée jusqu'à la bascule (D6) ; non lue par l'application
-      DATABASE_URL_MARIADB: mysql://${DB_USER:-mangatrackr}:${DB_PASSWORD:-ChangeMe}@database:3306/${DB_NAME:-sf_mangatrackr_app}?serverVersion=${MARIADB_VERSION:-10.11.5}-MariaDB&charset=utf8mb4
-
-  database:
-    # Expose le port MariaDB pour un accès direct depuis l'hôte (ex: DataGrip)
-    ports:
-      - "3306:3306"
 
   postgres:
     # Expose le port PostgreSQL pour un accès direct depuis l'hôte (ex: DataGrip)

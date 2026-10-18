@@ -1,7 +1,6 @@
 #!/bin/sh
 # Crée la base de test (<base>_test, suffixe ajouté par doctrine.yaml en environnement "test"),
 # propriété du rôle applicatif, en collation ICU "fr" (ADR 0012, D5).
-# Équivalent de docker/mariadb/init/01-create-test-database.sh.
 # Le rôle applicatif est créé par 00-create-app-role-and-database.sh.
 #
 # Exécuté par l'image PostgreSQL uniquement à la PREMIÈRE création du volume de données.

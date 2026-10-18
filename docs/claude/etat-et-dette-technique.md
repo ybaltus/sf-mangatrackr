@@ -24,8 +24,11 @@ Dernière mise à jour : 2026-10-18 (branche `dev`, en avance sur `main` : PR no
   et stricte), 19 séquences recalées, 71 014 lignes ; `doctrine_migration_versions` volontairement
   non transférée (rapports 017, 022).
 - Recherche insensible à la casse et aux accents (`LOWER` + `unaccent`, fonction DQL `UNACCENT`).
-- **Production (Hostinger) toujours sur MariaDB** : la bascule vers le homelab reste à planifier
-  (plan : `docs/chantiers/migration-postgresql/plan-bascule.md`, ADR 0013).
+- **Production cible : le homelab sous PostgreSQL 18** (Hostinger abandonné) : export prêt
+  (`make pg-export`), import fait par l'utilisateur (`docs/chantiers/migration-postgresql/homelab.md`).
+- MariaDB retiré de l'infra, de la config et des docs vivantes (T8, rapport 035) : plus de service
+  `database`, de volume `db-data` ni de `pdo_mysql`. Les outils de migration MariaDB sont conservés
+  comme archive (skills `import-dump-mariadb`, `verif-donnees`, agents `migration-*`).
 - **La CI PostgreSQL n'a jamais tourné pour de vrai** : `dev` est poussé, mais aucune PR n'est ouverte ;
   le workflow (service `postgres:18`, rôle créé par `psql`) n'est vérifié que par lecture et par
   exécution partielle en local (rapports 011, 016).
@@ -44,21 +47,20 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 | Versions majeures en attente | PHPStan 1.x vers 2.x, PHPUnit 9 vers 11, Doctrine ORM 2 vers 3 et DBAL 3 vers 4 (contraintes `^2` / `^3` dans `composer.json`) |
 | Paquets abandonnés | `doctrine/cache`, `symfony/ux-toggle-password` (aucun remplaçant indiqué) |
 | Dépendances JavaScript | 27 vulnérabilités npm restantes (11 hautes, 16 modérées), toutes dans l'outillage de build (surtout le serveur de développement Webpack, non utilisé). Elles exigent `@symfony/webpack-encore` 5, `tailwindcss` 4 et `webpack-notifier`. Borne `webpack ~5.111.1` à retirer avec Encore 5 (ADR 0010). Autres majeures en retard : `flowbite` 4, `htmx.org` 2, `postcss-loader` 8, `webpack-cli` 7 |
-| Base de test | Créée par `docker/postgres/init/01-create-test-database.sh` à la première création du volume `pg-data` (ou par `make test`, le rôle ayant `CREATEDB`). Le script MariaDB `docker/mariadb/init/` n'a plus d'usage après la bascule |
+| Base de test | Créée par `docker/postgres/init/01-create-test-database.sh` à la première création du volume `pg-data` (ou par `make test`, le rôle ayant `CREATEDB`) |
 | Lockfile npm | Les liens `file:vendor/symfony/ux-*/assets` font planter npm 10.8 (Node 20) quand les assets UX changent ; lockfile régénéré avec npm 11 (ADR 0009). Envisager Node 22/24 ou npm 11 dans le devcontainer et la CI |
 | Environnement | `APP_ENV=dev` exporté par le shell du devcontainer, contourné dans le Makefile |
 | Tests réseau | Plusieurs tests de commandes (`ApiTenraiCommandTest`, `InitDataCommandTest`, `ApiMangaUpdatesCommandTest`) appellent les vraies API : réseau requis, résultats non déterministes |
 | Admin | Presque pas de tests sur EasyAdmin (un test de redirection du dashboard) |
 | `strict_types` | Les tableaux `mixed` venant du front, de la ligne de commande ou des API échappent à PHPStan : un `int` ou une chaîne mal typé peut lever une `TypeError` à l'exécution. Audit non exhaustif |
 | Routes | `Symfony\Component\Routing\Annotation\Route` (déprécié en 6.4) à remplacer par `Symfony\Component\Routing\Attribute\Route` |
-| Fichiers parasites | `compose.yaml.save`, `compose.override.yaml.save`, `tests/Command/ApiTenraiTestCommandTest.php.save` |
+| Fichiers parasites | `tests/Command/ApiTenraiTestCommandTest.php.save` |
 | Symfony 6.4 | Version LTS ; la suivante (7.4 LTS) demandera une migration |
 
 ## Dette issue de la migration PostgreSQL
 | Sujet | Détail | Rapport |
 |---|---|---|
-| CI jamais exécutée | Ouvrir une PR brouillon vers `main` pour le premier run réel ; repli possible : `POSTGRES_USER`/`POSTGRES_DB` sur le service | 011, 016 |
-| Secret GitHub | `DB_ROOT_PASSWORD` devenu inutile : à supprimer à la bascule | 011 |
+| Secret GitHub | `DB_ROOT_PASSWORD` devenu inutile (MariaDB retiré en T8) : à supprimer des secrets GitHub par l'utilisateur | 011 |
 | `%` dans `DATABASE_URL` | Les `%` du mot de passe doivent être doublés (`resolve` du conteneur), en CI comme dans un `.env.local` écrit à la main ; un outil externe lisant l'URL brute verrait un mot de passe doublé. Mot de passe local alphanumérique conseillé | 016 |
 | PHP Insights | `make qa-all` retourne 2 à cause de `qa-php-insights` (message sur l'accès réseau pour l'audit de sécurité) ; cause exacte non isolée, état avant migration non comparé. cs-fixer, PHPStan et security:check sont verts | 015 |
 | Dépréciations Doctrine | Nombreuses sous PostgreSQL (colonnes identity émulées par séquence, ORM 3.0) : fixer la stratégie SEQUENCE/IDENTITY avant ORM 3. Revérifier aussi avec DBAL 4 que le diff ne propose pas de supprimer l'index `LOWER(email)` | 015, etat.md |
@@ -71,11 +73,10 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 | Recette (rapport 019) | Non vérifiés ni couverts : `smut_datas`/`umut_datas`/`dmut_datas` avec données valides, inscription, changement de mot de passe, suppression de compte, recherche avancée (API externes), connexion réelle, écritures EasyAdmin. Test automatisé de l'export CSV et de `searchManga` avec accents non écrit | 019 |
 | Outil de transfert | M-F : `--inject-failure` présent dans le script de production ; `--require-baseline` n'accepte pas « baseline seule version ». Le garde-fou (hôte + base du DSN, `CONFIRM_TARGET`) ne détecte pas un alias DNS ou un tunnel nommé comme la cible attendue : en production, fixer `TRANSFER_EXPECTED_HOST/DB` et saisir `CONFIRM_TARGET` à la main | 023, 024 |
 | Accès source | Un agent a lu `_import` avec l'utilisateur root MariaDB (lecture seule) ; préférer l'utilisateur applicatif limité à `SELECT` | 024 |
-| Restes MariaDB | Service `database`, `docker/mariadb/init/`, volume `db-data`, `MARIADB_VERSION`, exemples `DATABASE_URL` MySQL dans `.env` : à nettoyer après la bascule | 007, 009 |
 
 ## Pistes pour la suite
 Ordre suggéré :
-1. Ouvrir la PR brouillon vers `main` (premier run CI PostgreSQL), puis planifier et exécuter la bascule (plan de bascule, ADR 0013) et nettoyer les restes MariaDB.
+1. Ouvrir la PR brouillon vers `main` (premier run CI PostgreSQL), puis importer la base sur le homelab (`homelab.md`).
 2. Montées majeures JS, une par une : d'abord `@symfony/webpack-encore` 5 (retirer la borne webpack), puis `tailwindcss` 4 (chantier à part), `htmx.org` 2, `flowbite`.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.

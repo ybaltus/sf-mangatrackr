@@ -8,7 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Email lookups must be case-insensitive on MariaDB and PostgreSQL alike.
+ * Email lookups must be case-insensitive, although PostgreSQL compares strings case-sensitively.
  */
 final class UserRepositoryTest extends KernelTestCase
 {
