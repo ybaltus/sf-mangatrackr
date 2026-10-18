@@ -1,6 +1,6 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet, clôture T4)
+Dernière mise à jour : 2026-10-18 (chef de projet, clôture T6)
 
 **Phase courante** : 1. Validation de l'extraction — **terminée** (extraction correcte) ; 2. Audit **terminé** (T3) ; décisions D1-D9 prises ; 3. Schéma et infra en cours.
 
@@ -12,8 +12,8 @@ Dernière mise à jour : 2026-10-18 (chef de projet, clôture T4)
 | T2 | Import dans `sf_mangatrackr_app_import` + vérifications | migration-importeur | T1, base joignable | terminé | `rapports/003-migration-importeur-import-dump.md` |
 | T3 | Audit compatibilité MariaDB → PG 18 | migration-auditeur | — (lecture seule) | terminé | `rapports/002-migration-auditeur-audit-compatibilite.md` |
 | T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | terminé (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; T4.8 terminé `012` ; T4.6 écrit `011`, non exécuté sur GitHub ; données résiduelles corrigées `013` ; revue `014` (validé avec réserves) et validation `015` faites ; `DATABASE_URL` CI corrigée `016`) → **T4 terminé**, sous réserve du 1er run CI réel (PR brouillon, sur accord) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
-| T5 | Transfert des données + parité | migration-donnees | T2, T4 | à faire | — |
-| T6 | Recette QA + revue | testeur, relecteur | T5 | à faire | — |
+| T5 | Transfert des données + parité | migration-donnees | T2, T4 | terminé (parité 22 tables ; doctrine_migration_versions volontairement non transférée) | `017-migration-donnees-transfert.md` |
+| T6 | Recette QA + revue | testeur, relecteur | T5 | terminé (rapports 018-025) | `023-relecteur-revue-corrections.md` |
 | T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | à faire | — |
 
 ## Sous-tâches T4 / T5 (proposées par l'audit, rapport 002 § Recommandation)
@@ -32,7 +32,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet, clôture T4)
   ICU `fr`, rôle non super avec `CREATEDB`, mot de passe par défaut `ChangeMe`) ; 6 partielle
   (`unaccent` 1.1 disponible et `trusted`, `CREATE EXTENSION` à prouver en T4.4) ; 9 OK
   (MariaDB dev/test intacts, `make test-only` vert : 192 tests / 541 assertions).
-- Non vérifiable depuis `app` : présence de `sf_mangatrackr_app_import` (aucun droit du rôle
+- `sf_mangatrackr_app_import` présente (23 tables, 2026-10-18, vérifié par l'utilisateur) ; lignes et empreintes à revérifier au début de T5, accès depuis `app` à obtenir.
   applicatif). À contrôler avant T5 (`docker exec mangatrackr_db …`), sinon réimport du dump.
 
 ## Décisions à prendre
@@ -72,3 +72,4 @@ Dernière mise à jour : 2026-10-18 (chef de projet, clôture T4)
 1. (Utilisateur) Décider du commit de T4 (non commité : ci.yml, doctrine.yaml, MangaRepository, tests, `src/Doctrine/`, trait de purge, rapports 011-016). Découpage suggéré : `feat:` UNACCENT, `test:` purge, `fix:` CI.
 2. (Chef) T5 : vérifier d'abord la présence de `sf_mangatrackr_app_import` (`docker exec mangatrackr_db …`), sinon réimport du dump, puis `migration-donnees` (T5.1-T5.5).
 3. Dette à tracer en T7 : PHP Insights (qa-all rc=2, cause non isolée), deprecations identity/ORM 3, pg_trgm pour la recherche, `searchByTitles` et EasyAdmin sensibles aux accents, dama/doctrine-test-bundle, `%` à doubler dans `DATABASE_URL` (resolve), secret `DB_ROOT_PASSWORD` à supprimer sur GitHub.
+4. T6 : après le rapport 020, rejeu complet sur la base dev (phase 2, rétablit aussi la ligne 332 de `manga_statistic`), puis parité. Bugs à confier au `developpeur` : 500 sur liste vide (`MangaStatisticSubscriber` l.79) ; `validateSearchTerm` ASCII seulement, donc les accents n'atteignent jamais `searchManga`.

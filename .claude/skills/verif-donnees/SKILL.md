@@ -17,9 +17,53 @@ Outil : `.claude/skills/verif-donnees/scripts/inventaire.php` (PDO ; `pdo_mysql`
 - Comparer une base aux comptages d'un dump (sortie du dry-run de `import-dump-mariadb`) :
   `… --expected=<attendu>.json --inventory=<inventaire>.json`
 - Comparer deux bases (ex. MariaDB importée ↔ PostgreSQL migrée) :
-  `… --compare=<mariadb>.json,<pgsql>.json`
+  `… --compare=<mariadb>.json,<pgsql>.json [--rename=user:app_user] [--ignore=<table>] [--require-baseline=<Version>]`
 
-Code de sortie 0 = parité, 1 = écarts (listés table par table).
+Options de `inventaire.php` :
+- `--password` est déconseillé (visible dans la liste des processus) : préférer la variable
+  `INVENTAIRE_DB_PASSWORD`.
+- `--strict` : empreinte sur les valeurs brutes lues en texte (NULL → `\N`, booléens 1/0, aucun
+  réencodage JSON ni arrondi). Les deux inventaires comparés doivent être du même mode (sinon code 2).
+- `--rename=gauche:droite` : table renommée côté cible (ex. `user:app_user`, ADR 0012 D2).
+- `--ignore=<table>` (répétable ou séparé par des virgules) : exclut la table de la parité ; elle est
+  affichée `IGNORÉE`, jamais en silence. Table inconnue = erreur 2.
+- `--require-baseline=<Version>` : la liste des versions de `doctrine_migration_versions` du fichier de
+  droite doit contenir cette version (nom nu ou FQCN). C'est le contrepoids de `--ignore=doctrine_migration_versions`.
+- L'inventaire PostgreSQL compare aussi les séquences (prochaine valeur attendue = `MAX(id)+1`).
+
+Code de sortie de `inventaire.php` : 0 = parité, 1 = écart réel (listé table par table), 2 = erreur
+d'usage ou de lecture, 3 = connexion impossible ou exception inattendue (messages génériques, sans DSN
+ni mot de passe).
+
+## Transfert et rejeu complet (MariaDB `_import` → PostgreSQL)
+- `scripts/transfert-mariadb-pgsql.php` : vide puis recharge la cible dans une transaction, recale les
+  séquences à `MAX+1` après le COMMIT. Simulation : `--dry-run` (ROLLBACK ; attention, le TRUNCATE
+  verrouille la cible pendant l'essai).
+- `scripts/rejouer-transfert.sh <dossier>` (variables `MARIADB_PASSWORD`, `DATABASE_URL` = cible,
+  `CONFIRM_TARGET`) : transfert, 4 inventaires (tolérant et `--strict`), deux comparaisons.
+  Rejeu en dev : `CONFIRM_TARGET=postgres/sf_mangatrackr_app MARIADB_PASSWORD=… sh rejouer-transfert.sh <dossier>`.
+
+Garde-fous du transfert (cible DÉTRUITE) :
+- Hôte ET base de la cible (lus dans le DSN réellement utilisé) doivent égaler les valeurs attendues :
+  `--expected-host` / `--expected-db`, sinon `TRANSFER_EXPECTED_HOST` / `TRANSFER_EXPECTED_DB`, sinon
+  `postgres` / `sf_mangatrackr_app` (dev). Toute autre cible (répétition, production) exige de les définir
+  explicitement. Une base `_test` ou de même nom que la source est toujours refusée.
+- Confirmation de l'appelant, jamais automatique : `CONFIRM_TARGET=<hôte>/<base>` (ou
+  `--confirm-target=`) identique à la cible réelle, y compris pour `--dry-run`. Le `.sh` ne l'invente pas
+  et ne passe `--yes --replace-existing` qu'après l'avoir vérifiée ; le PHP la revérifie.
+- `--yes` ET `--replace-existing` restent obligatoires pour le PHP ; hôte, base et comptages de la
+  cible sont affichés avant le TRUNCATE.
+- Source en lecture seule ; `doctrine_migration_versions` jamais touchée ; aucun DDL.
+- Limite : le contrôle porte sur l'hôte/la base écrits dans le DSN, pas sur l'identité du serveur
+  (un alias DNS ou un tunnel vers la production sous le nom `postgres` passerait).
+- Une FK auto-référente ou vers une table hors périmètre est signalée sur stderr (AVERTISSEMENT).
+
+Codes de sortie de `transfert-mariadb-pgsql.php` : 0 succès ; 2 usage ; 3 échec avec ROLLBACK (cible
+inchangée), connexion impossible ou exception inattendue ; 4 COMMIT fait mais séquences non recalées
+(rejouer) ; 5 cible refusée par le garde-fou (hôte, base, `_test`, confirmation absente ou différente).
+Codes de `rejouer-transfert.sh` : 0 transfert + parité des deux passes + baseline présente ;
+1 écart réel ; 2 usage ; 3 échec du transfert, connexion ou exception ; 4 séquences à recaler ;
+5 cible refusée (le code 255 n'existe plus).
 
 ## Interpréter
 - `LIGNES DIFFÉRENTES` : transfert incomplet ou doublons → bloquant.
