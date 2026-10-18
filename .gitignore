@@ -55,5 +55,7 @@ phpstan.neon
 # Dumps de base (données personnelles) : jamais versionnés
 /ressources/*.sql
 /ressources/*.sql.gz
+/ressources/*.dump
+/ressources/*.dump.part
 /ressources/*.zip
 ###< ressources ###

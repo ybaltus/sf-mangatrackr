@@ -134,6 +134,13 @@ sf-rdb-test: ## Reset database for tests
 	$(SYMFONY_CONSOLE) doctrine:database:create --if-not-exists --env=test
 	$(SYMFONY_CONSOLE) doctrine:migrations:migrate --no-interaction --env=test
 
+##----------------- 🐘 PostgreSQL export / import 🐘 -------------#
+pg-export: ## Export PostgreSQL (pg_dump -Fc) vers ressources/ (donnees personnelles, jamais commite).
+	sh bin/pg-export.sh
+
+pg-import: ## Import d'un dump : make pg-import DUMP=ressources/x.dump CONFIRM_TARGET=hote/base
+	sh bin/pg-import.sh $(DUMP)
+
 ##----------------- 🎉 First install 🎉 -------------#
 first-install: composer-install npm-install npm-build sf-ddc sf-dmm ## First installation
 
