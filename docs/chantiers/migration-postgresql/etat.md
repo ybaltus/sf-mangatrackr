@@ -46,4 +46,4 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
   historique (ADR, rapports, journal, `migrations-archive-mariadb/`) non modifié.
 
 ## Prochaine action
-1. (Utilisateur) Supprimer le secret GitHub `DB_ROOT_PASSWORD` ; import sur le homelab (`homelab.md`).
+1. (Utilisateur) Import sur le homelab (`homelab.md`), puis clôture du chantier par le chef.
