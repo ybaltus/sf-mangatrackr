@@ -1,7 +1,7 @@
 # MangaTrakr
 
 ![Symfony](https://img.shields.io/badge/symfony-%23000000.svg?style=for-the-badge&logo=symfony&logoColor=white)
-![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -35,7 +35,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 - PHP >= 8.2
 - Composer v2
 - NodeJS
-- MariaDB
+- PostgreSQL 18
 
 ### Installation
 
@@ -47,7 +47,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 - Sélectionner "Dev Containers" comme environnement de développement
 - Le conteneur se construit automatiquement et installe les dépendances via make first-install
 - App disponible sur localhost:8080 (Apache) ou localhost:8000 (Symfony CLI)
-- MariaDB accessible sur localhost:3306
+- PostgreSQL 18 accessible sur localhost:5432
 - Xdebug configuré sur le port 9003
 ```
 
@@ -91,7 +91,7 @@ Application web pour suivre la lecture des mangas. Suivre facilement sa progress
 * [Symfony 6.4](https://symfony.com/) - Framework PHP
 * Doctrine ORM
 * Twig
-* MariaDB
+* PostgreSQL 18
 * [doctrine/doctrine-fixtures-bundle](https://symfony.com/bundles/DoctrineFixturesBundle/current/index.html)
 * [symfony/webpack-encore-bundle](https://symfony.com/doc/6.4/frontend/encore/index.html) - Module Bundler
 * [knpuniversity/oauth2-client-bundle](https://github.com/knpuniversity/oauth2-client-bundle?tab=readme-ov-file) - OAuth2 client

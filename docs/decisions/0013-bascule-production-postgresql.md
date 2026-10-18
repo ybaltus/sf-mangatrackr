@@ -2,8 +2,7 @@
 
 > **Procédure simplifiée retenue le 2026-10-18 : voir [`homelab.md`](../chantiers/migration-postgresql/homelab.md) ; ce plan complet n'est pas la référence.**
 
-- Statut : Proposée (reste « Proposée » jusqu'à la répétition générale et aux réponses aux questions
-  ouvertes ; Q19 est déjà tranchée)
+- Statut : Remplacée par [ADR 0014](0014-bascule-homelab-simplifiee-et-retrait-mariadb.md)
 - Date : 2026-10-18
 - Contexte lié : ADR 0012, chantier `migration-postgresql` (T7, rapport 026), plan
   [`plan-bascule.md`](../chantiers/migration-postgresql/plan-bascule.md)

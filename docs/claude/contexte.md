@@ -12,7 +12,7 @@ EasyAdmin. Inscription **sur invitation** (code envoyé par email), connexion pa
 Google OAuth.
 
 ## Stack
-- PHP >= 8.2 (8.2 en local, en CI et en production), Symfony 6.4 (LTS), Doctrine ORM 2.20 / DBAL 3 / PostgreSQL 18 (ADR 0012 ; la production Hostinger est encore sur MariaDB, bascule à planifier).
+- PHP >= 8.2 (8.2 en local, en CI et en production), Symfony 6.4 (LTS), Doctrine ORM 2.20 / DBAL 3 / PostgreSQL 18 (ADR 0012 ; production cible : le homelab sous PostgreSQL 18, Hostinger abandonné).
 - Front : Twig, Twig Components (`src/Twig/Components`), Stimulus (`assets/controllers`),
   Symfony UX (Autocomplete, Toggle Password), Webpack Encore, Tailwind (PostCSS).
 - Admin : EasyAdmin 4.29. Pagination : KnpPaginator. Export : PhpSpreadsheet (CSV).
@@ -40,8 +40,7 @@ Google OAuth.
 ## Environnement
 - Devcontainer (`.devcontainer/`) sur `docker-compose.yml` : service `app` (code dans
   `/var/www`, Apache :8080, extension `pdo_pgsql`) et `postgres` (PostgreSQL 18, hôte `postgres`,
-  volume `pg-data`). Le service `database` (MariaDB) est conservé seulement comme source
-  d'import jusqu'à la bascule, avec la base `sf_mangatrackr_app_import`.
+  volume `pg-data`). PostgreSQL est la seule base : MariaDB a été retiré de l'infra (T8).
 - **Le shell exporte `APP_ENV=dev`** : il écrase `phpunit.xml.dist`. Le Makefile préfixe donc
   PHPUnit par `APP_ENV=test`. Hors Makefile, lancer `APP_ENV=test vendor/bin/phpunit`.
 - Base PostgreSQL : cluster en UTF8 avec collation ICU `fr` ; extension `unaccent` créée par la
@@ -52,7 +51,8 @@ Google OAuth.
   `DATABASE_URL` est composée dans `.env` ; un `%` dans le mot de passe doit être doublé.
 - Outils de transfert MariaDB vers PostgreSQL et de contrôle de parité : skill
   `.claude/skills/verif-donnees/` (inventaire, transfert, rejeu), avec garde-fou sur la cible
-  (`CONFIRM_TARGET`).
+  (`CONFIRM_TARGET`). Archive : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de
+  l'infra en T8.
 - Secrets : `.env.local` (non versionné) ; la config Claude interdit sa lecture.
 
 ## Commandes utiles

@@ -2,8 +2,8 @@
 
 ## Objectif
 Faire tourner MangaTrackr sur PostgreSQL 18, avec des données de production migrées sans
-perte, puis basculer la production sur le homelab de l'utilisateur. D'ici là, la production
-Hostinger reste en MariaDB.
+perte, puis basculer la production sur le homelab de l'utilisateur (PostgreSQL 18). Hostinger
+est abandonné ; MariaDB a été retiré de l'infra du dépôt (T8).
 
 ## Source de données
 - Dump de production : `ressources/u556516513_20261018_mangasync.sql` (phpMyAdmin, MariaDB
@@ -23,7 +23,7 @@ Hostinger reste en MariaDB.
 | 6. Bascule | Plan homelab : export final, gel des écritures, import, retour arrière | Plan validé par l'utilisateur (ADR) |
 
 ## Contraintes
-- Pas de Docker, pas de client `mysql`, pas de `pdo_pgsql` dans le conteneur `app` : les
+- Pas de Docker ni de client `mysql` dans le conteneur `app` (`pdo_pgsql` présent depuis T4, `pdo_mysql` retiré en T8) : les
   opérations de conteneur (démarrage, rebuild) sont faites par l'utilisateur depuis l'hôte.
 - Jamais d'import dans la base de dev ni de test ; jamais de donnée du dump dans un rapport.
 - Ne pas modifier les migrations commitées. Pas de commit / push sans demande explicite.
