@@ -1,3 +1,7 @@
+# DEV / DÉMO UNIQUEMENT : ne jamais utiliser en production.
+# Son point d'entrée docker/docker.sh lance make first-install (migrations), app:init-datas
+# et crée l'utilisateur de démonstration demo@demo.fr : il modifierait la base de production.
+# Production : docker/Dockerfile.prod + compose.prod.yaml + deploy/deploy.sh.
 FROM php:8.2-apache
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

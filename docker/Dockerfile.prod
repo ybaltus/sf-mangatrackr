@@ -1,0 +1,73 @@
+# Image de PRODUCTION de MangaTrackr (VM apps-dev), utilisée par compose.prod.yaml.
+# Ne lance ni migration, ni fixtures, ni création d'utilisateur : les migrations sont appliquées
+# par deploy/deploy.sh --migrate (après sauvegarde pg_dump). Ne pas confondre avec docker/Dockerfile
+# (dev/démo uniquement). Les variables ci-dessous sont des valeurs factices de construction :
+# les vraies valeurs viennent de l'env_file au démarrage (jamais copiées dans l'image).
+# Exclusions du contexte : docker/Dockerfile.prod.dockerignore (prioritaire sur .dockerignore).
+
+FROM php:8.2-apache
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl git unzip \
+    libicu-dev libzip-dev libpq-dev libonig-dev libxml2-dev \
+    libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
+    nodejs npm \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" \
+       pdo_pgsql intl zip calendar dom mbstring gd opcache \
+    && a2enmod rewrite headers \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+COPY docker/vhosts/mangatracker.conf /etc/apache2/sites-available/000-default.conf
+
+WORKDIR /var/www
+
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --no-progress \
+    --no-scripts
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY . .
+
+RUN npm run build \
+    && composer dump-autoload \
+       --no-dev \
+       --optimize \
+       --classmap-authoritative \
+       --no-scripts \
+    && touch .env \
+    && APP_ENV=prod \
+       APP_DEBUG=0 \
+       APP_SECRET=build-only-placeholder \
+       DATABASE_URL='postgresql://build:build@127.0.0.1:5432/build?serverVersion=18&charset=utf8' \
+       MAILER_DSN='null://null' \
+       MESSENGER_TRANSPORT_DSN='doctrine://default?auto_setup=0' \
+       APP_NAME=MangaTracker \
+       APP_TEAM_NAME_1=Build \
+       APP_TEAM_NAME_2=Build \
+       APP_VERSION=0.0.0 \
+       MAILER_CONTACT=build@example.invalid \
+       MAILER_NO_REPLY=build@example.invalid \
+       API_TENRAI_URL=https://api.tenrai.org/v1 \
+       API_MANGA_UPDATES_URL=https://api.mangaupdates.com/v1 \
+       OAUTH_TEST_EMAILS='' \
+       OAUTH_GOOGLE_CLIENT_ID=build-placeholder \
+       OAUTH_GOOGLE_CLIENT_SECRET=build-placeholder \
+       php bin/console assets:install public --env=prod --no-debug \
+    && mkdir -p var/cache var/log \
+    && chown -R www-data:www-data var
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]
+
