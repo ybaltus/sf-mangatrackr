@@ -60,7 +60,6 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 ## Dette issue de la migration PostgreSQL
 | Sujet | Détail | Rapport |
 |---|---|---|
-| CI jamais exécutée | Ouvrir une PR brouillon vers `main` pour le premier run réel ; repli possible : `POSTGRES_USER`/`POSTGRES_DB` sur le service | 011, 016 |
 | Secret GitHub | `DB_ROOT_PASSWORD` devenu inutile (MariaDB retiré en T8) : à supprimer des secrets GitHub par l'utilisateur | 011 |
 | `%` dans `DATABASE_URL` | Les `%` du mot de passe doivent être doublés (`resolve` du conteneur), en CI comme dans un `.env.local` écrit à la main ; un outil externe lisant l'URL brute verrait un mot de passe doublé. Mot de passe local alphanumérique conseillé | 016 |
 | PHP Insights | `make qa-all` retourne 2 à cause de `qa-php-insights` (message sur l'accès réseau pour l'audit de sécurité) ; cause exacte non isolée, état avant migration non comparé. cs-fixer, PHPStan et security:check sont verts | 015 |

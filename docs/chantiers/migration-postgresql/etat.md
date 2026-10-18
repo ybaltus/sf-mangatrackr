@@ -24,7 +24,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
 - Version PHP du homelab, pour corriger `contexte.md:15` (« PHP 8.2 en production ») (036, mineur 5).
 
 ## Points de vigilance
-- CI PostgreSQL jamais exécutée sur GitHub : à prouver par une PR brouillon `dev` → `main` (sur accord).
+- CI PostgreSQL : verte sur la PR #17 (fusionnée dans `main` le 2026-10-18) ; PR T8 brouillon #18 ouverte (`dev` 366f19a).
 - Test instable isolé (1 erreur, non reproduite) ; DBAL 4 : surveiller l'index d'expression `LOWER(email)`.
 - Après T8, l'utilisateur doit reconstruire le devcontainer et arrêter `mangatrackr_db` depuis l'hôte ;
   le volume `db-data` (base `_import`) n'est supprimé que sur sa décision.
