@@ -6,7 +6,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions pdo pdo_mysql pdo_pgsql opcache intl zip calendar dom mbstring gd
+    install-php-extensions pdo pdo_pgsql opcache intl zip calendar dom mbstring gd
 
 # Install Composer
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
