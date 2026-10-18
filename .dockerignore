@@ -10,3 +10,10 @@ vendor/
 node_modules/
 .php-cs-fixer.cache
 .phpunit.result.cache
+# Secrets de prod, dumps et exports locaux (non versionnés) : jamais dans une image, même de dev,
+# ni dans l'image de prod construite sans BuildKit (qui ignore Dockerfile.prod.dockerignore).
+/ressources/
+**/*.dump
+**/*.sql
+**/*.zip
+**/*.prod.env
