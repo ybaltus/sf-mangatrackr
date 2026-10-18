@@ -8,6 +8,8 @@ services:
     # Monte le code source en volume pour que les modifications soient reflétées en temps réel
     volumes:
       - .:/var/www:cached
+      # Conserve la configuration et la mémoire de Claude Code entre les reconstructions
+      - claude-config:/root/.claude
 
     # Garde le conteneur actif sans lancer l'entrypoint de production
     command: sleep infinity
@@ -26,3 +28,6 @@ services:
     # Expose le port PostgreSQL pour un accès direct depuis l'hôte (ex: DataGrip)
     ports:
       - "5432:5432"
+
+volumes:
+  claude-config:
