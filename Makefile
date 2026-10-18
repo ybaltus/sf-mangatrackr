@@ -27,7 +27,7 @@ SYMFONY_SERVER_STOP = $(SYMFONY) server:stop
 
 #--- NPM
 NPM = npm
-NPM_INSTALL = $(NPM) install --force
+NPM_INSTALL = $(NPM) ci
 NPM_UPDATE = $(NPM) update
 
 #=================Commands========================================#
