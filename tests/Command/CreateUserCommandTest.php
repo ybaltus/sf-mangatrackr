@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use App\Tests\Traits\PurgeTestDataTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class CreateUserCommandTest extends KernelTestCase implements CommandTestInterface
 {
+    use PurgeTestDataTrait;
+
+    /** @var list<string> */
+    private array $createdEmails = [];
+
+    protected function tearDown(): void
+    {
+        $this->purgeUsersAndInvitationsByEmail($this->createdEmails);
+        $this->createdEmails = [];
+        parent::tearDown();
+    }
+
     public function testSuccessfulExecution(): void
     {
         $kernel = self::bootKernel();
@@ -17,7 +30,8 @@ final class CreateUserCommandTest extends KernelTestCase implements CommandTestI
         $command = $application->find('app:create-user');
         $commandTester = new CommandTester($command);
 
-        $email = sprintf('test_%d@test.fr', mt_rand(1, 1000));
+        $email = sprintf('test_%s@test.fr', bin2hex(random_bytes(6)));
+        $this->createdEmails[] = $email;
         $commandTester->setInputs([
             'email' => $email,
             'password' => 'password',
