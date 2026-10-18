@@ -1,6 +1,6 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet)
+Dernière mise à jour : 2026-10-18 (chef de projet, après T4.4)
 
 **Phase courante** : 1. Validation de l'extraction — **terminée** (extraction correcte) ; 2. Audit **terminé** (T3) ; décisions D1-D9 prises ; 3. Schéma et infra en cours.
 
@@ -11,7 +11,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet)
 | T1 | Analyse hors ligne du dump (dry-run) | chef | — | terminé | `rapports/001-attendu.json` |
 | T2 | Import dans `sf_mangatrackr_app_import` + vérifications | migration-importeur | T1, base joignable | terminé | `rapports/003-migration-importeur-import-dump.md` |
 | T3 | Audit compatibilité MariaDB → PG 18 | migration-auditeur | — (lecture seule) | terminé | `rapports/002-migration-auditeur-audit-compatibilite.md` |
-| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | en cours (T4.1, T4.2, T4.7 terminés ; T4.3 en attente du rebuild) | `rapports/004-…`, `rapports/005-developpeur-corrections-portables.md` |
+| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | en cours (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; reste T4.6, T4.8) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
 | T5 | Transfert des données + parité | migration-donnees | T2, T4 | à faire | — |
 | T6 | Recette QA + revue | testeur, relecteur | T5 | à faire | — |
 | T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | à faire | — |
@@ -26,7 +26,14 @@ Dernière mise à jour : 2026-10-18 (chef de projet)
   · T5.4 parité `--compare` · T5.5 procédure rejouable pour la bascule.
 
 ## Blocages
-- **Attente utilisateur** : rebuild des conteneurs + vérifications 1 à 9 de `rapports/007-…` § « Commandes à lancer depuis l'hôte » (T4.2 écrit, non testé). Bloque T4.3.
+- **Attente utilisateur** : recréer `app` depuis l'hôte (le shell exporte encore `DATABASE_URL` MySQL),
+  puis lancer `make test` (drop/create PG non encore vérifié). `.env.local` : clés OAuth seules, rien à adapter.
+- Rebuild fait ; vérifié par le chef depuis `app` (2026-10-18) : 4, 5, 7, 8 OK (PG 18.6,
+  ICU `fr`, rôle non super avec `CREATEDB`, mot de passe par défaut `ChangeMe`) ; 6 partielle
+  (`unaccent` 1.1 disponible et `trusted`, `CREATE EXTENSION` à prouver en T4.4) ; 9 OK
+  (MariaDB dev/test intacts, `make test-only` vert : 192 tests / 541 assertions).
+- Non vérifiable depuis `app` : présence de `sf_mangatrackr_app_import` (aucun droit du rôle
+  applicatif). À contrôler avant T5 (`docker exec mangatrackr_db …`), sinon réimport du dump.
 
 ## Décisions à prendre
 - Aucune en attente.
@@ -41,6 +48,11 @@ Dernière mise à jour : 2026-10-18 (chef de projet)
   relu (rapport 006) : **validé avec réserves**, 0 bloquant ; R1-R3 corrigés en T4.7-bis (rapport 008, 192 tests / 541 assertions).
 - T4.3 : harmoniser `DB_PASSWORD` (compose) / `DB_USER_PASSWORD` (`.env`) ; port 5432 de l'hôte possiblement occupé ;
   rôle `mangatrackr` avec `CREATEDB` en dev seulement (pas en prod homelab).
+- Test instable : 1 erreur isolée (192 tests / 540 assertions) au 1er `make test-only` après
+  rebuild, non reproduite sur 7 relances ; test non identifié (rien dans `var/log/test.log`).
+- CI cassée jusqu'à T4.6. Données résiduelles des tests (+2 `app_user`, +2 `user_invitation_code` par passage :
+  `CreateUserCommandTest`, `InvitationControllerTest`, `EasyAdminSubscriberTest`), préexistant, ADR 0007 non respecté.
+- DBAL 4 : revérifier qu'aucun diff ne propose de supprimer l'index d'expression `LOWER(email)`.
 - Corrigés en T4.7-bis : `oauthTestEmails` comparé avec la casse ; valeur non typée passée à `UserBadge` dans `AppAuthenticator`.
 
 ## Décisions prises
@@ -57,8 +69,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet)
 - 2026-10-18 : index unique sur `LOWER(email)` (table `app_user`) dans la baseline PG (T4.4).
 
 ## Prochaine action
-1. (Utilisateur) Rebuild du devcontainer, puis vérifications 1 à 9 de `rapports/007-…` § « Commandes à lancer depuis l'hôte ».
-2. (Chef, nouvelle session) Vérifier depuis `app` : `php -m | grep pdo_pgsql`, connexion PDO à `postgres:5432`,
-   MariaDB toujours joignable (`sf_mangatrackr_app_import` présente), `make test-only` vert (192 tests).
-3. Lancer T4.3 (`migration-schema`, rapport 009) : `.env`/`.env.test` vers PG 18, harmoniser `DB_PASSWORD`,
-   `doctrine.yaml` (IDENTITY, `disable_type_comments`), mapping `User` → `app_user`. Puis T4.4 (baseline, rapport 010).
+1. (Utilisateur) Recréer `app` depuis l'hôte, puis `make test` (drop/create PG) et `make test-only`.
+2. (Chef) T4.6 CI PG 18 (`migration-schema`, rapport 011) et T4.8 recherche `unaccent` (`developpeur`,
+   rapport 012) en parallèle ; correction des données résiduelles des tests (`testeur`, rapport 013).
+3. Relecteur + testeur sur l'ensemble de T4 avant de la clore, puis T5 (vérifier d'abord `_import`).

@@ -28,3 +28,15 @@ Ajout seul, une ligne par événement : `date | acteur | tâche | statut | résu
 - 2026-10-18 | developpeur | T4.7-bis | terminé | Réserves 006 corrigées : email normalisé avant UserBadge/throttling (getPayload typé), oauthTestEmails sans casse, départage m.id, test latest isolé ; 192 tests/541 assertions, PHPStan OK → rapports/008-developpeur-corrections-relecture-t4-7.md
 - 2026-10-18 | chef | T4.7-bis | terminé | Contrôlé par le chef : PHPStan OK, 192 tests / 541 assertions ; throttling testé en unitaire seulement
 - 2026-10-18 | chef | T4.3 | à faire | Session interrompue pour le rebuild du devcontainer ; mémoire Claude sauvegardée dans var/claude-memory-backup/
+- 2026-10-18 | chef | T4 | sauvegarde | Commit 1f93077 sur dev (non poussé) avant rebuild du devcontainer, à la demande de l'utilisateur
+- 2026-10-18 | chef | T4.2 | vérifié | Rebuild fait : vérifs 4,5,7,8,9 OK depuis app, 6 partielle (unaccent trusted) ; make test-only vert (1 erreur isolée non reproduite) ; base _import non vérifiable depuis app
+- 2026-10-18 | chef | T4.3 | en cours | lance T4.3 puis T4.4 → migration-schema (rapports 009, 010)
+- 2026-10-18 | migration-schema | T4.3 | terminé | Config PG 18 (DATABASE_URL, DB_PASSWORD unique, IDENTITY, sans commentaires de type, table app_user) ; mapping valide, PG 18.6 en dev/test, PHPStan vert, tests rouges attendus avant T4.4 → rapports/009-migration-schema-config-postgresql.md
+- 2026-10-18 | chef | T4.3 | terminé | Contrôlé : PHPStan OK, diff conforme ; bascule effective après recréation de app (DATABASE_URL MySQL exporté) → rapports/009-migration-schema-config-postgresql.md
+- 2026-10-18 | chef | T4.4 | en cours | lance T4.4 baseline PG → migration-schema (rapport 010)
+- 2026-10-18 | chef | T4 | maintenance | .php-cs-fixer.cache du chantier retiré de l'index et ignoré (.gitignore), à la demande de l'utilisateur
+- 2026-10-18 | migration-schema | T4.4 | terminé | Baseline PG (abortIf, unaccent, LOWER(email), index corrigés), 15 migrations archivées, diff vide, 192 tests verts sur PG ; make test (drop) non lancé → rapports/010-migration-schema-baseline-postgresql.md
+- 2026-10-18 | chef | — | maintenance | package-lock.json restauré (libc npm 11) ; Makefile : npm-install passe en npm ci (évite la réécriture par npm 10 au rebuild) ; npm ci + build OK en npm 10.8.2
+- 2026-10-18 | chef | T4.4 | terminé | Contrôlé sur PG (surcharge DATABASE_URL) : 1 migration, schema:validate OK, diff vide dev/test, PHPStan OK, 192 tests/541 verts, archive = HEAD → rapports/010-migration-schema-baseline-postgresql.md
+- 2026-10-18 | chef | T4.5 | terminé | Vérifications couvertes par T4.4 et le contrôle du chef ; reste drop/create de make test après recréation de app
+- 2026-10-18 | chef | T4 | commits | a49479b (npm ci), 943e824 (cache cs-fixer), 8a83f44 (bascule PG T4.3+T4.4) + suivi docs, sur dev, non poussés, à la demande de l'utilisateur, avant recréation de app
