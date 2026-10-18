@@ -1,6 +1,6 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet, après T4.4)
+Dernière mise à jour : 2026-10-18 (chef de projet, clôture T4)
 
 **Phase courante** : 1. Validation de l'extraction — **terminée** (extraction correcte) ; 2. Audit **terminé** (T3) ; décisions D1-D9 prises ; 3. Schéma et infra en cours.
 
@@ -11,7 +11,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet, après T4.4)
 | T1 | Analyse hors ligne du dump (dry-run) | chef | — | terminé | `rapports/001-attendu.json` |
 | T2 | Import dans `sf_mangatrackr_app_import` + vérifications | migration-importeur | T1, base joignable | terminé | `rapports/003-migration-importeur-import-dump.md` |
 | T3 | Audit compatibilité MariaDB → PG 18 | migration-auditeur | — (lecture seule) | terminé | `rapports/002-migration-auditeur-audit-compatibilite.md` |
-| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | en cours (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; reste T4.6, T4.8) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
+| T4 | Schéma et infra PG 18 (Docker, `pdo_pgsql`, env, migrations, CI) | migration-schema | T3, ADR (inclut correction des 2 index, cf. décisions) | terminé (T4.1, T4.2 vérifié, T4.7 terminés ; T4.3, T4.4, T4.5 terminés ; T4.8 terminé `012` ; T4.6 écrit `011`, non exécuté sur GitHub ; données résiduelles corrigées `013` ; revue `014` (validé avec réserves) et validation `015` faites ; `DATABASE_URL` CI corrigée `016`) → **T4 terminé**, sous réserve du 1er run CI réel (PR brouillon, sur accord) | `004-…`, `005-…`, `009-…`, `010-migration-schema-baseline-postgresql.md` |
 | T5 | Transfert des données + parité | migration-donnees | T2, T4 | à faire | — |
 | T6 | Recette QA + revue | testeur, relecteur | T5 | à faire | — |
 | T7 | Plan de bascule homelab + ADR + dette technique | chef, relecteur | T6 | à faire | — |
@@ -69,7 +69,6 @@ Dernière mise à jour : 2026-10-18 (chef de projet, après T4.4)
 - 2026-10-18 : index unique sur `LOWER(email)` (table `app_user`) dans la baseline PG (T4.4).
 
 ## Prochaine action
-1. (Utilisateur) Recréer `app` depuis l'hôte, puis `make test` (drop/create PG) et `make test-only`.
-2. (Chef) T4.6 CI PG 18 (`migration-schema`, rapport 011) et T4.8 recherche `unaccent` (`developpeur`,
-   rapport 012) en parallèle ; correction des données résiduelles des tests (`testeur`, rapport 013).
-3. Relecteur + testeur sur l'ensemble de T4 avant de la clore, puis T5 (vérifier d'abord `_import`).
+1. (Utilisateur) Décider du commit de T4 (non commité : ci.yml, doctrine.yaml, MangaRepository, tests, `src/Doctrine/`, trait de purge, rapports 011-016). Découpage suggéré : `feat:` UNACCENT, `test:` purge, `fix:` CI.
+2. (Chef) T5 : vérifier d'abord la présence de `sf_mangatrackr_app_import` (`docker exec mangatrackr_db …`), sinon réimport du dump, puis `migration-donnees` (T5.1-T5.5).
+3. Dette à tracer en T7 : PHP Insights (qa-all rc=2, cause non isolée), deprecations identity/ORM 3, pg_trgm pour la recherche, `searchByTitles` et EasyAdmin sensibles aux accents, dama/doctrine-test-bundle, `%` à doubler dans `DATABASE_URL` (resolve), secret `DB_ROOT_PASSWORD` à supprimer sur GitHub.
