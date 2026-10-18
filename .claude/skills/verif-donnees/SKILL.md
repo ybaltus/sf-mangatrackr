@@ -29,7 +29,9 @@ Options de `inventaire.php` :
   affichée `IGNORÉE`, jamais en silence. Table inconnue = erreur 2.
 - `--require-baseline=<Version>` : la liste des versions de `doctrine_migration_versions` du fichier de
   droite doit contenir cette version (nom nu ou FQCN). C'est le contrepoids de `--ignore=doctrine_migration_versions`.
-- L'inventaire PostgreSQL compare aussi les séquences (prochaine valeur attendue = `MAX(id)+1`).
+- L'inventaire MariaDB enregistre `AUTO_INCREMENT` par table ; l'inventaire PostgreSQL compare les séquences à la règle D3 :
+  prochaine valeur attendue = `GREATEST(MAX(id)+1, AUTO_INCREMENT source)` (mode strict inclus). `AUTO_INCREMENT` source
+  absent pour une table à séquence = écart. Un inventaire MariaDB ancien (sans `auto_increment`) est à régénérer.
 
 Code de sortie de `inventaire.php` : 0 = parité, 1 = écart réel (listé table par table), 2 = erreur
 d'usage ou de lecture, 3 = connexion impossible ou exception inattendue (messages génériques, sans DSN
@@ -37,7 +39,8 @@ ni mot de passe).
 
 ## Transfert et rejeu complet (MariaDB `_import` → PostgreSQL)
 - `scripts/transfert-mariadb-pgsql.php` : vide puis recharge la cible dans une transaction, recale les
-  séquences à `MAX+1` après le COMMIT. Simulation : `--dry-run` (ROLLBACK ; attention, le TRUNCATE
+  séquences à `GREATEST(MAX(id), AUTO_INCREMENT_source - 1)` (D3, lu dans `information_schema.tables` de la source) après le COMMIT.
+  `AUTO_INCREMENT` n'existe dans `_import` que si l'option AUTO_INCREMENT de l'export phpMyAdmin était cochée. Simulation : `--dry-run` (ROLLBACK ; attention, le TRUNCATE
   verrouille la cible pendant l'essai).
 - `scripts/rejouer-transfert.sh <dossier>` (variables `MARIADB_PASSWORD`, `DATABASE_URL` = cible,
   `CONFIRM_TARGET`) : transfert, 4 inventaires (tolérant et `--strict`), deux comparaisons.
@@ -60,10 +63,11 @@ Garde-fous du transfert (cible DÉTRUITE) :
 
 Codes de sortie de `transfert-mariadb-pgsql.php` : 0 succès ; 2 usage ; 3 échec avec ROLLBACK (cible
 inchangée), connexion impossible ou exception inattendue ; 4 COMMIT fait mais séquences non recalées
-(rejouer) ; 5 cible refusée par le garde-fou (hôte, base, `_test`, confirmation absente ou différente).
+(rejouer) ; 5 cible refusée par le garde-fou (hôte, base, `_test`, confirmation absente ou différente) ; 6 `AUTO_INCREMENT` source NULL/absent pour une table à séquence
+(rien modifié : réimporter le dump avec l'option AUTO_INCREMENT cochée).
 Codes de `rejouer-transfert.sh` : 0 transfert + parité des deux passes + baseline présente ;
 1 écart réel ; 2 usage ; 3 échec du transfert, connexion ou exception ; 4 séquences à recaler ;
-5 cible refusée (le code 255 n'existe plus).
+5 cible refusée ; 6 AUTO_INCREMENT source absent (le code 255 n'existe plus).
 
 ## Interpréter
 - `LIGNES DIFFÉRENTES` : transfert incomplet ou doublons → bloquant.

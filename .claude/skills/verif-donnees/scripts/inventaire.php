@@ -25,7 +25,9 @@ declare(strict_types=1);
  * par clé primaire (composite incluse). Les colonnes texte ne sont jamais modifiées sauf JSON.
  * Mode --strict : valeurs brutes lues en texte (NULL → \N, booléens → 1/0, rien d'autre) ;
  * à utiliser des deux côtés, la comparaison refuse de mélanger les modes.
- * L'inventaire PostgreSQL contient aussi les séquences (prochaine valeur vs MAX(colonne)+1)
+ * L'inventaire MariaDB contient AUTO_INCREMENT par table ; l'inventaire PostgreSQL contient les séquences.
+ * Règle D3 (ADR 0012) à la comparaison : prochaine valeur attendue = GREATEST(MAX(colonne)+1, AUTO_INCREMENT source) ;
+ * AUTO_INCREMENT source absent pour une table à séquence = écart (inventaire gauche sans cette donnée)
  * et la liste des versions de doctrine_migration_versions (identifiants techniques).
  */
 
@@ -112,7 +114,13 @@ function inventory(PDO $pdo, bool $strict): array
             hash_update($hash, implode("\x1F", $values)."\x1E");
             ++$rows;
         }
-        $result[$table] = ['rows' => $rows, 'sha256' => hash_final($hash), 'primary_key' => $pk, 'columns' => $columns];
+        $autoIncrement = null;
+        if ('pgsql' !== $driver) {
+            // AUTO_INCREMENT de la table (null si la table n'a pas de colonne auto-incrémentée ou si non conservé par l'import)
+            $ai = $pdo->query('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = '.$pdo->quote($table))->fetchColumn();
+            $autoIncrement = false === $ai || null === $ai ? null : (int) $ai;
+        }
+        $result[$table] = ['rows' => $rows, 'sha256' => hash_final($hash), 'primary_key' => $pk, 'columns' => $columns] + ('pgsql' !== $driver ? ['auto_increment' => $autoIncrement] : []);
 
         if ('doctrine_migration_versions' === $table) {
             $migrations = $pdo->query('SELECT version FROM '.$quote($table).' ORDER BY version')->fetchAll(PDO::FETCH_COLUMN);
@@ -125,7 +133,8 @@ function inventory(PDO $pdo, bool $strict): array
                     $max = $pdo->query('SELECT MAX('.$quote($column).') FROM '.$quote($table))->fetchColumn();
                     $sequences["$table.$column"] = [
                         'next' => filter_var($called, FILTER_VALIDATE_BOOLEAN) ? (int) $last + 1 : (int) $last,
-                        'expected' => null === $max || false === $max ? 1 : (int) $max + 1,
+                        'table' => $table,
+                        'expected' => null === $max || false === $max ? 1 : (int) $max + 1, // MAX+1 ; la règle D3 y ajoute AUTO_INCREMENT source à la comparaison
                     ];
                 }
             }
@@ -200,13 +209,26 @@ if (is_string($options['compare'] ?? null)) {
         }
     }
 
-    // Séquences de l'inventaire de droite : prochaine valeur = MAX(colonne) + 1
+    // Séquences de l'inventaire de droite (règle D3) : prochaine valeur attendue =
+    // GREATEST(MAX(colonne) + 1, AUTO_INCREMENT de la table source), la source étant l'inventaire de gauche.
     $sequences = $right['sequences'] ?? [];
-    $badSequences = array_filter($sequences, static fn (array $q): bool => $q['next'] !== $q['expected']);
+    $badSequences = [];
+    foreach ($sequences as $col => $q) {
+        $leftTable = $left['tables'][$q['table'] ?? explode('.', $col)[0]] ?? null;
+        $ai = is_array($leftTable) ? ($leftTable['auto_increment'] ?? null) : null;
+        if (null === $ai) {
+            $badSequences[$col] = $q + ['reason' => 'AUTO_INCREMENT source absent'];
+            continue;
+        }
+        $want = max((int) $q['expected'], (int) $ai);
+        if ($q['next'] !== $want) {
+            $badSequences[$col] = ['next' => $q['next'], 'expected' => $want];
+        }
+    }
     if ([] !== $sequences || 'pgsql' === ($right['driver'] ?? '')) {
-        printf("\nSéquences (droite) : %d, en écart : %d\n", count($sequences), count($badSequences));
+        printf("\nSéquences (droite, règle D3 GREATEST(MAX+1, AUTO_INCREMENT source)) : %d, en écart : %d\n", count($sequences), count($badSequences));
         foreach ($badSequences as $col => $q) {
-            printf("  %-40s prochaine=%d attendue=%d ÉCART\n", $col, $q['next'], $q['expected']);
+            printf("  %-40s prochaine=%d attendue=%s ÉCART%s\n", $col, $q['next'], isset($q['reason']) ? '?' : (string) $q['expected'], isset($q['reason']) ? ' ('.$q['reason'].')' : '');
         }
         $differences += count($badSequences) + ([] === $sequences ? 1 : 0);
     }

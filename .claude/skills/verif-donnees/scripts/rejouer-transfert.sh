@@ -14,12 +14,13 @@
 # Code de sortie :
 #   0  transfert validé ET parité complète des tables de données (doctrine_migration_versions
 #      est exclue de la comparaison mais le script vérifie que la baseline Version20261018145659
-#      est présente côté PostgreSQL), séquences = MAX(id)+1
+#      est présente côté PostgreSQL), séquences = GREATEST(MAX(id)+1, AUTO_INCREMENT source) (D3)
 #   1  écart réel de parité (contenu, lignes, colonnes, séquences, baseline absente)
 #   2  erreur d'usage (variable manquante, DATABASE_URL non PostgreSQL)
 #   3  transfert ou connexion en échec, exception inattendue (ROLLBACK : cible inchangée)
 #   4  COMMIT fait, séquences à recaler
 #   5  cible refusée par le garde-fou (hôte, base, _test, confirmation absente ou différente)
+#   6  AUTO_INCREMENT de la source NULL/absent pour une table à séquence (rien modifié)
 set -eu
 DIR=$(dirname "$0")
 BASELINE=Version20261018145659

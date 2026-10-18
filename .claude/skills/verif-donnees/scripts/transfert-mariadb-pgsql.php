@@ -38,7 +38,14 @@ declare(strict_types=1);
  * Codes de sortie : 0 succès ; 2 erreur d'usage ; 3 échec avec ROLLBACK (rien modifié), connexion
  * impossible ou exception inattendue avant tout TRUNCATE ; 4 COMMIT fait mais recalage des séquences
  * échoué (relancer le transfert) ; 5 cible refusée par le garde-fou (hôte, base, base _test/source,
- * confirmation absente ou différente) : rien n'a été lu ni écrit sur la cible.
+ * confirmation absente ou différente) : rien n'a été lu ni écrit sur la cible ; 6 AUTO_INCREMENT de la
+ * source illisible (NULL/absent) pour une table à séquence : rien n'a été modifié (ADR 0012 D3).
+ *
+ * Séquences (ADR 0012 D3) : chaque séquence IDENTITY est recalée à GREATEST(MAX(id), AUTO_INCREMENT_source - 1)
+ * (calculé dans la transaction, appliqué par setval après le COMMIT) : la prochaine valeur est >= AUTO_INCREMENT
+ * de la source, donc aucun ID supprimé en fin de table n'est réutilisé ; table vide : AUTO_INCREMENT_source (1 si 1).
+ * AUTO_INCREMENT est lu dans information_schema.tables de la base source ; il n'existe dans `_import` que si
+ * l'export phpMyAdmin contenait l'option AUTO_INCREMENT (sinon NULL/1 : code 6 ou valeur trop basse, à vérifier).
  *
  * Pré-contrôles avant tout TRUNCATE : server_encoding de la cible = UTF8, et chaque colonne source doit
  * appartenir à une combinaison de types prévue (tinyint(1)→boolean, int, bigint, varchar, longtext→text/json,
@@ -57,6 +64,7 @@ ini_set('zend.exception_ignore_args', '1'); // aucune trace ne doit afficher les
 const DEFAULT_TARGET_HOST = 'postgres';
 const DEFAULT_TARGET_DB = 'sf_mangatrackr_app';
 const EXIT_TARGET_REFUSED = 5;
+const EXIT_AUTO_INCREMENT_MISSING = 6;
 const RENAMED = ['user' => 'app_user'];      // source => cible
 const SKIPPED = ['doctrine_migration_versions'];
 
@@ -279,6 +287,27 @@ if ([] !== $typeProblems) {
     fail('combinaison de types source/cible non prévue (rien n\'a été modifié) : '.implode(', ', $typeProblems));
 }
 
+// --- Séquences IDENTITY de la cible et AUTO_INCREMENT de la source (D3), avant tout TRUNCATE
+$sequenceDefs = [];   // séquence => [table, colonne, AUTO_INCREMENT source]
+$autoIncrementProblems = [];
+$stmtAi = $src->prepare('SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = ?');
+foreach ($dst->query("SELECT c.relname, a.attname, pg_get_serial_sequence(quote_ident(c.relname), a.attname) FROM pg_class c JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped WHERE c.relkind = 'r' AND c.relnamespace = 'public'::regnamespace AND pg_get_serial_sequence(quote_ident(c.relname), a.attname) IS NOT NULL ORDER BY 1")->fetchAll(PDO::FETCH_NUM) as [$t, $c, $seq]) {
+    if (!in_array($t, $order, true)) {
+        continue;
+    }
+    $stmtAi->execute([$sourceNames[$t] ?? $t]);
+    $ai = $stmtAi->fetchColumn();
+    $stmtAi->closeCursor();
+    if (false === $ai || null === $ai || !ctype_digit((string) $ai) || (int) $ai < 1) {
+        $autoIncrementProblems[] = $t;
+        continue;
+    }
+    $sequenceDefs[$seq] = [$t, $c, (int) $ai];
+}
+if ([] !== $autoIncrementProblems) {
+    fail('AUTO_INCREMENT de la source NULL ou absent pour : '.implode(', ', $autoIncrementProblems).". Réimporter le dump avec l'option AUTO_INCREMENT de l'export phpMyAdmin cochée (rien n'a été modifié).", EXIT_AUTO_INCREMENT_MISSING);
+}
+
 // --- Garde-fou : afficher ce qui sera détruit avant tout TRUNCATE
 $before = [];
 foreach ($order as $table) {
@@ -353,10 +382,11 @@ try {
         }
     }
 
-    // 2. Calcul (lecture seule) des valeurs de séquences : prochaine valeur = MAX(id) + 1 (1 si vide)
-    foreach ($dst->query("SELECT c.relname, a.attname, pg_get_serial_sequence(quote_ident(c.relname), a.attname) FROM pg_class c JOIN pg_attribute a ON a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped WHERE c.relkind = 'r' AND c.relnamespace = 'public'::regnamespace AND pg_get_serial_sequence(quote_ident(c.relname), a.attname) IS NOT NULL ORDER BY 1")->fetchAll(PDO::FETCH_NUM) as [$t, $c, $seq]) {
+    // 2. Calcul (lecture seule) : prochaine valeur = GREATEST(MAX(id) + 1, AUTO_INCREMENT source) (D3)
+    foreach ($sequenceDefs as $seq => [$t, $c, $ai]) {
         $max = $dst->query('SELECT MAX('.q($c).') FROM '.q($t))->fetchColumn();
-        $sequences[$seq] = null === $max || false === $max ? [1, false] : [(int) $max, true];
+        $last = max(null === $max || false === $max ? 0 : (int) $max, $ai - 1);
+        $sequences[$seq] = $last < 1 ? [1, false] : [$last, true];
     }
 
     $current = '(validation)';
