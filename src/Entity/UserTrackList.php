@@ -34,6 +34,7 @@ class UserTrackList
         cascade: ['remove'],
         orphanRemoval: true
     )]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     private Collection|ArrayCollection $mangaUserTracks;
 
     public function __construct()

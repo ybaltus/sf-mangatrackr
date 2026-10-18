@@ -21,3 +21,8 @@ services:
     # Expose le port MariaDB pour un accès direct depuis l'hôte (ex: DataGrip)
     ports:
       - "3306:3306"
+
+  postgres:
+    # Expose le port PostgreSQL pour un accès direct depuis l'hôte (ex: DataGrip)
+    ports:
+      - "5432:5432"

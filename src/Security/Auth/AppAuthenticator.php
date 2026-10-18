@@ -6,6 +6,7 @@ namespace App\Security\Auth;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Services\Common\EmailNormalizer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,15 +33,20 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        $payload = $request->getPayload();
+
+        // Typed read (ADR 0001) and the same normalization as the stored email: the
+        // user lookup and the login throttling key (built from the badge identifier)
+        // are therefore identical for " User@X.com" and "user@x.com".
+        $email = EmailNormalizer::normalize($payload->getString('email'));
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials($payload->getString('password')),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $payload->getString('_csrf_token')),
                 new RememberMeBadge(),
             ]
         );

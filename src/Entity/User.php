@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Services\Common\EmailNormalizer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -83,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var ArrayCollection|Collection<int, UserResetPassword>
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserResetPassword::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     private Collection $userResetPasswords;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -109,7 +111,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmail(string $email): static
     {
-        $this->email = $email;
+        $this->email = EmailNormalizer::normalize($email);
 
         return $this;
     }

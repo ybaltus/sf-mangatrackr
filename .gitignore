@@ -48,3 +48,8 @@ phpstan.neon
 /.claude/settings.local.json
 /CLAUDE.local.md
 ###< claude ###
+
+###> ressources ###
+# Dumps de base (données personnelles) : jamais versionnés
+/ressources/*.sql
+###< ressources ###

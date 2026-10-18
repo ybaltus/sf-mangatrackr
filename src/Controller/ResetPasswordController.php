@@ -38,7 +38,7 @@ class ResetPasswordController extends AbstractController
             $data = $resetPasswordForm->getData();
 
             // Check if email exist
-            $user = $userRepository->findOneByEmail($data['email']);
+            $user = $userRepository->findOneByEmailInsensitive((string) $data['email']);
             if ($user) {
                 $this->resetPasswordService->requestReset($user);
 

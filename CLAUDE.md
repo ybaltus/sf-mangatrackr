@@ -50,6 +50,11 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - **Rapport** : dire franchement les échecs, les régressions et ce qui n'a pas pu être vérifié ; ne rien déclarer terminé sans `make qa-php-stan` et `make test-only` verts.
 - **Traçabilité** : un ADR pour toute décision structurante, et mise à jour de `docs/claude/etat-et-dette-technique.md` en fin de chantier.
 
+## Chantiers (travaux en plusieurs sessions)
+- La session principale pilote en chef de projet et délègue aux sous-agents de `.claude/agents/` (ADR 0011, skill `chantier`).
+- État sur disque dans `docs/chantiers/<nom>/` (`etat.md` = tableau de bord) ; index : `docs/chantiers/README.md`.
+- En cours : **migration-postgresql** (MariaDB → PostgreSQL 18). Reprendre avec `/chantier reprendre migration-postgresql`.
+
 ## Contexte détaillé
 Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.
 - Contexte du projet (stack, architecture, environnement, workflow) :

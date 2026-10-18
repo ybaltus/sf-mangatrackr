@@ -74,4 +74,22 @@ final class CreateUserCommandTest extends KernelTestCase implements CommandTestI
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('already exists', $output);
     }
+
+    public function testEmailAlreadyExistsIgnoresCase(): void
+    {
+        self::bootKernel();
+
+        $application = new Application(self::$kernel);
+        $command = $application->find('app:create-user');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'email' => strtoupper(self::USER_DEFAULT),
+            'password' => 'password',
+            'username' => 'Tester',
+            'isAdmin' => 'no',
+        ]);
+
+        $this->assertNotEquals(0, $commandTester->getStatusCode());
+        $this->assertStringContainsString('already exists', $commandTester->getDisplay());
+    }
 }

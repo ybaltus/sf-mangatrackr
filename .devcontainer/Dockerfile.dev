@@ -6,7 +6,7 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions pdo pdo_mysql opcache intl zip calendar dom mbstring gd xdebug
+    install-php-extensions pdo pdo_mysql pdo_pgsql opcache intl zip calendar dom mbstring gd xdebug
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -25,6 +25,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
+
+# Client PostgreSQL 18 (psql, pg_dump) depuis le dépôt PGDG : Debian trixie ne fournit que la
+# version 17, or pg_dump/psql doivent être d'une version >= celle du serveur (ADR 0012)
+RUN install -d /usr/share/postgresql-common/pgdg && \
+    curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+        https://www.postgresql.org/media/keys/ACCC4CF8.asc && \
+    . /etc/os-release && \
+    echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" \
+        > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client-18 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Activer la complétion (notamment des cibles Makefile) dans les terminaux Bash
 RUN printf '\nif [ -f /usr/share/bash-completion/bash_completion ]; then\n    . /usr/share/bash-completion/bash_completion\nfi\n' >> /etc/bash.bashrc
