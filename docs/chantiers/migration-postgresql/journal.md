@@ -118,3 +118,4 @@ Ajout seul, une ligne par événement : `date | acteur | tâche | statut | résu
 - 2026-10-18 | chef | T8 | ADR 0014 | ADR 0014 (bascule simplifiée par pg_dump, retrait de MariaDB) rédigé et accepté par l'utilisateur ; ADR 0013 passé en « Remplacée par ADR 0014 » ; commits T8 demandés par l'utilisateur (refactor: infra/config, docs:)
 - 2026-10-18 | chef | T8 | push | dev poussé (7b269d7, 366f19a) sur accord ; PR brouillon non ouverte (gh absent de l'hôte), description préparée pour l'utilisateur ; constat : PR #17 (migration PG) déjà fusionnée dans main
 - 2026-10-18 | chef | T8 | PR #18 | PR brouillon #18 dev → main ouverte (gh) ; CI PostgreSQL déjà verte sur la PR #17 (fusionnée) : ligne « CI jamais exécutée » retirée de la dette
+- 2026-10-18 | chef | T8 | mineur 5 clos | PHP 8.2 sur le homelab (confirmé par l'utilisateur) : contexte.md:15 déjà exact, aucune correction

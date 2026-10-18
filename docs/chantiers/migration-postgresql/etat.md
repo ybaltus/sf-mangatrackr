@@ -21,7 +21,7 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
 - Aucun côté dépôt (propriétaire root des fichiers corrigé par l'utilisateur, 2026-10-18).
 
 ## Décisions à prendre
-- Version PHP du homelab, pour corriger `contexte.md:15` (« PHP 8.2 en production ») (036, mineur 5).
+- Aucune en attente.
 
 ## Points de vigilance
 - CI PostgreSQL : verte sur la PR #17 (fusionnée dans `main` le 2026-10-18) ; PR T8 brouillon #18 ouverte (`dev` 366f19a).
@@ -46,6 +46,6 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
   historique (ADR, rapports, journal, `migrations-archive-mariadb/`) non modifié.
 
 ## Prochaine action
-1. (Utilisateur) Version PHP du homelab (décision ci-dessus).
+1. (Utilisateur) Fusionner la PR #18 (CI verte, prête pour relecture).
 2. (Utilisateur) Rebuild du devcontainer, `docker compose down --remove-orphans`, décision sur le volume `db-data`.
-3. (Utilisateur) Import sur le homelab (`homelab.md`) ; PR brouillon `dev` → `main` sur accord.
+3. (Utilisateur) Supprimer le secret GitHub `DB_ROOT_PASSWORD` ; import sur le homelab (`homelab.md`).
