@@ -60,7 +60,6 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 ## Dette issue de la migration PostgreSQL
 | Sujet | Détail | Rapport |
 |---|---|---|
-| Secret GitHub | `DB_ROOT_PASSWORD` devenu inutile (MariaDB retiré en T8) : à supprimer des secrets GitHub par l'utilisateur | 011 |
 | `%` dans `DATABASE_URL` | Les `%` du mot de passe doivent être doublés (`resolve` du conteneur), en CI comme dans un `.env.local` écrit à la main ; un outil externe lisant l'URL brute verrait un mot de passe doublé. Mot de passe local alphanumérique conseillé | 016 |
 | PHP Insights | `make qa-all` retourne 2 à cause de `qa-php-insights` (message sur l'accès réseau pour l'audit de sécurité) ; cause exacte non isolée, état avant migration non comparé. cs-fixer, PHPStan et security:check sont verts | 015 |
 | Dépréciations Doctrine | Nombreuses sous PostgreSQL (colonnes identity émulées par séquence, ORM 3.0) : fixer la stratégie SEQUENCE/IDENTITY avant ORM 3. Revérifier aussi avec DBAL 4 que le diff ne propose pas de supprimer l'index `LOWER(email)` | 015, etat.md |

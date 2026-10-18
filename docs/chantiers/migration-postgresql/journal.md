@@ -119,3 +119,5 @@ Ajout seul, une ligne par événement : `date | acteur | tâche | statut | résu
 - 2026-10-18 | chef | T8 | push | dev poussé (7b269d7, 366f19a) sur accord ; PR brouillon non ouverte (gh absent de l'hôte), description préparée pour l'utilisateur ; constat : PR #17 (migration PG) déjà fusionnée dans main
 - 2026-10-18 | chef | T8 | PR #18 | PR brouillon #18 dev → main ouverte (gh) ; CI PostgreSQL déjà verte sur la PR #17 (fusionnée) : ligne « CI jamais exécutée » retirée de la dette
 - 2026-10-18 | chef | T8 | mineur 5 clos | PHP 8.2 sur le homelab (confirmé par l'utilisateur) : contexte.md:15 déjà exact, aucune correction
+- 2026-10-18 | chef | T8 | vérif post-rebuild | PR #18 fusionnée (18b833d), dev aligné sur main ; devcontainer reconstruit, mangatrackr_db et volume db-data retirés par l'utilisateur ; contrôle du chef dans mangatrackr_app (-u 1000) : PDO pdo_pgsql/pdo_sqlite sans pdo_mysql, 226 tests / 580 assertions OK
+- 2026-10-18 | chef | T8 | secret supprimé | DB_ROOT_PASSWORD supprimé des secrets GitHub par l'utilisateur (vérifié : gh secret list → DB_PASSWORD seul) ; ligne retirée de la dette

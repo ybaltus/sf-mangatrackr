@@ -26,8 +26,8 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
 ## Points de vigilance
 - CI PostgreSQL : verte sur la PR #17 (fusionnée dans `main` le 2026-10-18) ; PR T8 brouillon #18 ouverte (`dev` 366f19a).
 - Test instable isolé (1 erreur, non reproduite) ; DBAL 4 : surveiller l'index d'expression `LOWER(email)`.
-- Après T8, l'utilisateur doit reconstruire le devcontainer et arrêter `mangatrackr_db` depuis l'hôte ;
-  le volume `db-data` (base `_import`) n'est supprimé que sur sa décision.
+- Après T8 (2026-10-18) : PR #18 fusionnée ; devcontainer reconstruit, `mangatrackr_db` et volume `db-data` retirés ;
+  nouveau conteneur vérifié (`pdo_pgsql` sans `pdo_mysql`, 226 tests / 580 verts).
 - Le devcontainer tourne en root : les fichiers qu'il crée appartiennent à root sur l'hôte
   (`remoteUser`/UID 1000 à envisager).
 
@@ -46,6 +46,4 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
   historique (ADR, rapports, journal, `migrations-archive-mariadb/`) non modifié.
 
 ## Prochaine action
-1. (Utilisateur) Fusionner la PR #18 (CI verte, prête pour relecture).
-2. (Utilisateur) Rebuild du devcontainer, `docker compose down --remove-orphans`, décision sur le volume `db-data`.
-3. (Utilisateur) Supprimer le secret GitHub `DB_ROOT_PASSWORD` ; import sur le homelab (`homelab.md`).
+1. (Utilisateur) Import sur le homelab (`homelab.md`), puis clôture du chantier par le chef.
