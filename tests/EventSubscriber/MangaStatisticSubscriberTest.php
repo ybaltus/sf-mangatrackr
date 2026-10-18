@@ -97,4 +97,41 @@ class MangaStatisticSubscriberTest extends KernelTestCase
 
         $this->assertEquals($oldNbTrack + 1, $manga->getMangaStatistic()->getNbTrack());
     }
+
+    /**
+     * @dataProvider emptyScanthequePayloadProvider
+     */
+    public function testOnScanthequeControllerIgnoresPayloadWithoutManga(string $body): void
+    {
+        $kernel = self::bootKernel();
+        $container = static::getContainer();
+        $entityManager = $container->get(EntityManagerInterface::class);
+        $scanthequeService = $container->get(ScanthequeService::class);
+        $mut = $entityManager->getRepository(MangaUserTrack::class)->findBy([], [], 1)[0];
+        $nbTrack = $mut->getManga()->getMangaStatistic()->getNbTrack();
+
+        $subscriber = new MangaStatisticSubscriber($entityManager);
+        $request = new Request([], [], [], [], [], [], $body);
+        $event = new ControllerArgumentsEvent(
+            $kernel,
+            [new ScanthequeController(), 'saveMangaUserTrackDatas'],
+            [$request, $scanthequeService, $mut->getStatusTrack()],
+            $request,
+            HttpKernelInterface::MAIN_REQUEST
+        );
+
+        $subscriber->onScanthequeController($event);
+
+        $this->assertSame($nbTrack, $mut->getManga()->getMangaStatistic()->getNbTrack());
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function emptyScanthequePayloadProvider(): iterable
+    {
+        yield 'liste vide' => ['{"mangas":[]}'];
+        yield 'sans titleSlug' => ['{"mangas":[{"title":"x"}]}'];
+        yield 'slug inconnu' => ['{"mangas":[{"titleSlug":"slug-inexistant-xyz"}]}'];
+    }
 }

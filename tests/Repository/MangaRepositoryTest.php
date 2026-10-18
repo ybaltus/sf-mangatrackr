@@ -200,6 +200,17 @@ final class MangaRepositoryTest extends KernelTestCase
         $this->assertSame([], $this->repository->searchManga('evangelion zzz'.$this->uniqueId, true));
     }
 
+    public function testSearchMangaTreatsUnderscoreAsLiteral(): void
+    {
+        $literal = $this->createManga('Joker a_c '.$this->uniqueId);
+        $other = $this->createManga('Joker abc '.$this->uniqueId);
+
+        $results = $this->repository->searchManga('joker a_c '.$this->uniqueId, true);
+
+        $this->assertSame([$literal->getId()], array_map(static fn (Manga $m): ?int => $m->getId(), $results));
+        $this->assertNotContains($other->getId(), array_map(static fn (Manga $m): ?int => $m->getId(), $results));
+    }
+
     public function testSearchByTitlesIsCaseInsensitiveEquality(): void
     {
         $bySynonym = $this->createManga('Synonyme '.$this->uniqueId)

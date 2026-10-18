@@ -8,12 +8,11 @@ use App\Entity\Manga;
 use App\Repository\MangaRepository;
 use App\Services\Api\ApiMangaUpdatesService;
 use App\Services\Api\ApiTenraiService;
+use App\Services\Common\SearchTermValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/manga')]
 class MangaController extends AbstractController
@@ -32,15 +31,18 @@ class MangaController extends AbstractController
         MangaRepository $mangaRepository,
         ApiTenraiService $apiTenraiService,
         ApiMangaUpdatesService $apiMangaUpdatesService,
-        ValidatorInterface $validator,
+        SearchTermValidator $searchTermValidator,
     ): Response {
         $mangas = [];
         $hasError = false;
-        $searchTerm = $request->request->get('searchTerm');
+        // Front values are strings (ADR 0001): absent or non-scalar (array) field becomes '' and
+        // fails validation instead of raising a TypeError.
+        $rawSearchTerm = $request->request->all()['searchTerm'] ?? '';
+        $searchTerm = is_scalar($rawSearchTerm) ? (string) $rawSearchTerm : '';
         $isAdvancedSearch = null !== $request->request->get('advanced-input');
         $isAdult = null !== $request->request->get('adult-input');
 
-        $errorsTerm = $this->validateSearchTerm($searchTerm, $validator);
+        $errorsTerm = $searchTermValidator->validate($searchTerm);
 
         if (count($errorsTerm) > 0) {
             $hasError = true;
@@ -81,18 +83,6 @@ class MangaController extends AbstractController
             'mangasSearch' => $mangas,
             'hasError' => $hasError,
             'searchTerm' => $searchTerm,
-        ]);
-    }
-
-    private function validateSearchTerm(string $searchTerm, ValidatorInterface $validator): mixed
-    {
-        return $validator->validate($searchTerm, [
-            new Assert\Length([
-                'min' => 3,
-                'max' => 50,
-            ]),
-            new Assert\NotBlank(),
-            new Assert\Regex('/^[a-zA-Z0-9-_\s]*$/'),
         ]);
     }
 }

@@ -95,4 +95,28 @@ class MangaControllerTest extends WebTestCase implements ControllerTestInterface
         $client->clickLink('Scanthèque');
         $this->assertResponseIsSuccessful();
     }
+
+    /**
+     * @dataProvider invalidSearchTermProvider
+     *
+     * @param array<string, mixed> $parameters
+     */
+    public function testSearchWithInvalidTermReturnsValidationErrorNot500(array $parameters): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/manga/search', $parameters);
+
+        $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>}>
+     */
+    public static function invalidSearchTermProvider(): iterable
+    {
+        yield 'champ absent' => [[]];
+        yield 'vide' => [['searchTerm' => '']];
+        yield 'tableau' => [['searchTerm' => ['a', 'b']]];
+        yield 'saut de ligne' => [['searchTerm' => "one\npiece"]];
+    }
 }

@@ -122,7 +122,8 @@ class MangaRepository extends ServiceEntityRepository
             // Case- and accent-insensitive (PostgreSQL: LOWER + unaccent extension, D4).
             ->andWhere('LOWER(UNACCENT(m.title)) LIKE LOWER(UNACCENT(:searchTerm))')
             ->orderBy('m.titleSlug', 'ASC')
-            ->setParameter('searchTerm', '%'.$searchTerm.'%')
+            // LIKE wildcards (and the escape character) are escaped: the term is a literal substring.
+            ->setParameter('searchTerm', '%'.addcslashes($searchTerm, '\\%_').'%')
         ;
 
         if (!$isAdult) {
