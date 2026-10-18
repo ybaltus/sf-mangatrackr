@@ -119,8 +119,8 @@ class MangaRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('m')
             ->where('m.isActivated != FALSE')
-            // Case-insensitive on every engine (PostgreSQL LIKE is case-sensitive).
-            ->andWhere('LOWER(m.title) LIKE LOWER(:searchTerm)')
+            // Case- and accent-insensitive (PostgreSQL: LOWER + unaccent extension, D4).
+            ->andWhere('LOWER(UNACCENT(m.title)) LIKE LOWER(UNACCENT(:searchTerm))')
             ->orderBy('m.titleSlug', 'ASC')
             ->setParameter('searchTerm', '%'.$searchTerm.'%')
         ;

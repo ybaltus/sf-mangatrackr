@@ -184,6 +184,22 @@ final class MangaRepositoryTest extends KernelTestCase
         $this->assertSame([$manga->getId()], array_map(static fn (Manga $m): ?int => $m->getId(), $results));
     }
 
+    public function testSearchMangaIsAccentInsensitive(): void
+    {
+        $accented = $this->createManga('Évangélion Ça '.$this->uniqueId);
+        $plain = $this->createManga('Evangelion Ca bis '.$this->uniqueId);
+
+        $fromPlain = $this->repository->searchManga('evangelion ca', true, 100);
+        $fromAccented = $this->repository->searchManga('ÉVANGÉLION ÇA', true, 100);
+        $ids = static fn (array $mangas): array => array_map(static fn (Manga $m): ?int => $m->getId(), $mangas);
+
+        foreach ([$ids($fromPlain), $ids($fromAccented)] as $found) {
+            $this->assertContains($accented->getId(), $found);
+            $this->assertContains($plain->getId(), $found);
+        }
+        $this->assertSame([], $this->repository->searchManga('evangelion zzz'.$this->uniqueId, true));
+    }
+
     public function testSearchByTitlesIsCaseInsensitiveEquality(): void
     {
         $bySynonym = $this->createManga('Synonyme '.$this->uniqueId)
