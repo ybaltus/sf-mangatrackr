@@ -18,6 +18,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0010](0010-audit-npm-et-borne-webpack.md) | Audit npm sans version majeure et borne sur webpack | Acceptée |
 | [0011](0011-chantiers-pilotes-par-sous-agents.md) | Chantiers pilotés par un chef de projet et des sous-agents | Acceptée |
 | [0012](0012-migration-postgresql-18.md) | Migration vers PostgreSQL 18 (baseline unique, `app_user`, IDENTITY, ICU `fr`) | Acceptée |
+| [0013](0013-bascule-production-postgresql.md) | Bascule de la production vers PostgreSQL sur le homelab (maintenance, répétition, retour arrière) | Proposée |
 
 ## Modèle
 ```markdown
