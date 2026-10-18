@@ -63,7 +63,9 @@ services:
     networks:
       - mangatrackr_network
     environment:
-      DB_HOST: database
+      # PostgreSQL 18 (ADR 0012) ; DATABASE_URL est composée dans .env à partir de DB_HOST/DB_PORT
+      DB_HOST: postgres
+      DB_PORT: 5432
 
 networks:
   mangatrackr_network:

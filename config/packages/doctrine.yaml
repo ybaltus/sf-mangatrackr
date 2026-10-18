@@ -2,14 +2,17 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
 
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '15'
+        # Version du serveur fixée dans DATABASE_URL (serverVersion=18, voir .env).
+        # Pas de commentaires de type (DC2Type) dans le schéma : prépare DBAL 4 (ADR 0012, D8).
+        disable_type_comments: true
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
+        # GeneratedValue(AUTO) => IDENTITY sur PostgreSQL (SERIAL en DBAL 3) au lieu de SEQUENCE (ADR 0012, D3)
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         report_fields_where_declared: true
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

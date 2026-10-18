@@ -15,6 +15,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+// "user" est un mot réservé de PostgreSQL : table renommée (ADR 0012, D2)
+#[ORM\Table(name: 'app_user')]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
