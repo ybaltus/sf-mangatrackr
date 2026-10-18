@@ -1,5 +1,7 @@
 # ADR 0013 : bascule de la production vers PostgreSQL sur le homelab
 
+> **Procédure simplifiée retenue le 2026-10-18 : voir [`homelab.md`](../chantiers/migration-postgresql/homelab.md) ; ce plan complet n'est pas la référence.**
+
 - Statut : Proposée (reste « Proposée » jusqu'à la répétition générale et aux réponses aux questions
   ouvertes ; Q19 est déjà tranchée)
 - Date : 2026-10-18

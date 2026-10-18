@@ -1,5 +1,7 @@
 # Plan de bascule : production Hostinger (MariaDB) vers le homelab (PostgreSQL 18)
 
+> **Procédure simplifiée retenue le 2026-10-18 : voir [`homelab.md`](homelab.md) ; ce plan complet n'est pas la référence.**
+
 - Statut : **projet, à valider par l'utilisateur** (ADR 0013, Proposée jusqu'à la répétition)
 - Date : 2026-10-18
 - Références : ADR 0012 (décisions D1 à D9), rapports 017, 019, 022, 023, 024, 028 (relecture), 029 (séquences D3), skill `verif-donnees`
