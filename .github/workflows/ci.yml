@@ -91,7 +91,7 @@ jobs:
 
     # -- PHP Cs-fixer -----------------------------------
       - name: Coding standards checks (php cs-fixer)
-        run: php vendor/bin/php-cs-fixer fix src tests --dry-run --diff
+        run: php vendor/bin/php-cs-fixer --config=.php-cs-fixer.dist.php fix src tests --dry-run --diff
 
     # -- PHP Stan --------------------------------------
       - name: Static analysis of php code (php stan)
