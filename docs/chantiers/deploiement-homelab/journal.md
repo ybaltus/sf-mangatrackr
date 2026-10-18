@@ -25,3 +25,5 @@ Ajout seul, une ligne par événement : `- AAAA-MM-JJ | acteur | tâche | statut
 - 2026-10-18 | relecteur | T5 | terminé | Contre-revue : M1, M2, M3 et m1-m10 corrigés sans régression, écarts justifiés ; bash -n et shellcheck OK ; aucun fichier sensible à suivre ; prêt à commiter (2 mineurs résiduels) → rapports/007-relecteur-contre-revue.md
 - 2026-10-18 | chef | T5 | terminé | contre-revue 007 : prêt à commiter ; r1 (suppression de l'ancienne image seulement après le 2e déploiement) corrigé dans la doc §6 par le chef ; r2 sans effet
 - 2026-10-18 | chef | T7 | commits + push dev | sur accord de l'utilisateur (« on pousse sur dev »), avant T6 ; PR brouillon après T6
+- 2026-10-18 | chef | T7 | push bloqué | commits 1835b57 (fix), d572031 (feat), 0f11c28 (docs) ; git push : Host key verification failed (pas de known_hosts dans le conteneur) ; push à faire par l'utilisateur
+- 2026-10-18 | chef | T7 | push dev | push fait par l'utilisateur ; vérifié : origin/dev = 0f11c28 ; en attente des sorties T6 de la VM
