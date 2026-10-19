@@ -1,7 +1,7 @@
 # État du projet et dette technique
 
 Document **daté** : à relire et à mettre à jour de temps en temps.
-Dernière mise à jour : 2026-10-18 (branche `dev`, en avance sur `main` : PR non ouverte).
+Dernière mise à jour : 2026-10-19 (PR #20 fusionnée dans `main`, chantier `deploiement-homelab` clos).
 
 ## État actuel
 - 226 tests, 580 assertions, PHPStan niveau 6 sans erreur, `composer audit` sans avis.
@@ -82,14 +82,18 @@ Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 | Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
 | Sauvegardes | `deploy/backup.sh` écrit sur la VM seulement (rotation 7, non chiffré) : copie hors VM à organiser ; test de restauration (procédure 7.6 de la doc) à planifier et à répéter. Remplacement d'une base non vide : manuel (renommage, doc 7.5) | 001, 002 |
 | Retour arrière | Un seul niveau (`mangatrackr:prod-previous`) et pas de retour de schéma : restaurer la sauvegarde prise par `--migrate` | 001 |
-| Scripts non éprouvés en réel | Testés par simulation (pas de Docker dans le devcontainer) ; premier essai `--dry-run` sur la VM par l'utilisateur | 001, 003 |
+| Scripts éprouvés en réel une fois | Premier déploiement réussi sur la VM le 2026-10-19 (`check.sh` 10/10). Pas encore éprouvés sur la VM : `--rollback`, `--migrate`, `init-database.sh --restore`, test de restauration (7.6) | 001, 003, 008 |
+| Pas de `prod-previous` sur la VM | L'ancienne image a été perdue au premier déploiement (magasin containerd : le build déplace le tag et supprime l'enregistrement, ADR 0015). `prod-previous` n'existera qu'après le 2e déploiement scripté ; d'ici là, retour arrière par sauvegarde `pg_dump` + `deploy.sh --ref` | 008 |
+| Bruit de dépréciation dans `check.sh` | Les commandes `bin/console` lancées dans le conteneur impriment la dépréciation `ux-toggle-password` à chaque contrôle (sortie noyée, sans gravité) | — |
+| Healthcheck de `postgres` | Le conteneur mutualisé n'a pas de healthcheck (avertissement à chaque `deploy.sh`/`backup.sh`) : à ajouter dans la doc/compose du PostgreSQL mutualisé | — |
+| `make test-only` non rejoué dans le conteneur de travail | L'hôte `postgres` n'y est pas joignable lors de la session de clôture ; la CI de la PR #20 (cs-fixer, PHPStan, PHPUnit) était verte | 008 |
 | Doc du PostgreSQL mutualisé absente | Le conteneur `postgres` (image, volume, réseau `database`, healthcheck, sauvegarde du cluster) n'est documenté nulle part dans le dépôt ; la doc locale de la VM dit « à documenter séparément ». Une réinstallation de VM vierge n'est donc pas exécutable de bout en bout (section 5.3 de `apps-dev.md`) | 005, 006 |
 | Journaux Apache | `docker/vhosts/mangatracker.conf` écrit `ErrorLog`/`CustomLog` dans des fichiers du conteneur : absents de `compose logs`, hors du contrôle de secrets de `check.sh`, croissance dans la couche inscriptible. Vhost de prod vers `/proc/self/fd/1` et `/2` à prévoir | 005, 006 |
 | Images de dev construites avant 2026-10-18 | Le `.dockerignore` racine n'excluait pas `ressources/` : une image construite par `docker/Dockerfile` (ou `Dockerfile.prod` sans BuildKit) avant la correction peut contenir l'env de prod et un dump. Les supprimer (`docker image ls`, `docker image rm`) puis reconstruire ; sur la VM, contrôle `ls /var/www/ressources` (section 6 de `apps-dev.md`) | 005, 006 |
 
 ## Pistes pour la suite
 Ordre suggéré :
-1. Ouvrir la PR brouillon vers `main` (premier run CI PostgreSQL) ; essai des scripts `deploy/` sur la VM (section 6 de `docs/deploiement/apps-dev.md`). L'import de la base sur le homelab est fait.
+1. Faire un 2e déploiement scripté sur la VM (crée `prod-previous`), puis tester `--rollback` et la restauration (7.6). Reverse proxy HTTPS et Google OAuth ensuite (chantier à part). L'import de la base et le premier déploiement sont faits.
 2. Montées majeures JS, une par une : d'abord `@symfony/webpack-encore` 5 (retirer la borne webpack), puis `tailwindcss` 4 (chantier à part), `htmx.org` 2, `flowbite`.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.

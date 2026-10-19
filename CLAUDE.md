@@ -57,7 +57,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 ## Chantiers (travaux en plusieurs sessions)
 - La session principale pilote en chef de projet et délègue aux sous-agents de `.claude/agents/` (ADR 0011, skill `chantier`).
 - État sur disque dans `docs/chantiers/<nom>/` (`etat.md` = tableau de bord) ; index : `docs/chantiers/README.md`.
-- Chantier en cours : **deploiement-homelab** (déploiement scripté sur la VM `apps-dev`, `docs/chantiers/deploiement-homelab/`). **migration-postgresql** (MariaDB → PostgreSQL 18) : clos, import sur le homelab fait (historique : `docs/chantiers/migration-postgresql/homelab.md`).
+- Aucun chantier en cours. **deploiement-homelab** (déploiement scripté sur la VM `apps-dev`, `docs/chantiers/deploiement-homelab/`) : clos le 2026-10-19, PR #20 fusionnée. **migration-postgresql** (MariaDB → PostgreSQL 18) : clos, import sur le homelab fait (historique : `docs/chantiers/migration-postgresql/homelab.md`).
 
 ## Contexte détaillé
 Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.
