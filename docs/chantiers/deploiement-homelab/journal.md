@@ -35,3 +35,4 @@ Ajout seul, une ligne par événement : `- AAAA-MM-JJ | acteur | tâche | statut
 - 2026-10-19 | utilisateur | T6 | deploy.sh réussi sur la VM (b99e5fa) | build OK, aucune migration, app healthy, check.sh 10/10, /var/www/ressources absent de l'image ; correctif T6.1 confirmé sur containerd ; prod-previous non créé (ancienne image perdue)
 - 2026-10-19 | utilisateur | T6 | terminé | contrôles fonctionnels §8 validés ; reste PR brouillon (sur accord) et clôture du chantier
 - 2026-10-19 | chef | T7 | PR brouillon #20 dev → main ouverte (push 48c4507 fait par le chef sur demande)
+- 2026-10-19 | chef | clôture | PR #20 fusionnée (23636834) | dette technique, index des chantiers et CLAUDE.md mis à jour ; chantier terminé

@@ -1,8 +1,8 @@
 # État — deploiement-homelab
 
-Dernière mise à jour : 2026-10-19 (chef de projet, T6 déploiement réussi sur la VM)
+Dernière mise à jour : 2026-10-19 (chef de projet, chantier clos)
 
-**Phase courante** : 5 (livraison) — essai sur la VM par l'utilisateur.
+**Phase courante** : terminé — PR #20 fusionnée dans `main`, déploiement validé sur la VM.
 
 ## Tâches
 | ID | Tâche | Agent | Dépend de | Statut | Rapport |
@@ -31,5 +31,4 @@ Dernière mise à jour : 2026-10-19 (chef de projet, T6 déploiement réussi sur
 - `compose config` sans `--quiet` affiche les secrets.
 
 ## Prochaine action
-1. (Chef, sur accord) commit de ce suivi, push `dev`, puis PR brouillon `dev` → `main`.
-2. (Utilisateur) 2e déploiement scripté, à la prochaine version : crée `prod-previous` (l’ancienne image est déjà perdue, rien à supprimer). Clôture : dette technique + index des chantiers.
+Aucune pour ce chantier. Reste (hors chantier, dette technique) : 2e déploiement scripté (crée `prod-previous`), test de `--rollback` et de la restauration, reverse proxy HTTPS + Google OAuth.
