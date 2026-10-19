@@ -1,6 +1,6 @@
 # Déploiement de MangaTrackr sur la VM `apps-dev` (homelab)
 
-- Mise à jour : 2026-10-18 (chantier `deploiement-homelab`, décision : [ADR 0015](../decisions/0015-deploiement-compose-scripte-apps-dev.md))
+- Mise à jour : 2026-10-19 (chantier `deploiement-homelab`, décision : [ADR 0015](../decisions/0015-deploiement-compose-scripte-apps-dev.md))
 - Remplace, pour l'exploitation, la doc locale `ressources/HomelabDocumentationApps.md` (non versionnée)
   et la procédure d'import [`homelab.md`](../chantiers/migration-postgresql/homelab.md) (historique).
 - Fichiers concernés : [`compose.prod.yaml`](../../compose.prod.yaml),
@@ -25,6 +25,7 @@ Sommaire : [1. Fiche de référence](#1-fiche-de-référence) · [2. Architectur
 | Racine | `/opt/apps` | `APPS_ROOT` |
 | Projet (clone git) | `/opt/apps/projects/sf-mangatrackr` | `PROJECT_DIR` |
 | Dépôt | `https://github.com/ybaltus/sf-mangatrackr` | `REPO_URL` (`REPO_BRANCH` au clonage) |
+| Branche déployée | `main` (stable, PR fusionnées depuis `dev`) ; basculer avec `deploy/deploy.sh --ref main` (section 7.1) | `--ref` |
 | Compose de production | `compose.prod.yaml` (toujours `-f` explicite) | `COMPOSE_FILE` |
 | Projet Compose | `sf-mangatrackr` (`name:` de `compose.prod.yaml`, label `com.docker.compose.project`) | `COMPOSE_PROJECT_NAME` (priorité sur `name:`) |
 | Secrets (600, répertoire 700) | `/opt/apps/secrets/mangatrackr.prod.env` | `ENV_FILE` (`SECRETS_DIR`) |
@@ -167,8 +168,7 @@ docker inspect --format '{{range $k, $v := .NetworkSettings.Networks}}{{$k}} {{e
 ```
 
 ### 5.4. Clone et `install-vm.sh`
-Le script est dans le dépôt : cloner d'abord (branche `main` ; `--branch dev` tant que la PR du
-chantier n'est pas fusionnée), puis le lancer.
+Le script est dans le dépôt : cloner d'abord (branche `main`), puis le lancer.
 
 ```bash
 sudo install -d -o "$USER" -g "$USER" /opt/apps
@@ -273,9 +273,9 @@ le signale). Terminer par les contrôles fonctionnels (section 8).
 
 ## 6. Migration de l'installation actuelle (une fois)
 
-Prérequis : la branche `dev` du chantier a été **poussée sur GitHub** (étape faite sur accord, avant
-cet essai) ; la VM la récupère par `git fetch`. Tant que la PR n'est pas fusionnée, utiliser `dev`
-et non `main` ci-dessous.
+Prérequis : le code à déployer est **sur GitHub** et la VM le récupère par `git fetch`. La branche
+déployée est `main` (la PR du chantier est fusionnée). Cette migration a été faite une fois, le
+2026-10-19, depuis `dev` alors que la PR n'était pas encore fusionnée ; à refaire, utiliser `main`.
 
 Sur la VM actuelle, `compose.prod.yaml`, `docker/Dockerfile.prod` et
 `docker/Dockerfile.prod.dockerignore` ont été posés à la main, hors git. `git pull` refuserait de
@@ -289,7 +289,7 @@ SAUV=/opt/apps/backups/fichiers-manuels-$(date +%Y%m%d)
 mkdir -p -m 700 "$SAUV"
 mv compose.prod.yaml docker/Dockerfile.prod docker/Dockerfile.prod.dockerignore "$SAUV"/
 git status --porcelain                       # doit être vide (traiter de même tout autre fichier)
-git fetch origin && git checkout dev && git pull --ff-only    # « main » une fois la PR fusionnée
+git fetch origin && git checkout main && git pull --ff-only
 diff -u "$SAUV/compose.prod.yaml" compose.prod.yaml
 diff -u "$SAUV/Dockerfile.prod" docker/Dockerfile.prod
 diff -u "$SAUV/Dockerfile.prod.dockerignore" docker/Dockerfile.prod.dockerignore
@@ -365,6 +365,17 @@ Toujours depuis `/opt/apps/projects/sf-mangatrackr`.
 deploy/deploy.sh --dry-run
 deploy/deploy.sh                       # branche courante ; ou --ref <branche|tag|commit>
 ```
+
+La VM déploie `main`. Si le clone est sur une autre branche (par exemple `dev` après la migration
+de la section 6), basculer **par le script**, jamais par un `git checkout` à la main :
+
+```bash
+deploy/deploy.sh --ref main --dry-run
+deploy/deploy.sh --ref main            # fetch, checkout main, pull --ff-only, puis déploiement
+```
+
+Ensuite `deploy/deploy.sh` suit la branche courante (`main`). Ne déployer `dev` ou un tag que par
+un `--ref` volontaire ; un tag est un checkout détaché : repasser par `--ref main` après.
 
 Si une migration est en attente, le script s'arrête **avant** de redémarrer quoi que ce soit (la
 version en service continue de tourner) : passer à 7.3.
