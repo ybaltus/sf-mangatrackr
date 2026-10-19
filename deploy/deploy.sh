@@ -12,9 +12,12 @@
 #     dans ce projet, `compose config --quiet`.
 #  2. Code : arbre git propre exigé ; `git fetch`, puis checkout + `pull --ff-only` de la branche
 #     (défaut : branche courante) ou checkout détaché d'un tag/commit.
-#  3. Image : l'image EN SERVICE est relevée, puis `compose build`. Elle ne devient
+#  3. Image : l'image EN SERVICE est épinglée AVANT la construction sous un tag de travail
+#     (mangatrackr:prod-service, par nom : indispensable avec le magasin containerd, où l'ancienne
+#     image disparaît dès que $IMAGE est déplacé), puis `compose build`. Elle ne devient
 #     $IMAGE_PREVIOUS qu'au moment du `up` (une tentative interrompue garde l'ancien retour arrière) ;
 #     si la construction redonne l'image en service (cache intégral), $IMAGE_PREVIOUS n'est pas touché.
+#     Si l'image en service est déjà introuvable : avertissement, aucun retour arrière pour ce cycle.
 #  4. Migrations (conteneur jetable `compose run --rm --no-deps`) : si une migration est en attente,
 #     arrêt AVANT `up` sans --migrate (le tag $IMAGE est remis sur l'image en service) ; avec
 #     --migrate : deploy/backup.sh puis doctrine:migrations:migrate --all-or-nothing (une seule
@@ -40,8 +43,10 @@ set -euo pipefail
 REF=''
 MIGRATE=0
 ROLLBACK=0
-# Identifiant de l'image du conteneur app en service, relevé avant la construction.
+# Image du conteneur app en service, relevée avant la construction : identifiant (affichage) et
+# tag de travail qui l'épingle (vide si aucune image récupérable).
 SERVICE_ID=''
+SERVICE_TAG=''
 # 1 si la construction a produit exactement l'image en service (cache intégral) : prod-previous gardé.
 SAME_IMAGE=0
 : "${WAIT_TIMEOUT:=180}"
@@ -150,48 +155,78 @@ update_code() {
   [ "$DRY_RUN" = 1 ] || log "après : $(git_p log -1 --format='%h %s')"
 }
 
-# Relève l'image du conteneur app EN SERVICE (à défaut : $IMAGE), sans rien retaguer :
-# $IMAGE_PREVIOUS n'est remplacé qu'au moment du `up` (promote_previous). Une tentative
-# interrompue (migration en attente, échec du build...) conserve donc la cible de retour arrière.
+# Épingle l'image EN SERVICE sous un tag de travail ($SERVICE_TAG) AVANT la construction.
+# Avec le magasin d'images containerd (Docker 29), `compose build` déplace $IMAGE vers la nouvelle
+# image et l'ancienne perd alors son enregistrement (introuvable, même par son ID) dès que son
+# dernier tag disparaît, alors que les conteneurs tournent encore dessus. Tout se fait donc par
+# NOM, tant que l'image est retrouvable. $IMAGE_PREVIOUS n'est remplacé qu'au moment du `up`
+# (promote_previous) : une tentative interrompue conserve l'ancien retour arrière.
 record_service_image() {
-  SERVICE_ID=$(docker inspect --format '{{.Image}}' "$APP_CONTAINER" 2>/dev/null || true)
-  [ -n "$SERVICE_ID" ] || SERVICE_ID=$(docker image inspect --format '{{.Id}}' "$IMAGE" 2>/dev/null || true)
-  if [ -z "$SERVICE_ID" ]; then
-    warn "aucune image en service : premier déploiement, pas de retour arrière possible"
+  SERVICE_TAG=''
+  SERVICE_ID=''
+  local cid cres pid ref
+  cid=$(docker inspect --format '{{.Image}}' "$APP_CONTAINER" 2>/dev/null || true)
+  pid=$(docker image inspect --format '{{.Id}}' "$IMAGE" 2>/dev/null || true)
+  if [ -z "$cid" ]; then
+    if [ -z "$pid" ]; then
+      warn "aucune image en service : premier déploiement, pas de retour arrière possible"
+      return 0
+    fi
+    ref=$IMAGE
+    SERVICE_ID=$pid
   else
-    log "image en service : ${SERVICE_ID:7:12}"
+    cres=$(docker image inspect --format '{{.Id}}' "$cid" 2>/dev/null || true)
+    if [ -z "$cres" ]; then
+      warn "l'image du conteneur $APP_CONTAINER (${cid:7:12}) est introuvable (tag $IMAGE déjà déplacé ?) : aucun retour arrière possible pour ce cycle, $IMAGE_PREVIOUS ne sera pas modifié"
+      return 0
+    fi
+    SERVICE_ID=$cres
+    if [ "$cres" = "$pid" ]; then
+      ref=$IMAGE
+    else
+      warn "$IMAGE ne désigne plus l'image en service : image retrouvée par son ID (${cres:7:12})"
+      ref=$cres
+    fi
   fi
+  log "image en service : ${SERVICE_ID:7:12}"
+  SERVICE_TAG=${IMAGE%:*}:prod-service
+  run docker tag "$ref" "$SERVICE_TAG" || die "impossible d'épingler l'image en service sous $SERVICE_TAG" 3
 }
 
-# Juste avant `up` : l'image en service devient $IMAGE_PREVIOUS.
+# Juste avant `up` : l'image en service devient $IMAGE_PREVIOUS (par nom, via $SERVICE_TAG).
 promote_previous() {
-  [ -n "$SERVICE_ID" ] || return 0
+  if [ -z "$SERVICE_TAG" ]; then
+    log "aucune image en service récupérable : $IMAGE_PREVIOUS non modifié"
+    return 0
+  fi
   if [ "$SAME_IMAGE" = 1 ]; then
     log "image inchangée (construction identique à l'image en service) : $IMAGE_PREVIOUS conservé, retour arrière inchangé"
     return 0
   fi
   log "image en service ${SERVICE_ID:7:12} -> $IMAGE_PREVIOUS"
-  run docker tag "$SERVICE_ID" "$IMAGE_PREVIOUS"
+  run docker tag "$SERVICE_TAG" "$IMAGE_PREVIOUS"
 }
 
-# Après `compose build` : la nouvelle image est-elle celle déjà en service ?
+# Après `compose build` : la nouvelle image est-elle celle déjà en service ? Comparaison par
+# identifiant lu des deux côtés avec la même commande (valable avec containerd).
 compare_built_image() {
-  if [ "$DRY_RUN" = 1 ] || [ -z "$SERVICE_ID" ]; then
+  if [ "$DRY_RUN" = 1 ] || [ -z "$SERVICE_TAG" ]; then
     return 0
   fi
-  local new_id
+  local new_id old_id
   new_id=$(docker image inspect --format '{{.Id}}' "$IMAGE" 2>/dev/null || true)
-  if [ -n "$new_id" ] && [ "$new_id" = "$SERVICE_ID" ]; then
+  old_id=$(docker image inspect --format '{{.Id}}' "$SERVICE_TAG" 2>/dev/null || true)
+  if [ -n "$new_id" ] && [ "$new_id" = "$old_id" ]; then
     SAME_IMAGE=1
     warn "l'image construite est identique à l'image en service (${SERVICE_ID:7:12}) : $IMAGE_PREVIOUS ne sera pas modifié"
   fi
 }
 
-# Remet $IMAGE sur l'image en service (arrêt avant `up`).
+# Remet $IMAGE sur l'image en service (arrêt avant `up`), par nom.
 restore_tag() {
-  if [ -n "$SERVICE_ID" ]; then
+  if [ -n "$SERVICE_TAG" ]; then
     warn "$IMAGE remis sur l'image en service (${SERVICE_ID:7:12}) ; conteneurs inchangés"
-    run docker tag "$SERVICE_ID" "$IMAGE"
+    run docker tag "$SERVICE_TAG" "$IMAGE"
   fi
 }
 
