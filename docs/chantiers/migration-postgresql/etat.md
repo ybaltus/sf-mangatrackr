@@ -1,8 +1,8 @@
 # État — migration-postgresql
 
-Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
+Dernière mise à jour : 2026-10-18 (chef de projet, clôture)
 
-**Phase courante** : T0-T7 terminées (dépôt sur PostgreSQL 18, export homelab prêt) ; T8 (retrait de MariaDB) terminé, non commité.
+**Phase courante** : **chantier terminé** (import homelab fait par l'utilisateur, application en service sur `apps-dev`). Suite : chantier `deploiement-homelab`.
 
 ## Tâches
 | ID | Tâche | Agent | Dépend de | Statut | Rapport |
@@ -46,4 +46,4 @@ Dernière mise à jour : 2026-10-18 (chef de projet, T8 retrait de MariaDB)
   historique (ADR, rapports, journal, `migrations-archive-mariadb/`) non modifié.
 
 ## Prochaine action
-1. (Utilisateur) Import sur le homelab (`homelab.md`), puis clôture du chantier par le chef.
+Aucune : chantier clos. Le déploiement continue dans `docs/chantiers/deploiement-homelab/`.

@@ -54,6 +54,11 @@ Google OAuth.
   (`CONFIRM_TARGET`). Archive : nécessite un serveur MariaDB externe et `pdo_mysql`, retirés de
   l'infra en T8.
 - Secrets : `.env.local` (non versionné) ; la config Claude interdit sa lecture.
+- Production : VM `apps-dev` du homelab (Docker Compose, PostgreSQL 18 mutualisé dans le conteneur
+  `postgres`). Image construite sur la VM (`docker/Dockerfile.prod`, `compose.prod.yaml`), scripts
+  `deploy/` (`make prod-deploy|prod-check|prod-backup`), secrets dans `/opt/apps/secrets/` :
+  [`docs/deploiement/apps-dev.md`](../deploiement/apps-dev.md), ADR 0015. `docker/docker.sh` et
+  `docker/Dockerfile` sont réservés au dev et à la démo.
 
 ## Commandes utiles
 Voir `CLAUDE.md` (liste du Makefile). À retenir : `make test` réinitialise la base de test,

@@ -1,0 +1,67 @@
+# Compose de PRODUCTION de MangaTrackr (VM apps-dev). Toujours l'appeler explicitement :
+#   docker compose -f compose.prod.yaml ...   (ou deploy/deploy.sh, deploy/check.sh)
+# Ne définit PAS PostgreSQL : le serveur mutualisé (conteneur `postgres`, réseau externe
+# `database`) est géré hors de ce projet. Ne jamais lancer `down` sur ce fichier pour « réparer ».
+#
+# Variables d'interpolation (shell, avec valeurs par défaut = fiche de référence de la VM) :
+#   MANGATRACKR_BIND      adresse:port publié sur l'hôte (défaut 192.168.1.29:8080)
+#   MANGATRACKR_ENV_FILE  fichier de secrets (défaut /opt/apps/secrets/mangatrackr.prod.env,
+#                         modèle : deploy/mangatrackr.prod.env.dist)
+# Nom du projet fixé (et non déduit du répertoire) : les conteneurs gardent le label
+# com.docker.compose.project=sf-mangatrackr quel que soit le chemin du clone. Seul
+# COMPOSE_PROJECT_NAME (ou -p) peut le surcharger ; deploy/deploy.sh contrôle ce label.
+name: sf-mangatrackr
+
+services:
+  app:
+    image: mangatrackr:prod
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    container_name: mangatrackr_app_prod
+    restart: unless-stopped
+    env_file:
+      - ${MANGATRACKR_ENV_FILE:-/opt/apps/secrets/mangatrackr.prod.env}
+    ports:
+      - "${MANGATRACKR_BIND:-192.168.1.29:8080}:80"
+    networks:
+      - database
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    # Apache répond-il ? curl est installé dans l'image ; -f échoue sur un code >= 400
+    # (les redirections 301/302 ne sont pas suivies et comptent comme un succès).
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  worker:
+    image: mangatrackr:prod
+    # Même image que `app`, construite par `app` : ne jamais la tirer d'un registre.
+    pull_policy: never
+    container_name: mangatrackr_worker_prod
+    restart: unless-stopped
+    env_file:
+      - ${MANGATRACKR_ENV_FILE:-/opt/apps/secrets/mangatrackr.prod.env}
+    command:
+      - php
+      - bin/console
+      - messenger:consume
+      - async
+      - --time-limit=3600
+      - --memory-limit=128M
+      - --env=prod
+      - --no-debug
+    networks:
+      - database
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  database:
+    external: true
+  proxy:
+    external: true

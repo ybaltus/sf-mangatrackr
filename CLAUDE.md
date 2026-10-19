@@ -16,6 +16,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - Qualité : `make qa-php-stan`, `make qa-php-cs-fixer`, `make qa-all`
 - Symfony : `make sf-cc` (cache), `make sf-mm` (créer une migration), `make sf-dmm` (exécuter les migrations), `make sf-dfl` (fixtures)
 - Assets : `make npm-dev`, `make npm-watch`, `make npm-build`
+- Production (sur la VM `apps-dev` uniquement) : `make prod-deploy ARGS="--dry-run|--migrate|--rollback"`, `make prod-check`, `make prod-backup` (scripts `deploy/`, doc `docs/deploiement/apps-dev.md`, ADR 0015)
 
 ## Conventions
 - `src/` → namespace `App\`, `tests/` → `App\Tests\`
@@ -34,6 +35,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 - Ne jamais modifier une migration déjà commitée : en générer une nouvelle avec `make sf-mm`.
 - Avant de déclarer une tâche terminée : `make qa-php-stan` et `make test-only` doivent passer.
 - Les secrets vont dans `.env.local` (non versionné), jamais dans `.env`.
+- `docker/docker.sh` et `docker/Dockerfile` : dev/démo uniquement, jamais en production (`docker/Dockerfile.prod` + `compose.prod.yaml` + `deploy/`).
 - Branche de travail `dev`, PR vers `main`.
 
 ## Points d'attention
@@ -55,7 +57,7 @@ Application web Symfony 6.4 de suivi de lecture de mangas (scanthèque, calendri
 ## Chantiers (travaux en plusieurs sessions)
 - La session principale pilote en chef de projet et délègue aux sous-agents de `.claude/agents/` (ADR 0011, skill `chantier`).
 - État sur disque dans `docs/chantiers/<nom>/` (`etat.md` = tableau de bord) ; index : `docs/chantiers/README.md`.
-- Aucun chantier en cours. **migration-postgresql** (MariaDB → PostgreSQL 18) : dépôt prêt et export de la base disponible ; reste l'import sur le homelab, fait par l'utilisateur (`docs/chantiers/migration-postgresql/homelab.md`).
+- Chantier en cours : **deploiement-homelab** (déploiement scripté sur la VM `apps-dev`, `docs/chantiers/deploiement-homelab/`). **migration-postgresql** (MariaDB → PostgreSQL 18) : clos, import sur le homelab fait (historique : `docs/chantiers/migration-postgresql/homelab.md`).
 
 ## Contexte détaillé
 Ces documents sont à tenir à jour. Ajouter un ADR (`docs/decisions/`) pour toute décision structurante.

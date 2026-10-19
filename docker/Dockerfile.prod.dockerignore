@@ -1,0 +1,33 @@
+# Exclusions du contexte de construction de docker/Dockerfile.prod (BuildKit : ce fichier
+# <Dockerfile>.dockerignore remplace le .dockerignore racine pour cette image).
+# Chemins relatifs à la racine du contexte (racine du dépôt).
+.git
+.git/**
+.gitignore
+.env
+.env.*
+**/.env
+**/.env.*
+vendor/
+node_modules/
+var/
+public/build/
+public/bundles/
+.php-cs-fixer.cache
+.phpunit.result.cache
+
+# Secrets, dumps et documents locaux non versionnés : ne jamais les embarquer dans l'image.
+/ressources/
+**/*.dump
+**/*.sql
+**/*.zip
+**/*.prod.env
+# Outillage de poste de dev, CI et documentation : inutiles à l'exécution (rien ne les lit
+# dans config/, src/ ni templates/ ; l'autoload de prod ne couvre que src/).
+.claude/
+.idea/
+.devcontainer/
+.github/
+docs/
+tests/
+migrations-archive-mariadb/

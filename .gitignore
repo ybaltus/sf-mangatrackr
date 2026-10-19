@@ -52,10 +52,6 @@ phpstan.neon
 ###< claude ###
 
 ###> ressources ###
-# Dumps de base (données personnelles) : jamais versionnés
-/ressources/*.sql
-/ressources/*.sql.gz
-/ressources/*.dump
-/ressources/*.dump.part
-/ressources/*.zip
+# Dumps (données personnelles), secrets de prod et documents locaux : jamais versionnés
+/ressources/
 ###< ressources ###

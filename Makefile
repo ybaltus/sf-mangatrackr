@@ -141,6 +141,16 @@ pg-export: ## Export PostgreSQL (pg_dump -Fc) vers ressources/ (donnees personne
 pg-import: ## Import d'un dump : make pg-import DUMP=ressources/x.dump CONFIRM_TARGET=hote/base
 	sh bin/pg-import.sh $(DUMP)
 
+##----------------- 🚀 Production (VM apps-dev, deploy/) 🚀 -------------#
+prod-deploy: ## Deploiement prod sur la VM : make prod-deploy ARGS="--dry-run|--migrate|--ref <ref>|--rollback"
+	bash deploy/deploy.sh $(ARGS)
+
+prod-check: ## Controle prod en lecture seule sur la VM : make prod-check
+	bash deploy/check.sh $(ARGS)
+
+prod-backup: ## Sauvegarde pg_dump de la base prod (rotation KEEP=7) : make prod-backup ARGS=--dry-run
+	bash deploy/backup.sh $(ARGS)
+
 ##----------------- 🎉 First install 🎉 -------------#
 first-install: composer-install npm-install npm-build sf-ddc sf-dmm ## First installation
 

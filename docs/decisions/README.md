@@ -20,6 +20,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0012](0012-migration-postgresql-18.md) | Migration vers PostgreSQL 18 (baseline unique, `app_user`, IDENTITY, ICU `fr`) | Acceptée |
 | [0013](0013-bascule-production-postgresql.md) | Bascule de la production vers PostgreSQL sur le homelab (maintenance, répétition, retour arrière) | Remplacée par ADR 0014 |
 | [0014](0014-bascule-homelab-simplifiee-et-retrait-mariadb.md) | Bascule simplifiée sur le homelab (`pg_dump`) et retrait de MariaDB | Acceptée |
+| [0015](0015-deploiement-compose-scripte-apps-dev.md) | Déploiement Compose scripté sur la VM apps-dev (`deploy/`, `--migrate` après `pg_dump`, retour arrière par image) | Acceptée |
 
 ## Modèle
 ```markdown
