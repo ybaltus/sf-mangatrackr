@@ -26,8 +26,11 @@ reproductible.
 - **Migrations uniquement avec `deploy.sh --migrate`**, après une sauvegarde `pg_dump -Fc`, en une
   seule transaction (`--all-or-nothing`). Sans l'option, une migration en attente arrête le
   déploiement avant tout redémarrage.
-- **Retour arrière par image** : l'image en service est retaguée `mangatrackr:prod-previous` juste
-  avant le `up` d'un déploiement (une tentative interrompue avant ne la modifie pas) ;
+- **Retour arrière par image** : l'image en service est épinglée par nom (`mangatrackr:prod-service`)
+  avant la construction (magasin containerd : l'ancienne image disparaît dès que `mangatrackr:prod`
+  est déplacé, un retag par ID échoue), puis retaguée `mangatrackr:prod-previous` par nom juste
+  avant le `up` d'un déploiement (une tentative interrompue avant ne la modifie pas ; image
+  déjà introuvable : pas de retour arrière pour ce cycle, sans échec) ;
   `deploy.sh --rollback` la remet en service. Le schéma n'est pas ramené en
   arrière : on restaure la sauvegarde prise par `--migrate`.
 - **Secrets hors dépôt** : `/opt/apps/secrets/mangatrackr.prod.env` (700/600) sur la VM, modèle

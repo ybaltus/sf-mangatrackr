@@ -27,3 +27,8 @@ Ajout seul, une ligne par événement : `- AAAA-MM-JJ | acteur | tâche | statut
 - 2026-10-18 | chef | T7 | commits + push dev | sur accord de l'utilisateur (« on pousse sur dev »), avant T6 ; PR brouillon après T6
 - 2026-10-18 | chef | T7 | push bloqué | commits 1835b57 (fix), d572031 (feat), 0f11c28 (docs) ; git push : Host key verification failed (pas de known_hosts dans le conteneur) ; push à faire par l'utilisateur
 - 2026-10-18 | chef | T7 | push dev | push fait par l'utilisateur ; vérifié : origin/dev = 0f11c28 ; en attente des sorties T6 de la VM
+- 2026-10-19 | utilisateur | T6 | lecture seule OK sur la VM | 3 diff conformes, projet sf-mangatrackr sans conteneur étranger, image en service sans ressources/, install-vm/check (10 OK)/deploy --dry-run OK ; correction chemin $SAUV dans doc §6 ; reste backup + deploy + contrôle final
+- 2026-10-19 | utilisateur | T6 | deploy.sh KO au retag | build OK, migrations OK (aucune), docker tag sha256:34a3d9… : No such image (containerd snapshotter, ancienne image absente de image ls -a) ; app/worker inchangés (ancienne image), backup fait
+- 2026-10-19 | chef | lance T6.1 → developpeur (008) : retag de prod-previous avant le build, par nom
+- 2026-10-19 | developpeur | T6.1 | partiel | deploy.sh épingle l'image en service par nom (prod-service) avant le build, plus de retag par ID (containerd) ; banc 102/102, stan OK, test-only bloqué (base injoignable) → rapports/008-developpeur-retag-containerd.md
+- 2026-10-19 | chef | T6.1 | 008 reçu | correctif prêt (102/102, shellcheck 0, PHPStan OK) ; test-only non vert ici : hôte postgres non résolu (environnement, aucun PHP modifié) ; en attente d'accord pour commit/push

@@ -102,7 +102,7 @@ seulement affichées), sont idempotents et ne font jamais `down`.
 | `install-vm.sh` | Vérifie Debian / Docker / Compose / git (n'installe rien) ; crée ce qui manque : `/opt/apps/{projects,secrets,backups}`, réseaux `database` et `proxy`, clone, fichier de secrets copié du `.dist` **s'il est absent** | 0 ok, 2 prérequis, 3 conflit |
 | `init-database.sh [--restore <dump>]` | Crée le rôle et la base `mangatrackr` (ICU `fr`, `template0`) **s'ils manquent** ; `--restore` : restaure un dump dans une base **vide** (exige `CONFIRM_TARGET=postgres/mangatrackr`, vérifié **avant** toute création : un `--restore` refusé ne crée rien) | 0, 2 config, 3 PostgreSQL, 5 cible refusée |
 | `backup.sh` | `pg_dump -Fc` vers `/opt/apps/backups/backup_mangatrackr_<date>.dump` (contrôle `pg_restore --list`, 600, jamais d'écrasement), rotation `KEEP=7` limitée à ses propres fichiers : la sauvegarde qui vient d'être écrite n'est jamais supprimée, les autres dumps du répertoire ne sont ni comptés ni supprimés | 0, 2 usage, 3 échec du dump ou nom déjà pris |
-| `deploy.sh [--ref <ref>] [--migrate]` | Préflight (projet Compose des conteneurs existants ; refus si `postgres` ou un autre conteneur que app, worker et les jetables `*-run-*` porte le label du projet), `git fetch` + checkout (arbre propre exigé), image en service relevée, `compose build`, contrôle des migrations (seul « Out-of-date! » avec le code 1 compte comme migration en attente, tout autre échec arrête le script), image en service retaguée `prod-previous` **juste avant** `up -d --wait` (sauf si l'image construite est identique : retour arrière conservé), `check.sh`. Pas de `--remove-orphans`. En `--dry-run`, une ref absente en local est cherchée sur `origin` (`git ls-remote`) | 0, 2 préflight, 3 build/base/migration, 4 contrôles KO |
+| `deploy.sh [--ref <ref>] [--migrate]` | Préflight (projet Compose des conteneurs existants ; refus si `postgres` ou un autre conteneur que app, worker et les jetables `*-run-*` porte le label du projet), `git fetch` + checkout (arbre propre exigé), image en service **épinglée par nom** (`mangatrackr:prod-service`) avant `compose build`, contrôle des migrations (seul « Out-of-date! » avec le code 1 compte comme migration en attente, tout autre échec arrête le script), image épinglée retaguée `prod-previous` (par nom) **juste avant** `up -d --wait` (sauf si l'image construite est identique : retour arrière conservé ; si l'image en service est déjà introuvable : avertissement, aucun retour arrière pour ce cycle, sans échec), `check.sh`. Pas de `--remove-orphans`. En `--dry-run`, une ref absente en local est cherchée sur `origin` (`git ls-remote`) | 0, 2 préflight, 3 build/base/migration, 4 contrôles KO |
 | `deploy.sh --rollback` | Remet `prod-previous` en `prod`, `up -d`, `check.sh` (ni schéma ni code git ramenés) | idem |
 | `check.sh` | Lecture seule : conteneurs et santé, secrets en 600, pilote `pgsql`, `SELECT current_database(), current_user`, migrations à jour, HTTP 200/301/302, aucun secret dans les 100 dernières lignes de journaux ; `bin/console` lancé en `www-data` | 0 tout OK, 1 au moins un KO, 2 usage |
 
@@ -338,6 +338,11 @@ image saine (`docker image ls`, puis `docker image rm <id>` de l'ancienne image)
 la VM, où ces secrets sont déjà présents : renouvellement nécessaire seulement si l'image a été
 copiée ailleurs (`docker save`, registre).
 
+Sur la VM (magasin containerd), la première tentative a déplacé `mangatrackr:prod` sans pouvoir
+retaguer l'ancienne image, qui n'est plus retrouvable : le prochain `deploy.sh` annonce « aucun retour
+arrière possible pour ce cycle » et déploie quand même ; `prod-previous` n'existera qu'après le
+déploiement suivant.
+
 ```bash
 deploy/install-vm.sh --dry-run   # affiche seulement ce qui serait corrigé (rien n'est créé)
 deploy/install-vm.sh             # corrige si besoin : crée /opt/apps/backups, droits 700/600 ; n'écrase rien
@@ -469,6 +474,15 @@ deploy/deploy.sh --rollback
   redonne la même image, message « image inchangée », ne la modifie pas) et relance `up -d` puis `check.sh`. Un seul niveau
   de retour. Une tentative interrompue avant `up` (migration en attente, échec du build, de la
   sauvegarde ou de la migration) ne modifie pas `prod-previous`.
+- Magasin d'images containerd (Docker 29, `io.containerd.snapshotter.v1`) : dès que le dernier
+  tag d'une image est déplacé, elle disparaît de `docker image ls -a` et son ID n'est plus
+  utilisable (`No such image: sha256:...`), même si des conteneurs tournent dessus. `deploy.sh`
+  épingle donc l'image en service sous le tag `mangatrackr:prod-service` **avant** `compose build`
+  et ne retague jamais par ID. Si, au lancement, l'image du conteneur est déjà introuvable (tag
+  `prod` déjà déplacé par un build ou un déploiement interrompu), le script le dit
+  (« aucun retour arrière possible pour ce cycle »), ne touche pas `prod-previous` et déploie quand
+  même : le cycle suivant retrouvera un retour arrière. Le tag `prod-service` reste en place après le
+  déploiement (il épingle l'image du déploiement précédent, jusqu'au suivant).
 - Si `check.sh` échoue après un retour arrière, le script ne reconseille pas `--rollback` :
   passer au dépannage (section 9) ou à la restauration (7.5).
 - **Limite : le schéma n'est pas ramené en arrière.** Si le déploiement fautif a migré la base et
@@ -503,6 +517,7 @@ et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
 | `deploy.sh` : « appartient au projet Compose ... » (code 2) | Conteneurs créés sous un autre nom de projet : relancer avec `COMPOSE_PROJECT_NAME=<nom indiqué>` (section 6). Si c'est `postgres` qui est cité : ne pas contourner (section 6) |
 | `deploy.sh` : « conteneur(s) étranger(s) dans le projet Compose » (code 2) | Un autre conteneur porte le label du projet : identifier son origine (`docker inspect`) ; ne pas contourner |
 | `deploy.sh` : « image inchangée » | Normal : la construction a redonné l'image en service (aucun changement du contexte) ; `prod-previous` est conservé |
+| `deploy.sh` : « aucun retour arrière possible pour ce cycle » | L'image du conteneur en service n'existe plus (magasin containerd, tag déplacé). Le déploiement continue ; `prod-previous` n'est pas modifié. Après ce déploiement, le retour arrière redevient possible (voir 7.7) |
 | `deploy.sh` : « up-to-date en erreur » (code 3) | La console a échoué (exception, configuration) : lire la sortie affichée ; rien n'a été migré ni redémarré |
 | `deploy.sh --dry-run` : « ref inconnue » | La ref n'existe ni en local ni sur `origin` (`git ls-remote origin`) ; un commit non récupéré ne peut pas être vérifié en dry-run |
 | `backup.sh` : « existe déjà » (code 3) | Deux sauvegardes dans la même seconde : relancer |
