@@ -1,6 +1,6 @@
 # État — deploiement-homelab
 
-Dernière mise à jour : 2026-10-19 (chef de projet, T6 étapes lecture seule OK)
+Dernière mise à jour : 2026-10-19 (chef de projet, T6 déploiement réussi sur la VM)
 
 **Phase courante** : 5 (livraison) — essai sur la VM par l'utilisateur.
 
@@ -12,11 +12,11 @@ Dernière mise à jour : 2026-10-19 (chef de projet, T6 étapes lecture seule OK
 | T3 | Documentation de réinstallation `docs/deploiement/apps-dev.md` + ADR 0015 | developpeur | T2 | terminé (3 incohérences T2 signalées : rotation backup.sh, en-tête .dist, make absent) | `rapports/002-developpeur-documentation.md` |
 | T4 | Tests simulés des scripts + QA | testeur | T2 | terminé (0 bloquant, 2 majeurs M1/M2, 7 mineurs) ; corrigés en T4.1 (rejeu 64/64, QA verte) → `rapports/004-developpeur-corrections-t4.md` | `rapports/003-testeur-tests-scripts.md` |
 | T5 | Revue | relecteur | T3, T4 | terminé — validé avec réserves (0 bloquant, 3 majeurs, 10 mineurs) ; T5.1 corrigé (rejeu 83/83, QA verte, `rapports/006-developpeur-corrections-revue.md`) ; contre-revue : prêt à commiter (r1 doc corrigé par le chef, r2 sans effet) → `rapports/007-relecteur-contre-revue.md` | `rapports/005-relecteur-revue-deploiement.md` |
-| T6 | Essai `check.sh` / `--dry-run` sur la VM (doc §6) | utilisateur | push `dev` | en attente : T6.1 corrigé localement (non commité), à pousser puis relancer deploy.sh sur la VM ; backup 20261019-112715 fait, conteneurs inchangés | — |
+| T6 | Essai `check.sh` / `--dry-run` sur la VM (doc §6) | utilisateur | push `dev` | terminé (déploiement b99e5fa, check 10/10, contrôles fonctionnels §8 validés par l’utilisateur) ; prod-previous créé au 2e déploiement | — |
 | T7 | Commits + push `dev` (avant T6), puis PR brouillon → `main` après T6 | chef (sur accord explicite) | T5 | push `dev` fait (0f11c28) ; PR brouillon après T6 | — |
 
 ## Blocages
-- T6.1 : correctif deploy.sh (prod-service épinglé avant le build) prêt, banc 102/102, shellcheck et PHPStan OK ; non vérifié sur un vrai containerd ; make test-only non rejoué ici (hôte postgres non résolu dans ce conteneur). Rapport 008. Pas de retour arrière par image pour le prochain déploiement de la VM.
+- Aucun. Réserves : pas de prod-previous avant le 2e déploiement ; `make test-only` non rejoué ici (hôte postgres non résolu) ; correctif containerd confirmé sur la VM.
 
 ## Décisions prises
 - 2026-10-18 : nouveau chantier (migration-postgresql clos) ; migrations seulement avec `--migrate`
@@ -31,5 +31,5 @@ Dernière mise à jour : 2026-10-19 (chef de projet, T6 étapes lecture seule OK
 - `compose config` sans `--quiet` affiche les secrets.
 
 ## Prochaine action
-1. (Utilisateur) T6 sur la VM : doc `docs/deploiement/apps-dev.md` §6 (labels Compose, `ressources/` dans l'image, `check.sh`, `deploy.sh --dry-run`) ; retour des sorties sans secrets.
-2. (Chef) Selon T6 : corrections, puis PR brouillon `dev` → `main` sur accord.
+1. (Chef, sur accord) commit de ce suivi, push `dev`, puis PR brouillon `dev` → `main`.
+2. (Utilisateur) 2e déploiement scripté, à la prochaine version : crée `prod-previous` (l’ancienne image est déjà perdue, rien à supprimer). Clôture : dette technique + index des chantiers.

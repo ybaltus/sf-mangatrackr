@@ -32,3 +32,5 @@ Ajout seul, une ligne par événement : `- AAAA-MM-JJ | acteur | tâche | statut
 - 2026-10-19 | chef | lance T6.1 → developpeur (008) : retag de prod-previous avant le build, par nom
 - 2026-10-19 | developpeur | T6.1 | partiel | deploy.sh épingle l'image en service par nom (prod-service) avant le build, plus de retag par ID (containerd) ; banc 102/102, stan OK, test-only bloqué (base injoignable) → rapports/008-developpeur-retag-containerd.md
 - 2026-10-19 | chef | T6.1 | 008 reçu | correctif prêt (102/102, shellcheck 0, PHPStan OK) ; test-only non vert ici : hôte postgres non résolu (environnement, aucun PHP modifié) ; en attente d'accord pour commit/push
+- 2026-10-19 | utilisateur | T6 | deploy.sh réussi sur la VM (b99e5fa) | build OK, aucune migration, app healthy, check.sh 10/10, /var/www/ressources absent de l'image ; correctif T6.1 confirmé sur containerd ; prod-previous non créé (ancienne image perdue)
+- 2026-10-19 | utilisateur | T6 | terminé | contrôles fonctionnels §8 validés ; reste PR brouillon (sur accord) et clôture du chantier
