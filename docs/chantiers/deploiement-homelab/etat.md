@@ -13,7 +13,7 @@ Dernière mise à jour : 2026-10-19 (chef de projet, T6 déploiement réussi sur
 | T4 | Tests simulés des scripts + QA | testeur | T2 | terminé (0 bloquant, 2 majeurs M1/M2, 7 mineurs) ; corrigés en T4.1 (rejeu 64/64, QA verte) → `rapports/004-developpeur-corrections-t4.md` | `rapports/003-testeur-tests-scripts.md` |
 | T5 | Revue | relecteur | T3, T4 | terminé — validé avec réserves (0 bloquant, 3 majeurs, 10 mineurs) ; T5.1 corrigé (rejeu 83/83, QA verte, `rapports/006-developpeur-corrections-revue.md`) ; contre-revue : prêt à commiter (r1 doc corrigé par le chef, r2 sans effet) → `rapports/007-relecteur-contre-revue.md` | `rapports/005-relecteur-revue-deploiement.md` |
 | T6 | Essai `check.sh` / `--dry-run` sur la VM (doc §6) | utilisateur | push `dev` | terminé (déploiement b99e5fa, check 10/10, contrôles fonctionnels §8 validés par l’utilisateur) ; prod-previous créé au 2e déploiement | — |
-| T7 | Commits + push `dev` (avant T6), puis PR brouillon → `main` après T6 | chef (sur accord explicite) | T5 | push `dev` fait (0f11c28) ; PR brouillon après T6 | — |
+| T7 | Commits + push `dev` (avant T6), puis PR brouillon → `main` après T6 | chef (sur accord explicite) | T5 | push `dev` fait (48c4507) ; PR brouillon #20 ouverte (https://github.com/ybaltus/sf-mangatrackr/pull/20) | — |
 
 ## Blocages
 - Aucun. Réserves : pas de prod-previous avant le 2e déploiement ; `make test-only` non rejoué ici (hôte postgres non résolu) ; correctif containerd confirmé sur la VM.
