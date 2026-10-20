@@ -538,6 +538,7 @@ et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
 | `app` reste en `starting` / `unhealthy` | `docker inspect --format '{{json .State.Health}}' mangatrackr_app_prod` ; journaux `app` ; `deploy.sh --rollback` si une version vient d'être déployée |
 | « un autre déploiement est en cours » | Un `deploy.sh` tourne déjà (verrou `.git/mangatrackr-deploy.lock`) : attendre sa fin |
 | Dépréciation `symfony/ux-toggle-password` 2.29 | Connue, sans effet sur le démarrage ; à traiter dans un chantier à part (dette technique) |
+| Après un redémarrage de la VM : `app` absent, ou 500 `could not translate host name "postgres"` | Voir 9.1 |
 | Google OAuth refuse `http://192.168.1.29:8080/oauth/callback/google` | Attendu : Google exige un domaine valide. Reporté (section 11) ; ne pas modifier les URI au hasard |
 
 Commande de lecture utile (base et rôle vus par l'application) :
@@ -545,6 +546,38 @@ Commande de lecture utile (base et rôle vus par l'application) :
 ```bash
 docker exec -u www-data mangatrackr_app_prod php bin/console dbal:run-sql 'SELECT current_database(), current_user' --env=prod --no-debug
 ```
+
+### 9.1. Redémarrage de la VM : `app` ne démarre pas ou ne voit pas `postgres`
+Incident du 2026-10-20. Cause : `dhcpcd` (via `ifupdown`) pose l'IPv6 puis fait l'ARP probing de
+l'IPv4 (environ 3 s) alors que `network-online.target` est déjà atteint. Docker redémarre `app`
+avant que `192.168.1.29` existe : le bind du port 8080 échoue (`Exited (128)`, `cannot assign
+requested address`) et le conteneur reste rattaché au seul réseau `proxy` (sans `database`), d'où
+`could not translate host name "postgres"` et des 500, même après un simple `docker start`.
+
+Correctif installé sur la VM (hors dépôt, à refaire sur une VM réinstallée) :
+1. `/etc/network/interfaces` : `auto ens18` à la place de `allow-hotplug ens18` (sauvegarde
+   `interfaces.bak-2026-10-20`). Effet au prochain démarrage seulement (ne pas relancer
+   `networking` en SSH).
+2. `/usr/local/sbin/wait-ip.sh` (755) : boucle jusqu'à ce que `ip -4 -o addr show dev ens18`
+   contienne l'adresse (défaut `192.168.1.29`, 60 s), journalise `wait-ip: ... present after Ns`,
+   sort toujours en 0.
+3. `/etc/systemd/system/docker.service.d/wait-ip.conf`, puis `systemctl daemon-reload` :
+   ```ini
+   [Service]
+   ExecStartPre=/usr/local/sbin/wait-ip.sh 192.168.1.29 60
+   TimeoutStartSec=90
+   ```
+   Un `sh -c` imbriqué avec guillemets dans `ExecStartPre` n'a pas fonctionné (retour immédiat) :
+   garder un script.
+
+Contrôle après redémarrage : `sudo journalctl -b -u docker | grep wait-ip`, `app` `healthy`, HTTP 200.
+
+Reprise manuelle si `app` est resté sans le réseau `database` (vérifier avec `docker inspect`) :
+```bash
+docker compose -f compose.prod.yaml up -d --no-deps --force-recreate app
+```
+Un `up -d --no-deps app` seul ne recrée pas un conteneur existant : il faut `--force-recreate`.
+Ne jamais utiliser `down`, ne pas toucher à `postgres`.
 
 ## 10. Sécurité
 - Secrets : `/opt/apps/secrets` en 700, `mangatrackr.prod.env` en 600 ; jamais versionnés
