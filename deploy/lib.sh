@@ -41,6 +41,11 @@ esac
 : "${IMAGE_PREVIOUS:=mangatrackr:prod-previous}"
 : "${REPO_URL:=https://github.com/ybaltus/sf-mangatrackr}"
 : "${NETWORKS:=database proxy}"
+# Attente de l'IPv4 de publication avant le démarrage de Docker (deploy/wait-ip.sh, install-vm.sh).
+: "${WAIT_IFACE:=ens18}"
+: "${WAIT_TIMEOUT:=60}"
+: "${WAIT_SCRIPT:=/usr/local/sbin/wait-ip.sh}"
+: "${WAIT_DROPIN:=/etc/systemd/system/docker.service.d/wait-ip.conf}"
 # Superutilisateur du conteneur PostgreSQL (vide = $POSTGRES_USER du conteneur, sinon postgres).
 : "${PG_SUPERUSER:=}"
 
