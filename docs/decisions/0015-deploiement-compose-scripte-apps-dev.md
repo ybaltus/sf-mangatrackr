@@ -66,3 +66,11 @@ reproductible.
 - Les scripts n'ont pas pu être exécutés contre un vrai Docker dans le devcontainer : essai
   `--dry-run` sur la VM par l'utilisateur avant le premier usage réel.
 - Reportés : reverse proxy HTTPS, domaine et Google OAuth.
+
+## Mise à jour du 2026-10-20 : démarrage après reboot
+Panne constatée au redémarrage de la VM : `dhcpcd` (ifupdown) pose l'IPv4 environ 3 s après
+`network-online.target`, Docker relance `app` avant, le bind de `192.168.1.29:8080` échoue et
+le conteneur reste sans réseau `database`. Décision : `deploy/wait-ip.sh` (versionné) est
+installé par `install-vm.sh` avec un drop-in `docker.service.d` (`ExecStartPre`), de façon
+idempotente et sans redémarrer Docker ; le passage de `ens18` en `auto` reste manuel (risque en
+SSH). Détail et reprise : `docs/deploiement/apps-dev.md`, sections 5.2 bis et 9.1.
