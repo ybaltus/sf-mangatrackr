@@ -11,6 +11,11 @@
 #   - le clone du dépôt $REPO_URL dans $PROJECT_DIR (branche REPO_BRANCH si définie) ;
 #   - le fichier de secrets $ENV_FILE (600), copié depuis deploy/mangatrackr.prod.env.dist
 #     UNIQUEMENT s'il est absent (jamais écrasé) : il faut ensuite remplir ses valeurs.
+#   - le démarrage fiable après reboot (sudo requis) : copie deploy/wait-ip.sh vers $WAIT_SCRIPT
+#     et écrit le drop-in systemd $WAIT_DROPIN (Docker attend que l'IPv4 de $MANGATRACKR_BIND soit
+#     posée sur $WAIT_IFACE), puis `systemctl daemon-reload`. Ne redémarre PAS Docker : effet au
+#     prochain démarrage. Seul un contrôle en lecture seule signale `allow-hotplug` dans
+#     /etc/network/interfaces (à passer en `auto` à la main : docs/deploiement/apps-dev.md, 5.2 bis).
 # Ne crée, ne modifie ni ne redémarre jamais le conteneur PostgreSQL ($PG_CONTAINER).
 # Une deuxième exécution n'affiche que « déjà en place ».
 #
@@ -135,6 +140,50 @@ check_env_file() {
   fi
 }
 
+check_boot_wait() {
+  log "Démarrage fiable après reboot (Docker attend l'IPv4 de publication)"
+  local ip=${MANGATRACKR_BIND%%:*} src="$DEPLOY_DIR/wait-ip.sh" sudo='' want changed=0
+  if ! [[ $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || [[ $ip == 0.0.0.0 || $ip == 127.* ]]; then
+    ok "MANGATRACKR_BIND ($MANGATRACKR_BIND) sans adresse dédiée : rien à attendre"
+    return 0
+  fi
+  [ -f "$src" ] || die "script introuvable : $src" 2
+  if ! command -v systemctl >/dev/null 2>&1; then
+    warn "systemctl absent : attente de l'IP non installée"
+    return 0
+  fi
+  [ "$(id -u)" = 0 ] || { require_cmd sudo; sudo=sudo; }
+
+  if [ -r /etc/network/interfaces ] \
+    && grep -qE "^[[:space:]]*allow-hotplug[[:space:]]+$WAIT_IFACE([[:space:]]|$)" /etc/network/interfaces; then
+    warn "$WAIT_IFACE est en allow-hotplug dans /etc/network/interfaces : passer en « auto » (doc 5.2 bis), effet au prochain démarrage"
+  fi
+
+  if cmp -s "$src" "$WAIT_SCRIPT"; then
+    ok "$WAIT_SCRIPT déjà en place"
+  else
+    log "installation de $WAIT_SCRIPT"
+    run $sudo install -m 755 "$src" "$WAIT_SCRIPT"
+    changed=1
+  fi
+
+  want=$(printf '%s\n' '[Service]' \
+    "ExecStartPre=$WAIT_SCRIPT $ip $WAIT_TIMEOUT $WAIT_IFACE" \
+    "TimeoutStartSec=$((WAIT_TIMEOUT + 30))")
+  if [ "$(cat "$WAIT_DROPIN" 2>/dev/null || true)" = "$want" ]; then
+    ok "$WAIT_DROPIN déjà en place"
+  else
+    log "écriture de $WAIT_DROPIN"
+    run $sudo mkdir -p "$(dirname "$WAIT_DROPIN")"
+    printf '%s\n' "$want" | run $sudo tee "$WAIT_DROPIN" >/dev/null
+    changed=1
+  fi
+  if [ "$changed" = 1 ]; then
+    run $sudo systemctl daemon-reload
+    warn "Docker n'est pas redémarré : l'attente de l'IP s'appliquera au prochain démarrage de la VM"
+  fi
+}
+
 main() {
   while [ $# -gt 0 ]; do
     case "$1" in
@@ -151,6 +200,7 @@ main() {
   check_networks
   check_clone
   check_env_file
+  check_boot_wait
   log "Terminé. Suite : remplir $ENV_FILE, deploy/init-database.sh, puis deploy/deploy.sh."
 }
 

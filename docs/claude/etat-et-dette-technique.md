@@ -78,6 +78,7 @@ Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 | Sujet | Détail | Rapport |
 |---|---|---|
 | HTTPS et Google OAuth | Pas de reverse proxy ni de domaine : application en HTTP sur `192.168.1.29:8080` (LAN) ; Google refuse l'URI de redirection sur IP privée, connexion Google non fonctionnelle en prod. Chantier à part (proxies de confiance, URL canonique, URI OAuth) | 002 |
+| Redémarrage de la VM `apps-dev` | Panne du 2026-10-20 (course DHCP/Docker, `app` sans réseau `database`) corrigée et validée par un redémarrage : `auto ens18` (manuel, doc 5.2 bis) + `deploy/wait-ip.sh` et drop-in `docker` installés par `install-vm.sh` (doc 9.1, ADR 0015). Reste à rejouer `install-vm.sh` sur la VM (aligne le script et le drop-in sur la version du dépôt) ; pas de supervision ni d'alerte si `app` est arrêté | — |
 | `symfony/ux-toggle-password` 2.29 | Dépréciation constatée au démarrage en prod (paquet abandonné, voir plus haut) ; à remplacer dans un chantier à part | 002 |
 | Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
 | Sauvegardes | `deploy/backup.sh` écrit sur la VM seulement (rotation 7, non chiffré) : copie hors VM à organiser ; test de restauration (procédure 7.6 de la doc) à planifier et à répéter. Remplacement d'une base non vide : manuel (renommage, doc 7.5) | 001, 002 |

@@ -100,7 +100,8 @@ seulement affichées), sont idempotents et ne font jamais `down`.
 
 | Script | Rôle | Codes de sortie |
 |---|---|---|
-| `install-vm.sh` | Vérifie Debian / Docker / Compose / git (n'installe rien) ; crée ce qui manque : `/opt/apps/{projects,secrets,backups}`, réseaux `database` et `proxy`, clone, fichier de secrets copié du `.dist` **s'il est absent** | 0 ok, 2 prérequis, 3 conflit |
+| `install-vm.sh` | Vérifie Debian / Docker / Compose / git (n'installe rien) ; crée ce qui manque : `/opt/apps/{projects,secrets,backups}`, réseaux `database` et `proxy`, clone, fichier de secrets copié du `.dist` **s'il est absent** ; installe (avec `sudo`) `wait-ip.sh` et le drop-in `docker` (section 9.1), sans redémarrer Docker | 0 ok, 2 prérequis, 3 conflit |
+| `wait-ip.sh [adresse] [délai] [interface]` | Copié dans `/usr/local/sbin` par `install-vm.sh` ; appelé par systemd avant Docker : attend que l'IPv4 de publication soit posée, sort toujours en 0 | 0 |
 | `init-database.sh [--restore <dump>]` | Crée le rôle et la base `mangatrackr` (ICU `fr`, `template0`) **s'ils manquent** ; `--restore` : restaure un dump dans une base **vide** (exige `CONFIRM_TARGET=postgres/mangatrackr`, vérifié **avant** toute création : un `--restore` refusé ne crée rien) | 0, 2 config, 3 PostgreSQL, 5 cible refusée |
 | `backup.sh` | `pg_dump -Fc` vers `/opt/apps/backups/backup_mangatrackr_<date>.dump` (contrôle `pg_restore --list`, 600, jamais d'écrasement), rotation `KEEP=7` limitée à ses propres fichiers : la sauvegarde qui vient d'être écrite n'est jamais supprimée, les autres dumps du répertoire ne sont ni comptés ni supprimés | 0, 2 usage, 3 échec du dump ou nom déjà pris |
 | `deploy.sh [--ref <ref>] [--migrate]` | Préflight (projet Compose des conteneurs existants ; refus si `postgres` ou un autre conteneur que app, worker et les jetables `*-run-*` porte le label du projet), `git fetch` + checkout (arbre propre exigé), image en service **épinglée par nom** (`mangatrackr:prod-service`) avant `compose build`, contrôle des migrations (seul « Out-of-date! » avec le code 1 compte comme migration en attente, tout autre échec arrête le script), image épinglée retaguée `prod-previous` (par nom) **juste avant** `up -d --wait` (sauf si l'image construite est identique : retour arrière conservé ; si l'image en service est déjà introuvable : avertissement, aucun retour arrière pour ce cycle, sans échec), `check.sh`. Pas de `--remove-orphans`. En `--dry-run`, une ref absente en local est cherchée sur `origin` (`git ls-remote`) | 0, 2 préflight, 3 build/base/migration, 4 contrôles KO |
@@ -148,6 +149,22 @@ docker --version && docker compose version && docker info >/dev/null && echo OK
 
 Le groupe `docker` donne l'équivalent des droits root : le réserver à l'administrateur.
 
+### 5.2 bis. Démarrage fiable après reboot
+Sans ce réglage, la VM neuve reproduit la panne du 2026-10-20 (section 9.1) : Docker relance `app`
+avant que l'IPv4 DHCP soit posée et le bind de `192.168.1.29:8080` échoue. Deux parties :
+
+1. **À la main, avant le premier redémarrage** : l'installateur Debian met en général
+   `allow-hotplug ens18`, que `network-online.target` n'attend pas. Passer en `auto` (le changement
+   ne s'applique qu'au démarrage suivant ; ne pas relancer `networking` en SSH) :
+   ```bash
+   sudo cp /etc/network/interfaces /etc/network/interfaces.bak-$(date +%F)
+   sudo sed -i 's/^allow-hotplug ens18/auto ens18/' /etc/network/interfaces
+   grep -n ens18 /etc/network/interfaces
+   ```
+2. **Par `deploy/install-vm.sh`** (étape 5.4) : installe `deploy/wait-ip.sh` dans
+   `/usr/local/sbin` et le drop-in `docker.service.d/wait-ip.conf`. `install-vm.sh` signale
+   (avertissement) un `allow-hotplug` encore présent.
+
 ### 5.3. Prérequis : PostgreSQL 18 mutualisé
 Le conteneur `postgres` n'est **ni créé ni géré par les scripts** de ce dépôt ; il relève de la
 documentation séparée du service mutualisé (`/opt/apps/postgres/`, hors dépôt). Avant
@@ -179,6 +196,9 @@ deploy/install-vm.sh --dry-run
 deploy/install-vm.sh
 deploy/install-vm.sh            # deuxième passage : uniquement « déjà en place »
 ```
+
+L'étape d'attente de l'IP (5.2 bis) demande `sudo` (mot de passe) ; elle n'a d'effet qu'au prochain
+démarrage de la VM. Après le premier redémarrage : contrôle de la section 9.1.
 
 ### 5.5. Fichier de secrets
 `install-vm.sh` a copié le modèle en `/opt/apps/secrets/mangatrackr.prod.env` (600). Remplacer
@@ -538,6 +558,7 @@ et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
 | `app` reste en `starting` / `unhealthy` | `docker inspect --format '{{json .State.Health}}' mangatrackr_app_prod` ; journaux `app` ; `deploy.sh --rollback` si une version vient d'être déployée |
 | « un autre déploiement est en cours » | Un `deploy.sh` tourne déjà (verrou `.git/mangatrackr-deploy.lock`) : attendre sa fin |
 | Dépréciation `symfony/ux-toggle-password` 2.29 | Connue, sans effet sur le démarrage ; à traiter dans un chantier à part (dette technique) |
+| Après un redémarrage de la VM : `app` absent, ou 500 `could not translate host name "postgres"` | Voir 9.1 |
 | Google OAuth refuse `http://192.168.1.29:8080/oauth/callback/google` | Attendu : Google exige un domaine valide. Reporté (section 11) ; ne pas modifier les URI au hasard |
 
 Commande de lecture utile (base et rôle vus par l'application) :
@@ -545,6 +566,40 @@ Commande de lecture utile (base et rôle vus par l'application) :
 ```bash
 docker exec -u www-data mangatrackr_app_prod php bin/console dbal:run-sql 'SELECT current_database(), current_user' --env=prod --no-debug
 ```
+
+### 9.1. Redémarrage de la VM : `app` ne démarre pas ou ne voit pas `postgres`
+Incident du 2026-10-20. Cause : `dhcpcd` (via `ifupdown`) pose l'IPv6 puis fait l'ARP probing de
+l'IPv4 (environ 3 s) alors que `network-online.target` est déjà atteint. Docker redémarre `app`
+avant que `192.168.1.29` existe : le bind du port 8080 échoue (`Exited (128)`, `cannot assign
+requested address`) et le conteneur reste rattaché au seul réseau `proxy` (sans `database`), d'où
+`could not translate host name "postgres"` et des 500, même après un simple `docker start`.
+
+Correctif (versionné, installé par `deploy/install-vm.sh`, voir 5.2 bis) :
+1. `/etc/network/interfaces` : `auto ens18` à la place de `allow-hotplug ens18` (**à la main**,
+   sauvegarde `interfaces.bak-<date>`). Effet au prochain démarrage seulement (ne pas relancer
+   `networking` en SSH).
+2. `/usr/local/sbin/wait-ip.sh` (755, copie de `deploy/wait-ip.sh`) : boucle jusqu'à ce que
+   `ip -4 -o addr show dev ens18` contienne l'adresse (défaut `192.168.1.29`, 60 s), journalise
+   `wait-ip: ... present after Ns`, sort toujours en 0.
+3. `/etc/systemd/system/docker.service.d/wait-ip.conf`, puis `systemctl daemon-reload` :
+   ```ini
+   [Service]
+   ExecStartPre=/usr/local/sbin/wait-ip.sh 192.168.1.29 60 ens18
+   TimeoutStartSec=90
+   ```
+   Un `sh -c` imbriqué avec guillemets dans `ExecStartPre` n'a pas fonctionné (retour immédiat) :
+   garder un script. L'adresse, l'interface et le délai viennent de `MANGATRACKR_BIND`,
+   `WAIT_IFACE` et `WAIT_TIMEOUT` (`deploy/lib.sh`). Relancer `deploy/install-vm.sh` met à jour
+   le script et le drop-in s'ils diffèrent.
+
+Contrôle après redémarrage : `sudo journalctl -b -u docker | grep wait-ip`, `app` `healthy`, HTTP 200.
+
+Reprise manuelle si `app` est resté sans le réseau `database` (vérifier avec `docker inspect`) :
+```bash
+docker compose -f compose.prod.yaml up -d --no-deps --force-recreate app
+```
+Un `up -d --no-deps app` seul ne recrée pas un conteneur existant : il faut `--force-recreate`.
+Ne jamais utiliser `down`, ne pas toucher à `postgres`.
 
 ## 10. Sécurité
 - Secrets : `/opt/apps/secrets` en 700, `mangatrackr.prod.env` en 600 ; jamais versionnés
