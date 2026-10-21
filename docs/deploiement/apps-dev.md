@@ -125,6 +125,17 @@ sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y git curl make openssl
 ```
 
+Interface réseau de la VM : `net0` avec `firewall=1` (VMID actuel `200`, MAC `BC:24:11:93:CA:6E` : la
+réservation DHCP de la Livebox pour `192.168.1.29` y est liée, donc la reprendre à la recréation).
+
+### 5.1 bis. Pare-feu Proxmox de la VM (ADR 0016)
+Pare-feu **Proxmox** (pas de `ufw` dans la VM : Docker le contournerait), politique entrante `DROP` :
+le 8080 n'est ouvert qu'au reverse proxy `192.168.1.14` et à l'IP du poste d'administration
+(secours), le SSH au LAN, le ping au LAN ; pas de 80/443, PostgreSQL jamais publié.
+**La source de vérité est le dépôt `proxy-setup`** (la VM `proxy-caddy` et tout ce qui en découle) :
+`proxmox/apps-dev-firewall.sh` et `APPS-DEV.md` §7 (règles, commande de recréation, activation,
+contrôles, retour arrière). Ne pas dupliquer les règles ici.
+
 ### 5.2. Docker
 Docker Engine et le plugin Compose depuis le dépôt officiel Docker pour Debian (Docker Desktop
 inutile ; versions relevées en 2026-10 : Engine 29.8.1, Compose v5.5.1) :
@@ -623,5 +634,6 @@ Reverse proxy : VM `proxy-caddy` (192.168.1.14, domaine `mangasync.labytech.fr`)
 - Console Google : ajouter l'URI de redirection `https://mangasync.labytech.fr/oauth/callback/google`.
 - Contrôle depuis `proxy-caddy` : `curl -skI --resolve mangasync.labytech.fr:443:127.0.0.1
   https://mangasync.labytech.fr/login` : `Location` en `https://`, `Set-Cookie` avec `Secure`.
-- Pare-feu Proxmox de `apps-dev` en dernier : 8080 limité à 192.168.1.14 et à l'IP d'admin.
+- Pare-feu Proxmox de `apps-dev` en dernier (règles et activation : §5.1 bis) : 8080 limité à
+  192.168.1.14 et à l'IP d'admin.
 - Bascule DNS (Hostinger) et redirection Livebox : à part, elle coupe le site actuel.
