@@ -77,7 +77,7 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 | Sujet | Détail | Rapport |
 |---|---|---|
-| HTTPS et Google OAuth | Pas de reverse proxy ni de domaine : application en HTTP sur `192.168.1.29:8080` (LAN) ; Google refuse l'URI de redirection sur IP privée, connexion Google non fonctionnelle en prod. Chantier à part (proxies de confiance, URL canonique, URI OAuth) | 002 |
+| HTTPS et Google OAuth | Code prêt (ADR 0016, 2026-10-21 : `TRUSTED_PROXIES`, `DEFAULT_URI`, `mod_remoteip`), non déployé. Reste : variables dans le fichier de secrets de `apps-dev`, rebuild, URI Google, pare-feu Proxmox `apps-dev`, bascule DNS + Livebox | 002 |
 | Redémarrage de la VM `apps-dev` | Panne du 2026-10-20 (course DHCP/Docker, `app` sans réseau `database`) corrigée et validée par un redémarrage : `auto ens18` (manuel, doc 5.2 bis) + `deploy/wait-ip.sh` et drop-in `docker` installés par `install-vm.sh` (doc 9.1, ADR 0015). `install-vm.sh` rejoué sur la VM le 2026-10-20 (PR #23). Reste : pas de supervision ni d'alerte si `app` est arrêté | — |
 | `symfony/ux-toggle-password` 2.29 | Dépréciation constatée au démarrage en prod (paquet abandonné, voir plus haut) ; à remplacer dans un chantier à part | 002 |
 | Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
