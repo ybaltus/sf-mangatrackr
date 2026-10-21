@@ -1,0 +1,16 @@
+# Sauvegarde quotidienne de la base MangaTrackr, puis copie vers le NAS (deploy/backup-offsite.sh).
+# Installation (docs/deploiement/apps-dev.md §7.4) : copier ce fichier et le timer dans
+# /etc/systemd/system/, créer /etc/mangatrackr-backup.env (OFFSITE_REMOTE=...), puis
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mangatrackr-backup.timer
+[Unit]
+Description=Sauvegarde MangaTrackr (pg_dump) et copie vers le NAS
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+User=ybaltus
+WorkingDirectory=/opt/apps/projects/sf-mangatrackr
+EnvironmentFile=-/etc/mangatrackr-backup.env
+ExecStart=/opt/apps/projects/sf-mangatrackr/deploy/backup.sh
+ExecStart=/opt/apps/projects/sf-mangatrackr/deploy/backup-offsite.sh
