@@ -568,6 +568,39 @@ deploy/deploy.sh                       # construit l'image sur la nouvelle base
 deploy/check.sh                        # « version de PHP = docker/Dockerfile.prod » doit être OK
 ```
 
+### 7.9. Tâches planifiées (API)
+
+Remplacent les cron de Hostinger, en exécutant les commandes dans le conteneur `app`, en `www-data` :
+
+| Timer | Commande | Passages (heure de la VM) |
+|---|---|---|
+| `mangatrackr-calendar` | `api:manga-updates calendar` | toutes les 4 h (00:00, 04:00, …, 20:00) et 23:45 |
+| `mangatrackr-tenrai` | `api:tenrai --top-mangas --latest-mangas` | 17:00 |
+
+`api:manga-updates calendar` ne demande que les sorties **du jour** : le passage de 23:45
+rattrape celles publiées après 20:00 (il remplace celui de 22:40 sur Hostinger). Le cron Tenrai
+de Hostinger passait `--latest-manga`, une option inexistante : il échouait à chaque passage.
+
+```bash
+sudo cp deploy/systemd/mangatrackr-calendar.service deploy/systemd/mangatrackr-calendar.timer \
+        deploy/systemd/mangatrackr-tenrai.service deploy/systemd/mangatrackr-tenrai.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now mangatrackr-calendar.timer mangatrackr-tenrai.timer
+systemctl list-timers 'mangatrackr-*' --no-pager
+```
+
+Lancement manuel et suivi :
+
+```bash
+sudo systemctl start mangatrackr-calendar.service      # ou mangatrackr-tenrai.service
+sudo journalctl -u mangatrackr-calendar -u mangatrackr-tenrai -n 50 --no-pager
+```
+
+« Command executed with success ! » attendu. Si le conteneur `app` est arrêté (déploiement en
+cours), le passage échoue et le suivant le rattrape. Aucune alerte en cas d'échec : consulter le
+journal. Après une modification d'un fichier de `deploy/systemd/`, recopier les fichiers et refaire
+`daemon-reload`.
+
 ## 8. Contrôles fonctionnels
 Après une installation, un déploiement ou une restauration (`check.sh` couvre les points 1, 4, 5
 et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :

@@ -14,6 +14,9 @@ Dernière mise à jour : 2026-10-21 (PHP 8.2.35 épinglé dans les images, ADR 0
   `make prod-check` contrôle la version du conteneur. Montée manuelle à chaque correctif
   (procédure 7.8 de `docs/deploiement/apps-dev.md`). Déployé sur la VM le 2026-10-21
   (`deploy/check.sh` 11/11, PHP du conteneur 8.2.35).
+- Tâches planifiées des API sur la VM (remplacent les cron de Hostinger) : timers systemd
+  `mangatrackr-calendar` (toutes les 4 h et 23:45) et `mangatrackr-tenrai` (17:00), procédure
+  7.9 de `docs/deploiement/apps-dev.md`. Aucune alerte en cas d'échec (journal systemd seulement).
 - Lockfile npm régénéré avec npm 11 (ADR 0009).
 - `npm audit fix` sans version majeure : 58 vulnérabilités ramenées à 27, plus aucune critique ; `webpack` borné à `~5.111.1` (ADR 0010).
 - PR #16 fusionnée dans `main` ; la CI de `main` est verte (PHP 8.2 : Composer, `npm ci`,
