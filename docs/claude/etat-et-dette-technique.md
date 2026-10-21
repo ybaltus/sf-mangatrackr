@@ -1,7 +1,7 @@
 # État du projet et dette technique
 
 Document **daté** : à relire et à mettre à jour de temps en temps.
-Dernière mise à jour : 2026-10-19 (PR #20 fusionnée dans `main`, chantier `deploiement-homelab` clos).
+Dernière mise à jour : 2026-10-21 (site en ligne derrière Caddy, ADR 0016 ; PR #20 fusionnée le 2026-10-19, chantier `deploiement-homelab` clos).
 
 ## État actuel
 - 226 tests, 580 assertions, PHPStan niveau 6 sans erreur, `composer audit` sans avis.
@@ -77,7 +77,7 @@ La couverture **automatique** de ces zones reste faible (voir la dette technique
 Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 | Sujet | Détail | Rapport |
 |---|---|---|
-| HTTPS et Google OAuth | Code prêt (ADR 0016, 2026-10-21 : `TRUSTED_PROXIES`, `DEFAULT_URI`, `mod_remoteip`), non déployé. Reste : variables dans le fichier de secrets de `apps-dev`, rebuild, URI Google, pare-feu Proxmox `apps-dev`, bascule DNS + Livebox | 002 |
+| HTTPS et Google OAuth | **En ligne depuis le 2026-10-21** : `https://mangasync.labytech.fr` derrière la VM `proxy-caddy` (certificat Let's Encrypt réel), `TRUSTED_PROXIES`/`DEFAULT_URI`/`mod_remoteip` déployés (ADR 0016, PR #24 et #25), pare-feu Proxmox d'`apps-dev` actif. Reste : valider la connexion Google sur le domaine ; mise à jour automatique de l'IP WAN (script `vm/ddns-hostinger.sh` du dépôt `proxy-setup`, à mettre en service) ; `/admin` public, protégé par `ROLE_ADMIN` et `login_throttling` (envisager une double authentification) | 002 |
 | Redémarrage de la VM `apps-dev` | Panne du 2026-10-20 (course DHCP/Docker, `app` sans réseau `database`) corrigée et validée par un redémarrage : `auto ens18` (manuel, doc 5.2 bis) + `deploy/wait-ip.sh` et drop-in `docker` installés par `install-vm.sh` (doc 9.1, ADR 0015). `install-vm.sh` rejoué sur la VM le 2026-10-20 (PR #23). Reste : pas de supervision ni d'alerte si `app` est arrêté | — |
 | `symfony/ux-toggle-password` 2.29 | Dépréciation constatée au démarrage en prod (paquet abandonné, voir plus haut) ; à remplacer dans un chantier à part | 002 |
 | Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
@@ -94,7 +94,7 @@ Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 
 ## Pistes pour la suite
 Ordre suggéré :
-1. Faire un 2e déploiement scripté sur la VM (crée `prod-previous`), puis tester `--rollback` et la restauration (7.6). Reverse proxy HTTPS et Google OAuth ensuite (chantier à part). L'import de la base et le premier déploiement sont faits.
+1. Faire un 2e déploiement scripté sur la VM (crée `prod-previous`), puis tester `--rollback` et la restauration (7.6). Le reverse proxy HTTPS est en ligne (ADR 0016) ; reste à valider Google OAuth sur le domaine. L'import de la base et le premier déploiement sont faits.
 2. Montées majeures JS, une par une : d'abord `@symfony/webpack-encore` 5 (retirer la borne webpack), puis `tailwindcss` 4 (chantier à part), `htmx.org` 2, `flowbite`.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.

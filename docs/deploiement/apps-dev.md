@@ -30,7 +30,7 @@ Sommaire : [1. Fiche de référence](#1-fiche-de-référence) · [2. Architectur
 | Projet Compose | `sf-mangatrackr` (`name:` de `compose.prod.yaml`, label `com.docker.compose.project`) | `COMPOSE_PROJECT_NAME` (priorité sur `name:`) |
 | Secrets (600, répertoire 700) | `/opt/apps/secrets/mangatrackr.prod.env` | `ENV_FILE` (`SECRETS_DIR`) |
 | Sauvegardes (700, fichiers 600) | `/opt/apps/backups/backup_mangatrackr_AAAAMMJJ-HHMMSS.dump` | `BACKUP_DIR`, `KEEP` (7) |
-| Réseaux Docker externes | `database` (PostgreSQL), `proxy` (reverse proxy futur) | `NETWORKS` |
+| Réseaux Docker externes | `database` (PostgreSQL), `proxy` (réseau prévu pour un reverse proxy local ; le proxy actuel est la VM `proxy-caddy`) | `NETWORKS` |
 | PostgreSQL 18 mutualisé | conteneur `postgres`, port 5432 non publié | `PG_CONTAINER`, `PG_SUPERUSER` |
 | Base / rôle applicatif | `mangatrackr` / `mangatrackr` | `DB_NAME`, `DB_ROLE` |
 | Image | `mangatrackr:prod` (retour arrière : `mangatrackr:prod-previous`) | `IMAGE`, `IMAGE_PREVIOUS` |
@@ -48,7 +48,7 @@ LAN ── 192.168.1.29:8080 ──> mangatrackr_app_prod (Apache + Symfony, ré
         mangatrackr_worker_prod ─────┤  réseau Docker externe « database »
         (messenger:consume async)    │
                                      └──> postgres (PostgreSQL 18 mutualisé) ── base mangatrackr
-Reverse proxy HTTPS (futur) ── réseau « proxy » ──> mangatrackr_app_prod
+Internet ──> VM proxy-caddy (192.168.1.14, Caddy, HTTPS) ──> 192.168.1.29:8080 (ADR 0016)
 ```
 
 - Autres machines du homelab : hôte Proxmox `192.168.1.25`, OpenMediaVault `192.168.1.26`,
@@ -66,7 +66,7 @@ Reverse proxy HTTPS (futur) ── réseau « proxy » ──> mangatrackr_app_p
 ```text
 /opt/apps/
 ├── postgres/      service PostgreSQL mutualisé (hors de ce dépôt, documentation séparée)
-├── proxy/         reverse proxy (futur)
+├── proxy/         (réservé ; le reverse proxy est sur la VM proxy-caddy)
 ├── projects/sf-mangatrackr/   clone git : compose.prod.yaml, docker/Dockerfile.prod, deploy/...
 ├── secrets/       700 : mangatrackr.prod.env (600)
 └── backups/       700 : backup_mangatrackr_*.dump (600), rotation par deploy/backup.sh
@@ -545,8 +545,8 @@ et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
 6. Pages principales avec leurs styles et images (catalogue, recherche, calendrier).
 7. Lecture et écriture attendues : connexion par formulaire, scanthèque (modifier un chapitre),
    export CSV, administration EasyAdmin.
-8. Authentification testée séparément (Google OAuth : non fonctionnel tant que la section 11
-   n'est pas faite).
+8. Authentification testée séparément (Google OAuth : à valider sur `https://mangasync.labytech.fr`,
+   section 11).
 9. Aucun secret dans les journaux ni dans git.
 
 ## 9. Dépannage
@@ -570,7 +570,7 @@ et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
 | « un autre déploiement est en cours » | Un `deploy.sh` tourne déjà (verrou `.git/mangatrackr-deploy.lock`) : attendre sa fin |
 | Dépréciation `symfony/ux-toggle-password` 2.29 | Connue, sans effet sur le démarrage ; à traiter dans un chantier à part (dette technique) |
 | Après un redémarrage de la VM : `app` absent, ou 500 `could not translate host name "postgres"` | Voir 9.1 |
-| Google OAuth refuse `http://192.168.1.29:8080/oauth/callback/google` | Attendu : Google exige un domaine valide. Reporté (section 11) ; ne pas modifier les URI au hasard |
+| Google OAuth refuse `http://192.168.1.29:8080/oauth/callback/google` | Attendu : Google exige un domaine valide ; se connecter par `https://mangasync.labytech.fr` (section 11). Ne pas modifier les URI au hasard |
 
 Commande de lecture utile (base et rôle vus par l'application) :
 
@@ -626,14 +626,17 @@ Ne jamais utiliser `down`, ne pas toucher à `postgres`.
 - Sauvegardes et dumps : données personnelles ; 700/600 sur la VM, transfert uniquement par SSH.
 
 ## 11. Reverse proxy HTTPS et Google OAuth
-Reverse proxy : VM `proxy-caddy` (192.168.1.14, domaine `mangasync.labytech.fr`). Côté MangaTrackr
-(ADR 0016) :
+**En ligne depuis le 2026-10-21.** Reverse proxy : VM `proxy-caddy` (192.168.1.14, domaine
+`mangasync.labytech.fr`, certificat Let's Encrypt), recréable depuis le dépôt GitHub privé
+`Homelab-AOOSTAR/proxy-setup` (`REBUILD.md`, avec la fiche des réglages Livebox, Hostinger et Google).
+Côté MangaTrackr (ADR 0016) :
 - Fichier de secrets : `TRUSTED_PROXIES=192.168.1.14` et `DEFAULT_URI=https://mangasync.labytech.fr`
   (modèle `deploy/mangatrackr.prod.env.dist`). Redéployer (l'image embarque `mod_remoteip`) :
-  `make prod-deploy`.
+  `deploy/deploy.sh --ref main` (ou `make prod-deploy` si `make` est installé).
 - Console Google : ajouter l'URI de redirection `https://mangasync.labytech.fr/oauth/callback/google`.
 - Contrôle depuis `proxy-caddy` : `curl -skI --resolve mangasync.labytech.fr:443:127.0.0.1
   https://mangasync.labytech.fr/login` : `Location` en `https://`, `Set-Cookie` avec `Secure`.
 - Pare-feu Proxmox de `apps-dev` en dernier (règles et activation : §5.1 bis) : 8080 limité à
   192.168.1.14 et à l'IP d'admin.
-- Bascule DNS (Hostinger) et redirection Livebox : à part, elle coupe le site actuel.
+- Bascule DNS (Hostinger) et redirection Livebox : faite le 2026-10-21 (ancien site Hostinger abandonné). Procédure et réglages dans `proxy-setup` (`REBUILD.md` §5, `PROXY-VM.md` §5.7).
+- `DEFAULT_URI` est aussi une variable factice du build de l'image (`docker/Dockerfile.prod`) : `assets:install` la lit ; sans elle la construction échoue.
