@@ -1,0 +1,14 @@
+# Catalogue : api:tenrai --top-mangas --latest-mangas (25 mangas les mieux notés et 25 derniers),
+# dans le conteneur app en www-data (comme Apache, pour ne pas écrire dans var/cache en root).
+# Installation (docs/deploiement/apps-dev.md §7.9) : copier ce fichier et le timer dans
+# /etc/systemd/system/, puis
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mangatrackr-tenrai.timer
+[Unit]
+Description=MangaTrackr : top et derniers mangas (Tenrai)
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+User=ybaltus
+ExecStart=/usr/bin/docker exec -u www-data mangatrackr_app_prod php bin/console api:tenrai --top-mangas --latest-mangas --no-interaction --env=prod --no-debug
