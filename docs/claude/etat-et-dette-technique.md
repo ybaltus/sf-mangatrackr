@@ -1,7 +1,7 @@
 # État du projet et dette technique
 
 Document **daté** : à relire et à mettre à jour de temps en temps.
-Dernière mise à jour : 2026-10-21 (site en ligne derrière Caddy, ADR 0016 ; PR #20 fusionnée le 2026-10-19, chantier `deploiement-homelab` clos).
+Dernière mise à jour : 2026-10-21 (PHP 8.2.35 épinglé dans les images, ADR 0018 ; site en ligne derrière Caddy, ADR 0016 ; PR #20 fusionnée le 2026-10-19, chantier `deploiement-homelab` clos).
 
 ## État actuel
 - 226 tests, 580 assertions, PHPStan niveau 6 sans erreur, `composer audit` sans avis.
@@ -10,6 +10,9 @@ Dernière mise à jour : 2026-10-21 (site en ligne derrière Caddy, ADR 0016 ; P
 - GrumPHP actif (ADR 0006).
 - PHP 8.2 minimum depuis l'ADR 0008 (le lock issu de la mise à jour n'était pas installable
   sous PHP 8.1, ce que la CI a révélé).
+- Images Docker épinglées sur PHP 8.2.35 (correctif de sécurité du 2026-10-21, ADR 0018) ;
+  `make prod-check` contrôle la version du conteneur. Montée manuelle à chaque correctif
+  (procédure 7.8 de `docs/deploiement/apps-dev.md`). Déploiement sur la VM à faire.
 - Lockfile npm régénéré avec npm 11 (ADR 0009).
 - `npm audit fix` sans version majeure : 58 vulnérabilités ramenées à 27, plus aucune critique ; `webpack` borné à `~5.111.1` (ADR 0010).
 - PR #16 fusionnée dans `main` ; la CI de `main` est verte (PHP 8.2 : Composer, `npm ci`,

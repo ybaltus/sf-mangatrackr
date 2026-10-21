@@ -553,6 +553,21 @@ deploy/deploy.sh --rollback
 - Le code git reste sur la nouvelle version : au prochain déploiement, préciser
   `--ref <commit ou tag sain>` tant que le correctif n'est pas publié.
 
+### 7.8. Montée de version de PHP (correctif de sécurité)
+
+Le patch PHP est épinglé dans le `FROM` des Dockerfile (ADR 0018) : `deploy.sh` ne retélécharge
+pas l'image de base, une étiquette flottante ne suffirait pas.
+
+1. Sur `dev` : remplacer `php:8.2.X-apache` dans `docker/Dockerfile.prod`,
+   `.devcontainer/Dockerfile.dev` et `docker/Dockerfile` ; QA, PR vers `main`.
+2. Sur la VM, après la fusion :
+
+```bash
+deploy/deploy.sh --dry-run
+deploy/deploy.sh                       # construit l'image sur la nouvelle base
+deploy/check.sh                        # « version de PHP = docker/Dockerfile.prod » doit être OK
+```
+
 ## 8. Contrôles fonctionnels
 Après une installation, un déploiement ou une restauration (`check.sh` couvre les points 1, 4, 5
 et 9 en partie ; un code HTTP 200 ne prouve pas que tout fonctionne) :
