@@ -1,0 +1,12 @@
+# Toutes les 4 h, plus 23:45 : la commande ne demande que les sorties du jour, ce passage
+# rattrape celles publiées après 20:00 (heure de la VM ; le conteneur est en UTC).
+[Unit]
+Description=Calendrier des sorties MangaTrackr (toutes les 4 h et 23:45)
+
+[Timer]
+OnCalendar=*-*-* 00/4:00:00
+OnCalendar=*-*-* 23:45:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

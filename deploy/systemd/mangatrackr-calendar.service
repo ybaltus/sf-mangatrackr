@@ -1,0 +1,14 @@
+# Calendrier des sorties : api:manga-updates calendar (sorties du jour sur MangaUpdates), dans le
+# conteneur app en www-data (comme Apache, pour ne pas écrire dans var/cache en root).
+# Installation (docs/deploiement/apps-dev.md §7.9) : copier ce fichier et le timer dans
+# /etc/systemd/system/, puis
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mangatrackr-calendar.timer
+[Unit]
+Description=MangaTrackr : calendrier des sorties (MangaUpdates)
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+User=ybaltus
+ExecStart=/usr/bin/docker exec -u www-data mangatrackr_app_prod php bin/console api:manga-updates calendar --no-interaction --env=prod --no-debug
