@@ -59,6 +59,10 @@ Google OAuth.
   `deploy/` (`make prod-deploy|prod-check|prod-backup`), secrets dans `/opt/apps/secrets/` :
   [`docs/deploiement/apps-dev.md`](../deploiement/apps-dev.md), ADR 0015. `docker/docker.sh` et
   `docker/Dockerfile` sont réservés au dev et à la démo.
+- Reverse proxy : VM `proxy-caddy` (Caddy, `https://mangasync.labytech.fr` → `192.168.1.29:8080`,
+  Let's Encrypt), hors de ce dépôt : dépôt GitHub privé `Homelab-AOOSTAR/proxy-setup`
+  (recréation de la VM, fiche des réglages Livebox/Hostinger/Google). Côté application :
+  `TRUSTED_PROXIES`, `DEFAULT_URI`, `mod_remoteip` (ADR 0016).
 
 ## Commandes utiles
 Voir `CLAUDE.md` (liste du Makefile). À retenir : `make test` réinitialise la base de test,

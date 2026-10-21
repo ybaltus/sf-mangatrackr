@@ -29,3 +29,8 @@ tout le monde après les échecs d'une seule personne.
   (modèle `deploy/mangatrackr.prod.env.dist`). Rebuild de l'image nécessaire (`mod_remoteip`).
 - Reste hors dépôt : URI de redirection Google (`https://mangasync.labytech.fr/oauth/callback/google`),
   pare-feu Proxmox de `apps-dev` (8080 limité au proxy et à l'IP d'admin), puis bascule DNS et Livebox.
+- Mise à jour 2026-10-21 : déployé et en ligne. La construction de l'image a échoué une première
+  fois (`DEFAULT_URI` absente au build, corrigé par la PR #25) ; `/admin` reste public, protégé par
+  `ROLE_ADMIN` et `login_throttling` (une restriction par IP côté Caddy a été essayée puis abandonnée :
+  le NAT de retour de la Livebox donne l'IP WAN aux clients du LAN). Le reste (Livebox, DNS, certificat)
+  est documenté dans le dépôt `proxy-setup`.
