@@ -61,6 +61,7 @@ RUN npm run build \
        APP_TEAM_NAME_1=Build \
        APP_TEAM_NAME_2=Build \
        APP_VERSION=0.0.0 \
+       DEFAULT_URI=http://localhost \
        MAILER_CONTACT=build@example.invalid \
        MAILER_NO_REPLY=build@example.invalid \
        API_TENRAI_URL=https://api.tenrai.org/v1 \
