@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" \
        pdo_pgsql intl zip calendar dom mbstring gd opcache \
-    && a2enmod rewrite headers \
+    && a2enmod rewrite headers remoteip \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
@@ -23,6 +23,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 COPY docker/vhosts/mangatracker.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/apache/remoteip.conf /etc/apache2/conf-available/remoteip.conf
+RUN a2enconf remoteip
+
+# Proxy de confiance (Symfony et mod_remoteip) : surchargé par l'env_file en production.
+ENV TRUSTED_PROXIES=127.0.0.1
 
 WORKDIR /var/www
 
