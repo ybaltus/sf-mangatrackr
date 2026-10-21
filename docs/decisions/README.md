@@ -23,6 +23,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0015](0015-deploiement-compose-scripte-apps-dev.md) | Déploiement Compose scripté sur la VM apps-dev (`deploy/`, `--migrate` après `pg_dump`, retour arrière par image) | Acceptée |
 | [0016](0016-reverse-proxy-caddy.md) | MangaTrackr derrière le reverse proxy Caddy (`TRUSTED_PROXIES`, `DEFAULT_URI`) | Acceptée |
 | [0017](0017-sauvegardes-vers-le-nas.md) | Sauvegardes de la base copiées vers le NAS (rsync, clé SSH en écriture seule, timer quotidien) | Acceptée |
+| [0018](0018-epinglage-du-patch-php.md) | Version de patch PHP épinglée dans les images Docker, contrôlée par `prod-check` | Acceptée |
 
 ## Modèle
 ```markdown

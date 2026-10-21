@@ -5,7 +5,7 @@
 # les vraies valeurs viennent de l'env_file au démarrage (jamais copiées dans l'image).
 # Exclusions du contexte : docker/Dockerfile.prod.dockerignore (prioritaire sur .dockerignore).
 
-FROM php:8.2-apache
+FROM php:8.2.35-apache
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl git unzip \
