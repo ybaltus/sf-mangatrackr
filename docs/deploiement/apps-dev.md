@@ -448,9 +448,29 @@ script attend la seconde suivante, puis refuse avec le code 3). Seuls les fichie
 `backup_mangatrackr_*.dump` entrent dans la rotation : une copie manuelle à conserver doit porter un
 autre nom (par exemple `avant-migration-<date>.dump`).
 
-Les sauvegardes restent sur la VM : les copier régulièrement hors de la VM par un canal chiffré
-(par exemple `scp` vers le NAS dans un répertoire à accès restreint). Elles contiennent des
-données personnelles.
+Les sauvegardes restent sur la VM : une copie hors de la VM est faite vers le NAS par
+`deploy/backup-offsite.sh` (rsync sur SSH, clé dédiée limitée à un dossier en écriture seule ;
+mise en place côté NAS et clés : dépôt `proxy-setup`, `BACKUP-NAS.md`, ADR 0017). Elles contiennent
+des données personnelles.
+
+```bash
+# Une fois la clé, le known_hosts et le NAS prêts (BACKUP-NAS.md) :
+OFFSITE_REMOTE=homelab-backup@192.168.1.26:./ deploy/backup-offsite.sh --dry-run
+OFFSITE_REMOTE=homelab-backup@192.168.1.26:./ deploy/backup-offsite.sh   # envoie le dernier dump
+```
+
+Planification quotidienne (03:15, `backup.sh` puis `backup-offsite.sh`) :
+
+```bash
+echo 'OFFSITE_REMOTE=homelab-backup@192.168.1.26:./' | sudo tee /etc/mangatrackr-backup.env >/dev/null
+sudo chmod 600 /etc/mangatrackr-backup.env
+sudo cp deploy/systemd/mangatrackr-backup.service deploy/systemd/mangatrackr-backup.timer /etc/systemd/system/
+sudo systemctl daemon-reload && sudo systemctl enable --now mangatrackr-backup.timer
+systemctl list-timers 'mangatrackr-*' --no-pager
+```
+
+Suivi : `sudo journalctl -u mangatrackr-backup -n 20 --no-pager`. Un échec de copie n'est signalé
+par aucune alerte : consulter le journal après une panne du NAS ou un changement de clé.
 
 ### 7.5. Restauration
 `init-database.sh --restore` ne restaure que dans une base vide. Pour remplacer la base de
