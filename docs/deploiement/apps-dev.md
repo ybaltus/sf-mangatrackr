@@ -36,7 +36,7 @@ Sommaire : [1. Fiche de référence](#1-fiche-de-référence) · [2. Architectur
 | Image | `mangatrackr:prod` (retour arrière : `mangatrackr:prod-previous`) | `IMAGE`, `IMAGE_PREVIOUS` |
 | Conteneurs | `mangatrackr_app_prod` (Apache), `mangatrackr_worker_prod` (Messenger `async`) | `APP_CONTAINER`, `WORKER_CONTAINER` |
 | Accès actuel | `http://192.168.1.29:8080/` (LAN, HTTP) | `MANGATRACKR_BIND`, `APP_URL` |
-| Reverse proxy HTTPS, Google OAuth | reportés (section 11) | |
+| Reverse proxy HTTPS, Google OAuth | section 11 (ADR 0016) | |
 
 Toutes les variables sont surchargeables à l'appel, par exemple `APPS_ROOT=/srv/apps deploy/check.sh`.
 
@@ -614,8 +614,14 @@ Ne jamais utiliser `down`, ne pas toucher à `postgres`.
   restauration.
 - Sauvegardes et dumps : données personnelles ; 700/600 sur la VM, transfert uniquement par SSH.
 
-## 11. Reporté : reverse proxy HTTPS et Google OAuth
-Hors périmètre de ce document, **à concevoir dans un chantier à part** : domaine, reverse proxy
-(réseau `proxy` déjà prévu), certificat TLS, proxies de confiance et URL canonique côté Symfony,
-URI de redirection Google OAuth. Aucun paramètre n'est fixé ici : ne rien modifier dans la
-console Google ni dans `OAUTH_*` avant cette étape.
+## 11. Reverse proxy HTTPS et Google OAuth
+Reverse proxy : VM `proxy-caddy` (192.168.1.14, domaine `mangasync.labytech.fr`). Côté MangaTrackr
+(ADR 0016) :
+- Fichier de secrets : `TRUSTED_PROXIES=192.168.1.14` et `DEFAULT_URI=https://mangasync.labytech.fr`
+  (modèle `deploy/mangatrackr.prod.env.dist`). Redéployer (l'image embarque `mod_remoteip`) :
+  `make prod-deploy`.
+- Console Google : ajouter l'URI de redirection `https://mangasync.labytech.fr/oauth/callback/google`.
+- Contrôle depuis `proxy-caddy` : `curl -skI --resolve mangasync.labytech.fr:443:127.0.0.1
+  https://mangasync.labytech.fr/login` : `Location` en `https://`, `Set-Cookie` avec `Secure`.
+- Pare-feu Proxmox de `apps-dev` en dernier : 8080 limité à 192.168.1.14 et à l'IP d'admin.
+- Bascule DNS (Hostinger) et redirection Livebox : à part, elle coupe le site actuel.
