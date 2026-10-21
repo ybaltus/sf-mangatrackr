@@ -12,7 +12,8 @@ Dernière mise à jour : 2026-10-21 (PHP 8.2.35 épinglé dans les images, ADR 0
   sous PHP 8.1, ce que la CI a révélé).
 - Images Docker épinglées sur PHP 8.2.35 (correctif de sécurité du 2026-10-21, ADR 0018) ;
   `make prod-check` contrôle la version du conteneur. Montée manuelle à chaque correctif
-  (procédure 7.8 de `docs/deploiement/apps-dev.md`). Déploiement sur la VM à faire.
+  (procédure 7.8 de `docs/deploiement/apps-dev.md`). Déployé sur la VM le 2026-10-21
+  (`deploy/check.sh` 11/11, PHP du conteneur 8.2.35).
 - Lockfile npm régénéré avec npm 11 (ADR 0009).
 - `npm audit fix` sans version majeure : 58 vulnérabilités ramenées à 27, plus aucune critique ; `webpack` borné à `~5.111.1` (ADR 0010).
 - PR #16 fusionnée dans `main` ; la CI de `main` est verte (PHP 8.2 : Composer, `npm ci`,
@@ -86,8 +87,8 @@ Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 | Healthcheck du worker | `mangatrackr_worker_prod` n'a pas de healthcheck : `check.sh` et `up --wait` ne vérifient que « running », pas la consommation effective de `async` | 001, 002 |
 | Sauvegardes | Copie vers le NAS et planification quotidienne prévues (ADR 0017 : `deploy/backup-offsite.sh`, timer `mangatrackr-backup`, clé rsync en écriture seule) **mais pas encore mises en service ni testées contre le vrai NAS** ; sauvegardes non chiffrées (rotation 7) ; test de restauration (procédure 7.6 de la doc) à planifier et à répéter. Remplacement d'une base non vide : manuel (renommage, doc 7.5) | 001, 002 |
 | Retour arrière | Un seul niveau (`mangatrackr:prod-previous`) et pas de retour de schéma : restaurer la sauvegarde prise par `--migrate` | 001 |
-| Scripts éprouvés en réel une fois | Premier déploiement réussi sur la VM le 2026-10-19 (`check.sh` 10/10). Pas encore éprouvés sur la VM : `--rollback`, `--migrate`, `init-database.sh --restore`, test de restauration (7.6) | 001, 003, 008 |
-| Pas de `prod-previous` sur la VM | L'ancienne image a été perdue au premier déploiement (magasin containerd : le build déplace le tag et supprime l'enregistrement, ADR 0015). `prod-previous` n'existera qu'après le 2e déploiement scripté ; d'ici là, retour arrière par sauvegarde `pg_dump` + `deploy.sh --ref` | 008 |
+| Scripts éprouvés en réel | Premier déploiement réussi sur la VM le 2026-10-19 (`check.sh` 10/10), deuxième le 2026-10-21 (PHP 8.2.35, `check.sh` 11/11). Pas encore éprouvés sur la VM : `--rollback`, `--migrate`, `init-database.sh --restore`, test de restauration (7.6) | 001, 003, 008 |
+| `prod-previous` sur la VM | L'ancienne image a été perdue au premier déploiement (magasin containerd : le build déplace le tag et supprime l'enregistrement, ADR 0015). Le 2e déploiement scripté (2026-10-21) a dû poser `mangatrackr:prod-previous` : à confirmer (`docker image ls mangatrackr`) avant de tester `--rollback` | 008 |
 | Bruit de dépréciation dans `check.sh` | Les commandes `bin/console` lancées dans le conteneur impriment la dépréciation `ux-toggle-password` à chaque contrôle (sortie noyée, sans gravité) | — |
 | Healthcheck de `postgres` | Le conteneur mutualisé n'a pas de healthcheck (avertissement à chaque `deploy.sh`/`backup.sh`) : à ajouter dans la doc/compose du PostgreSQL mutualisé | — |
 | `make test-only` non rejoué dans le conteneur de travail | L'hôte `postgres` n'y est pas joignable lors de la session de clôture ; la CI de la PR #20 (cs-fixer, PHPStan, PHPUnit) était verte | 008 |
@@ -97,7 +98,7 @@ Procédure : `docs/deploiement/apps-dev.md`, ADR 0015.
 
 ## Pistes pour la suite
 Ordre suggéré :
-1. Faire un 2e déploiement scripté sur la VM (crée `prod-previous`), puis tester `--rollback` et la restauration (7.6). Le reverse proxy HTTPS est en ligne (ADR 0016) ; reste à valider Google OAuth sur le domaine. L'import de la base et le premier déploiement sont faits.
+1. Tester `--rollback` (le 2e déploiement scripté du 2026-10-21 a posé `prod-previous`) et la restauration (7.6). Le reverse proxy HTTPS est en ligne (ADR 0016) ; reste à valider Google OAuth sur le domaine. L'import de la base et le premier déploiement sont faits.
 2. Montées majeures JS, une par une : d'abord `@symfony/webpack-encore` 5 (retirer la borne webpack), puis `tailwindcss` 4 (chantier à part), `htmx.org` 2, `flowbite`.
 3. Tests fonctionnels de l'admin EasyAdmin et de la connexion Google (avec `MockHttpClient`).
 4. Montée de PHPStan (2.x, puis niveau 7 ou 8) et de PHPUnit.
