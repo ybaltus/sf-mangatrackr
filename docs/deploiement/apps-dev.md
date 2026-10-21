@@ -631,7 +631,7 @@ Ne jamais utiliser `down`, ne pas toucher à `postgres`.
 `Homelab-AOOSTAR/proxy-setup` (`REBUILD.md`, avec la fiche des réglages Livebox, Hostinger et Google).
 Côté MangaTrackr (ADR 0016) :
 - Fichier de secrets : `TRUSTED_PROXIES=192.168.1.14` et `DEFAULT_URI=https://mangasync.labytech.fr`
-  (modèle `deploy/mangatrackr.prod.env.dist`). Redéployer (l'image embarque `mod_remoteip`) :
+  (modèle `deploy/mangatrackr.prod.env.dist`). Redéployer :
   `deploy/deploy.sh --ref main` (ou `make prod-deploy` si `make` est installé).
 - Console Google : ajouter l'URI de redirection `https://mangasync.labytech.fr/oauth/callback/google`.
 - Contrôle depuis `proxy-caddy` : `curl -skI --resolve mangasync.labytech.fr:443:127.0.0.1
