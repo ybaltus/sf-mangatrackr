@@ -21,7 +21,7 @@ qui la remplace et on passe l'ancien en « Remplacée par ADR xxxx ».
 | [0013](0013-bascule-production-postgresql.md) | Bascule de la production vers PostgreSQL sur le homelab (maintenance, répétition, retour arrière) | Remplacée par ADR 0014 |
 | [0014](0014-bascule-homelab-simplifiee-et-retrait-mariadb.md) | Bascule simplifiée sur le homelab (`pg_dump`) et retrait de MariaDB | Acceptée |
 | [0015](0015-deploiement-compose-scripte-apps-dev.md) | Déploiement Compose scripté sur la VM apps-dev (`deploy/`, `--migrate` après `pg_dump`, retour arrière par image) | Acceptée |
-| [0016](0016-reverse-proxy-caddy.md) | MangaTrackr derrière le reverse proxy Caddy (`TRUSTED_PROXIES`, `DEFAULT_URI`, `mod_remoteip`) | Acceptée |
+| [0016](0016-reverse-proxy-caddy.md) | MangaTrackr derrière le reverse proxy Caddy (`TRUSTED_PROXIES`, `DEFAULT_URI`) | Acceptée |
 
 ## Modèle
 ```markdown

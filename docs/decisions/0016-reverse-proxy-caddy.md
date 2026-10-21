@@ -17,16 +17,19 @@ tout le monde après les échecs d'une seule personne.
   production : `192.168.1.14` dans le fichier de secrets.
 - **URL publique** : `framework.router.default_uri: '%env(DEFAULT_URI)%'` (emails et commandes
   console du worker). Production : `https://mangasync.labytech.fr`.
-- **Apache** (`docker/Dockerfile.prod`, `docker/apache/remoteip.conf`) : `mod_remoteip` avec
-  `RemoteIPHeader X-Forwarded-For` et `RemoteIPInternalProxy ${TRUSTED_PROXIES}`, donc la même
-  variable pour Symfony et Apache (une seule IP ou un CIDR, sans virgule).
+- **Apache** : pas de `mod_remoteip`. Essayé d'abord (`RemoteIPHeader X-Forwarded-For`), puis retiré
+  le 2026-10-21 : il remplace `REMOTE_ADDR` par l'IP du visiteur, donc Symfony ne reconnaît plus le
+  proxy et ignore `X-Forwarded-Proto` (liens, cookies et `redirect_uri` Google en `http://`, d'où
+  `redirect_uri_mismatch`). Symfony lit déjà `X-Forwarded-For` depuis le proxy de confiance :
+  `getClientIp()` et le `login_throttling` voient le vrai client. Les logs Apache ajoutent
+  `%{X-Forwarded-For}i` (format `proxied` dans `docker/vhosts/mangatracker.conf`).
 - `cookie_secure: auto` est conservé (suit `X-Forwarded-Proto` de confiance) ; `true` seulement
   après validation complète en HTTPS, pour garder l'accès HTTP direct de secours.
 - Test `tests/Security/TrustedProxyTest.php` : en-têtes crus depuis le proxy, ignorés sinon.
 
 ## Conséquences
 - Nouvelles variables obligatoires en production : `TRUSTED_PROXIES`, `DEFAULT_URI`
-  (modèle `deploy/mangatrackr.prod.env.dist`). Rebuild de l'image nécessaire (`mod_remoteip`).
+  (modèle `deploy/mangatrackr.prod.env.dist`). Rebuild de l'image nécessaire (format de log Apache).
 - Reste hors dépôt : URI de redirection Google (`https://mangasync.labytech.fr/oauth/callback/google`),
   pare-feu Proxmox de `apps-dev` (8080 limité au proxy et à l'IP d'admin), puis bascule DNS et Livebox.
 - Mise à jour 2026-10-21 : déployé et en ligne. La construction de l'image a échoué une première

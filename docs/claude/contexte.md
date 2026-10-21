@@ -62,7 +62,7 @@ Google OAuth.
 - Reverse proxy : VM `proxy-caddy` (Caddy, `https://mangasync.labytech.fr` → `192.168.1.29:8080`,
   Let's Encrypt), hors de ce dépôt : dépôt GitHub privé `Homelab-AOOSTAR/proxy-setup`
   (recréation de la VM, fiche des réglages Livebox/Hostinger/Google). Côté application :
-  `TRUSTED_PROXIES`, `DEFAULT_URI`, `mod_remoteip` (ADR 0016).
+  `TRUSTED_PROXIES`, `DEFAULT_URI` (ADR 0016 ; pas de `mod_remoteip`, il casse la détection du proxy par Symfony).
 
 ## Commandes utiles
 Voir `CLAUDE.md` (liste du Makefile). À retenir : `make test` réinitialise la base de test,
