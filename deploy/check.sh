@@ -5,8 +5,8 @@
 #   --dry-run : liste les contrôles sans les exécuter.
 #
 # Contrôles : Docker joignable ; `compose ps` ; conteneur PostgreSQL en marche ; conteneur app en
-# marche et sain (healthcheck) ; worker en marche ; droits 600 du fichier de secrets ; pilote PDO
-# pgsql ; requête `SELECT current_database(), current_user` (base $DB_NAME, rôle $DB_ROLE) ;
+# marche et sain (healthcheck) ; worker en marche ; droits 600 du fichier de secrets ; version de
+# PHP du conteneur = celle épinglée dans docker/Dockerfile.prod (ADR 0018) ; pilote PDO pgsql ; requête `SELECT current_database(), current_user` (base $DB_NAME, rôle $DB_ROLE) ;
 # aucune migration en attente ; code HTTP 200/301/302 sur $APP_URL ; aucun motif de secret dans les
 # 100 dernières lignes de journaux de app et worker (seul un compteur est affiché, jamais les lignes).
 #
@@ -85,6 +85,16 @@ c_env_file() {
   [ "$m" = 600 ]
 }
 
+# Version de PHP du conteneur app comparée au patch épinglé dans le FROM de docker/Dockerfile.prod
+# (php:X.Y.Z-apache) : détecte une image construite avant la montée de version (ADR 0018).
+c_php() {
+  local expected actual
+  expected=$(sed -nE 's/^FROM php:([0-9]+\.[0-9]+\.[0-9]+)-.*/\1/p' "$PROJECT_DIR/docker/Dockerfile.prod" 2>/dev/null | head -n 1)
+  actual=$(docker exec "$APP_CONTAINER" php -r 'echo PHP_VERSION;' 2>/dev/null) || actual='?'
+  echo "      PHP du conteneur : $actual ; épinglé dans docker/Dockerfile.prod : ${expected:-introuvable}"
+  [ -n "$expected" ] && [ "$actual" = "$expected" ]
+}
+
 c_pdo() {
   docker exec "$APP_CONTAINER" php -r 'exit(in_array("pgsql", PDO::getAvailableDrivers(), true) ? 0 : 1);'
 }
@@ -161,6 +171,7 @@ main() {
   check "conteneur app en marche et sain" c_app
   check "conteneur worker en marche" c_worker
   check "fichier de secrets en 600" c_env_file
+  check "version de PHP = docker/Dockerfile.prod" c_php
   check "pilote PDO pgsql" c_pdo
   check "SELECT current_database(), current_user = $DB_NAME / $DB_ROLE" c_sql
   check "aucune migration en attente" c_migrations
